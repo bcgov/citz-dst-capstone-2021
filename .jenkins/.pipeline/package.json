@@ -13,12 +13,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bcgov/ocp-sso.git#cvarjao-update-jenkins"
+    "url": "git+https://github.com/bcgov/ocp-sso.git"
   },
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@bcgov/pipeline-cli": "git+https://github.com/BCDevOps/pipeline-cli.git#release/v1.1",
-    "pipeline-cli": "git+https://github.com/BCDevOps/pipeline-cli.git#release/v1.1"
+    "@bcgov/pipeline-cli": "^1.0.1-0"
   }
 }

@@ -1,24 +1,40 @@
 'use strict';
-const {OpenShiftClientX} = require('pipeline-cli')
+const {OpenShiftClientX} = require('@bcgov/pipeline-cli')
 const path = require('path');
 
-module.exports = async (settings) => {
-  const phases = settings.phases
-  const oc = new OpenShiftClientX(Object.assign({ namespace: phases.build.namespace }, settings.options));
-  const phase = 'build';
-  let objects = [];
-  const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../../openshift'));
+module.exports = (settings)=>{
+  const phases=settings.phases
+  const options = settings.options
+  const oc=new OpenShiftClientX(Object.assign({'namespace':phases.build.namespace}, options));
+  const phase='build'
+  const jenkinsBaseImage = 'jenkins-basic:prod';
+  var objects = []
 
-  objects.push(... oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/jenkins.bc.json`, {
+  const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
+
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/build-master.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'SOURCE_GIT_URL': oc.git.http_url,
-      'SOURCE_GIT_REF': oc.git.branch.merge,
+      'SOURCE_REPOSITORY_URL': oc.git.http_url,
+      'SOURCE_REPOSITORY_REF': oc.git.ref,
+      'SOURCE_IMAGE_STREAM_NAMESPACE': phases[phase].namespace,
+      'SOURCE_IMAGE_STREAM_TAG': jenkinsBaseImage
     }
   }));
 
-  oc.applyRecommendedLabels(objects, phases[phase].name, phase, phases[phase].changeId, phases[phase].instance);
-  await oc.applyAndBuild(objects);
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/build-slave.yaml`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'SOURCE_IMAGE_STREAM_NAMESPACE': phases[phase].namespace,
+      'SOURCE_IMAGE_STREAM_TAG': jenkinsBaseImage,
+      'SLAVE_NAME':'main'
+    }
+  }));
+
+  oc.applyRecommendedLabels(objects, phases[phase].name, phase, phases[phase].changeId, phases[phase].instance)
+  oc.applyAndBuild(objects)
 }

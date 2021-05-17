@@ -1,71 +1,40 @@
-# Setup
-#### 1. Copy and Paste .jenkins folder from https://github.com/bcgov/ocp-sso into your repository
+# Overview
 
-#### 2. Alter the file .jenkins/.pipeline/package.json to ensure the following line points to the desired version of pipeline-cli npm module
-    "pipeline-cli": "git+https://github.com/BCDevOps/pipeline-cli.git#release/v1.1"
+For running locally, it is recommended to use locally installed npm/node. The command snippets provide bellow assume you have npm/node installed. Also, the command lines are provided as subshell (within parthnesis) so that it will work regardless of of your current shell work directory, as long as it is within the git working directory.
 
-#### 3. Under .jenkins/openshift folder, edit the following line in config.groovy file to point to the openshift namespace underwhich you want to install jenkins
-      'build'{
-            namespace = ''
-            disposable = true
-        }
+For running from a Jenkinsfile, it is recommened to replace `npm` with the provided `npmw` as it will download and install node/npm using `nvm`.
 
-#### 4. If using bitbucket, add Bitbucket secrets (Bitbucket username, Bitbucket password, Bitbucket URL) to the .jenkins/openshift/secrets.json file just like the github username, password that already exists
+Before running in any of your projects ensure that you have created proper GitHub and Slave User secrets below:
+template.<Your Jenkins>-github
+template.<Your Jenkins>-slave-user
 
-#### 5. Edit .jenkins/openshift/jenkins.dc.json file to include the bitbucket secrets if you added them
+Github Webhooks are only created during the PROD deployment.
 
-#### 6. Any additonal secrets/jenkins credentials can be added using steps 4 and 5. 
-Create a secret to store bitbucket user credentials called bitbucket in Openshift Tools project
+Windows users can just do the `cd` manually to the root folder of their repo and remove `$(git rev-parse --show-toplevel)/` from the commands below.
 
-#### 7. Edit docker/Dockerfile to install any additional softwares or for customized configurations on jenkins
-
-#### 8. Go to the current jenkins job configuration, https://jenkins-url/config.xml. Copy the contents and paste them in .jenkins/docker/contrib/configuration/jobs/<jobname>/config.xml file
-
-#### 9. If running first time, run steps 9 and 10 or 11
+# Build
 ```
-oc run dev --image=docker-registry.default.svc:5000/bcgov/jenkins-basic:v2-latest -it --rm=true --restart=Never --command=true -- bash
-#Wait for container to startuo and a shell to be available
+( cd "$(git rev-parse --show-toplevel)/.jenkins/.pipeline" && npm run build -- --pr=0 --dev-mode=true )
+```
+Where:
+`--pr=0` is used to set the pull request number to build from.
+`--dev-mode=true` is used to indicate that the build will actually take the files in the current working directory, as opposed to a fresh `git clone`
 
+# Deploy to DEV
 ```
-#### 10. Getting Git
-```
-git clone --single-branch --depth 1 'https://github.com/BCDevOps/openshift-components.git' -b cvarjao-update-jenkins-basic /tmp/jenkins
-```
-#### 11. From local working directory
-```
-oc rsync 
+( cd "$(git rev-parse --show-toplevel)/.jenkins/.pipeline" && npm run deploy -- --pr=0 --env=dev )
 ```
 
-#### 12. oc login
+# Deploy to PROD
 ```
-#perform oc login (Copy command from web console)
-```
-
-#### 13. Create openshift secrets provided under secrets.json
-Use the provided `openshift/secrets.json` as follow:
-```
-oc -n perrsi-tools process -f '../openshift/secrets.json' -p 'BITBUCKET_USERNAME=' -p 'BITBUCKET_PASSWORD='-p 'BITBUCKET_URL=' -p 'GIT_USERNAME=' -p 'GIT_PASSWORD=' -p 'JIRA_USERNAME=' -p 'JIRA_PASSWORD='-p 'JIRA_URL=' | oc  -n perrsi-tools create -f -
+( cd "$(git rev-parse --show-toplevel)/.jenkins/.pipeline" && npm run deploy -- --pr=0 --env=prod )
 ```
 
-
-#### 14. Grant Admin access to Jenkins Service account in each managed namespace
+# Clean
+The clean script can run against each persistent environment, starting from `build`.
 ```
-oc -n perrsi-tools policy add-role-to-user 'admin' 'system:serviceaccounts:perrsi-tools:jenkins'
-oc -n perrsi-tools policy add-role-to-group 'system:image-puller' 'system:serviceaccounts:perssi-tools'
-```
-
-#### 15. Build : For first build and all subsequent builds
-```
-( cd .pipeline && ${WORKSPACE}/npmw ci && DEBUG='info:*' ${WORKSPACE}/npmw run build -- --pr=#{CHANGE_ID} --dev-mode )
+( cd "$(git rev-parse --show-toplevel)/.jenkins/.pipeline" && npm run clean -- --pr=0 --env=build )
+( cd "$(git rev-parse --show-toplevel)/.jenkins/.pipeline" && npm run clean -- --pr=0 --env=dev )
 ```
 
-#### 16. Deploy : To deploy jenkins, since jenkins will always be deployed in tools project, the deb, test and prod environments need to be set to the same tools namespace on openshift. This can be changed in .jenkins/.pipeline/lib/config.js
-```
-( cd .pipeline && ${WORKSPACE}/npmw ci && DEBUG='info:*' ${WORKSPACE}/npmw run deploy -- --pr=#{CHANGE_ID} --env=<dev,test or prod> )
-```
-#### To remove or undeploy/Cleanup
-```
-( cd .pipeline && ${WORKSPACE}/npmw ci && DEBUG='info:*' ${WORKSPACE}/npmw run clean -- --pr=#{CHANGE_ID} --env=<dev,test or prod> )
-```
-
-#### Add webade-properties, webade-jar secrets
+*Warning*: Do *NOT* run against `test` or `prod`. It will cause *PERMANENT* deletion of all objects including `PVC`! be warned!
