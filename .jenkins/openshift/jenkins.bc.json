@@ -81,7 +81,7 @@
                         "uri": "${SOURCE_GIT_URL}",
                         "ref": "${SOURCE_GIT_REF}"
                     },
-                    "contextDir": "docker"
+                    "contextDir": ".jenkins/docker"
                 },
                 "strategy": {
                     "type": "Docker",
