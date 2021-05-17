@@ -1,0 +1,92 @@
+kind: Template
+apiVersion: v1
+objects:
+  - apiVersion: v1
+    kind: Service
+    spec:
+      ports:
+        - name: ${PORT}-tcp
+          port: ${{PORT}}
+          protocol: TCP
+          targetPort: ${{PORT}}
+      selector:
+        deployment: rdsi-server
+      sessionAffinity: None
+      type: ClusterIP
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        app: rdsi-server
+        app.kubernetes.io/component: rdsi-server
+        app.kubernetes.io/instance: rdsi-server
+      name: rdsi-server
+  - apiVersion: apps/v1
+    kind: Deployment
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          deployment: rdsi-server
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+          creationTimestamp: null
+          labels:
+            deployment: rdsi-server
+        spec:
+          containers:
+            - image: >-
+                image-registry.openshift-image-registry.svc:5000/adccd1-tools/rdsi-server@sha256:9e582548fba15cfce608ed9fead3f4415c7af911cbab26ffc257edd9e4724a60
+              imagePullPolicy: IfNotPresent
+              name: rdsi-server
+              ports:
+                - containerPort: ${{PORT}}
+                  protocol: TCP
+              env:
+                - name: PORT
+                  value: ${PORT}
+                - name: MONGODB_URI
+                  value: "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}:27017/"
+                - name: MONGODB_DB_MAIN
+                  value: ${MONGODB_DB_MAIN}
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+    metadata:
+      annotations:
+        deployment.kubernetes.io/revision: "2"
+        image.openshift.io/triggers: >-
+          [{"from":{"kind":"ImageStreamTag","name":"rdsi-server:0.1.0","namespace":"adccd1-tools"},"fieldPath":"spec.template.spec.containers[?(@.name==\"rdsi-server\")].image"}]
+        openshift.io/generated-by: OpenShiftNewApp
+      generation: 2
+      labels:
+        app: rdsi-server
+        app.kubernetes.io/component: rdsi-server
+        app.kubernetes.io/instance: rdsi-server
+      name: rdsi-server
+parameters:
+  - name: PORT
+    required: true
+    description: service open port
+  - name: MONGODB_USER
+    required: true
+  - name: MONGODB_PASSWORD
+    required: true
+  - name: MONGODB_URL
+    required: true
+  - name: MONGODB_DB_MAIN
+    required: true

@@ -1,0 +1,54 @@
+kind: Template
+apiVersion: v1
+objects:
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: "rdsi-app:${TAG}"
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: client
+        git:
+          ref: feature/create-projects
+          uri: "https://github.com/bcgov/citz-dst-capstone-2021"
+        type: Git
+      strategy:
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: "nodejs:12-ubi8"
+            namespace: adccd1-tools
+        type: Source
+      successfulBuildsHistoryLimit: 5
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewBuild
+      labels:
+        build: rdsi-app
+      name: rdsi-app
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    spec:
+      lookupPolicy:
+        local: false
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewBuild
+      generation: 1
+      labels:
+        build: rdsi-app
+      name: rdsi-app
+parameters:
+  - name: TAG
+    required: true
+    description: version as an image tag
