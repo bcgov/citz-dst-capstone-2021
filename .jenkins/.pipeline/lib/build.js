@@ -7,7 +7,7 @@ module.exports = (settings)=>{
   const options = settings.options
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases.build.namespace}, options));
   const phase='build'
-  const jenkinsBaseImage = 'jenkins-basic:prod';
+  const jenkinsBaseImage = 'jenkins-basic:v2-latest';
   var objects = []
 
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))

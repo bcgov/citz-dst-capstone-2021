@@ -97,6 +97,7 @@ objects:
         creationTimestamp: null
         labels:
           deploymentconfig: ${NAME}${SUFFIX}
+          app-name: 'jenkins'
       spec:
         containers:
         - command:

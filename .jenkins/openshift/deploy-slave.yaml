@@ -25,6 +25,7 @@ objects:
         creationTimestamp: null
         labels:
           deploymentconfig: ${NAME}-${SLAVE_NAME}${SUFFIX}
+          app-name: 'jenkins'
       spec:
         initContainers:
           - name: init
