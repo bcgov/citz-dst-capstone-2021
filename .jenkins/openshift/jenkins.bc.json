@@ -81,9 +81,6 @@
                         "uri": "${SOURCE_GIT_URL}",
                         "ref": "${SOURCE_GIT_REF}"
                     },
-                    "sourceSecret": {
-                        "name": "bitbucket-account"
-                    }, 
                     "contextDir": "docker"
                 },
                 "strategy": {
