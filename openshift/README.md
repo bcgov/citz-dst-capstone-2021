@@ -1,5 +1,17 @@
 # How to Build and Deploy on Openshift
 
+### Scripts
+
+Before deploying API server, a mongodb pod should be deployed in advance because API server needs database connection parameters extracted from the mongodb pod.
+
+**Build and deploy with a branch and version tag**
+
+`$ openshift/scripts/server.sh feature 1.0.0`
+
+**clean buildconfig and deployed resources**
+
+`$ openshift/scripts/server.app clean`
+
 ### Create S2I buildconfig
 
 #### Create buildconfig from CLI

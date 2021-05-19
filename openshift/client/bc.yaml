@@ -1,22 +1,57 @@
 kind: Template
 apiVersion: v1
+metadata:
+  name: ${NAME}
 objects:
-  - apiVersion: build.openshift.io/v1
-    kind: BuildConfig
+  - kind: ImageStream
+    apiVersion: image.openshift.io/v1
+    metadata:
+      name: nodejs
+      labels:
+        shared: 'true'
+    spec:
+      lookupPolicy:
+        local: true
+      tags:
+        - name: '12-ubi8'
+          from:
+            kind: DockerImage
+            name: registry.access.redhat.com/ubi8/nodejs-12
+          importPolicy: {}
+          referencePolicy:
+            type: Source
+  - kind: ImageStream
+    apiVersion: image.openshift.io/v1
+    metadata:
+      name: "${NAME}"
+      labels:
+        shared: 'true'
+      annotations:
+        description: Keeps track of changes in the application image
+    spec:
+      lookupPolicy:
+        local: false
+      tags: [ ]
+  - kind: BuildConfig
+    apiVersion: build.openshift.io/v1
+    metadata:
+      labels:
+        build: ${NAME}
+      name: ${NAME}
     spec:
       failedBuildsHistoryLimit: 5
       nodeSelector: null
       output:
         to:
           kind: ImageStreamTag
-          name: "rdsi-app:${TAG}"
+          name: "${NAME}:${TAG}"
       postCommit: {}
       resources: {}
       runPolicy: Serial
       source:
         contextDir: client
         git:
-          ref: feature/create-projects
+          ref: ${BRANCH}
           uri: "https://github.com/bcgov/citz-dst-capstone-2021"
         type: Git
       strategy:
@@ -24,31 +59,20 @@ objects:
           from:
             kind: ImageStreamTag
             name: "nodejs:12-ubi8"
-            namespace: adccd1-tools
+            namespace: ${NAMESPACE}
         type: Source
       successfulBuildsHistoryLimit: 5
       triggers:
         - type: ConfigChange
         - type: ImageChange
-    metadata:
-      annotations:
-        openshift.io/generated-by: OpenShiftNewBuild
-      labels:
-        build: rdsi-app
-      name: rdsi-app
-  - apiVersion: image.openshift.io/v1
-    kind: ImageStream
-    spec:
-      lookupPolicy:
-        local: false
-    metadata:
-      annotations:
-        openshift.io/generated-by: OpenShiftNewBuild
-      generation: 1
-      labels:
-        build: rdsi-app
-      name: rdsi-app
 parameters:
+  - name: NAME
+    required: true
+    value: rdsi-app
+  - name: NAMESPACE
+    required: true
+  - name: BRANCH
+    required: true
   - name: TAG
     required: true
     description: version as an image tag
