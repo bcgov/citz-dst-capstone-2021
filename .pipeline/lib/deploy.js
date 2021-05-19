@@ -10,6 +10,10 @@ module.exports = (settings)=>{
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases[phase].namespace}, options));
   var objects = []
 
+const mongoSecret = new OpenShiftClient({namespace:phases[phase].namespace}).get('secret/mongodb-creds')[0];
+mongoCredential['user'] = Buffer.from(mongoSecret.data.username, 'base64').toString('utf-8');
+mongoCredential['pass'] = Buffer.from(mongoSecret.data.password, 'base64').toString('utf-8');
+
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/dc.yaml`, {
@@ -28,8 +32,8 @@ module.exports = (settings)=>{
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       'NAMESPACE': phases[phase].namespace,
-      'MONGODB_USER': phases[phase].mongodb.name,
-      'MONGODB_PASSWORD': phases[phase].mongodb.password,
+      'MONGODB_USER': mongoCredential['user'],
+      'MONGODB_PASSWORD': mongoCredential['password'],
       'MONGODB_URL' : 'mongodb',
       'MONGODB_DB_MAIN' : phases[phase].name
     }

@@ -73,8 +73,6 @@ parameters:
   - name: GIT_URL
     required: true
     value: https://github.com/bcgov/citz-dst-capstone-2021.git
-  - name: TAG
-    required: true
     description: version as an image tag
   - name: VERSION
     required: true
