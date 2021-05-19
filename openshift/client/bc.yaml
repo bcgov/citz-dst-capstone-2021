@@ -1,7 +1,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: ${NAME}
+  name: ${NAME}${SUFFIX}
 objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
@@ -23,7 +23,7 @@ objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
     metadata:
-      name: "${NAME}"
+      name: "${NAME}${SUFFIX}:${VERSION}"
       labels:
         shared: 'true'
       annotations:
@@ -36,30 +36,29 @@ objects:
     apiVersion: build.openshift.io/v1
     metadata:
       labels:
-        build: ${NAME}
-      name: ${NAME}
+        build: ${NAME}${SUFFIX}
+      name: ${NAME}${SUFFIX}
     spec:
       failedBuildsHistoryLimit: 5
       nodeSelector: null
       output:
         to:
           kind: ImageStreamTag
-          name: "${NAME}:${TAG}"
+          name: "${NAME}${SUFFIX}:${VERSION}"
       postCommit: {}
       resources: {}
       runPolicy: Serial
       source:
         contextDir: client
         git:
-          ref: ${BRANCH}
-          uri: "https://github.com/bcgov/citz-dst-capstone-2021"
+          ref: ${GIT_BRANCH}
+          uri: ${GIT_URL}"
         type: Git
       strategy:
         sourceStrategy:
           from:
             kind: ImageStreamTag
             name: "nodejs:12-ubi8"
-            namespace: ${NAMESPACE}
         type: Source
       successfulBuildsHistoryLimit: 5
       triggers:
@@ -69,10 +68,17 @@ parameters:
   - name: NAME
     required: true
     value: rdsi-app
-  - name: NAMESPACE
+  - name: GIT_BRANCH
     required: true
-  - name: BRANCH
+  - name: GIT_URL
     required: true
+    value: https://github.com/bcgov/citz-dst-capstone-2021.git
   - name: TAG
+    required: true
+    description: version as an image tag
+  - name: VERSION
+    required: true
+    description: version as an image tag
+  - name: SUFFIX
     required: true
     description: version as an image tag

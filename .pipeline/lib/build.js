@@ -7,34 +7,32 @@ module.exports = (settings)=>{
   const options = settings.options
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases.build.namespace}, options));
   const phase='build'
-  const jenkinsBaseImage = 'jenkins-basic:prod';
   var objects = []
 
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
 
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/build-master.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/bc.yaml`, {
     'param':{
-      'NAME': phases[phase].name,
+      'NAME': `${phases[phase].name}-client`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'SOURCE_REPOSITORY_URL': oc.git.http_url,
-      'SOURCE_REPOSITORY_REF': oc.git.ref,
-      'SOURCE_IMAGE_STREAM_NAMESPACE': phases[phase].namespace,
-      'SOURCE_IMAGE_STREAM_TAG': jenkinsBaseImage
+      'GIT_URL': oc.git.http_url,
+      'GIT_BRANCH': oc.git.ref,
     }
   }));
 
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/build-slave.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/server/bc.yaml`, {
     'param':{
-      'NAME': phases[phase].name,
+      'NAME': `${phases[phase].name}-server`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'SOURCE_IMAGE_STREAM_NAMESPACE': phases[phase].namespace,
-      'SOURCE_IMAGE_STREAM_TAG': jenkinsBaseImage,
-      'SLAVE_NAME':'main'
+      'GIT_URL': oc.git.http_url,
+      'GIT_BRANCH': oc.git.ref,
     }
   }));
 
+
+ 
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, phases[phase].changeId, phases[phase].instance)
   oc.applyAndBuild(objects)
 }

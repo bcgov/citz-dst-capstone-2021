@@ -2,7 +2,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: ${NAME}
+  name: ${NAME}${SUFFIX}
   annotations:
     description: Deployment template for a nodejs server and postgres db.
     tags: node
@@ -13,48 +13,48 @@ objects:
     metadata:
       labels:
         shared: "true"
-      name: ${NAME}
+      name: ${NAME}${SUFFIX}
     spec:
       lookupPolicy:
         local: true
   - kind: Service
     apiVersion: v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}${SUFFIX}
       annotations:
         description: Exposes and load balances the application pods
       labels:
-        app: ${NAME}
+        app: ${NAME}${SUFFIX}
     spec:
       ports:
         - name: ${PORT}-tcp
           port: ${{PORT}}
           targetPort: ${{PORT}}
       selector:
-        deploymentconfig: ${NAME}
+        deploymentconfig: ${NAME}${SUFFIX}
   - kind: Route
     apiVersion: v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}${SUFFIX}
       labels:
-        app: ${NAME}
+        app: ${NAME}${SUFFIX}
     spec:
-      host: "${NAME}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
+      host: "${NAME}${SUFFIX}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
       port:
         targetPort: ${PORT}-tcp
       path: ''
       to:
         kind: Service
-        name: ${NAME}
+        name: ${NAME}${SUFFIX}
         weight: 100
       tls:
         termination: edge
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
-      name: ${NAME}
+      name: ${NAME}${SUFFIX}
       labels:
-        app: ${NAME}
+        app: ${NAME}${SUFFIX}
       annotations:
         description: Defines how to deploy the application server
     spec:
@@ -65,26 +65,26 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - ${NAME}
+              - ${NAME}${SUFFIX}
             from:
               kind: ImageStreamTag
-              name: "${NAME}:${TAG}"
+              name: "${NAME}${SUFFIX}:${VERSION}"
         - type: ConfigChange
       replicas: 1
       selector:
-        name: ${NAME}
+        name: ${NAME}${SUFFIX}
       template:
         metadata:
-          name: ${NAME}
+          name: ${NAME}${SUFFIX}
           labels:
-            name: ${NAME}
-            app: ${NAME}
+            name: ${NAME}${SUFFIX}
+            app: ${NAME}${SUFFIX}
         spec:
           containers:
-            - name: ${NAME}
+            - name: ${NAME}${SUFFIX}
               image: " "
               ports:
-                - name: ${NAME}
+                - name: ${NAME}${SUFFIX}
                   containerPort: ${{PORT}}
                   protocol: TCP
 #              livenessProbe:
@@ -131,8 +131,6 @@ parameters:
     value: rdsi-server
   - name: NAMESPACE
     required: true
-  - name: TAG
-    required: true
   - name: MONGODB_USER
     required: true
   - name: MONGODB_PASSWORD
@@ -141,3 +139,9 @@ parameters:
     required: true
   - name: MONGODB_DB_MAIN
     required: true
+  - name: VERSION
+    required: true
+    description: version as an image tag
+  - name: SUFFIX
+    required: true
+    description: version as an image tag

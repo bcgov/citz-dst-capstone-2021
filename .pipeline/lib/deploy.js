@@ -12,28 +12,26 @@ module.exports = (settings)=>{
 
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
 
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/deploy-master.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/dc.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'ENV_NAME': phases[phase].phase,
-      'ROUTE_HOST': `${phases[phase].name}${phases[phase].suffix}-${phases[phase].namespace}.apps.silver.devops.gov.bc.ca`
+      'NAMESPACE': phases[phase].namespace,
+      'PORT': 8080,
     }
   }))
 
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/deploy-slave.yaml`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/server/dc.yaml`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'SLAVE_NAME': 'build',
-      'SLAVE_LABELS': 'build deploy test ui-test',
-      'SLAVE_EXECUTORS': '3',
-      'CPU_REQUEST': '300m',
-      'CPU_LIMIT': '500m',
-      'MEMORY_REQUEST': '2Gi',
-      'MEMORY_LIMIT': '2Gi'
+      'NAMESPACE': phases[phase].namespace,
+      'MONGODB_USER': phases[phase].mongodb.name,
+      'MONGODB_PASSWORD': phases[phase].mongodb.password,
+      'MONGODB_URL' : 'mongodb',
+      'MONGODB_DB_MAIN' : phases[phase].name
     }
   }))
 
