@@ -26,8 +26,8 @@ module.exports = (settings)=>{
       'NAME': `${phases[phase].name}-server`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'GIT_URL': oc.git.http_url,
-      'GIT_BRANCH': oc.git.ref,
+      'GIT_URL': oc.git.url,
+      'GIT_BRANCH': oc.git.branch.name,
     }
   }));
 
