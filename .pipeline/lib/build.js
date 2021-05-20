@@ -13,17 +13,17 @@ module.exports = (settings)=>{
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/bc.yaml`, {
     'param':{
-      'NAME': `${phases[phase].name}-client`,
+      'NAME': `${phases[phase].name}`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
-      'GIT_URL': oc.git.http_url,
-      'GIT_BRANCH': oc.git.ref,
+      'GIT_URL': oc.git.url,
+      'GIT_BRANCH': oc.git.branch.name,
     }
   }));
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/server/bc.yaml`, {
     'param':{
-      'NAME': `${phases[phase].name}-server`,
+      'NAME': `${phases[phase].name}`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       'GIT_URL': oc.git.url,

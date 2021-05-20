@@ -1,7 +1,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: ${NAME}${SUFFIX}
+  name: ${NAME}-client${SUFFIX}
 objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
@@ -23,7 +23,7 @@ objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
     metadata:
-      name: "${NAME}${SUFFIX}:${VERSION}"
+      name: "${NAME}-client"
       labels:
         shared: 'true'
       annotations:
@@ -36,15 +36,15 @@ objects:
     apiVersion: build.openshift.io/v1
     metadata:
       labels:
-        build: ${NAME}${SUFFIX}
-      name: ${NAME}${SUFFIX}
+        build: ${NAME}-client${SUFFIX}
+      name: ${NAME}-client${SUFFIX}
     spec:
       failedBuildsHistoryLimit: 5
       nodeSelector: null
       output:
         to:
           kind: ImageStreamTag
-          name: "${NAME}${SUFFIX}:${VERSION}"
+          name: "${NAME}-client:${VERSION}"
       postCommit: {}
       resources: {}
       runPolicy: Serial
@@ -52,7 +52,7 @@ objects:
         contextDir: client
         git:
           ref: ${GIT_BRANCH}
-          uri: ${GIT_URL}"
+          uri: ${GIT_URL}
         type: Git
       strategy:
         sourceStrategy:
@@ -67,7 +67,7 @@ objects:
 parameters:
   - name: NAME
     required: true
-    value: rdsi-app
+    value: rdsi
   - name: GIT_BRANCH
     required: true
   - name: GIT_URL

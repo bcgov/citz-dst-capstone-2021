@@ -38,3 +38,9 @@ The clean script can run against each persistent environment, starting from `bui
 ```
 
 *Warning*: Do *NOT* run against `test` or `prod`. It will cause *PERMANENT* deletion of all objects including `PVC`! be warned!
+
+oc process -f cicd/jenkins-basic/openshift/build.yaml \
+-p NAME=jenkins-basic \
+-p OUTPUT_IMAGE_TAG=2 \
+-p GIT_REPO_URL=https://github.com/BCDevOps/openshift-components.git \
+-p SOURCE_CONTEXT_DIR=cicd/jenkins-basic/openshift | oc create -f -

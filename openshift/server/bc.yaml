@@ -1,7 +1,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: ${NAME}${SUFFIX}
+  name: ${NAME}-server${SUFFIX}
 objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
@@ -23,7 +23,7 @@ objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
     metadata:
-      name: "${NAME}${SUFFIX}"
+      name: "${NAME}-server"
       labels:
         shared: 'true'
       annotations:
@@ -36,15 +36,15 @@ objects:
     apiVersion: build.openshift.io/v1
     metadata:
       labels:
-        build: ${NAME}${SUFFIX}
-      name: ${NAME}${SUFFIX}
+        build: ${NAME}-server${SUFFIX}
+      name: ${NAME}-server${SUFFIX}
     spec:
       failedBuildsHistoryLimit: 5
       nodeSelector: null
       output:
         to:
           kind: ImageStreamTag
-          name: "${NAME}${SUFFIX}:${VERSION}"
+          name: "${NAME}-server:${VERSION}"
       postCommit: {}
       resources: {}
       runPolicy: Serial
@@ -52,7 +52,7 @@ objects:
         contextDir: server
         git:
           ref: ${GIT_BRANCH}
-          uri: "${GIT_URL}"
+          uri: ${GIT_URL}
         type: Git
       strategy:
         sourceStrategy:
@@ -67,7 +67,7 @@ objects:
 parameters:
   - name: NAME
     required: true
-    value: rdsi-server
+    value: rdsi
   - name: GIT_URL
     required: true
     value: https://github.com/bcgov/citz-dst-capstone-2021.git
@@ -78,3 +78,5 @@ parameters:
   - name: SUFFIX
     required: true
     description: version as an image tag
+  - name: GIT_BRANCH
+    required: true
