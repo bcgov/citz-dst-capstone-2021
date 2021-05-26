@@ -35,17 +35,17 @@ objects:
   - kind: Route
     apiVersion: v1
     metadata:
-      name: "${NAME}-server{SUFFIX}"
+      name: "${NAME}-server${SUFFIX}"
       labels:
         app: "${NAME}"
     spec:
-      host: "${NAME}-server{SUFFIX}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
+      host: "${NAME}-server${SUFFIX}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
       port:
         targetPort: ${PORT}-tcp
       path: ''
       to:
         kind: Service
-        name: "${NAME}-server{SUFFIX}"
+        name: "${NAME}-server${SUFFIX}"
         weight: 100
       tls:
         termination: edge
