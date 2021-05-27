@@ -1,0 +1,82 @@
+kind: Template
+apiVersion: v1
+metadata:
+  name: ${NAME}-server${SUFFIX}
+objects:
+  - kind: ImageStream
+    apiVersion: image.openshift.io/v1
+    metadata:
+      name: nodejs
+      labels:
+        shared: 'true'
+    spec:
+      lookupPolicy:
+        local: true
+      tags:
+        - name: '12-ubi8'
+          from:
+            kind: DockerImage
+            name: registry.access.redhat.com/ubi8/nodejs-12
+          importPolicy: {}
+          referencePolicy:
+            type: Source
+  - kind: ImageStream
+    apiVersion: image.openshift.io/v1
+    metadata:
+      name: "${NAME}-server"
+      labels:
+        shared: 'true'
+      annotations:
+        description: Keeps track of changes in the application image
+    spec:
+      lookupPolicy:
+        local: false
+      tags: [ ]
+  - kind: BuildConfig
+    apiVersion: build.openshift.io/v1
+    metadata:
+      labels:
+        build: ${NAME}-server${SUFFIX}
+      name: ${NAME}-server${SUFFIX}
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: "${NAME}-server:${VERSION}"
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: server
+        git:
+          ref: ${GIT_BRANCH}
+          uri: ${GIT_URL}
+        type: Git
+      strategy:
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: "nodejs:12-ubi8"
+        type: Source
+      successfulBuildsHistoryLimit: 5
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+parameters:
+  - name: NAME
+    required: true
+    value: rdsi
+  - name: GIT_URL
+    required: true
+    value: https://github.com/bcgov/citz-dst-capstone-2021.git
+    description: version as an image tag
+  - name: VERSION
+    required: true
+    description: version as an image tag
+  - name: SUFFIX
+    required: true
+    description: version as an image tag
+  - name: GIT_BRANCH
+    required: true

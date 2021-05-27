@@ -1,0 +1,147 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: ${NAME}-server${SUFFIX}
+  annotations:
+    description: Deployment template for a nodejs server and postgres db.
+    tags: node
+    iconClass: icon-node
+objects:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      labels:
+        shared: "true"
+      name: "${NAME}-server"
+    spec:
+      lookupPolicy:
+        local: true
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: ${NAME}-server${SUFFIX}
+      annotations:
+        description: Exposes and load balances the application pods
+      labels:
+        app: ${NAME}
+    spec:
+      ports:
+        - name: ${PORT}-tcp
+          port: ${{PORT}}
+          targetPort: ${{PORT}}
+      selector:
+        deploymentconfig: ${NAME}-server${SUFFIX}
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: "${NAME}-server${SUFFIX}"
+      labels:
+        app: "${NAME}"
+    spec:
+      host: "${NAME}-server${SUFFIX}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
+      port:
+        targetPort: ${PORT}-tcp
+      path: ''
+      to:
+        kind: Service
+        name: "${NAME}-server${SUFFIX}"
+        weight: 100
+      tls:
+        termination: edge
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: ${NAME}-server${SUFFIX}
+      labels:
+        app: ${NAME}-server
+      annotations:
+        description: Defines how to deploy the application server
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${NAME}-server${SUFFIX}
+            from:
+              kind: ImageStreamTag
+              name: "${NAME}-server:${VERSION}"
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: ${NAME}-server${SUFFIX}
+      template:
+        metadata:
+          name: ${NAME}-server${SUFFIX}
+          labels:
+            name: ${NAME}-server${SUFFIX}
+            app: ${NAME}-server
+        spec:
+          containers:
+            - name: ${NAME}-server${SUFFIX}
+              image: " "
+              ports:
+                - name: ${NAME}-server
+                  containerPort: ${{PORT}}
+                  protocol: TCP
+#              livenessProbe:
+#                failureThreshold: 3
+#                httpGet:
+#                  path: /
+#                  port: ${{PORT}}
+#                  scheme: HTTP
+#                initialDelaySeconds: 60
+#                periodSeconds: 10
+#                successThreshold: 1
+#                timeoutSeconds: 3
+#              readinessProbe:
+#                failureThreshold: 3
+#                httpGet:
+#                  path: /
+#                  port: ${{PORT}}
+#                  scheme: HTTP
+#                initialDelaySeconds: 25
+#                periodSeconds: 10
+#                successThreshold: 1
+#                timeoutSeconds: 2
+              resources:
+                requests:
+                  memory: 256Mi
+                  cpu: 500m
+                limits:
+                  memory: 512Mi
+                  cpu: 1
+              env:
+                - name: PORT
+                  value: ${PORT}
+                - name: MONGODB_URI
+                  value: "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}:27017/"
+                - name: MONGODB_DB_MAIN
+                  value: ${MONGODB_DB_MAIN}
+parameters:
+  - name: PORT
+    required: true
+    value: "8080"
+    description: service open port
+  - name: NAME
+    required: true
+    value: rdsi
+  - name: NAMESPACE
+    required: true
+  - name: MONGODB_USER
+    required: true
+  - name: MONGODB_PASSWORD
+    required: true
+  - name: MONGODB_URL
+    required: true
+  - name: MONGODB_DB_MAIN
+    required: true
+  - name: VERSION
+    required: true
+    description: version as an image tag
+  - name: SUFFIX
+    required: false
+    description: version as an image tag

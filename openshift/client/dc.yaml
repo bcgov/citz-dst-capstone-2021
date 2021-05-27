@@ -1,0 +1,135 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: ${NAME}-client${SUFFIX}
+  annotations:
+    description: Deployment template for a nodejs server and postgres db.
+    tags: node
+    iconClass: icon-node
+objects:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      labels:
+        shared: "true"
+      name: ${NAME}-client
+    spec:
+      lookupPolicy:
+        local: true
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: "${NAME}-client${SUFFIX}"
+      annotations:
+        description: Exposes and load balances the application pods
+      labels:
+        app: "${NAME}"
+    spec:
+      ports:
+        - name: ${PORT}-tcp
+          port: ${{PORT}}
+          targetPort: ${{PORT}}
+      selector:
+        deploymentconfig: "${NAME}-client${SUFFIX}"
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: "${NAME}-client${SUFFIX}"
+      labels:
+        app: "${NAME}"
+    spec:
+      host: "${NAME}-client${SUFFIX}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
+      port:
+        targetPort: ${PORT}-tcp
+      path: ''
+      to:
+        kind: Service
+        name: "${NAME}-client${SUFFIX}"
+        weight: 100
+      tls:
+        termination: edge
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: "${NAME}-client${SUFFIX}"
+      labels:
+        app: "${NAME}-client"
+      annotations:
+        description: Defines how to deploy the application server
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${NAME}-client${SUFFIX}
+            from:
+              kind: ImageStreamTag
+              name: "${NAME}-client:${VERSION}"
+        - type: ConfigChange
+      replicas: 1
+      selector:
+        name: "${NAME}-client${SUFFIX}"
+      template:
+        metadata:
+          name: "${NAME}-client${SUFFIX}"
+          labels:
+            name: "${NAME}-client${SUFFIX}"
+            app: "${NAME}"
+        spec:
+          containers:
+            - name: "${NAME}-client${SUFFIX}"
+              image: " "
+              ports:
+                - name: "${NAME}-client"
+                  containerPort: ${{PORT}}
+                  protocol: TCP
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /
+                  port: ${{PORT}}
+                  scheme: HTTP
+                initialDelaySeconds: 60
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 3
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /
+                  port: ${{PORT}}
+                  scheme: HTTP
+                initialDelaySeconds: 25
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 2
+              resources:
+                requests:
+                  memory: 256Mi
+                  cpu: 500m
+                limits:
+                  memory: 512Mi
+                  cpu: 1
+              env:
+                - name: PORT
+                  value: "${PORT}"
+parameters:
+  - name: PORT
+    required: true
+    value: "8080"
+    description: service open port
+  - name: NAME
+    required: true
+    value: rdsi
+  - name: NAMESPACE
+    required: true
+  - name: VERSION
+    required: true
+    description: version as an image tag
+  - name: SUFFIX
+    description: version as an image tag
+    required: false
