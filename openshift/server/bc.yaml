@@ -13,10 +13,10 @@ objects:
       lookupPolicy:
         local: true
       tags:
-        - name: '12-ubi8'
+        - name: '14-ubi8'
           from:
             kind: DockerImage
-            name: registry.access.redhat.com/ubi8/nodejs-12
+            name: registry.access.redhat.com/ubi8/nodejs-14
           importPolicy: {}
           referencePolicy:
             type: Source
@@ -58,7 +58,7 @@ objects:
         sourceStrategy:
           from:
             kind: ImageStreamTag
-            name: "nodejs:12-ubi8"
+            name: "nodejs:14-ubi8"
         type: Source
       successfulBuildsHistoryLimit: 5
       triggers:
