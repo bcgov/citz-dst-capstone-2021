@@ -7,7 +7,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "build": "tsc && npx tsc-alias",
+    "build": "tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix"
@@ -34,6 +34,7 @@
     "swagger-ui-express": "4.1.6",
     "ts-jest": "27.0.2",
     "ts-node": "10.0.0",
+    "tslib": "1.14.1",
     "typescript": "4.3.2",
     "winston": "3.3.3",
     "winston-daily-rotate-file": "4.5.5"
@@ -69,6 +70,7 @@
     "nodemon": "2.0.7",
     "prettier": "2.3.0",
     "supertest": "6.1.3",
+    "tsc-alias": "1.2.11",
     "tsconfig-paths": "3.9.0"
   }
 }
