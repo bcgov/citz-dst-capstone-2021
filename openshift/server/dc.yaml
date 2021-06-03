@@ -118,7 +118,7 @@ objects:
                 - name: PORT
                   value: ${PORT}
                 - name: MONGODB_URI
-                  value: "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}:27017/"
+                  value: "mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}:27017"
                 - name: MONGODB_DB_MAIN
                   value: ${MONGODB_DB_MAIN}
 parameters:
