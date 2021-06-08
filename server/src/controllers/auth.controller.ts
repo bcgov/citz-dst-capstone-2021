@@ -39,9 +39,10 @@ class AuthController {
     return this.authService
       .login(user)
       .then(({ expiresIn, token, user }) => {
+        const httpOnly = process.env.NODE_ENV === 'production';
         res.cookie('token', token, {
-          maxAge: expiresIn,
-          httpOnly: process.env.NODE_ENV === 'production',
+          maxAge: httpOnly ? expiresIn : Number.MAX_VALUE,
+          httpOnly,
         });
         res.status(200).json({ token, user });
       })

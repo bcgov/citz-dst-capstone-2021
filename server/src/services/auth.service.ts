@@ -46,7 +46,7 @@ class AuthService {
       .findOne({ email: userData.email })
       .then(user => {
         return user.verifyPassword(userData.password).then(() => {
-          const tokenData = this.createToken(user, 60 * 60);
+          const tokenData = this.createToken(user, 10 * 60 * 1000);
           return { user, ...tokenData };
         });
       })

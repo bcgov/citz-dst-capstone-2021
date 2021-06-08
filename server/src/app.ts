@@ -81,14 +81,9 @@ class App {
   }
 
   private initializeMiddlewares() {
-    if (this.env === 'production') {
-      this.app.use(morgan('combined'));
-      // TODO: (shp) origin should be set during deployment?
-      this.app.use(cors({ origin: 'rdsi-client.adccd1-prod.apps.silver.devops.gov.bc.ca', credentials: true }));
-    } else {
-      this.app.use(morgan('dev'));
-      this.app.use(cors({ origin: true, credentials: true }));
-    }
+    this.app.use(morgan(this.env === 'production' ? 'combined' : 'dev'));
+    // TODO: (shp) origin should be set during deployment?
+    this.app.use(cors({ origin: config.get('apiUrl'), credentials: true }));
 
     this.app.use(hpp());
     this.app.use(helmet());
