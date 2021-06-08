@@ -1,7 +1,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: ${NAME}-server${SUFFIX}
+  name: ${NAME}${SUFFIX}
 objects:
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
@@ -13,17 +13,17 @@ objects:
       lookupPolicy:
         local: true
       tags:
-        - name: '12-ubi8'
+        - name: '14-ubi8'
           from:
             kind: DockerImage
-            name: registry.access.redhat.com/ubi8/nodejs-12
+            name: registry.access.redhat.com/ubi8/nodejs-14
           importPolicy: {}
           referencePolicy:
             type: Source
   - kind: ImageStream
     apiVersion: image.openshift.io/v1
     metadata:
-      name: "${NAME}-server"
+      name: "${NAME}"
       labels:
         shared: 'true'
       annotations:
@@ -36,15 +36,15 @@ objects:
     apiVersion: build.openshift.io/v1
     metadata:
       labels:
-        build: ${NAME}-server${SUFFIX}
-      name: ${NAME}-server${SUFFIX}
+        build: ${NAME}${SUFFIX}
+      name: ${NAME}${SUFFIX}
     spec:
       failedBuildsHistoryLimit: 5
       nodeSelector: null
       output:
         to:
           kind: ImageStreamTag
-          name: "${NAME}-server:${VERSION}"
+          name: "${NAME}:${VERSION}"
       postCommit: {}
       resources: {}
       runPolicy: Serial
@@ -56,9 +56,10 @@ objects:
         type: Git
       strategy:
         sourceStrategy:
+          imageOptimizationPolicy: SkipLayers
           from:
             kind: ImageStreamTag
-            name: "nodejs:12-ubi8"
+            name: "nodejs:14-ubi8"
         type: Source
       successfulBuildsHistoryLimit: 5
       triggers:
@@ -67,7 +68,7 @@ objects:
 parameters:
   - name: NAME
     required: true
-    value: rdsi
+    value: rdsi-server
   - name: GIT_URL
     required: true
     value: https://github.com/bcgov/citz-dst-capstone-2021.git

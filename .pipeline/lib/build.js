@@ -13,7 +13,7 @@ module.exports = (settings)=>{
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/bc.yaml`, {
     'param':{
-      'NAME': `${phases[phase].name}`,
+      'NAME': `${phases[phase].name}-client`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       'GIT_URL': oc.git.url,
@@ -23,7 +23,7 @@ module.exports = (settings)=>{
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/server/bc.yaml`, {
     'param':{
-      'NAME': `${phases[phase].name}`,
+      'NAME': `${phases[phase].name}-server`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       'GIT_URL': oc.git.url,
@@ -32,7 +32,7 @@ module.exports = (settings)=>{
   }));
 
 
- 
+
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, phases[phase].changeId, phases[phase].instance)
   oc.applyAndBuild(objects)
 }

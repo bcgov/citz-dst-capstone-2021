@@ -20,7 +20,7 @@ module.exports = (settings)=>{
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/dc.yaml`, {
     'param':{
-      'NAME': `${phases[phase].name}`,
+      'NAME': `${phases[phase].name}-client`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       'NAMESPACE': phases[phase].namespace,
@@ -30,7 +30,7 @@ module.exports = (settings)=>{
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/server/dc.yaml`, {
     'param':{
-      'NAME': `${phases[phase].name}`,
+      'NAME': `${phases[phase].name}-server`,
       'SUFFIX': phases[phase].suffix,
       'VERSION': phases[phase].tag,
       'NAMESPACE': phases[phase].namespace,
