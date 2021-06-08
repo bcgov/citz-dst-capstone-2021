@@ -1,83 +1,92 @@
-import bcrypt from 'bcrypt';
-import mongoose from 'mongoose';
+/**
+ * Copyright © 2021 Province of British Columbia
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import request from 'supertest';
+import _ from 'lodash';
+
 import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
 import AuthRoute from '@routes/auth.route';
+import { Role } from '@interfaces/roles.interface';
+import UserService from '@services/users.service';
+import AuthService from '@services/auth.service';
+import { User } from '@/interfaces/users.interface';
+
+const user = {
+  email: 'mary@example.com',
+  firstName: 'Mary',
+  lastName: 'Mulnch',
+  password: 'q1wK2Oe3r4!',
+  title: 'Finance Analyst',
+  ministry: 'CITZ',
+  role: Role.User,
+  active: false,
+};
+
+const authRoute = new AuthRoute();
+const app = new App([authRoute]);
+const authUrl = authRoute.resource ? `${app.api_root}/${authRoute.resource}` : app.api_root;
+const userSvc = new UserService();
+const authSvc = new AuthService();
 
 afterAll(async () => {
-  await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
+  await userSvc
+    .findUserByEmail(user.email)
+    .then(user => userSvc.deleteUser(user.id))
+    .then(() => app.stop());
 });
 
 describe('Testing Auth', () => {
   describe('[POST] /signup', () => {
-    it('response should have the Create userData', async () => {
-      const userData: CreateUserDto = {
-        email: 'test@email.com',
-        password: 'q1w2e3r4!',
-      };
-
-      const authRoute = new AuthRoute();
-      const users = authRoute.authController.authService.users;
-
-      users.findOne = jest.fn().mockReturnValue(null);
-      users.create = jest.fn().mockReturnValue({
-        _id: '60706478aad6c9ad19a31c84',
-        email: userData.email,
-        password: await bcrypt.hash(userData.password, 10),
-      });
-
-      (mongoose as any).connect = jest.fn();
-      const app = new App([authRoute]);
-      return request(app.getServer()).post(`${authRoute.path}signup`).send(userData);
+    it('allows a user to sign up', async () => {
+      return request(app.getServer()).post(`${authUrl}/signup`).send(user).expect(201);
     });
   });
 
   describe('[POST] /login', () => {
-    it('response should have the Set-Cookie header with the Authorization token', async () => {
-      const userData: CreateUserDto = {
-        email: 'test@email.com',
-        password: 'q1w2e3r4!',
-      };
-
-      const authRoute = new AuthRoute();
-      const users = authRoute.authController.authService.users;
-
-      users.findOne = jest.fn().mockReturnValue({
-        _id: '60706478aad6c9ad19a31c84',
-        email: userData.email,
-        password: await bcrypt.hash(userData.password, 10),
-      });
-
-      (mongoose as any).connect = jest.fn();
-      const app = new App([authRoute]);
-      return request(app.getServer())
-        .post(`${authRoute.path}login`)
+    it('authenticates user and set auth cookie', done => {
+      const userData = _.pick(user, ['email', 'password']);
+      request(app.getServer())
+        .post(`${authUrl}/login`)
         .send(userData)
-        .expect('Set-Cookie', /^Authorization=.+/);
+        .expect(200)
+        .end((err, res) => {
+          expect(err).toBeNull();
+          expect(res.body.user.id).toBeDefined();
+          done();
+        });
     });
   });
 
-  // describe('[POST] /logout', () => {
-  //   it('logout Set-Cookie Authorization=; Max-age=0', async () => {
-  //     const userData: User = {
-  //       _id: '60706478aad6c9ad19a31c84',
-  //       email: 'test@email.com',
-  //       password: await bcrypt.hash('q1w2e3r4!', 10),
-  //     };
-
-  //     const authRoute = new AuthRoute();
-  //     const users = authRoute.authController.authService.users;
-
-  //     users.findOne = jest.fn().mockReturnValue(userData);
-
-  //     (mongoose as any).connect = jest.fn();
-  //     const app = new App([authRoute]);
-  //     return request(app.getServer())
-  //       .post(`${authRoute.path}logout`)
-  //       .send(userData)
-  //       .set('Set-Cookie', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ')
-  //       .expect('Set-Cookie', /^Authorization=\; Max-age=0/);
-  //   });
-  // });
+  describe('[POST] /logout', () => {
+    it('logouts and remove auth cookie', () => {
+      return userSvc
+        .findUserByEmail(user.email)
+        .then(user => {
+          expect(user).toBeDefined();
+          const data = { id: user.id };
+          return authSvc.createToken(data as User, 600);
+        })
+        .then(({ token }) => {
+          expect(token).toBeDefined();
+          return request(app.getServer())
+            .post(`${authUrl}/logout`)
+            .set('Cookie', [`token=${token}`])
+            .send(user)
+            .expect(200);
+        });
+    });
+  });
 });

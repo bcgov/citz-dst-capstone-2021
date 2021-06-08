@@ -1,9 +1,26 @@
+/**
+ * Copyright © 2021 Province of British Columbia
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import bcrypt from 'bcrypt';
+import { errorWithCode } from '@bcgov/common-nodejs-utils';
+
 import { CreateUserDto } from '@dtos/users.dto';
-import HttpException from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
-import { isEmpty } from '@utils/util';
+import { checkIfEmpty } from '@utils/util';
 
 class UserService {
   public users = userModel;
@@ -13,21 +30,25 @@ class UserService {
     return users;
   }
 
-  public async findUserById(userId: string): Promise<User> {
-    if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
+  public findUserById(_id: string): Promise<User> {
+    checkIfEmpty(_id, 'user', 400);
+    return this.users.findOne({ _id }).then(user => user);
+  }
 
-    const findUser: User = await this.users.findOne({ _id: userId });
-    if (!findUser) throw new HttpException(409, "You're not user");
-
-    return findUser;
+  public findUserByEmail(email: string): Promise<User> {
+    checkIfEmpty(email, 'email', 400);
+    return this.users.findOne({ email }).then(user => user);
   }
 
   public async createUser(userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    checkIfEmpty(userData, 'email', 400);
 
-    const findUser: User = await this.users.findOne({ email: userData.email });
-    if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    const user: User = await this.users.findOne({ email: userData.email });
+    if (user) {
+      throw errorWithCode(`The email ${userData.email} already exists`, 409);
+    }
 
+    // TODO: (shp) We could use mongoose middleware
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
 
@@ -35,29 +56,25 @@ class UserService {
   }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+    checkIfEmpty(userId, 'id', 400);
 
     if (userData.email) {
-      const findUser: User = await this.users.findOne({ email: userData.email });
-      if (findUser && findUser._id != userId) throw new HttpException(409, `You're email ${userData.email} already exists`);
+      const user: User = await this.users.findOne({ email: userData.email });
+      if (user && user.id != userId) {
+        throw errorWithCode(`The email ${userData.email} already exists`, 409);
+      }
     }
-
-    if (userData.password) {
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
-      userData = { ...userData, password: hashedPassword };
+    const user: User = await this.users.findByIdAndUpdate(userId, userData, { new: true });
+    if (!user) {
+      throw errorWithCode(`Unable to update user`, 500);
     }
-
-    const updateUserById: User = await this.users.findByIdAndUpdate(userId, { userData });
-    if (!updateUserById) throw new HttpException(409, "You're not user");
-
-    return updateUserById;
+    return user;
   }
 
   public async deleteUser(userId: string): Promise<User> {
-    const deleteUserById: User = await this.users.findByIdAndDelete(userId);
-    if (!deleteUserById) throw new HttpException(409, "You're not user");
-
-    return deleteUserById;
+    return this.users.findByIdAndDelete(userId).catch(e => {
+      throw errorWithCode(`Unable to delete user: ${e.message}`, 500);
+    });
   }
 }
 
