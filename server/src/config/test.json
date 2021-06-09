@@ -1,0 +1,10 @@
+{
+  "env": "test",
+  "dbConfig": {
+      "host": "localhost",
+      "database": "rdsi",
+      "port": 27017
+  },
+  "apiUrl": "*",
+  "secretKey": "secretKey"
+}

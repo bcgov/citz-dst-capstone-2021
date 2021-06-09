@@ -13,6 +13,7 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
+    "@bcgov/common-nodejs-utils": "0.1.22",
     "bcrypt": "5.0.1",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
@@ -26,18 +27,17 @@
     "express": "4.17.1",
     "helmet": "4.6.0",
     "hpp": "0.2.3",
-    "jest": "27.0.3",
     "jsonwebtoken": "8.5.1",
+    "lodash": "4.17.21",
     "mongoose": "5.10.1",
     "morgan": "1.10.0",
+    "passport": "0.4.1",
+    "passport-cookie": "1.0.9",
+    "passport-jwt": "4.0.0",
+    "passport-local": "1.0.0",
     "swagger-jsdoc": "6.0.0",
     "swagger-ui-express": "4.1.6",
-    "ts-jest": "27.0.2",
-    "ts-node": "10.0.0",
-    "tslib": "1.14.1",
-    "typescript": "4.3.2",
-    "winston": "3.3.3",
-    "winston-daily-rotate-file": "4.5.5"
+    "tslib": "1.14.1"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.0",
@@ -64,13 +64,17 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.0",
     "husky": "6.0.0",
+    "jest": "27.0.3",
     "lint-staged": "11.0.0",
     "node-config": "0.0.2",
     "node-gyp": "8.1.0",
     "nodemon": "2.0.7",
     "prettier": "2.3.0",
     "supertest": "6.1.3",
+    "ts-jest": "27.0.2",
+    "ts-node": "10.0.0",
     "tsc-alias": "1.2.11",
-    "tsconfig-paths": "3.9.0"
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.3.2"
   }
 }

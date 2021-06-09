@@ -1,9 +1,0 @@
-{
-    "env": "development",
-    "dbConfig": {
-        "host": "localhost",
-        "database": "rdsi",
-        "port": 27017
-    },
-    "secretKey": "secretKey"
-}
