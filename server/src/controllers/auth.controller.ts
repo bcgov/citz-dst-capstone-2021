@@ -17,7 +17,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
-import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
 
 class AuthController {
@@ -34,10 +33,10 @@ class AuthController {
   };
 
   public login = async (req: Request, res: Response, next: NextFunction) => {
-    const user: CreateUserDto = req.body;
+    const userData: CreateUserDto = req.body;
     // const { expiresIn, token, user } = await this.authService.login(userData);
     return this.authService
-      .login(user)
+      .login(userData)
       .then(({ expiresIn, token, user }) => {
         const httpOnly = process.env.NODE_ENV === 'production';
         res.cookie('token', token, {
@@ -50,7 +49,7 @@ class AuthController {
   };
 
   public logout = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const user: User = req.user;
+    const { user } = req;
     return this.authService
       .logout(user)
       .then(() => {

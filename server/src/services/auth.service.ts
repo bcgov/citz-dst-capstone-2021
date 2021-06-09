@@ -35,7 +35,7 @@ class AuthService {
       .then(() => {
         throw errorWithCode('the email already exists', 409);
       })
-      .catch(e => {
+      .catch(() => {
         return this.users.create(userData);
       });
   }
@@ -46,7 +46,7 @@ class AuthService {
       .findOne({ email: userData.email })
       .then(user => {
         return user.verifyPassword(userData.password).then(() => {
-          const tokenData = this.createToken(user, 10 * 60 * 1000);
+          const tokenData = AuthService.createToken(user, 10 * 60 * 1000);
           return { user, ...tokenData };
         });
       })
@@ -59,16 +59,15 @@ class AuthService {
     checkIfEmpty(user, 'user', 400);
     return this.users
       .findOne({ email: user.email })
-      .then(user => {
+      .then(() => {
         // what should be done when the user logs out
-        return;
       })
       .catch(e => {
         throw errorWithCode(`user not found: ${e.message}`, 409);
       });
   }
 
-  public createToken(user: User, expiresIn: number): TokenData {
+  public static createToken(user: User, expiresIn: number): TokenData {
     const dataStoredInToken: DataStoredInToken = { id: user.id };
     const secret: string = config.get('secretKey');
     const token = jwt.sign(dataStoredInToken, secret, { expiresIn });

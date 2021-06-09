@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-process.env['NODE_CONFIG_DIR'] = __dirname + '/config';
-
 import config from 'config';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -25,23 +23,27 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
 import passport from 'passport';
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+// import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import { Strategy as CookieStrategy } from 'passport-cookie';
 import { connect, set, connection } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { logger } from '@bcgov/common-nodejs-utils';
 
-import { dbConnection } from '@databases';
+import { logger } from '@bcgov/common-nodejs-utils';
+import DBConfig from '@databases';
 import Routes from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
+
 import User from '@models/users.model';
 
 class App {
   public readonly api_root = '/api/v1';
+
   public app: express.Application;
+
   public port: string | number;
+
   public env: string;
 
   constructor(routes: Routes[]) {
@@ -69,6 +71,7 @@ class App {
     return this.app;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public stop() {
     connection.close();
   }
@@ -77,7 +80,7 @@ class App {
     if (this.env !== 'production') {
       set('debug', true);
     }
-    connect(dbConnection.url, dbConnection.options);
+    connect(DBConfig.url, DBConfig.options);
   }
 
   private initializeMiddlewares() {
@@ -108,9 +111,9 @@ class App {
     // );
 
     passport.use(
-      new CookieStrategy(function (token, done) {
+      new CookieStrategy((token, done) => {
         const payload: any = jwt.verify(token, config.get('secretKey'));
-        User.findById(payload.id, function (e, user) {
+        User.findById(payload.id, (e, user) => {
           if (e) return done(e);
           if (!user) return done(null, false);
           return done(null, user);

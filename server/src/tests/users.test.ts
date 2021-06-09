@@ -32,7 +32,7 @@ const admin = {
   active: false,
 };
 
-const user = {
+const testUser = {
   email: 'mary@example.com',
   firstName: 'Mary',
   lastName: 'Mulnch',
@@ -46,7 +46,6 @@ const user = {
 const usersRoute = new UsersRoute();
 const app = new App([usersRoute]);
 const userSvc = new UserService();
-const authSvc = new AuthService();
 const usersUrl = `${app.api_root}/${usersRoute.resource}`;
 
 let token = '';
@@ -55,8 +54,10 @@ beforeAll(async () => {
   await userSvc
     .findUserByEmail(admin.email)
     .catch(() => userSvc.createUser(admin))
-    .then(user => authSvc.createToken(user, 600))
-    .then(tokenData => (token = tokenData.token));
+    .then(user => AuthService.createToken(user, 600))
+    .then(tokenData => {
+      token = tokenData.token;
+    });
 });
 
 afterAll(async () => {
@@ -66,7 +67,7 @@ afterAll(async () => {
 describe('Testing Users', () => {
   describe('[POST] /users', () => {
     it('validates password complexity', done => {
-      const userData = { ...user, password: '1234' };
+      const userData = { ...testUser, password: '1234' };
       request(app.getServer())
         .post(usersUrl)
         .set('Cookie', [`token=${token}`])
@@ -78,7 +79,7 @@ describe('Testing Users', () => {
         });
     });
     it('validates the email format', done => {
-      const userData = { ...user, email: 'example.com' };
+      const userData = { ...testUser, email: 'example.com' };
       request(app.getServer())
         .post(usersUrl)
         .set('Cookie', [`token=${token}`])
@@ -90,7 +91,7 @@ describe('Testing Users', () => {
         });
     });
     it('validates if role is enum', done => {
-      const userData = { ...user, role: 'Unknown' };
+      const userData = { ...testUser, role: 'Unknown' };
       request(app.getServer())
         .post(usersUrl)
         .set('Cookie', [`token=${token}`])
@@ -103,15 +104,13 @@ describe('Testing Users', () => {
     });
     it('creates a user', () => {
       return userSvc
-        .findUserByEmail(user.email)
-        .then(user => {
-          if (user) return userSvc.deleteUser(user.id);
-        })
+        .findUserByEmail(testUser.email)
+        .then(user => (user ? userSvc.deleteUser(user.id) : null))
         .then(() => {
           return request(app.getServer())
             .post(`${usersUrl}`)
             .set('Cookie', [`token=${token}`])
-            .send(user)
+            .send(testUser)
             .expect(201);
         });
     });
@@ -139,8 +138,8 @@ describe('Testing Users', () => {
 
   describe('[PATCH] /users/:id', () => {
     it('updates User', () => {
-      const userData = { ...user, role: Role.Admin };
-      return userSvc.findUserByEmail(user.email).then(user => {
+      const userData = { ...testUser, role: Role.Admin };
+      return userSvc.findUserByEmail(testUser.email).then(user => {
         request(app.getServer())
           .patch(`${usersUrl}/${user.id}`)
           .set('Cookie', [`token=${token}`])
@@ -152,7 +151,7 @@ describe('Testing Users', () => {
 
   describe('[DELETE] /users/:id', () => {
     it('deletes User', () => {
-      return userSvc.findUserByEmail(user.email).then(user => {
+      return userSvc.findUserByEmail(testUser.email).then(user => {
         return request(app.getServer())
           .delete(`${usersUrl}/${user.id}`)
           .set('Cookie', [`token=${token}`])

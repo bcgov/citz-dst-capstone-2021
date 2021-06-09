@@ -24,7 +24,9 @@ import validationMiddleware from '@middlewares/validation.middleware';
 
 class AuthRoute implements Route {
   public resource = '';
+
   public router = Router();
+
   public authController = new AuthController();
 
   constructor() {

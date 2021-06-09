@@ -60,6 +60,8 @@ const userSchema: Schema<User> = new Schema(
       versionKey: false,
       virtuals: true,
       transform: (doc, ret) => {
+        /* eslint-disable no-underscore-dangle */
+        /* eslint-disable no-param-reassign */
         delete ret._id;
         delete ret.password;
       },
@@ -69,17 +71,20 @@ const userSchema: Schema<User> = new Schema(
 );
 
 // database middleware
+// eslint-disable-next-line func-names
 userSchema.pre('save', function (this: User & Document, next) {
   if (this.isModified('password')) {
-    return bcrypt.hash(this.password, 12).then(hash => {
+    bcrypt.hash(this.password, 12).then(hash => {
       this.password = hash;
       next();
     });
+  } else {
+    next();
   }
-  next();
 });
 
-userSchema.methods.verifyPassword = function (password): Promise<boolean> {
+// eslint-disable-next-line func-names
+userSchema.methods.verifyPassword = function (password: string): Promise<boolean> {
   return bcrypt.compare(password, this.password);
 };
 

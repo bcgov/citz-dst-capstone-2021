@@ -21,3 +21,5 @@ export enum Role {
   Executive = 'executive',
   User = 'user',
 }
+
+export default { Role };

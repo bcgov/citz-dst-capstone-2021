@@ -24,8 +24,8 @@ const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFu
 
     logger.error(`[${req.method}] ${req.path} >> status=${status}, message=${message}`);
     res.status(status).json({ message });
-  } catch (error) {
-    next(error);
+  } catch (e) {
+    next(e);
   }
 };
 
