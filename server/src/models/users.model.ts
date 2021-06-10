@@ -56,6 +56,7 @@ const userSchema: Schema<User> = new Schema(
     },
   },
   {
+    timestamps: true,
     toJSON: {
       versionKey: false,
       virtuals: true,
@@ -69,19 +70,6 @@ const userSchema: Schema<User> = new Schema(
     toObject: { virtuals: true },
   },
 );
-
-// database middleware
-// eslint-disable-next-line func-names
-userSchema.pre('save', function (this: User & Document, next) {
-  if (this.isModified('password')) {
-    bcrypt.hash(this.password, 12).then(hash => {
-      this.password = hash;
-      next();
-    });
-  } else {
-    next();
-  }
-});
 
 // eslint-disable-next-line func-names
 userSchema.methods.verifyPassword = function (password: string): Promise<boolean> {

@@ -49,22 +49,19 @@ class UserService {
     }
 
     // TODO: (shp) We could use mongoose middleware
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const createUserData: User = await this.users.create({ ...userData, password: hashedPassword });
+    const password = await bcrypt.hash(userData.password, 12);
+    const createUserData: User = await this.users.create({ ...userData, password });
 
     return createUserData;
   }
 
   public async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
     checkIfEmpty(userId, 'id', 400);
-
-    if (userData.email) {
-      const user: User = await this.users.findOne({ email: userData.email });
-      if (user && user.id !== userId) {
-        throw errorWithCode(`The email ${userData.email} already exists`, 409);
-      }
+    const input = { ...userData };
+    if (input.password) {
+      input.password = await bcrypt.hash(input.password, 12);
     }
-    const user: User = await this.users.findByIdAndUpdate(userId, userData, { new: true });
+    const user = await this.users.findByIdAndUpdate(userId, input, { new: true });
     if (!user) {
       throw errorWithCode(`Unable to update user`, 500);
     }

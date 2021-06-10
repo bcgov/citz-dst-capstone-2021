@@ -19,26 +19,28 @@ import _ from 'lodash';
 
 import App from '@/app';
 import AuthRoute from '@routes/auth.route';
-import { Role } from '@interfaces/roles.interface';
 import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
 import { User } from '@/interfaces/users.interface';
+import UsersRoute from '@routes/users.route';
 
-const testUser = {
-  email: 'mary@example.com',
-  firstName: 'Mary',
-  lastName: 'Mulnch',
-  password: 'q1wK2Oe3r4!',
-  title: 'Finance Analyst',
-  ministry: 'CITZ',
-  role: Role.User,
-  active: false,
-};
+import { CreateUserDto } from '@dtos/users.dto';
+import testData from './testData.json';
+
+const { testUser } = testData;
 
 const authRoute = new AuthRoute();
-const app = new App([authRoute]);
+const usersRoute = new UsersRoute();
+const app = new App([authRoute, usersRoute]);
 const authUrl = authRoute.resource ? `${app.api_root}/${authRoute.resource}` : app.api_root;
 const userSvc = new UserService();
+
+beforeAll(async () => {
+  const user = await userSvc.findUserByEmail(testUser.email);
+  if (user) {
+    await userSvc.deleteUser(user.id);
+  }
+});
 
 afterAll(async () => {
   await userSvc
@@ -55,37 +57,39 @@ describe('Testing Auth', () => {
   });
 
   describe('[POST] /login', () => {
-    it('authenticates user and set auth cookie', done => {
+    it('deny login with a wrong password', () => {
+      const userData = { email: testUser.email, password: `${testUser.password}dirt` };
+      return request(app.getServer()).post(`${authUrl}/login`).send(userData).expect(409);
+    });
+
+    it('authenticates user and set auth cookie', () => {
       const userData = _.pick(testUser, ['email', 'password']);
-      request(app.getServer())
-        .post(`${authUrl}/login`)
-        .send(userData)
-        .expect(200)
-        .end((err, res) => {
-          expect(err).toBeNull();
-          expect(res.body.user.id).toBeDefined();
-          done();
-        });
+      return request(app.getServer()).post(`${authUrl}/login`).send(userData).expect(200);
+    });
+
+    it('updates password and login', async () => {
+      // update user
+      const userData = { ...testUser, password: `${testUser.password}2` } as CreateUserDto;
+      const user = await userSvc.findUserByEmail(userData.email);
+      await userSvc.updateUser(user.id, userData);
+      // try login again
+      const loginData = _.pick(userData, ['email', 'password']);
+      return request(app.getServer()).post(`${authUrl}/login`).send(loginData).expect(200);
     });
   });
 
   describe('[POST] /logout', () => {
-    it('logouts and remove auth cookie', () => {
-      return userSvc
-        .findUserByEmail(testUser.email)
-        .then(user => {
-          expect(user).toBeDefined();
-          const data = { id: user.id };
-          return AuthService.createToken(data as User, 600);
-        })
-        .then(({ token }) => {
-          expect(token).toBeDefined();
-          return request(app.getServer())
-            .post(`${authUrl}/logout`)
-            .set('Cookie', [`token=${token}`])
-            .send(testUser)
-            .expect(200);
-        });
+    it('logouts and remove auth cookie', async () => {
+      // get a token
+      const user = await userSvc.findUserByEmail(testUser.email);
+      expect(user).toBeDefined();
+      const data = { id: user.id };
+      const { token } = await AuthService.createToken(data as User, 600);
+      return request(app.getServer())
+        .post(`${authUrl}/logout`)
+        .set('Cookie', [`token=${token}`])
+        .send(testUser)
+        .expect(200);
     });
   });
 });

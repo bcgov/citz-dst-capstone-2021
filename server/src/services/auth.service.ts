@@ -23,6 +23,7 @@ import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
 import { checkIfEmpty } from '@utils/util';
+import bcrypt from 'bcrypt';
 
 class AuthService {
   public users = userModel;
@@ -30,29 +31,26 @@ class AuthService {
   public async signup(userData: CreateUserDto): Promise<User> {
     checkIfEmpty(userData, 'user', 400);
 
-    return this.users
-      .findOne({ email: userData.email })
-      .then(() => {
-        throw errorWithCode('the email already exists', 409);
-      })
-      .catch(() => {
-        return this.users.create(userData);
-      });
+    const user = this.users.findOne({ email: userData.email });
+    if (!user) {
+      throw errorWithCode('the email already exists', 409);
+    }
+    const password = await bcrypt.hash(userData.password, 12);
+    return this.users.create({ ...userData, password });
   }
 
   public async login(userData: LoginDto): Promise<{ expiresIn: number; token: string; user: User }> {
     checkIfEmpty(userData, 'user', 400);
-    return this.users
-      .findOne({ email: userData.email })
-      .then(user => {
-        return user.verifyPassword(userData.password).then(() => {
+    return this.users.findOne({ email: userData.email }).then(user => {
+      if (!user) throw errorWithCode(`user not found`, 409);
+      return user.verifyPassword(userData.password).then(result => {
+        if (result) {
           const tokenData = AuthService.createToken(user, 10 * 60 * 1000);
           return { user, ...tokenData };
-        });
-      })
-      .catch(e => {
-        throw errorWithCode(`user not found: ${e.message}`, 409);
+        }
+        throw errorWithCode(`user not found`, 409);
       });
+    });
   }
 
   public async logout(user: User): Promise<void> {

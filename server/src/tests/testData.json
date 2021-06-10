@@ -1,0 +1,22 @@
+{
+  "admin": {
+    "email": "admin@example.com",
+    "firstName": "Admin",
+    "lastName": "RDSI",
+    "password": "P@ssw0rd1",
+    "title": "System Administrator",
+    "ministry": "CITZ",
+    "role": "admin",
+    "active": true
+  },
+  "testUser": {
+    "email": "mary@example.com",
+    "firstName": "Mary",
+    "lastName": "Mulnch",
+    "password": "P@ss0rd1",
+    "title": "Finance Analyst",
+    "ministry": "CITZ",
+    "role": "user",
+    "active": false
+  }
+}

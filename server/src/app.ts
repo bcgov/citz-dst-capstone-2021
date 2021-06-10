@@ -26,7 +26,7 @@ import passport from 'passport';
 // import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
 import { Strategy as CookieStrategy } from 'passport-cookie';
-import { connect, set, connection } from 'mongoose';
+import { connect, set, disconnect } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
@@ -72,15 +72,21 @@ class App {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public stop() {
-    connection.close();
+  public stop(): Promise<void> {
+    // When using Mongo Atlas database, it doesn't disconnect properly.
+    return disconnect().then(() => {
+      // eslint-disable-next-line no-console
+      console.log('all connections closed');
+    });
   }
 
   private connectToDatabase() {
     if (this.env !== 'production') {
       set('debug', true);
+      // eslint-disable-next-line no-console
+      console.log(`connecting to ${DBConfig.url}`);
     }
-    connect(DBConfig.url, DBConfig.options);
+    return connect(DBConfig.url, DBConfig.options);
   }
 
   private initializeMiddlewares() {
