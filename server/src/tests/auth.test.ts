@@ -24,7 +24,7 @@ import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
 import { User } from '@/interfaces/users.interface';
 
-const user = {
+const testUser = {
   email: 'mary@example.com',
   firstName: 'Mary',
   lastName: 'Mulnch',
@@ -39,11 +39,10 @@ const authRoute = new AuthRoute();
 const app = new App([authRoute]);
 const authUrl = authRoute.resource ? `${app.api_root}/${authRoute.resource}` : app.api_root;
 const userSvc = new UserService();
-const authSvc = new AuthService();
 
 afterAll(async () => {
   await userSvc
-    .findUserByEmail(user.email)
+    .findUserByEmail(testUser.email)
     .then(user => userSvc.deleteUser(user.id))
     .then(() => app.stop());
 });
@@ -51,13 +50,13 @@ afterAll(async () => {
 describe('Testing Auth', () => {
   describe('[POST] /signup', () => {
     it('allows a user to sign up', async () => {
-      return request(app.getServer()).post(`${authUrl}/signup`).send(user).expect(201);
+      return request(app.getServer()).post(`${authUrl}/signup`).send(testUser).expect(201);
     });
   });
 
   describe('[POST] /login', () => {
     it('authenticates user and set auth cookie', done => {
-      const userData = _.pick(user, ['email', 'password']);
+      const userData = _.pick(testUser, ['email', 'password']);
       request(app.getServer())
         .post(`${authUrl}/login`)
         .send(userData)
@@ -73,18 +72,18 @@ describe('Testing Auth', () => {
   describe('[POST] /logout', () => {
     it('logouts and remove auth cookie', () => {
       return userSvc
-        .findUserByEmail(user.email)
+        .findUserByEmail(testUser.email)
         .then(user => {
           expect(user).toBeDefined();
           const data = { id: user.id };
-          return authSvc.createToken(data as User, 600);
+          return AuthService.createToken(data as User, 600);
         })
         .then(({ token }) => {
           expect(token).toBeDefined();
           return request(app.getServer())
             .post(`${authUrl}/logout`)
             .set('Cookie', [`token=${token}`])
-            .send(user)
+            .send(testUser)
             .expect(200);
         });
     });

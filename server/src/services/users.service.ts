@@ -60,7 +60,7 @@ class UserService {
 
     if (userData.email) {
       const user: User = await this.users.findOne({ email: userData.email });
-      if (user && user.id != userId) {
+      if (user && user.id !== userId) {
         throw errorWithCode(`The email ${userData.email} already exists`, 409);
       }
     }

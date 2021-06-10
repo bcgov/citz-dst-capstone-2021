@@ -1,6 +1,6 @@
 {
-  "env": "production",
-  "dbConfig": {
+  "env": "test",
+  "db": {
       "host": "localhost",
       "database": "rdsi",
       "port": 27017

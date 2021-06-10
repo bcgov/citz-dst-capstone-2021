@@ -24,7 +24,9 @@ import validationMiddleware from '@middlewares/validation.middleware';
 
 class UsersRoute implements Route {
   public resource = 'users';
+
   public router = Router();
+
   public usersController = new UsersController();
 
   constructor() {

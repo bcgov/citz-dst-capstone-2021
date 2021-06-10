@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /**
  * Copyright © 2021 Province of British Columbia
  *

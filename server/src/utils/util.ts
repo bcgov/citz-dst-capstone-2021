@@ -16,25 +16,6 @@
 
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
-/**
- * @method isEmpty
- * @param {String | Number | Object} value
- * @returns {Boolean} true & false
- * @description check if it can be seen empty as a database field
- */
-export const isEmpty = (value: string | number | object): boolean => {
-  if (value === null) {
-    return true;
-  } else if (typeof value !== 'number' && value === '') {
-    return true;
-  } else if (value === 'undefined' || value === undefined) {
-    return true;
-  } else if (typeof value === 'object' && !Object.keys(value).length) {
-    return true;
-  }
-  return false;
-};
-
 export const checkIfEmpty = (value: string | number | object, name: string, code: number) => {
   if (
     value === null ||
