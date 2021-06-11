@@ -15,33 +15,17 @@
  */
 
 import request from 'supertest';
+
 import App from '@/app';
 import UsersRoute from '@routes/users.route';
 import { Role } from '@interfaces/roles.interface';
 import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
 
-const admin = {
-  email: 'admin@example.com',
-  firstName: 'Admin',
-  lastName: 'Istrator',
-  password: 'q1wK2Oe3r4!',
-  title: 'System Administrator',
-  ministry: 'CITZ',
-  role: Role.Admin,
-  active: false,
-};
+import { CreateUserDto } from '@dtos/users.dto';
+import testData from './testData.json';
 
-const testUser = {
-  email: 'mary@example.com',
-  firstName: 'Mary',
-  lastName: 'Mulnch',
-  password: 'q1wK2Oe3r4!',
-  title: 'Finance Analyst',
-  ministry: 'CITZ',
-  role: Role.User,
-  active: false,
-};
+const { admin, testUser } = testData;
 
 const usersRoute = new UsersRoute();
 const app = new App([usersRoute]);
@@ -51,13 +35,12 @@ const usersUrl = `${app.api_root}/${usersRoute.resource}`;
 let token = '';
 
 beforeAll(async () => {
-  await userSvc
-    .findUserByEmail(admin.email)
-    .catch(() => userSvc.createUser(admin))
-    .then(user => AuthService.createToken(user, 600))
-    .then(tokenData => {
-      token = tokenData.token;
-    });
+  let user = await userSvc.findUserByEmail(admin.email);
+  if (!user) {
+    user = await userSvc.createUser(admin as CreateUserDto);
+  }
+  const tokenData = await AuthService.createToken(user, 600);
+  token = tokenData.token;
 });
 
 afterAll(async () => {
