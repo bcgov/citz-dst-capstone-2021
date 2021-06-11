@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-import 'dotenv/config';
-import App from '@/app';
-import AuthRoute from '@routes/auth.route';
-import UsersRoute from '@routes/users.route';
-import ProjectsRoute from '@routes/projects.route';
+import { Project } from '@interfaces/project.interface';
+import { NextFunction, Request, Response } from 'express';
+import ProjectService from '@services/projects.service';
 
-import validateEnv from '@utils/validateEnv';
-
-validateEnv();
-
-const app = new App([new UsersRoute(), new AuthRoute(), new ProjectsRoute()]);
-
-if (require.main === module) {
-  // prevent from running in jest testing
-  app.listen();
-}
-
-export default app;
+export default {
+  async getProjects(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data: Project[] = await ProjectService.findAllProjects();
+      res.status(200).json({ data, message: 'projects' });
+    } catch (e) {
+      next(e);
+    }
+  },
+};

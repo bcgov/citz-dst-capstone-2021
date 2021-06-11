@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /**
  * Copyright © 2021 Province of British Columbia
  *
@@ -27,8 +26,6 @@ class UsersRoute implements Route {
 
   public router = Router();
 
-  public usersController = new UsersController();
-
   constructor() {
     this.initializeRoutes();
   }
@@ -36,22 +33,22 @@ class UsersRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('cookie', { session: false }), this.usersController.getUsers)
+      .get(passport.authenticate('cookie', { session: false }), UsersController.getUsers)
       .post(
         passport.authenticate('cookie', { session: false }),
         validationMiddleware(CreateUserDto, 'body'),
-        this.usersController.createUser,
+        UsersController.createUser,
       );
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('cookie', { session: false }), this.usersController.getUserById)
+      .get(passport.authenticate('cookie', { session: false }), UsersController.getUserById)
       .patch(
         passport.authenticate('cookie', { session: false }),
         validationMiddleware(CreateUserDto, 'body', true),
-        this.usersController.updateUser,
+        UsersController.updateUser,
       )
-      .delete(this.usersController.deleteUser);
+      .delete(UsersController.deleteUser);
   }
 }
 

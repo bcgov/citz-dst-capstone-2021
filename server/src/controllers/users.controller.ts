@@ -19,63 +19,59 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import UserService from '@services/users.service';
 
-class UsersController {
-  public userService = new UserService();
-
-  public getUsers = async (req: Request, res: Response, next: NextFunction) => {
+export default {
+  async getUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      const data: User[] = await this.userService.findAllUser();
+      const data: User[] = await UserService.findAllUsers();
 
       res.status(200).json({ data, message: 'findAll' });
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  async getUserById(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
-      const data: User = await this.userService.findUserById(userId);
+      const data: User = await UserService.findUserById(userId);
 
       res.status(200).json({ data, message: 'findOne' });
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public createUser = async (req: Request, res: Response, next: NextFunction) => {
+  async createUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userData: CreateUserDto = req.body;
-      const data: User = await this.userService.createUser(userData);
+      const data: User = await UserService.createUser(userData);
 
       res.status(201).json({ data, message: 'created' });
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
       const userData: CreateUserDto = req.body;
-      const data: User = await this.userService.updateUser(userId, userData);
+      const data: User = await UserService.updateUser(userId, userData);
 
       res.status(200).json({ data, message: 'updated' });
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
-      const data: User = await this.userService.deleteUser(userId);
+      const data: User = await UserService.deleteUser(userId);
 
       res.status(200).json({ data, message: 'deleted' });
     } catch (error) {
       next(error);
     }
-  };
-}
-
-export default UsersController;
+  },
+};
