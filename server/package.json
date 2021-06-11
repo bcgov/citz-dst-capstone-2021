@@ -8,7 +8,8 @@
     "start": "cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "tsc && tsc-alias",
-    "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles --runInBand",
+    "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles --runInBand --coverage",
+    "test:watch": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand --watch",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix"
   },
