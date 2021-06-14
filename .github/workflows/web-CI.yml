@@ -48,16 +48,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12"
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: Build
         run: |
           oc version
           oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
-          DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --git.branch.name=${{steps.extract_branch.outputs.branch}} --git.branch.ref=${{steps.extract_branch.outputs.branch}} --git.url=${{github.url}} --git.branch.remote=${{steps.extract_branch.outputs.branch}} 
+          DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --git.branch.name=${{GITHUB_HEAD_REF}} --git.branch.ref=${{GITHUB_HEAD_REF}} --git.url=${{github.url}} --git.branch.remote=${{GITHUB_HEAD_REF}} 
         env:
           CI: "true"
   deploy-to-dev:
@@ -83,4 +79,4 @@ jobs:
           oc version
           oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_URL }}
           npm ci
-          DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --env=dev --git.branch.name=${{steps.extract_branch.outputs.branch}} --git.branch.ref=${{steps.extract_branch.outputs.branch}} --git.url=${{github.url}} --git.branch.remote=${{steps.extract_branch.outputs.branch}} 
+          DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --env=dev --git.branch.name=${{GITHUB_HEAD_REF}} --git.branch.ref=${{GITHUB_HEAD_REF}} --git.url=${{github.url}} --git.branch.remote=${{GITHUB_HEAD_REF}} 
