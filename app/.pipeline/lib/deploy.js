@@ -16,7 +16,7 @@ module.exports = (settings)=>{
   mongoCredential['user'] = Buffer.from(mongoSecret.data['database-user'], 'base64').toString('utf-8');
   mongoCredential['pass'] = Buffer.from(mongoSecret.data['database-password'], 'base64').toString('utf-8');
 
-  const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
+  const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, './openshift'))
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/dc.yaml`, {
     'param':{
