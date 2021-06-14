@@ -143,6 +143,18 @@ paths:
         500:
           description: 'Server Error'
 
+  # [GET] users
+  /api/v1/projects:
+    get:
+      tags:
+        - projects
+      summary: Find all projects
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
 # [DELETE] users/id
     delete:
       tags:
@@ -202,6 +214,15 @@ definitions:
       role:
         type: string
         description: role in reporting process
+
+  project:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: title of the project
 schemes:
  - https
  - http

@@ -14,21 +14,29 @@
  * limitations under the License.
  */
 
-import 'dotenv/config';
-import App from '@/app';
-import AuthRoute from '@routes/auth.route';
-import UsersRoute from '@routes/users.route';
-import ProjectsRoute from '@routes/projects.route';
+import { Project } from '@interfaces/project.interface';
+import { Document, model, Schema } from 'mongoose';
 
-import validateEnv from '@utils/validateEnv';
+const projectSchema: Schema<Project> = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      versionKey: false,
+      virtuals: true,
+      transform: (doc, ret) => {
+        /* eslint-disable no-underscore-dangle */
+        /* eslint-disable no-param-reassign */
+        delete ret._id;
+      },
+    },
+    toObject: { virtuals: true },
+  },
+);
 
-validateEnv();
-
-const app = new App([new UsersRoute(), new AuthRoute(), new ProjectsRoute()]);
-
-if (require.main === module) {
-  // prevent from running in jest testing
-  app.listen();
-}
-
-export default app;
+export default model<Project & Document>('Project', projectSchema);

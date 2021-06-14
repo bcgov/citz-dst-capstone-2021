@@ -33,19 +33,17 @@ const authRoute = new AuthRoute();
 const usersRoute = new UsersRoute();
 const app = new App([authRoute, usersRoute]);
 const authUrl = authRoute.resource ? `${app.api_root}/${authRoute.resource}` : app.api_root;
-const userSvc = new UserService();
 
 beforeAll(async () => {
-  const user = await userSvc.findUserByEmail(testUser.email);
+  const user = await UserService.findUserByEmail(testUser.email);
   if (user) {
-    await userSvc.deleteUser(user.id);
+    await UserService.deleteUser(user.id);
   }
 });
 
 afterAll(async () => {
-  await userSvc
-    .findUserByEmail(testUser.email)
-    .then(user => userSvc.deleteUser(user.id))
+  await UserService.findUserByEmail(testUser.email)
+    .then(user => UserService.deleteUser(user.id))
     .then(() => app.stop());
 });
 
@@ -70,8 +68,8 @@ describe('Testing Auth', () => {
     it('updates password and login', async () => {
       // update user
       const userData = { ...testUser, password: `${testUser.password}2` } as CreateUserDto;
-      const user = await userSvc.findUserByEmail(userData.email);
-      await userSvc.updateUser(user.id, userData);
+      const user = await UserService.findUserByEmail(userData.email);
+      await UserService.updateUser(user.id, userData);
       // try login again
       const loginData = _.pick(userData, ['email', 'password']);
       return request(app.getServer()).post(`${authUrl}/login`).send(loginData).expect(200);
@@ -81,7 +79,7 @@ describe('Testing Auth', () => {
   describe('[POST] /logout', () => {
     it('logouts and remove auth cookie', async () => {
       // get a token
-      const user = await userSvc.findUserByEmail(testUser.email);
+      const user = await UserService.findUserByEmail(testUser.email);
       expect(user).toBeDefined();
       const data = { id: user.id };
       const { token } = await AuthService.createToken(data as User, 600);

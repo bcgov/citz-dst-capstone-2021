@@ -19,24 +19,20 @@ import { CreateUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
 
-class AuthController {
-  public authService = new AuthService();
-
-  public signUp = async (req: Request, res: Response, next: NextFunction) => {
+export default {
+  async signUp(req: Request, res: Response, next: NextFunction) {
     const userData: CreateUserDto = req.body;
-    return this.authService
-      .signup(userData)
+    return AuthService.signup(userData)
       .then(data => {
         return res.status(201).json({ data, message: 'signup' });
       })
       .catch(e => next(e));
-  };
+  },
 
-  public login = async (req: Request, res: Response, next: NextFunction) => {
+  async login(req: Request, res: Response, next: NextFunction) {
     const userData: CreateUserDto = req.body;
     // const { expiresIn, token, user } = await this.authService.login(userData);
-    return this.authService
-      .login(userData)
+    return AuthService.login(userData)
       .then(({ expiresIn, token, user }) => {
         const httpOnly = process.env.NODE_ENV === 'production';
         res.cookie('token', token, {
@@ -46,18 +42,15 @@ class AuthController {
         res.status(200).json({ token, user });
       })
       .catch(e => next(e));
-  };
+  },
 
-  public logout = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  async logout(req: RequestWithUser, res: Response, next: NextFunction) {
     const { user } = req;
-    return this.authService
-      .logout(user)
+    return AuthService.logout(user)
       .then(() => {
         res.cookie('token', '');
         res.status(200).json({ data: '', message: 'logout' });
       })
       .catch(e => next(e));
-  };
-}
-
-export default AuthController;
+  },
+};

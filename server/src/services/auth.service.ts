@@ -21,56 +21,51 @@ import { errorWithCode } from '@bcgov/common-nodejs-utils';
 import { CreateUserDto, LoginDto } from '@dtos/users.dto';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
-import userModel from '@models/users.model';
+import UserModel from '@models/users.model';
 import { checkIfEmpty } from '@utils/util';
 import bcrypt from 'bcrypt';
 
-class AuthService {
-  public users = userModel;
-
-  public async signup(userData: CreateUserDto): Promise<User> {
+export default {
+  async signup(userData: CreateUserDto): Promise<User> {
     checkIfEmpty(userData, 'user', 400);
 
-    const user = this.users.findOne({ email: userData.email });
-    if (!user) {
+    const user = await UserModel.findOne({ email: userData.email });
+    if (user) {
       throw errorWithCode('the email already exists', 409);
     }
     const password = await bcrypt.hash(userData.password, 12);
-    return this.users.create({ ...userData, password });
-  }
+    return UserModel.create({ ...userData, password });
+  },
 
-  public async login(userData: LoginDto): Promise<{ expiresIn: number; token: string; user: User }> {
+  async login(userData: LoginDto): Promise<{ expiresIn: number; token: string; user: User }> {
     checkIfEmpty(userData, 'user', 400);
-    return this.users.findOne({ email: userData.email }).then(user => {
+    return UserModel.findOne({ email: userData.email }).then(user => {
       if (!user) throw errorWithCode(`user not found`, 409);
       return user.verifyPassword(userData.password).then(result => {
         if (result) {
-          const tokenData = AuthService.createToken(user, 10 * 60 * 1000);
+          const tokenData = this.createToken(user, 10 * 60 * 1000);
           return { user, ...tokenData };
         }
         throw errorWithCode(`user not found`, 409);
       });
     });
-  }
+  },
 
-  public async logout(user: User): Promise<void> {
+  async logout(user: User): Promise<void> {
     checkIfEmpty(user, 'user', 400);
-    return this.users
-      .findOne({ email: user.email })
+    return UserModel.findOne({ email: user.email })
       .then(() => {
         // what should be done when the user logs out
       })
       .catch(e => {
         throw errorWithCode(`user not found: ${e.message}`, 409);
       });
-  }
+  },
 
-  public static createToken(user: User, expiresIn: number): TokenData {
+  createToken(user: User, expiresIn: number): TokenData {
     const dataStoredInToken: DataStoredInToken = { id: user.id };
     const secret: string = config.get('secretKey');
     const token = jwt.sign(dataStoredInToken, secret, { expiresIn });
     return { expiresIn, token };
-  }
-}
-
-export default AuthService;
+  },
+};

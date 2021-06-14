@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-import 'dotenv/config';
-import App from '@/app';
-import AuthRoute from '@routes/auth.route';
-import UsersRoute from '@routes/users.route';
-import ProjectsRoute from '@routes/projects.route';
+import { Router } from 'express';
+import passport from 'passport';
+import Route from '@interfaces/routes.interface';
+import ProjectsController from '@controllers/projects.controller';
 
-import validateEnv from '@utils/validateEnv';
+class ProjectsRoute implements Route {
+  resource = 'projects';
 
-validateEnv();
+  router = Router();
 
-const app = new App([new UsersRoute(), new AuthRoute(), new ProjectsRoute()]);
+  constructor() {
+    this.initializeRoutes();
+  }
 
-if (require.main === module) {
-  // prevent from running in jest testing
-  app.listen();
+  private initializeRoutes() {
+    this.router.route('/').get(passport.authenticate('cookie', { session: false }), ProjectsController.getProjects);
+  }
 }
 
-export default app;
+export default ProjectsRoute;
