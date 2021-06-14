@@ -48,9 +48,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12"
-      - name: npm install and build
+      - name: Build
         run: |
           oc version
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_URL }}
           npm ci
           npm run build -- --pr=${{ github.event.pull_request.number }}
         env:
@@ -75,4 +76,7 @@ jobs:
           node-version: "12"
       - name: Deploy the image
         run: |
+          oc version
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_URL }}
+          npm ci
           npm run build -- --pr=${{ github.event.pull_request.number }} --env=dev
