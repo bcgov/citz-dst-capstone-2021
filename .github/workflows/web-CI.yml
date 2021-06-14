@@ -53,7 +53,7 @@ jobs:
           oc version
           oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_SERVER_URL }}
           npm ci
-          npm run build -- --pr=${{ github.event.pull_request.number }}
+          DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --git.branch.name=${{github.ref}} --git.branch.ref=${{github.ref}} --git.url=${{github.url}} --git.branch.remote=${{github.ref}}
         env:
           CI: "true"
   deploy-to-dev:
@@ -79,4 +79,4 @@ jobs:
           oc version
           oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_URL }}
           npm ci
-          npm run build -- --pr=${{ github.event.pull_request.number }} --env=dev
+          DEBUG=* npm run build -- --pr=${{ github.event.pull_request.number }} --env=dev
