@@ -50,6 +50,7 @@ jobs:
           node-version: "12"
       - name: npm install and build
         run: |
+          oc version
           npm ci
           npm run build -- --pr=${{ github.event.pull_request.number }}
         env:
