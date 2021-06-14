@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./.pipeline
+        working-directory: ./app/.pipeline
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -59,7 +59,7 @@ jobs:
     needs: [build]
     defaults:
       run:
-        working-directory: ./.pipeline
+        working-directory: ./app/.pipeline
     steps:
 
       # Build the image using the specified build config
