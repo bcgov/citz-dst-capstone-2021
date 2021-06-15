@@ -1,6 +1,6 @@
 #This is a basic workflow to help you get started with Actions
 
-name: promote-to-Test
+name: promote-to-test
 
 # Controls when the action will run. 
 on:
@@ -38,7 +38,7 @@ jobs:
   #     #     ./cc-test-reporter upload-coverage -i codeclimate.json
 
   deploy-to-test:
-    if: contains(github.event.comment.html_url, '/promote-to-test/')
+    if: contains(github.event.comment.body, 'promote-to-test')
     runs-on: ubuntu-latest
     defaults:
       run:
