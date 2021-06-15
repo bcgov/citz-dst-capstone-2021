@@ -4,8 +4,6 @@ name: promote-to-Test
 
 # Controls when the action will run. 
 on:
-  pull_request:
-    branches: [main]
   pull_request_review_comment:
     types: ['created']
   
@@ -57,6 +55,8 @@ jobs:
         with:
           trigger: '@promote-to-test'
           reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GIT_TOKEN }}'
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
