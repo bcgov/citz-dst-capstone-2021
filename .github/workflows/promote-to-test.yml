@@ -38,7 +38,6 @@ jobs:
   #     #     ./cc-test-reporter upload-coverage -i codeclimate.json
 
   deploy-to-test:
-    if: contains(github.event.comment.body, 'promote-to-test')
     runs-on: ubuntu-latest
     defaults:
       run:
