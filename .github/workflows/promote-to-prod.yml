@@ -1,0 +1,71 @@
+#This is a basic workflow to help you get started with Actions
+
+name: promote-to-prod
+
+# Controls when the action will run. 
+on:
+  pull_request:
+    branches: [main]
+  pull_request_review_comment:
+    types: ['created']
+  
+defaults:
+  run:
+    working-directory: ./app
+
+jobs:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "12"
+  #     - name: Install dependencies
+  #       run: npm ci
+  #     - name: Unit tests w/ coverage
+  #       run: npm run test -- --coverage --passWithNoTests
+  #     - name: LINTing
+  #       run: npm run lint -- --quiet -f codeframe
+  #     - name: Prettier
+  #       run: npm run format -- --check
+  #     # - name: Upload coverage report
+  #     #   env:
+  #     #     CC_TEST_REPORTER_ID: ${{ secrets.TestReporterID }}
+  #     #     CI: "true"
+  #     #   run: |
+  #     #     curl -Ls https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  #     #     chmod +x ./cc-test-reporter
+  #     #     ./cc-test-reporter format-coverage -t lcov -o codeclimate.json
+  #     #     ./cc-test-reporter upload-coverage -i codeclimate.json
+
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app/.pipeline
+    steps:
+
+      # Build the image using the specified build config
+      # Get its build ID
+      # Get the commit ID of that build
+      # Get the SHA256 signature of the image
+      # Tag the image with the commit ID and "dev"
+      # ------------------------------------------------
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '@promote-to-prod'
+          reaction: rocket
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - name: Deploy the image
+        run: |
+          oc version
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN}} --server=${{ secrets.OPENSHIFT_URL }}
+          npm ci
+          DEBUG=* npm run deploy -- --pr=${{ github.event.pull_request.number }} --env=prod --git.branch.name=${{github.head_ref}} --git.ref=${{github.head_ref}}
+        if: steps.check.outputs.triggered == 'true'
+
