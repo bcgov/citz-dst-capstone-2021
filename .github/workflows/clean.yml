@@ -38,6 +38,7 @@ jobs:
   #     #     ./cc-test-reporter upload-coverage -i codeclimate.json
 
   deploy-to-prod:
+    if: contains(github.event.comment.html_url, '/clean/')
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -50,13 +51,7 @@ jobs:
       # Get the SHA256 signature of the image
       # Tag the image with the commit ID and "dev"
       # ------------------------------------------------
-      - uses: khan/pull-request-comment-trigger@master
-        id: check
-        with:
-          trigger: '@clean'
-          reaction: rocket
-        env:
-          GITHUB_TOKEN: '${{ secrets.GIT_TOKEN }}'
+
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
