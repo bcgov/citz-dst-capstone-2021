@@ -55,7 +55,7 @@ jobs:
       - uses: khan/pull-request-comment-trigger@master
         id: check
         with:
-          trigger: '@promote-to-test'
+          trigger: promote-to-test
 
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
