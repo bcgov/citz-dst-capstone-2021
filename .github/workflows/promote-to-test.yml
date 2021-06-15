@@ -4,8 +4,10 @@ name: promote-to-test
 
 # Controls when the action will run. 
 on:
-  pull_request_review_comment:
-    types: ['created']
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
   
 defaults:
   run:
@@ -50,6 +52,10 @@ jobs:
       # Get the SHA256 signature of the image
       # Tag the image with the commit ID and "dev"
       # ------------------------------------------------
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: '@promote-to-test'
 
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
