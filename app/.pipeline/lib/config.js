@@ -31,10 +31,10 @@ const phases = {
     name: `${name}`,
     phase: 'test',
     changeId: changeId,
-    suffix: `-test-${changeId}`,
-    instance: `${name}-test-${changeId}`,
-    version: `${version}-${changeId}`,
-    tag: `test-${version}-${changeId}`
+    suffix: `-test`,
+    instance: `${name}-test`,
+    version: `${version}`,
+    tag: `test-${version}`
   },
   prod: {
     namespace: 'adccd1-prod',
