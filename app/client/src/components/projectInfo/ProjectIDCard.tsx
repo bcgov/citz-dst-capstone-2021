@@ -38,16 +38,16 @@ const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
     CPS = '',
     ministryProjectNumber = ''
   } = props;
-}
-
-return (
-  <Flex alignItems="left" justifyContent="center" flexDirection="column">
-    <Box width={2 / 3}>
-      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={500} mb={3}>
-        {name}
-      </Text>
-    </Box>
-  </Flex>
-);
+  
+  return (
+    <Flex alignItems="left" justifyContent="center" flexDirection="column">
+      <Box width={2 / 3}>
+        <Text as="h2" fontSize={[3, 4, 4]} fontWeight={500} mb={3}>
+          {name}
+        </Text>
+      </Box>
+    </Flex>
+  );
+};
 
 export default ProjectIDCard;
