@@ -36,6 +36,8 @@ import Routes from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 
 import User from '@models/users.model';
+import * as path from 'path';
+import * as fs from 'fs';
 
 class App {
   public readonly api_root = '/api/v1';
@@ -95,7 +97,13 @@ class App {
     this.app.use(cors({ origin: config.get('apiUrl'), credentials: true }));
 
     this.app.use(hpp());
-    this.app.use(helmet());
+    this.app.use(
+      helmet({
+        // TODO: (shp) to be fixed. if csp is enabled, it causes the following error in the browser.
+        // 'Refused to execute inline script because it violates the following Content Security Policy directive'
+        contentSecurityPolicy: false,
+      }),
+    );
     this.app.use(compression());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
@@ -131,6 +139,19 @@ class App {
   private initializeRoutes(routes: Routes[]) {
     routes.forEach(route => {
       this.app.use(`${this.api_root}/${route.resource}`, route.router);
+    });
+
+    // serve react pages if it exists
+    const webPath = path.join(__dirname, '../web');
+    fs.access(webPath, fs.constants.R_OK, e => {
+      this.app.use(express.static(webPath));
+      this.app.get('/*', function (req, res) {
+        res.sendFile(path.join(webPath, 'index.html'), function (err) {
+          if (err) {
+            res.status(500).send(err);
+          }
+        });
+      });
     });
   }
 
