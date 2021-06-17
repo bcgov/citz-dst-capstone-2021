@@ -9,6 +9,36 @@
     "role": "admin",
     "active": true
   },
+  "sponsor": {
+    "email": "sponsor@example.com",
+    "firstName": "Sponsor",
+    "lastName": "RDSI",
+    "password": "P@ssw0rd1",
+    "title": "Sponsor",
+    "ministry": "CITZ",
+    "role": "user",
+    "active": true
+  },
+  "sponsor": {
+    "email": "manager@example.com",
+    "firstName": "Manager",
+    "lastName": "RDSI",
+    "password": "P@ssw0rd1",
+    "title": "Manager",
+    "ministry": "CITZ",
+    "role": "submitter",
+    "active": true
+  },
+  "sponsor": {
+    "email": "finance@example.com",
+    "firstName": "Finance",
+    "lastName": "RDSI",
+    "password": "P@ssw0rd1",
+    "title": "Financial Analyst",
+    "ministry": "CITZ",
+    "role": "fa",
+    "active": true
+  },
   "testUser": {
     "email": "mary@example.com",
     "firstName": "Mary",
@@ -18,5 +48,21 @@
     "ministry": "CITZ",
     "role": "user",
     "active": false
-  }
+  },
+  "projects": [
+    {
+      "name": "Test Project",
+      "cpsIdentifier": "LCTZSSA6581",
+      "projectNumber": "N/A",
+      "description": "Test project description",
+      "ministry": "Citizens' Services",
+      "program": "Test project program",
+      "sponsor": "60caa6fee7cf1742d87d30f3",
+      "manager": "60caa6f1e7cf1742d87d30f2",
+      "financialContact": "60caa6dee7cf1742d87d30f1",
+      "start": "2020-06-17T01:35:45.782Z",
+      "progress": 0,
+      "phase": "project phase"
+    }
+  ]
 }

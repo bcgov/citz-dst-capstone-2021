@@ -144,9 +144,13 @@ class App {
     // serve react pages if it exists
     const webPath = path.join(__dirname, '../web');
     fs.access(webPath, fs.constants.R_OK, e => {
+      if (e) {
+        logger.warn('web resources not found');
+        return;
+      }
       this.app.use(express.static(webPath));
-      this.app.get('/*', function (req, res) {
-        res.sendFile(path.join(webPath, 'index.html'), function (err) {
+      this.app.get('/*', (req, res) => {
+        res.sendFile(path.join(webPath, 'index.html'), err => {
           if (err) {
             res.status(500).send(err);
           }
@@ -158,6 +162,7 @@ class App {
   private initializeSwagger() {
     const options = {
       swaggerDefinition: {
+        openapi: '3.0.0',
         info: {
           title: 'REST API',
           version: '1.0.0',
