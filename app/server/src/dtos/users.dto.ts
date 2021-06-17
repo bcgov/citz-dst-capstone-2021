@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 /**
  * Copyright © 2021 Province of British Columbia
  *
@@ -15,6 +14,7 @@
  * limitations under the License.
  */
 
+/* eslint-disable-next-line max-classes-per-file */
 import { IsBoolean, IsEmail, IsEnum, IsString, MaxLength, MinLength, Matches, IsOptional } from 'class-validator';
 import { Role } from '@interfaces/roles.interface';
 

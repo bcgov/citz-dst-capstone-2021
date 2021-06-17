@@ -46,8 +46,8 @@ export default {
       throw errorWithCode(`The email ${userData.email} already exists`, 409);
     }
 
-    // TODO: (shp) We could use mongoose middleware
     const password = await bcrypt.hash(userData.password, 12);
+    // @ts-ignore
     const createUserData: User = await UserModel.create({ ...userData, password });
 
     return createUserData;
@@ -66,7 +66,7 @@ export default {
     return user;
   },
 
-  async deleteUser(userId: string): Promise<User> {
+  deleteUser(userId: string): Promise<User> {
     return UserModel.findByIdAndDelete(userId).catch(e => {
       throw errorWithCode(`Unable to delete user: ${e.message}`, 500);
     });
