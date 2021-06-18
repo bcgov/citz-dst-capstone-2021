@@ -3,6 +3,7 @@ info:
   title: RDSI API
   description: RDSI API
   version: 1.0.0
+  # TODO: (nick) need to update descriptions and summaries
 
 servers:
   - url: https://rdsi-client.adccd1-prod.apps.silver.devops.gov.bc.ca/api/v1
@@ -14,215 +15,365 @@ paths:
   /api/v1/signup:
     post:
       tags:
-        - auth
-        - users
+        - Auth
+        - Users
       summary: Sign up with user profile
-      parameters:
-        - name: body
-          in: body
-          description: user data
-          required: true
-          schema:
-            $ref: '#/definitions/users'
+      requestBody:
+        description: userdata
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
       responses:
         201:
-          description: 'Created'
+          description: "Created"
         400:
-          description: 'Bad Request'
+          description: "Bad Request"
         409:
-          description: 'Conflict'
+          description: "Conflict"
         500:
-          description: 'Server Error'
-
+          description: "Server Error"
 
   /api/v1/login:
     post:
       tags:
-      - auth
+        - Auth
       summary: Login with email and password
-      parameters:
-      - name: body
-        in: body
-        description: login data
+      requestBody:
+        description: userdata
         required: true
-        schema:
-          $ref: '#/definitions/login'
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
       responses:
         200:
-          description: 'OK'
+          description: "OK"
         409:
-          description: 'Conflict'
+          description: "Conflict"
 
   /api/v1/logout:
     post:
       tags:
-        - auth
+        - Auth
       summary: Log out with auth
       responses:
         200:
-          description: 'OK'
+          description: "OK"
         401:
-          description: 'Unauthorized'
+          description: "Unauthorized"
 
-# [GET] users
   /api/v1/users:
+    # [GET] users
     get:
       tags:
-        - users
+        - Users
       summary: Find All Users
       responses:
         200:
-          description: 'OK'
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         500:
-          description: 'Server Error'
+          description: "Server Error"
 
-# [POST] users
+    # [POST] users
     post:
       tags:
-       - users
+        - Users
       summary: Add User
-      parameters:
-        - name: body
-          in: body
-          description: user data
-          required: true
-          schema:
-            $ref: '#/definitions/users'
+      requestBody:
+        description: userdata
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
       responses:
         201:
-          description: 'Created'
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         400:
-          description: 'Bad Request'
+          description: Bad Request
         409:
-          description: 'Conflict'
+          description: Conflict
         500:
-          description: 'Server Error'
+          description: Server Error
 
-# [GET] users/id
   /api/v1/users/{id}:
+    # [GET] users/id
     get:
       tags:
-      - users
+        - Users
       summary: Find User By Id
       parameters:
-      - name: id
-        in: path
-        description: User Id
-        required: true
+        - name: id
+          in: path
+          description: User Id
+          required: true
       responses:
         200:
-          description: 'OK'
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         409:
-          description: 'Conflict'
+          description: "Conflict"
         500:
-          description: 'Server Error'
+          description: "Server Error"
 
-# [PATCH] users/id
+    # [PATCH] users/id
     patch:
       tags:
-      - users
+        - Users
       summary: Update User By Id
       parameters:
-      - name: id
-        in: path
-        description: user Id
-        required: true
-      - name: body
-        in: body
+        - name: id
+          in: path
+          type: string
+          description: user Id
+          required: true
+      requestBody:
         description: user data
         required: true
-        schema:
-          $ref: '#/definitions/users'
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateRequest"
       responses:
         200:
-          description: 'OK'
+          description: "OK"
         400:
-          description: 'Bad Request'
+          description: "Bad Request"
         409:
-          description: 'Conflict'
+          description: "Conflict"
         500:
-          description: 'Server Error'
+          description: "Server Error"
 
-  # [GET] users
+    # [DELETE] users/id
+    delete:
+      tags:
+        - Users
+      summary: Delete User By Id
+      parameters:
+        - name: id
+          in: path
+          description: user Id
+          required: true
+      responses:
+        200:
+          description: "OK"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
+
+  # [GET] projects
   /api/v1/projects:
     get:
       tags:
-        - projects
+        - Projects
       summary: Find all projects
       responses:
         200:
-          description: 'OK'
+          description: OK
         500:
-          description: 'Server Error'
-
-# [DELETE] users/id
-    delete:
+          description: Server Error
+    post:
       tags:
-      - users
-      summary: Delete User By Id
-      parameters:
-      - name: id
-        in: path
-        description: user Id
+        - Projects
+      summary: Add project
+      requestBody:
+        description: project data
         required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectCreateRequest"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        400:
+          description: Bad Request
+        409:
+          description: Conflict
+        500:
+          description: Server Error
+
+  /api/v1/projects/{id}:
+    # [GET] projects/id
+    get:
+      tags:
+        - Projects
+      summary: Find all projects
       responses:
         200:
-          description: 'OK'
-        409:
-          description: 'Conflict'
+          description: OK
         500:
-          description: 'Server Error'
+          description: Server Error
+    # [PATCH] projects/id
+    patch:
+      tags:
+        - Projects
+      summary: Update a project by id
+      parameters:
+        - name: id
+          in: path
+          description: project id
+          required: true
+      requestBody:
+        description: project data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectCreateRequest"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
 
-# definitions
-definitions:
-  login:
-    type: object
-    required:
-      - email
-      - password
-    properties:
-      email:
-        type: string
-        description: email
-      password:
-        type: string
-        description: password - 8 ~ 20 lowercase, uppercase, and numbers or special characters
-  users:
-    type: object
-    required:
+    # [DELETE] projects/id
+    delete:
+      tags:
+        - Projects
+      summary: Delete a project by ID
+      parameters:
+        - name: id
+          in: path
+          description: project id
+          required: true
+      responses:
+        200:
+          description: "OK"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
+
+components:
+  #-------------------------------
+  # Reusable schemas (data models)
+  #-------------------------------
+  schemas:
+    LoginRequest:
+      type: object
+      required:
         - email
         - password
-    properties:
-      email:
-        type: string
-        description: email
-      password:
-        type: string
-        description: password - 8 ~ 20 lowercase, uppercase, and numbers or special characters
-      firstName:
-        type: string
-        description: first name
-      lastName:
-        type: string
-        description: last name
-      title:
-        type: string
-        description: job title
-      ministry:
-        type: string
-        description: ministry
-      role:
-        type: string
-        description: role in reporting process
+      properties:
+        email:
+          type: string
+          description: email
+        password:
+          type: string
+          description: password - 8 ~ 20 lowercase, uppercase, and numbers or special characters
+    User:
+      type: object
+      required: # TODO: (nick) it is not for 'update user'. how to apply 'required' conditionally?
+        - email
+        - password
+      properties:
+        firstName:
+          type: string
+          description: first name
+        lastName:
+          type: string
+          description: last name
+        title:
+          type: string
+          description: job title
+        ministry:
+          type: string
+          description: ministry
+        role:
+          type: string
+          description: role in reporting process
 
-  project:
-    type: object
-    required:
-      - name
-    properties:
-      name:
-        type: string
-        description: title of the project
+    UserCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/LoginRequest'
+        - $ref: '#/components/schemas/User'
+
+    ProjectCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: project name
+        cpsIdentifier:
+          type: string
+          description: cpsIdentifier
+        projectNumber:
+          type: string
+          description: project number
+        description:
+          type: string
+          description: project description
+        ministry:
+          type: string
+          description: project ministry
+        program:
+          type: string
+          description: project program
+        sponsor:
+          type: string
+          description: project sponsor's id
+        manager:
+          type: string
+          description: project manager's id
+        financialContact:
+          type: string
+          description: project financialContact's id
+        start:
+          type: string
+          description: project start date
+        end:
+          type: string
+          description: project end date
+        estimatedEnd:
+          type: string
+          description: project estimated end date
+        progress:
+          type: number
+          description: project progress
+        phase:
+          type: string
+          description: project phase
+
+    Project:
+      allOf:
+        - $ref: '#/components/schemas/ProjectCreateRequest'
+        - type: object
+          properties:
+            sponsor:
+              description: project sponsor
+              $ref: '#/components/schemas/User'
+            manager:
+              description: project manager
+              $ref: '#/components/schemas/User'
+            financialContact:
+              description: project financialContact
+              $ref: '#/components/schemas/User'
+
 schemes:
- - https
- - http
+  - https
+  - http

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /**
  * Copyright © 2021 Province of British Columbia
  *
@@ -26,4 +27,5 @@ module.exports = {
   },
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/' }),
   testTimeout: 10000,
+  globalSetup: './src/tests/globalSetup.ts',
 };

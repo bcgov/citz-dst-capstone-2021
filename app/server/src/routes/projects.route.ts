@@ -18,6 +18,8 @@ import { Router } from 'express';
 import passport from 'passport';
 import Route from '@interfaces/routes.interface';
 import ProjectsController from '@controllers/projects.controller';
+import validationMiddleware from '@middlewares/validation.middleware';
+import CreateProjectDTO from '@dtos/projects.dto';
 
 class ProjectsRoute implements Route {
   resource = 'projects';
@@ -29,7 +31,23 @@ class ProjectsRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.route('/').get(passport.authenticate('cookie', { session: false }), ProjectsController.getProjects);
+    this.router
+      .route('/')
+      .get(passport.authenticate('cookie', { session: false }), ProjectsController.getProjects)
+      .post(
+        passport.authenticate('cookie', { session: false }),
+        validationMiddleware(CreateProjectDTO, 'body'),
+        ProjectsController.createProject,
+      );
+
+    this.router
+      .route('/:id')
+      .delete(passport.authenticate('cookie', { session: false }), ProjectsController.deleteProject)
+      .patch(
+        passport.authenticate('cookie', { session: false }),
+        validationMiddleware(CreateProjectDTO, 'body', true),
+        ProjectsController.updateProject,
+      );
   }
 }
 
