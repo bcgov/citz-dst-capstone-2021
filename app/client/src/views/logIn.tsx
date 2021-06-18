@@ -17,12 +17,13 @@
 // import { useKeycloak } from '@react-keycloak/web';
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import CreateFormMetadata from "../components/profileCreate/CreateFormMetadata";
-import CreateFormMigration from "../components/profileCreate/CreateFormMigration";
-import CreateFormPO from "../components/profileCreate/CreateFormPO";
-import CreateFormProject from "../components/profileCreate/CreateFormProject";
-import CreateFormRequest from "../components/profileCreate/CreateFormRequest";
-import CreateFormTC from "../components/profileCreate/CreateFormTC";
+import LoginForm from "../components/login/LoginForm";
+//import CreateFormMetadata from "../components/profileCreate/CreateFormMetadata";
+//import CreateFormMigration from "../components/profileCreate/CreateFormMigration";
+//import CreateFormPO from "../components/profileCreate/CreateFormPO";
+//import CreateFormProject from "../components/profileCreate/CreateFormProject";
+//import CreateFormRequest from "../components/profileCreate/CreateFormRequest";
+//import CreateFormTC from "../components/profileCreate/CreateFormTC";
 import { ROUTE_PATHS } from "../constants";
 import useCommonState from "../hooks/useCommonState";
 import useRegistryApi from "../hooks/useRegistryApi";
@@ -94,22 +95,7 @@ const ProfileCreate: React.FC = () => {
   return (
     <Wizard onSubmit={onSubmit}>
       <WizardPage>
-        <CreateFormProject ministry={ministry} cluster={cluster} />
-      </WizardPage>
-      <WizardPage>
-        <CreateFormMigration />
-      </WizardPage>
-      <WizardPage>
-        <CreateFormMetadata />
-      </WizardPage>
-      <WizardPage>
-        <CreateFormPO />
-      </WizardPage>
-      <WizardPage>
-        <CreateFormTC />
-      </WizardPage>
-      <WizardPage>
-        <CreateFormRequest />
+        <LoginForm />
       </WizardPage>
     </Wizard>
   );

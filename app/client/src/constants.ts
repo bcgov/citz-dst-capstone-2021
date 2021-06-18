@@ -5,6 +5,7 @@ export const ROUTE_PATHS = {
   // DASHBOARD: "/",
   PROFILE_CREATE: "/profile/create",
   PROFILE_EDIT: "/profile/:profileId/:viewName",
+  LOGIN_PAGE: "/login"
 };
 
 export const PROFILE_EDIT_VIEW_NAMES = {

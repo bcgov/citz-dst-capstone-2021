@@ -25,6 +25,7 @@ import { NotFound } from "./views/NotFound";
 import ProfileCreate from "./views/ProfileCreate";
 import ProfileEdit from "./views/ProfileEdit";
 import { PublicLanding } from "./views/PublicLanding";
+import Login from "./views/logIn";
 
 const browserHistory = createBrowserHistory();
 
@@ -40,6 +41,7 @@ const AppRouter: React.FC = () => {
       <Switch>
         <Redirect exact from="/" to={ROUTE_PATHS.LANDING} />
         <AppRoute path={ROUTE_PATHS.LANDING} component={PublicLanding} />
+        <AppRoute path={ROUTE_PATHS.LOGIN_PAGE} component={Login} />
         <AppRoute
           protected
           exact
