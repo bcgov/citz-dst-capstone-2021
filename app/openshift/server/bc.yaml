@@ -68,7 +68,7 @@ objects:
       resources: {}
       runPolicy: Serial
       source:
-        contextDir: app/server
+        contextDir: app
         git:
           ref: ${GIT_BRANCH}
           uri: ${GIT_URL}

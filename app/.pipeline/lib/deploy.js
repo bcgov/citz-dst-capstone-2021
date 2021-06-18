@@ -17,16 +17,16 @@ module.exports = (settings)=>{
   mongoCredential['pass'] = Buffer.from(mongoSecret.data['database-password'], 'base64').toString('utf-8');
 
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../openshift'))
-
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/dc.yaml`, {
-    'param':{
-      'NAME': `${phases[phase].name}-client`,
-      'SUFFIX': phases[phase].suffix,
-      'VERSION': phases[phase].tag,
-      'NAMESPACE': phases[phase].namespace,
-      'PORT': 8080,
-    }
-  }))
+  //
+  // objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/client/dc.yaml`, {
+  //   'param':{
+  //     'NAME': `${phases[phase].name}-client`,
+  //     'SUFFIX': phases[phase].suffix,
+  //     'VERSION': phases[phase].tag,
+  //     'NAMESPACE': phases[phase].namespace,
+  //     'PORT': 8080,
+  //   }
+  // }))
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/server/dc.yaml`, {
     'param':{
