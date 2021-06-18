@@ -16,38 +16,29 @@
 
 import React from 'react';
 import { Box, Flex, Text } from 'rebass';
-import theme from '../../theme';
-import NewlineText from '../common/UI/NewLineText';
-import PendingLabel from '../common/UI/PendingLabel';
 
-interface IProjectIDCardProps {
-  name?: string;
-  description?: string;
-  ministry?: string;
-  program?: string;
-  CPS?: string;
-  ministryProjectNumber?: string;
+interface ICardItem {
+  label?: string;
+  content?: string;
 }
-
-const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
+const CardItem: React.FC<ICardItem> = (props) => {
   const {
-    name = '',
-    description = '',
-    ministry = '',
-    program = '',
-    CPS = '',
-    ministryProjectNumber = ''
+    label = '',
+    content = ''
   } = props;
-  
+
   return (
-    <Flex alignItems="left" justifyContent="center" flexDirection="column">
-      <Box width={2 / 3}>
-        <Text as="h2" fontSize={[3, 4, 4]} fontWeight={500} mb={3}>
-          {name}
-        </Text>
-      </Box>
+    <Box width={3 / 4}>
+    <Flex flexDirection="row" justifyContent="space-between">
+      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} mb={3}>
+      {label}
+      </Text>
+      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={500} mb={3}>
+      {content}
+      </Text>
     </Flex>
+    </Box>
   );
 };
 
-export default ProjectIDCard;
+export default CardItem;
