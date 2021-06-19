@@ -14,14 +14,58 @@
  * limitations under the License.
  */
 
-import { Project } from '@interfaces/project.interface';
 import { Document, model, Schema } from 'mongoose';
+import { Project } from '@interfaces/project.interface';
 
 const projectSchema: Schema<Project> = new Schema(
   {
     name: {
       type: String,
       required: true,
+    },
+    // version to handle changes in the schema structure
+    _schema: {
+      type: Number,
+    },
+    cpsIdentifier: {
+      type: String,
+      required: true,
+    },
+    projectNumber: {
+      type: String,
+    },
+    ministry: {
+      type: String,
+      required: true,
+    },
+    sponsor: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    manager: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    financialContact: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    start: {
+      type: Date,
+      required: true,
+    },
+    end: {
+      type: Date,
+    },
+    estimatedEnd: {
+      type: Date,
+    },
+    progress: {
+      type: Number,
+      required: true,
+    },
+    phase: {
+      type: String,
     },
   },
   {
