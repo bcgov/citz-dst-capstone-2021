@@ -24,6 +24,8 @@ import { ShadowBox } from "../components/common/UI/ShadowContainer";
 import Table from "../components/common/UI/Table";
 import ProfileCard from "../components/dashboard/ProfileCard";
 import ProjectIDCard from "../components/projectDetails/ProjectIDCard";
+import ProjectProgressCard from "../components/projectDetails/ProjectProgressCard";
+import ProjectContactCard from "../components/projectDetails/ProjectContactCard";
 import ProjectRequests from "../components/dashboard/ProjectRequests";
 import { COMPONENT_METADATA, CSV_PROFILE_ATTRIBUTES } from "../constants";
 import useCommonState from "../hooks/useCommonState";
@@ -40,15 +42,21 @@ import {
 } from "../utils/transformDataHelper";
 
 // Test data to populate project detail views
+// I am just rendering from the dashboard for now
 const testData = {
   'name' : 'Example Project',
   'description' : 'Quarterly report dashboard and management system',
   'ministry' : 'Citizen Services',
   'program' : 'Digital Investment Office',
   'CPS' : 'LCTXXXXXXXXX',
-  'ministryProjectNumber' : 'ITAXXXXXX'
+  'ministryProjectNumber' : 'ITAXXXXXX',
+  'sponsor' : 'John Doe',
+  'manager' : 'Jane Doe',
+  'financialContact' : 'Jane Doe',
+  'phase' : 'Phase 1 Year 20/21',
+  'completionDate' : '05-25-2021',
+  'percentComplete' : 65
 };
-
 
 const Dashboard: React.FC = () => {
   const api = useRegistryApi();
@@ -260,7 +268,9 @@ const Dashboard: React.FC = () => {
           </Box>
         </div>
       )}
+      <ProjectProgressCard {...testData}/>
       <ProjectIDCard {...testData}/>
+      <ProjectContactCard {...testData}/>
     </>
   );
 };
