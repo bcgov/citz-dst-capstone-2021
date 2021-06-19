@@ -268,6 +268,7 @@ const Dashboard: React.FC = () => {
           </Box>
         </div>
       )}
+      {/* TODO: move these components to their own view */}
       <ProjectProgressCard {...testData}/>
       <ProjectIDCard {...testData}/>
       <ProjectContactCard {...testData}/>
