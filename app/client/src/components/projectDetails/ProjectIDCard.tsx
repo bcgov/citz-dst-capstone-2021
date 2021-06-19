@@ -14,10 +14,14 @@
 // limitations under the License.
 //
 
+import styled from "@emotion/styled";
 import React from 'react';
 import { Box, Flex, Text } from 'rebass';
 import theme from '../../theme';
 import CardItem from './CardItem';
+
+const StyledBox = styled.div`
+`
 
 interface IProjectIDCardProps {
   name?: string;
@@ -38,11 +42,12 @@ const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
     ministryProjectNumber = ''
   } = props;
   
+  // TODO: refactor any custom colours and theming using the theme provider
   return (
-    <Box>
-      <Flex alignItems="center" justifyContent="center" flexDirection="column">
-        <Box alignItems="left" width={3 / 4}>
-          <Text as="h2">
+    <Box style={{border: '1px solid black'}}>
+      <Flex alignItems="center" justifyContent="center" flexDirection="column" >
+        <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bg="#D5D5D5">
+          <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} m={2}>
           Project Identification
           </Text>
         </Box>

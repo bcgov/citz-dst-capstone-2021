@@ -28,12 +28,12 @@ const CardItem: React.FC<ICardItem> = (props) => {
   } = props;
 
   return (
-    <Box width={3 / 4}>
+    <Box width={1}>
     <Flex flexDirection="row" justifyContent="space-between">
-      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} mb={3}>
+      <Text as="h3" fontSize={[2, 3, 3]} fontWeight={800} mb={3} ml={3}>
       {label}
       </Text>
-      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={500} mb={3}>
+      <Text as="h3" fontSize={[2, 3, 3]} fontWeight={500} mb={3} mr={3}>
       {content}
       </Text>
     </Flex>
