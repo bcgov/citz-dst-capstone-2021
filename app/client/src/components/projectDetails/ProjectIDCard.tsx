@@ -20,9 +20,6 @@ import { Box, Flex, Text } from 'rebass';
 import theme from '../../theme';
 import CardItem from './CardItem';
 
-const StyledBox = styled.div`
-`
-
 interface IProjectIDCardProps {
   name?: string;
   description?: string;
