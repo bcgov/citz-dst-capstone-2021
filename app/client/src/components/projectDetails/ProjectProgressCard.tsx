@@ -21,32 +21,32 @@ import theme from '../../theme';
 import CardItem from './CardItem';
 
 interface IProjectProgressCardProps {
-    phase?: string
-    completionDate?: string
-    percentComplete?: number
+  phase?: string
+  completionDate?: string
+  percentComplete?: number
 }
 
 const ProjectProgressCard: React.FC<IProjectProgressCardProps> = (props) => {
-    const {
-        phase = '',
-        completionDate = '',
-        percentComplete = ''
-    } = props;
+  const {
+    phase = '',
+    completionDate = '',
+    percentComplete = ''
+  } = props;
 
-    return (
-        <Box style={{border: '1px solid black'}}>
-        <Flex alignItems="center" justifyContent="center" flexDirection="column" >
-          <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bg="#D5D5D5">
-            <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} m={2}>
-            Project Identification
-            </Text>
-          </Box>
-          <CardItem label={'Project Phase'} content={phase} />
-          <CardItem label={'Estimated Date of Project Completion'} content={completionDate} />
-          <CardItem label={'Percent Complete'} content={`${percentComplete}%`} />
-        </Flex>
+  return (
+    <Box style={{border: '1px solid black'}} m={4}>
+    <Flex alignItems="center" justifyContent="center" flexDirection="column" >
+      <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bg="#D5D5D5">
+      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} m={2}>
+      Project Identification
+      </Text>
       </Box>
-    );
+      <CardItem label={'Project Phase'} content={phase} />
+      <CardItem label={'Estimated Date of Project Completion'} content={completionDate} />
+      <CardItem label={'Percent Complete'} content={`${percentComplete}%`} />
+    </Flex>
+    </Box>
+  );
 };
 
 export default ProjectProgressCard;

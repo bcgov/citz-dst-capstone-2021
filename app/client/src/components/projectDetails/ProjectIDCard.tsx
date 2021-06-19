@@ -41,7 +41,7 @@ const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
   
   // TODO: refactor any custom colours and theming using the theme provider
   return (
-    <Box style={{border: '1px solid black'}}>
+    <Box style={{border: '1px solid black'}} m={4}>
       <Flex alignItems="center" justifyContent="center" flexDirection="column" >
         <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bg="#D5D5D5">
           <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} m={2}>
