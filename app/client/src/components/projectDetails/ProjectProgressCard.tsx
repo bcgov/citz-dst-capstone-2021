@@ -16,7 +16,7 @@
 
 import styled from "@emotion/styled";
 import React from 'react';
-import { Box, Flex, Text } from 'rebass';
+import { Typography, Box } from '@material-ui/core';
 import theme from '../../theme';
 import CardItem from './CardItem';
 
@@ -35,16 +35,20 @@ const ProjectProgressCard: React.FC<IProjectProgressCardProps> = (props) => {
 
   return (
     <Box style={{border: '1px solid black'}} m={4}>
-    <Flex alignItems="center" justifyContent="center" flexDirection="column" >
-      <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bg="#D5D5D5">
-      <Text as="h2" fontSize={[3, 4, 4]} fontWeight={800} m={2}>
-      Project Identification
-      </Text>
+      <Box display='flex' alignItems="center" justifyContent="center" flexDirection="column" >
+        <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bgcolor="#D5D5D5">
+          <Typography variant='h4'>
+            <Box fontWeight='fontWeightBold' m={1 / 2}>
+              Project Progress
+            </Box>
+          </Typography>
+        </Box>
+
+        <CardItem label={'Project Phase'} content={phase} />
+        <CardItem label={'Estimated Date of Project Completion'} content={completionDate} />
+        <CardItem label={'Percent Complete'} content={`${percentComplete}%`} />
+        {/* TODO: a progress bar to display % complete should go here */}
       </Box>
-      <CardItem label={'Project Phase'} content={phase} />
-      <CardItem label={'Estimated Date of Project Completion'} content={completionDate} />
-      <CardItem label={'Percent Complete'} content={`${percentComplete}%`} />
-    </Flex>
     </Box>
   );
 };
