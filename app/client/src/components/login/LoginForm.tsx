@@ -40,7 +40,7 @@ interface ICreateFormProjectProps {
   //cluster: Array<ClusterItem>;
 }
 
-const LoginFormProject: React.FC<ICreateFormProjectProps> = (props) => {
+const LoginFormProject: React.FC<ICreateFormProjectProps> = () => {
   const validator = getValidator();
   // @ts-ignore
   //const required = (value) => (value ? undefined : 'Required');
@@ -48,16 +48,16 @@ const LoginFormProject: React.FC<ICreateFormProjectProps> = (props) => {
 
   return (
     <div>
-      <FormTitle>Log In</FormTitle>
+      <FormTitle>Sign In</FormTitle>
       <FormSubtitle>
         Please enter your username and password.
       </FormSubtitle>
       <Flex flexDirection="column">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="email">E-Mail</Label>
         <Field<string>
-          name="username"
+          name="email"
           component={TextInput}
-          placeholder="Username"
+          placeholder="E-Mail"
           validate={validator.mustBeValidName}
         />
       </Flex>

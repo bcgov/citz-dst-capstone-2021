@@ -15,7 +15,7 @@
 //
 
 // import { useKeycloak } from '@react-keycloak/web';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import LoginForm from "../components/login/LoginForm";
 //import CreateFormMetadata from "../components/profileCreate/CreateFormMetadata";
@@ -25,7 +25,10 @@ import LoginForm from "../components/login/LoginForm";
 //import CreateFormRequest from "../components/profileCreate/CreateFormRequest";
 //import CreateFormTC from "../components/profileCreate/CreateFormTC";
 import { ROUTE_PATHS } from "../constants";
+import { Form } from 'react-final-form';
+import { StyledFormButton } from '../components/common/UI/Button';
 import useCommonState from "../hooks/useCommonState";
+import { Formik } from 'formik';
 import useRegistryApi from "../hooks/useRegistryApi";
 import {
   promptErrToastWithText,
@@ -33,72 +36,85 @@ import {
 } from "../utils/promptToastHelper";
 import { transformForm } from "../utils/transformDataHelper";
 import Wizard, { WizardPage } from "../utils/Wizard";
+import { keyframes } from "@emotion/core";
+import Axios from "axios";
+
+
 
 const ProfileCreate: React.FC = () => {
   const api = useRegistryApi();
   // const { keycloak } = useKeycloak();
-  const keycloak = "";
-  const { setOpenBackdrop } = useCommonState();
+  //const keycloak = "";
+  //const { setOpenBackdrop } = useCommonState();
 
-  const [ministry, setMinistry] = useState<any>([]);
-  const [cluster, setCluster] = useState<any>([]);
+  //const [ministry, setMinistry] = useState<any>([]);
+  //const [cluster, setCluster] = useState<any>([]);
   const [goBackToDashboard, setGoBackToDashboard] = useState(false);
 
   const onSubmit = async (formData: any) => {
-    const { profile, productOwner, technicalContact } = transformForm(formData);
-    setOpenBackdrop(true);
-    try {
-      // 1. Create the project profile.
-      const response: any = await api.createProfile(profile);
-      const profileId = response.data.id;
+    
+    console.log("Firing onSubmit");
+    Axios.post(`${process.env.APIPORT}/api/login`).then(res => {
+      console.log("Response: " +res);
+    });
+    
+    // const { profile, productOwner, technicalContact } = transformForm(formData);
+    // setOpenBackdrop(true);
+    // try {
+    //   // 1. Create the project profile.
+    //   const response: any = await api.createProfile(profile);
+    //   const profileId = response.data.id;
 
-      // 2. Create contacts.
-      const po: any = await api.createContact(productOwner);
-      const tc: any = await api.createContact(technicalContact);
+    //   // 2. Create contacts.
+    //   const po: any = await api.createContact(productOwner);
+    //   const tc: any = await api.createContact(technicalContact);
 
-      // 3. Link the contacts to the profile.
-      await api.linkContactToProfileById(profileId, po.data.id);
-      await api.linkContactToProfileById(profileId, tc.data.id);
+    //   // 3. Link the contacts to the profile.
+    //   await api.linkContactToProfileById(profileId, po.data.id);
+    //   await api.linkContactToProfileById(profileId, tc.data.id);
 
-      // 4. Trigger provisioning
-      await api.createNamespaceByProfileId(profileId);
+    //   // 4. Trigger provisioning
+    //   await api.createNamespaceByProfileId(profileId);
 
-      // 4. Create Project Request
-      await api.createProjectRequestByProfileId(profileId);
+    //   // 4. Create Project Request
+    //   await api.createProjectRequestByProfileId(profileId);
 
-      setOpenBackdrop(false);
-      setGoBackToDashboard(true);
-      // 5.All good? Tell the user.
-      promptSuccessToastWithText("Your namespace request was successful");
-    } catch (err) {
-      setOpenBackdrop(false);
-      const msg = `Unable to submit request at this time, reason = ${err.message}`;
-      promptErrToastWithText(msg);
-      console.log(err);
-    }
+    //   setOpenBackdrop(false);
+    //   setGoBackToDashboard(true);
+    //   // 5.All good? Tell the user.
+    //   promptSuccessToastWithText("Your namespace request was successful");
+    // } catch (err) {
+    //   setOpenBackdrop(false);
+    //   const msg = `Unable to submit request at this time, reason = ${err.message}`;
+    //   promptErrToastWithText(msg);
+    //   console.log(err);
+    // }
   };
 
-  useEffect(() => {
-    async function wrap() {
-      const ministryResponse = await api.getMinistry();
-      const clusterResponse = await api.getCluster();
-      setMinistry(ministryResponse.data);
-      setCluster(clusterResponse.data);
-    }
-    wrap();
-    // eslint-disable-next-line
-  }, [keycloak]);
+  // useEffect(() => {
+  //   async function wrap() {
+  //     const ministryResponse = await api.getMinistry();
+  //     const clusterResponse = await api.getCluster();
+  //     setMinistry(ministryResponse.data);
+  //     setCluster(clusterResponse.data);
+  //   }
+  //   wrap();
+  //   // eslint-disable-next-line
+  // }, [keycloak]);
 
   if (goBackToDashboard) {
     return <Redirect to={ROUTE_PATHS.DASHBOARD} />;
   }
   return (
     <Wizard onSubmit={onSubmit}>
-      <WizardPage>
         <LoginForm />
-      </WizardPage>
     </Wizard>
   );
 };
 
 export default ProfileCreate;
+/* <StyledFormButton
+          type="button"
+          //onClick={previous}
+          style={{ backgroundColor: '#d3d3d3', color: '#036' }}
+        >Submit</StyledFormButton> */
