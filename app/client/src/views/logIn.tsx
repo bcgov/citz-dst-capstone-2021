@@ -28,7 +28,6 @@ import { ROUTE_PATHS } from "../constants";
 import { Form } from 'react-final-form';
 import { StyledFormButton } from '../components/common/UI/Button';
 import useCommonState from "../hooks/useCommonState";
-import { Formik } from 'formik';
 import useRegistryApi from "../hooks/useRegistryApi";
 import {
   promptErrToastWithText,
@@ -41,7 +40,7 @@ import Axios from "axios";
 
 
 
-const ProfileCreate: React.FC = () => {
+const LogIn: React.FC = () => {
   const api = useRegistryApi();
   // const { keycloak } = useKeycloak();
   //const keycloak = "";
@@ -108,11 +107,18 @@ const ProfileCreate: React.FC = () => {
   return (
     <Wizard onSubmit={onSubmit}>
         <LoginForm />
+        <StyledFormButton
+          type="button"
+          onClick={onSubmit}
+          style={{ backgroundColor: '#d3d3d3', color: '#036' }}
+        >
+          Previous
+        </StyledFormButton>
     </Wizard>
   );
 };
 
-export default ProfileCreate;
+export default LogIn;
 /* <StyledFormButton
           type="button"
           //onClick={previous}
