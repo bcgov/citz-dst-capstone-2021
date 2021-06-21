@@ -16,61 +16,63 @@
 
 import { Label } from '@rebass/forms';
 import React from 'react';
-import { Field } from 'react-final-form';
+import { Field, Form } from 'react-final-form';
 import { Flex } from 'rebass';
 import getValidator from '../../utils/getValidator';
-import CheckboxInput from '../common/UI/CheckboxInput';
 import FormSubtitle from '../common/UI/FormSubtitle';
 import FormTitle from '../common/UI/FormTitle';
-import SelectInput from '../common/UI/SelectInput';
-import TextAreaInput from '../common/UI/TextAreaInput';
 import TextInput from '../common/UI/TextInput';
+import useRegistryApi from "../../hooks/useRegistryApi";
+import { useHistory } from "react-router-dom";
+import { ROUTE_PATHS } from "../../constants";
 
-// interface MinistryItem {
-//   name: string;
-//   code: string;
-// }
-
-// interface ClusterItem {
-//   name: string;
-// }
-
-interface ICreateFormProjectProps {
-  //ministry: Array<MinistryItem>;
-  //cluster: Array<ClusterItem>;
-}
-
-const LoginFormProject: React.FC<ICreateFormProjectProps> = (props) => {
+const LoginForm: React.FC = (props) => {
   const validator = getValidator();
   // @ts-ignore
   //const required = (value) => (value ? undefined : 'Required');
   //const { ministry = [], cluster = [] } = props;
 
+  const history = useHistory();
+  const api = useRegistryApi();
+
+  const handleLogin = (formData: any) => {
+    api.login(formData).then(data => {
+      history.push('/');
+    }).catch(e => {
+      console.log(e);
+    });
+  }
+
   return (
-    <div>
-      <FormTitle>Log In</FormTitle>
-      <FormSubtitle>
-        Please enter your username and password.
-      </FormSubtitle>
-      <Flex flexDirection="column">
-        <Label htmlFor="username">Username</Label>
-        <Field<string>
-          name="username"
-          component={TextInput}
-          placeholder="Username"
-          validate={validator.mustBeValidName}
-        />
-      </Flex>
-      <Flex flexDirection="column">
-        <Label htmlFor="password">Password</Label>
-        <Field
-          name="password"
-          component={TextInput}
-          placeholder=""
-        />
-      </Flex>
-    </div>
+    <Form onSubmit={handleLogin}>
+      {(props) => (
+        <form onSubmit={props.handleSubmit}>
+          <FormTitle>Log In</FormTitle>
+          <FormSubtitle>
+            Please enter your username and password.
+          </FormSubtitle>
+          <Flex flexDirection="column">
+            <Label htmlFor="email">Email</Label>
+            <Field<string>
+              name="email"
+              component={TextInput}
+              placeholder="Email"
+              validate={validator.mustBeValidEmail}
+            />
+          </Flex>
+          <Flex flexDirection="column">
+            <Label htmlFor="password">Password</Label>
+            <Field
+              name="password"
+              component={TextInput}
+              placeholder=""
+            />
+          </Flex>
+          <button type="submit">Login</button>
+        </form>
+      )}
+    </Form>
   );
 };
 
-export default LoginFormProject;
+export default LoginForm;

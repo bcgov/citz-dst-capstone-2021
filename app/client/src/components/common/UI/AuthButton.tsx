@@ -19,6 +19,8 @@
 import styled from "@emotion/styled";
 // import { useKeycloak } from '@react-keycloak/web';
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { ROUTE_PATHS } from "../../../constants";
 
 export interface IButtonProps {
   children?: React.ReactNode;
@@ -54,14 +56,16 @@ const actionForCurrentState = (keycloak: any): any => {
   // // TODO: update this once a better access control is in place
   // // where we check if users are part of our GitHub organization
   // return () => keycloak.login({ idpHint: 'idir' });
-  return () => alert("implement your auth");
+
 };
 
 const Button: React.SFC<IButtonProps> = (props) => {
   // const { keycloak } = useKeycloak();
   const keycloak = "";
+  const history = useHistory();
   return (
-    <StyledButton onClick={actionForCurrentState(keycloak)}>
+    // <StyledButton onClick={actionForCurrentState(keycloak)}>
+    <StyledButton onClick={() => history.push(ROUTE_PATHS.LOGIN)}>
       {titleForAuthenticationState(keycloak)}
       {props.children}
     </StyledButton>
