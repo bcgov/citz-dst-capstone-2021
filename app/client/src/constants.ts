@@ -3,6 +3,7 @@ export const ROUTE_PATHS = {
   LANDING: "/landing",
   LOGIN: "/login",
   DASHBOARD: "/dashboard",
+  PROJECT_DETAILS: "/project-details", // TODO: this URL should have the project ID similar to PROFILE_EDIT route
   // DASHBOARD: "/",
   PROFILE_CREATE: "/profile/create",
   PROFILE_EDIT: "/profile/:profileId/:viewName",
