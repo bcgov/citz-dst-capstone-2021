@@ -61,8 +61,22 @@
       "manager": "60caa6f1e7cf1742d87d30f2",
       "financialContact": "60caa6dee7cf1742d87d30f1",
       "start": "2020-06-17T01:35:45.782Z",
-      "progress": 0,
+      "progress": 10,
       "phase": "project phase"
+    },
+    {
+      "name": "RDSI Project",
+      "cpsIdentifier": "LCTZABC1234",
+      "projectNumber": "N/A",
+      "description": "Reporting and Dashboard System Improvement Application",
+      "ministry": "Citizens' Services",
+      "program": "",
+      "sponsor": "60caa6fee7cf1742d87d30f3",
+      "manager": "60caa6f1e7cf1742d87d30f2",
+      "financialContact": "60caa6dee7cf1742d87d30f1",
+      "start": "2020-05-10",
+      "progress": 30,
+      "phase": "Initiating"
     }
   ]
 }
