@@ -15,6 +15,7 @@
 //
 
 import { Label } from '@rebass/forms';
+import styled from "@emotion/styled";
 import React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Flex } from 'rebass';
@@ -25,6 +26,7 @@ import TextInput from '../common/UI/TextInput';
 import useRegistryApi from "../../hooks/useRegistryApi";
 import { useHistory } from "react-router-dom";
 import { ROUTE_PATHS } from "../../constants";
+import { StyledFormButton } from '../common/UI/Button';
 
 const LoginForm: React.FC = (props) => {
   const validator = getValidator();
@@ -36,9 +38,10 @@ const LoginForm: React.FC = (props) => {
   const api = useRegistryApi();
 
   const handleLogin = (formData: any) => {
+    console.log(formData.email);
     api.login(formData).then(data => {
       history.push('/');
-      console.log(data);
+      sessionStorage.setItem('token', data.data.token);
     }).catch(e => {
       console.log(e);
     });
@@ -69,7 +72,7 @@ const LoginForm: React.FC = (props) => {
               placeholder=""
             />
           </Flex>
-          <button type="submit">Login</button>
+          <StyledFormButton type="submit">Login</StyledFormButton>
         </form>
       )}
     </Form>

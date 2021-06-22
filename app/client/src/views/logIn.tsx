@@ -18,6 +18,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import LoginForm from "../components/login/LoginForm";
+import { Flex } from 'rebass';
 //import CreateFormMetadata from "../components/profileCreate/CreateFormMetadata";
 //import CreateFormMigration from "../components/profileCreate/CreateFormMigration";
 //import CreateFormPO from "../components/profileCreate/CreateFormPO";
@@ -26,7 +27,6 @@ import LoginForm from "../components/login/LoginForm";
 //import CreateFormTC from "../components/profileCreate/CreateFormTC";
 import { ROUTE_PATHS } from "../constants";
 import { Form } from 'react-final-form';
-import { StyledFormButton } from '../components/common/UI/Button';
 import useCommonState from "../hooks/useCommonState";
 import useRegistryApi from "../hooks/useRegistryApi";
 import {
@@ -42,12 +42,6 @@ import Axios from "axios";
 
 const LogIn: React.FC = () => {
   const api = useRegistryApi();
-  // const { keycloak } = useKeycloak();
-  //const keycloak = "";
-  //const { setOpenBackdrop } = useCommonState();
-
-  //const [ministry, setMinistry] = useState<any>([]);
-  //const [cluster, setCluster] = useState<any>([]);
   const [goBackToDashboard, setGoBackToDashboard] = useState(false);
 
   if (goBackToDashboard) {
@@ -55,16 +49,11 @@ const LogIn: React.FC = () => {
   }
   return (
     <Wizard>
-      <div>
+      <Flex>
         <LoginForm />
-      </div>
+      </Flex>
     </Wizard>
   );
 };
 
 export default LogIn;
-/* <StyledFormButton
-          type="button"
-          //onClick={previous}
-          style={{ backgroundColor: '#d3d3d3', color: '#036' }}
-        >Submit</StyledFormButton> */
