@@ -240,6 +240,17 @@ export default function useRegistryApi() {
     }
   };
 
+  const login = async (requestBody: any): Promise<AxiosResponse<any>> => {
+    if (!axiosInstance.current) {
+      throw new Error(errorMsg);
+    } else {
+      return axiosInstance.current.post(
+        `login`,
+        requestBody
+      );
+    }
+  }
+
   return {
     getMinistry,
     getQuotaSizes,
@@ -261,5 +272,6 @@ export default function useRegistryApi() {
     createProjectRequestByProfileId,
     getHumanActionRequests,
     updateProjectRequest,
+    login,
   };
 }

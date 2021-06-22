@@ -26,6 +26,7 @@ import ProfileCreate from "./views/ProfileCreate";
 import ProfileEdit from "./views/ProfileEdit";
 import { PublicLanding } from "./views/PublicLanding";
 import Login from "./views/logIn";
+import LoginForm from "./components/login/LoginForm";
 
 const browserHistory = createBrowserHistory();
 
@@ -39,7 +40,8 @@ const AppRouter: React.FC = () => {
   return (
     <Router history={browserHistory}>
       <Switch>
-        <Redirect exact from="/" to={ROUTE_PATHS.LANDING} />
+        <AppRoute protected exact path='/' component={Dashboard} />
+        <AppRoute path={ROUTE_PATHS.LOGIN} component={LoginForm} />
         <AppRoute path={ROUTE_PATHS.LANDING} component={PublicLanding} />
         <AppRoute path={ROUTE_PATHS.LOGIN_PAGE} component={Login} />
         <AppRoute
@@ -48,7 +50,6 @@ const AppRouter: React.FC = () => {
           path={ROUTE_PATHS.PROFILE_CREATE}
           component={ProfileCreate}
         />
-        <AppRoute protected exact path={HOME_PAGE_URL} component={Dashboard} />
         <AppRoute
           protected
           exact

@@ -16,35 +16,32 @@
 
 import { Label } from '@rebass/forms';
 import React from 'react';
-import { Field } from 'react-final-form';
+import { Field, Form } from 'react-final-form';
 import { Flex } from 'rebass';
 import getValidator from '../../utils/getValidator';
-import CheckboxInput from '../common/UI/CheckboxInput';
 import FormSubtitle from '../common/UI/FormSubtitle';
 import FormTitle from '../common/UI/FormTitle';
-import SelectInput from '../common/UI/SelectInput';
-import TextAreaInput from '../common/UI/TextAreaInput';
 import TextInput from '../common/UI/TextInput';
+import useRegistryApi from "../../hooks/useRegistryApi";
+import { useHistory } from "react-router-dom";
+import { ROUTE_PATHS } from "../../constants";
 
-// interface MinistryItem {
-//   name: string;
-//   code: string;
-// }
-
-// interface ClusterItem {
-//   name: string;
-// }
-
-interface ICreateFormProjectProps {
-  //ministry: Array<MinistryItem>;
-  //cluster: Array<ClusterItem>;
-}
-
-const LoginFormProject: React.FC<ICreateFormProjectProps> = () => {
+const LoginForm: React.FC = (props) => {
   const validator = getValidator();
   // @ts-ignore
   //const required = (value) => (value ? undefined : 'Required');
   //const { ministry = [], cluster = [] } = props;
+
+  const history = useHistory();
+  const api = useRegistryApi();
+
+  const handleLogin = (formData: any) => {
+    api.login(formData).then(data => {
+      history.push('/');
+    }).catch(e => {
+      console.log(e);
+    });
+  }
 
   return (
     <div>
@@ -73,4 +70,4 @@ const LoginFormProject: React.FC<ICreateFormProjectProps> = () => {
   );
 };
 
-export default LoginFormProject;
+export default LoginForm;

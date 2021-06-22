@@ -1,6 +1,7 @@
 export const ROUTE_PATHS = {
   NOT_FOUND: "/page-not-found",
   LANDING: "/landing",
+  LOGIN: "/login",
   DASHBOARD: "/dashboard",
   // DASHBOARD: "/",
   PROFILE_CREATE: "/profile/create",
@@ -18,7 +19,7 @@ export const PROFILE_EDIT_VIEW_NAMES = {
 export const API = {
   BASE_URL: () =>
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/v1/"
+      ? "http://localhost:8080/api/v1/"
       : `${window.location.origin}/api/v1/`,
 };
 
