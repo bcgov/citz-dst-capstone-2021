@@ -2,6 +2,7 @@ export const ROUTE_PATHS = {
   NOT_FOUND: "/page-not-found",
   LANDING: "/landing",
   DASHBOARD: "/dashboard",
+  PROJECT_DETAILS: "/project-details", // TODO: this URL should have the project ID similar to PROFILE_EDIT route
   // DASHBOARD: "/",
   PROFILE_CREATE: "/profile/create",
   PROFILE_EDIT: "/profile/:profileId/:viewName",

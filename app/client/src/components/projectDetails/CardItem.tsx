@@ -15,7 +15,7 @@
 //
 
 import React from 'react';
-import { Box, Flex, Text } from 'rebass';
+import { Typography, Box } from '@material-ui/core';
 
 interface ICardItem {
   label?: string;
@@ -29,14 +29,20 @@ const CardItem: React.FC<ICardItem> = (props) => {
 
   return (
     <Box width={1}>
-    <Flex flexDirection="row" justifyContent="space-between">
-      <Text as="h3" fontSize={[2, 3, 3]} fontWeight={800} mb={3} ml={3}>
-      {label}
-      </Text>
-      <Text as="h3" fontSize={[2, 3, 3]} fontWeight={500} mb={3} mr={3}>
-      {content}
-      </Text>
-    </Flex>
+      <Box display="flex" flexDirection="row" justifyContent="space-between" fontWeight={800} >
+        
+        <Typography variant='h5'>
+          <Box fontWeight='fontWeightBold' mb={1} ml={3}>
+            {label}
+          </Box>
+        </Typography>
+
+        <Typography variant='h5'>
+          <Box fontWeight='fontWeightRegular' mb={1} mr={3}>
+            {content}
+          </Box>
+        </Typography>
+      </Box>
     </Box>
   );
 };

@@ -21,6 +21,7 @@ import { HOME_PAGE_URL, ROUTE_PATHS } from "./constants";
 import AppRoute from "./utils/AppRoute";
 import { areQueryParamsForProfileValid } from "./utils/checkQueryParamsHelper";
 import Dashboard from "./views/Dashboard";
+import ProjectDetails from "./views/ProjectDetails";
 import { NotFound } from "./views/NotFound";
 import ProfileCreate from "./views/ProfileCreate";
 import ProfileEdit from "./views/ProfileEdit";
@@ -54,6 +55,7 @@ const AppRouter: React.FC = () => {
           component={ProfileEdit}
           checkQueryParams={areQueryParamsForProfileValid}
         />
+        <AppRoute path={ROUTE_PATHS.PROJECT_DETAILS} component={ProjectDetails} />
         <AppRoute path={ROUTE_PATHS.NOT_FOUND} component={NotFound} />
         <Redirect to={ROUTE_PATHS.DASHBOARD} />
       </Switch>
