@@ -159,7 +159,7 @@ const Header: React.FC<IHeaderProps> = (props) => {
             fontWeight={500}
             pl={[3, 0, 0]}
           >
-            Platform Services Registry
+            Reporting and Dashboard Service Improvement
           </StyledText>
         </RouterLink>
         <Nav
