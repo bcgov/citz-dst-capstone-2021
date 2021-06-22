@@ -6,8 +6,8 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events for all branches but the  main branch
   pull_request:
-    branches: 
-      - '!main' 
+    branches-ignore: 
+      - 'main' 
   
 defaults:
   run:
@@ -64,12 +64,6 @@ jobs:
         working-directory: ./app/.pipeline
     steps:
 
-      # Build the image using the specified build config
-      # Get its build ID
-      # Get the commit ID of that build
-      # Get the SHA256 signature of the image
-      # Tag the image with the commit ID and "dev"
-      # ------------------------------------------------
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
