@@ -38,35 +38,41 @@ const LoginForm: React.FC = (props) => {
   const handleLogin = (formData: any) => {
     api.login(formData).then(data => {
       history.push('/');
+      console.log(data);
     }).catch(e => {
       console.log(e);
     });
   }
 
   return (
-    <div>
-      <FormTitle>Sign In</FormTitle>
-      <FormSubtitle>
-        Please enter your username and password.
-      </FormSubtitle>
-      <Flex flexDirection="column">
-        <Label htmlFor="email">E-Mail</Label>
-        <Field<string>
-          name="email"
-          component={TextInput}
-          placeholder="E-Mail"
-          validate={validator.mustBeValidName}
-        />
-      </Flex>
-      <Flex flexDirection="column">
-        <Label htmlFor="password">Password</Label>
-        <Field
-          name="password"
-          component={TextInput}
-          placeholder=""
-        />
-      </Flex>
-    </div>
+    <Form onSubmit={handleLogin}>
+      {(props) => (
+        <form onSubmit={props.handleSubmit}>
+          <FormTitle>Log In</FormTitle>
+          <FormSubtitle>
+            Please enter your username and password.
+          </FormSubtitle>
+          <Flex flexDirection="column">
+            <Label htmlFor="email">Email</Label>
+            <Field<string>
+              name="email"
+              component={TextInput}
+              placeholder="Email"
+              validate={validator.mustBeValidEmail}
+            />
+          </Flex>
+          <Flex flexDirection="column">
+            <Label htmlFor="password">Password</Label>
+            <Field
+              name="password"
+              component={TextInput}
+              placeholder=""
+            />
+          </Flex>
+          <button type="submit">Login</button>
+        </form>
+      )}
+    </Form>
   );
 };
 
