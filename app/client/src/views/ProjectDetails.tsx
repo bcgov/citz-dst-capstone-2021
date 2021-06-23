@@ -17,9 +17,12 @@ import React from 'react';
 
 import { Typography, Button, Box, Container } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import ProjectIDCard from '../components/projects/ProjectIDCard';
-import ProjectProgressCard from '../components/projects/ProjectProgressCard';
-import ProjectContactCard from '../components/projects/ProjectContactCard';
+import ProjectIDCard from "../components/projectDetails/ProjectIDCard";
+import ProjectProgressCard from "../components/projectDetails/ProjectProgressCard";
+import ProjectContactCard from "../components/projectDetails/ProjectContactCard";
+import KPICard from "../components/projectDetails/KPICard";
+import theme from "../theme";
+import { promptErrToastWithText } from "../utils/promptToastHelper";
 
 // Test data to populate project detail views
 const testData = {
@@ -36,6 +39,30 @@ const testData = {
   completionDate: '05-25-2021',
   percentComplete: 65,
 };
+
+const testKPIData = {
+  'kpiAlpha' : {
+    'name' : 'KPI Alpha',
+    'type' : 'Output',
+    'description' : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
+    'baselineUnit' : '%',
+    'baselineValue' : 5,
+    'targetUnit' : '%',
+    'targetValue' : 20,
+    'targetDate' : Date()
+  },
+
+  'kpiBeta' : {
+    'name' : 'KPI Beta',
+    'type' : 'Outcome',
+    'description' : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
+    'baselineUnit' : 'hrs',
+    'baselineValue' : 2,
+    'targetUnit' : 'min',
+    'targetValue' : 45,
+    'targetDate' : Date()
+  },
+}
 
 /* TODO: implement tab component to be able to switch between project details and submitted reports */
 const ProjectDetails: React.FC = () => {
@@ -56,9 +83,16 @@ const ProjectDetails: React.FC = () => {
         </Button>
       </Box>
 
-      <ProjectProgressCard {...testData} />
-      <ProjectIDCard {...testData} />
-      <ProjectContactCard {...testData} />
+      <ProjectProgressCard {...testData}/>
+      <ProjectIDCard {...testData}/>
+      <ProjectContactCard {...testData}/>
+
+      <Typography variant='h3'>
+        Key Performance Indicators
+      </Typography>
+      <KPICard {...testKPIData.kpiAlpha} />
+      <KPICard {...testKPIData.kpiBeta} />
+      
     </Container>
   );
 };
