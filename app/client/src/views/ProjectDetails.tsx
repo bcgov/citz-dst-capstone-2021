@@ -13,16 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+import React from 'react';
 
-import React, { useEffect, useMemo, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Typography, Button, Box, Container, Tabs, Tab, AppBar } from '@material-ui/core';
+import { Typography, Button, Box, Container } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import ProjectIDCard from "../components/projectDetails/ProjectIDCard";
-import ProjectProgressCard from "../components/projectDetails/ProjectProgressCard";
-import ProjectContactCard from "../components/projectDetails/ProjectContactCard";
-import theme from "../theme";
-import { promptErrToastWithText } from "../utils/promptToastHelper";
+import ProjectIDCard from '../components/projects/ProjectIDCard';
+import ProjectProgressCard from '../components/projects/ProjectProgressCard';
+import ProjectContactCard from '../components/projects/ProjectContactCard';
 
 // Test data to populate project detail views
 const testData = {
@@ -58,7 +55,7 @@ const ProjectDetails: React.FC = () => {
       <ProjectProgressCard {...testData}/>
       <ProjectIDCard {...testData}/>
       <ProjectContactCard {...testData}/>
-      
+
     </Container>
   );
 };

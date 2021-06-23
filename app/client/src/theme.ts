@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-export default {
+const theme = {
   breakpoints: ["40em", "52em", "64em"],
   colors: {
     bcblue: "#036",
@@ -101,3 +101,5 @@ export default {
     },
   },
 };
+
+export default theme;

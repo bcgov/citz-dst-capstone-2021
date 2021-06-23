@@ -33,18 +33,18 @@ class ProjectsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('cookie', { session: false }), ProjectsController.getProjects)
+      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjects)
       .post(
-        passport.authenticate('cookie', { session: false }),
+        passport.authenticate('jwt', { session: false }),
         validationMiddleware(CreateProjectDTO, 'body'),
         ProjectsController.createProject,
       );
 
     this.router
       .route('/:id')
-      .delete(passport.authenticate('cookie', { session: false }), ProjectsController.deleteProject)
+      .delete(passport.authenticate('jwt', { session: false }), ProjectsController.deleteProject)
       .patch(
-        passport.authenticate('cookie', { session: false }),
+        passport.authenticate('jwt', { session: false }),
         validationMiddleware(CreateProjectDTO, 'body', true),
         ProjectsController.updateProject,
       );

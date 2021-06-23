@@ -34,7 +34,7 @@ class AuthRoute implements Route {
   private initializeRoutes() {
     this.router.post('/signup', validationMiddleware(CreateUserDto, 'body'), AuthController.signUp);
     this.router.post('/login', validationMiddleware(LoginDto, 'body'), AuthController.login);
-    this.router.post('/logout', passport.authenticate('cookie', { session: false }), AuthController.logout);
+    this.router.post('/logout', passport.authenticate('jwt', { session: false }), AuthController.logout);
   }
 }
 

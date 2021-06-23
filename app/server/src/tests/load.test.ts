@@ -1,11 +1,15 @@
 import CreateProjectDTO from '@dtos/projects.dto';
 import ProjectService from '@services/projects.service';
-import { connect } from 'mongoose';
+import { connect, disconnect } from 'mongoose';
 import DBConfig from '@/databases';
 import testData from './testData.json';
 
 beforeAll(async () => {
   await connect(DBConfig.url, DBConfig.options);
+});
+
+afterAll(async () => {
+  await disconnect();
 });
 
 describe.skip('loading test data', () => {
