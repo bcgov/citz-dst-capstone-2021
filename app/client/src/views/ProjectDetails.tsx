@@ -49,7 +49,7 @@ const testKPIData = {
     'baselineValue' : 5,
     'targetUnit' : '%',
     'targetValue' : 20,
-    'targetDate' : Date()
+    'targetDate' : '2021-07-10'
   },
 
   'kpiBeta' : {
@@ -60,7 +60,7 @@ const testKPIData = {
     'baselineValue' : 2,
     'targetUnit' : 'min',
     'targetValue' : 45,
-    'targetDate' : Date()
+    'targetDate' : '2022-01-15'
   },
 }
 
@@ -87,11 +87,14 @@ const ProjectDetails: React.FC = () => {
       <ProjectIDCard {...testData}/>
       <ProjectContactCard {...testData}/>
 
-      <Typography variant='h3'>
+      <Typography variant='h4'>
         Key Performance Indicators
       </Typography>
-      <KPICard {...testKPIData.kpiAlpha} />
-      <KPICard {...testKPIData.kpiBeta} />
+
+      <Box display='flex' alignItems='center' justifyContent='center'>
+        <KPICard {...testKPIData.kpiAlpha} />
+        <KPICard {...testKPIData.kpiBeta} />
+      </Box>
       
     </Container>
   );

@@ -41,23 +41,44 @@ const KPICard: React.FC<IKPICardProps> = (props) => {
     targetDate = ''
   } = props;
 
+  /* TODO: See if some sort of progress display for KPIs is desired */
   return (
     <Box style={{border: '1px solid black'}} m={4}>
       <Box display='flex' alignItems='center' justifyContent='center' flexDirection='column'>
         
-        <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bgcolor='#D5D5D5'>
-          <Typography variant='h4'>
+        {/* component header */}
+        <Box display='flex' alignItems="center" style={{borderBottom: '1px solid black'}} justifyContent="space-between" width={1} p={2} bgcolor='#D5D5D5'>
+          <Typography variant='h5'>
             <Box fontWeight='fontWeightBold' m={ 1 / 2}>
               {name}
             </Box>
           </Typography>
+          <Typography variant='h5'>
+            <Box fontWeight='fontWeightRegular' m={ 1 / 2}>
+              {type}
+            </Box>
+          </Typography>
         </Box>
 
-        <Typography variant='h5'>
-          <Box fontWeight='fontWeightBold' mb={1} ml={3}>
-            Description
-          </Box>
-        </Typography>
+        {/* component body */}
+        <Box display='flex' alignItems='left' justifyContent='left' width={1}>
+          <Typography variant='h5'>
+            <Box fontWeight='fontWeightBold' mb={1} ml={3}>
+              Description
+            </Box>
+          </Typography>
+        </Box>
+        <Box display='flex' alignItems='left' justifyContent='left' width={1}>
+          <Typography variant='body1'>
+            <Box mb={1} ml={3}>
+              {description}
+            </Box>
+          </Typography>
+        </Box>
+
+        <CardItem label={'Baseline'} content={`${baselineValue} ${baselineUnit}`} />
+        <CardItem label={'Target'} content={`${targetValue} ${targetUnit}`} />
+        <CardItem label={'Target Date'} content={targetDate} />
 
       </Box>
     </Box>
