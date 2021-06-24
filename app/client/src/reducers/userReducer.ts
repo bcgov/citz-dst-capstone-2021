@@ -14,27 +14,17 @@
 // limitations under the License.
 //
 
-import React from 'react';
-import { Route, RouteProps } from 'react-router-dom';
+import { User, ActionTypes, LoginAction } from '../types';
 
-import Layout from '../layout/Layout';
-
-interface IAppRouteProps extends RouteProps {
-  component: React.ComponentType<any>;
-}
-
-const AppRoute: React.FC<IAppRouteProps> = (props) => {
-  const { component: Component, ...rest } = props;
-  return (
-    <Route
-      {...rest}
-      render={(routeProps) => (
-        <Layout>
-          <Component {...routeProps} />
-        </Layout>
-      )}
-    />
-  );
+const userReducer = (user = {} as User, action: LoginAction): User => {
+  switch (action.type) {
+    case ActionTypes.login:
+      return action.payload;
+    case ActionTypes.logout:
+      return {} as User;
+    default:
+      return user;
+  }
 };
 
-export default AppRoute;
+export default userReducer;

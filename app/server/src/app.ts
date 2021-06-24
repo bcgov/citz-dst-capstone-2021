@@ -23,9 +23,8 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
 import passport from 'passport';
-// import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jwt from 'jsonwebtoken';
-import { Strategy as CookieStrategy } from 'passport-cookie';
 import { connect, set, disconnect } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
@@ -111,26 +110,15 @@ class App {
     this.app.use(passport.initialize());
 
     // Configure JWT Token Auth
-    // const jwtOptions = {
-    //   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    //   secretOrKey: config.get('secretKey'),
-    // };
-    // passport.use(
-    //   new JwtStrategy(jwtOptions, (payload, done) => {
-    //     return User.findById(payload.id).exec((error, user) => {
-    //       if (error) return done(error);
-    //       return done(null, user || false);
-    //     });
-    //   }),
-    // );
-
+    const jwtOptions = {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.get('secretKey'),
+    };
     passport.use(
-      new CookieStrategy((token, done) => {
-        const payload: any = jwt.verify(token, config.get('secretKey'));
-        User.findById(payload.id, (e, user) => {
-          if (e) return done(e);
-          if (!user) return done(null, false);
-          return done(null, user);
+      new JwtStrategy(jwtOptions, (payload, done) => {
+        return User.findById(payload.id).exec((error, user) => {
+          if (error) return done(error);
+          return done(null, user || false);
         });
       }),
     );

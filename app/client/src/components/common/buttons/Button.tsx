@@ -14,27 +14,30 @@
 // limitations under the License.
 //
 
+import styled from '@emotion/styled';
 import React from 'react';
-import { Route, RouteProps } from 'react-router-dom';
 
-import Layout from '../layout/Layout';
+const StyledButton = styled.button`
+  padding: 8px 16px;
+  border: none;
+  background-color: #fcba19;
+  color: #003366;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-radius: 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+`;
 
-interface IAppRouteProps extends RouteProps {
-  component: React.ComponentType<any>;
+export interface IButtonProps {
+  children?: React.ReactNode;
+  onClick?: (e: any) => void;
 }
 
-const AppRoute: React.FC<IAppRouteProps> = (props) => {
-  const { component: Component, ...rest } = props;
-  return (
-    <Route
-      {...rest}
-      render={(routeProps) => (
-        <Layout>
-          <Component {...routeProps} />
-        </Layout>
-      )}
-    />
-  );
+const Button: React.FC<IButtonProps> = (props) => {
+  const { onClick, children } = props;
+  return <StyledButton onClick={onClick}>{children}</StyledButton>;
 };
 
-export default AppRoute;
+export default Button;
