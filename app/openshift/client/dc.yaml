@@ -168,6 +168,6 @@ parameters:
   - name: SUFFIX
     description: namespace with build version
     required: false
-  - CLUSTER_DOMAIN:
+  - name: CLUSTER_DOMAIN
     description: domain name of cluster
     required: true
