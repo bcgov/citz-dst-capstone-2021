@@ -53,11 +53,28 @@ objects:
   - kind: Route
     apiVersion: v1
     metadata:
+      labels:
+        app: "${NAME}${SUFFIX}"
+      name: ${NAME}-to-api
+    spec:
+      host: "${NAME}${SUFFIX}.${NAMESPACE}.${CLUSTER_DOMAIN}"
+      path: "/api"
+      port:
+        targetPort: 8080-tcp
+      tls:
+        termination: edge
+      to:
+        kind: Service
+        name: "rdsi-server${SUFFIX}"
+        weight: 100
+  - kind: Route
+    apiVersion: v1
+    metadata:
       name: "${NAME}${SUFFIX}"
       labels:
         app: "${NAME}"
     spec:
-      host: "${NAME}${SUFFIX}.${NAMESPACE}.apps.silver.devops.gov.bc.ca"
+      host: "${NAME}${SUFFIX}.${NAMESPACE}.${CLUSTER_DOMAIN}"
       port:
         targetPort: ${PORT}-tcp
       path: ''
@@ -149,5 +166,8 @@ parameters:
     required: true
     description: version as an image tag
   - name: SUFFIX
-    description: version as an image tag
+    description: namespace with build version
     required: false
+  - name: CLUSTER_DOMAIN
+    description: domain name of cluster
+    required: true

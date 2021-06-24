@@ -1,50 +1,38 @@
-// import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-//
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
+import React from 'react';
+import './App.css';
+import { HashRouter, Link, Redirect } from 'react-router-dom';
 
-// import { KeycloakProvider } from '@react-keycloak/web';
-// import { ThemeProvider } from "emotion-theming";
-import { ThemeProvider } from "@emotion/react";
-import React from "react";
-import AppRouter from "./AppRouter";
-// import keycloak from './keycloak';
-import theme from "./theme";
+import AppRoute from './utils/AppRoute';
+import LoginForm from './components/LoginForm';
+import ProjectDetails from './views/ProjectDetails';
 
-// const eventLogger = (event: unknown, error: unknown) => {
-//   console.log('onKeycloakEvent', event, error)
-// }
+const Home = () => {
+  return (
+    <div>
+      <h1>RDSI Prototype Landing Page</h1>
+      <div>
+        <h2>
+          <Link to="/login">Login Page</Link>
+        </h2>
+      </div>
+      <div>
+        <h2>
+          <Link to="/details">Project Details</Link>
+        </h2>
+      </div>
+    </div>
+  );
+};
 
-// const tokenLogger = (tokens: unknown) => {
-//   console.log('onKeycloakTokens', tokens)
-// }
-
-const App = () => (
-  // <KeycloakProvider keycloak={keycloak}>
-  <ThemeProvider theme={theme}>
-    <AppRouter />
-  </ThemeProvider>
-  // </KeycloakProvider>
-);
+function App() {
+  return (
+    <HashRouter>
+      <AppRoute path="/" exact component={Home} />
+      <AppRoute path="/login" component={LoginForm} />
+      <AppRoute path="/details" component={ProjectDetails} />
+      <Redirect to="/" />
+    </HashRouter>
+  );
+}
 
 export default App;

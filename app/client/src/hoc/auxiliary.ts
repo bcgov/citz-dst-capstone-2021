@@ -14,27 +14,8 @@
 // limitations under the License.
 //
 
-import React from 'react';
-import { Route, RouteProps } from 'react-router-dom';
+import { PropsWithChildren } from 'react';
 
-import Layout from '../layout/Layout';
+const Aux = (props: PropsWithChildren<any>) => props.children;
 
-interface IAppRouteProps extends RouteProps {
-  component: React.ComponentType<any>;
-}
-
-const AppRoute: React.FC<IAppRouteProps> = (props) => {
-  const { component: Component, ...rest } = props;
-  return (
-    <Route
-      {...rest}
-      render={(routeProps) => (
-        <Layout>
-          <Component {...routeProps} />
-        </Layout>
-      )}
-    />
-  );
-};
-
-export default AppRoute;
+export default Aux;

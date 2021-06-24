@@ -33,18 +33,18 @@ class UsersRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('cookie', { session: false }), UsersController.getUsers)
+      .get(passport.authenticate('jwt', { session: false }), UsersController.getUsers)
       .post(
-        passport.authenticate('cookie', { session: false }),
+        passport.authenticate('jwt', { session: false }),
         validationMiddleware(CreateUserDto, 'body'),
         UsersController.createUser,
       );
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('cookie', { session: false }), UsersController.getUserById)
+      .get(passport.authenticate('jwt', { session: false }), UsersController.getUserById)
       .patch(
-        passport.authenticate('cookie', { session: false }),
+        passport.authenticate('jwt', { session: false }),
         validationMiddleware(CreateUserDto, 'body', true),
         UsersController.updateUser,
       )
