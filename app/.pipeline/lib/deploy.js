@@ -25,6 +25,7 @@ module.exports = (settings)=>{
       'VERSION': phases[phase].tag,
       'NAMESPACE': phases[phase].namespace,
       'PORT': 8080,
+      'CLUSTER_DOMAIN': 'apps.silver.devops.gov.bc.ca',
     }
   }))
 

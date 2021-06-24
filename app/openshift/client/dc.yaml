@@ -57,7 +57,7 @@ objects:
         app: "${NAME}${SUFFIX}"
       name: ${NAME}-to-api
     spec:
-      host: "${NAME}-${NAMESPACE}"
+      host: "${NAME}-${NAMESPACE}.${CLUSTER_DOMAIN}"
       path: "/api"
       port:
         targetPort: 8080-tcp
@@ -166,5 +166,8 @@ parameters:
     required: true
     description: version as an image tag
   - name: SUFFIX
-    description: version as an image tag
+    description: namespace with build version
     required: false
+  - CLUSTER_DOMAIN:
+    description: domain name of cluster
+    required: true
