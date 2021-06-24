@@ -41,6 +41,7 @@ export const setApiToken = (token: string): void => {
 };
 
 const useApi = () => {
+  console.log(`base url to api = ${API.BASE_URL()}`);
   return {
     async login(authReq: AuthRequest): Promise<User> {
       if (!api.current) throw new Error('axios not set up');
@@ -49,6 +50,10 @@ const useApi = () => {
         .then(({ data }) => {
           setApiToken(data.token);
           return data.user;
+        })
+        .catch((e) => {
+          console.log(e);
+          throw e;
         });
     },
 
