@@ -21,10 +21,10 @@ import { Flex } from 'rebass';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { Button, Container } from '@material-ui/core';
 import FormTitle from './common/form/FormTitle';
 import FormSubtitle from './common/form/FormSubTitle';
 import TextInput from './common/form/TextInput';
-import { StyledFormButton } from './common/form/Button';
 import validator from '../utils/validator';
 import { login } from '../actions';
 
@@ -36,42 +36,49 @@ const LoginForm: React.FC<LoginProps> = (props) => {
   const history = useHistory();
 
   const handleLogin = (formData: any) => {
-    history.push('/');
-    props
-      .login(formData)
-      .then((data: any) => {
-        history.push('/details');
-        console.error(data);
-        // return api.getProjects();
-      })
-      .catch((e: Error) => {
-        console.error(e);
-      });
+    props.login(formData).then(() => {
+      history.push('/details');
+      // return api.getProjects();
+    });
   };
 
   return (
-    <Form onSubmit={handleLogin}>
-      {(formProps) => (
-        <form onSubmit={formProps.handleSubmit}>
-          <FormTitle>Log In</FormTitle>
-          <FormSubtitle>Please enter your username and password.</FormSubtitle>
-          <Flex flexDirection="column">
-            <Label htmlFor="email">Email</Label>
-            <Field<string>
-              name="email"
-              component={TextInput}
-              placeholder="Email"
-              validate={validator.mustBeValidEmail}
-            />
-          </Flex>
-          <Flex flexDirection="column">
-            <Label htmlFor="password">Password</Label>
-            <Field name="password" component={TextInput} placeholder="" />
-          </Flex>
-          <StyledFormButton type="submit">Login</StyledFormButton>
-        </form>
-      )}
-    </Form>
+    <Container maxWidth="sm">
+      <Form onSubmit={handleLogin}>
+        {(formProps) => (
+          <form onSubmit={formProps.handleSubmit}>
+            <FormTitle>Log In</FormTitle>
+            <FormSubtitle>Please enter your email and password.</FormSubtitle>
+            <Flex flexDirection="column">
+              <Label htmlFor="email">Email</Label>
+              <Field<string>
+                name="email"
+                component={TextInput}
+                placeholder="Email"
+                validate={validator.mustBeValidEmail}
+              />
+            </Flex>
+            <Flex flexDirection="column" style={{ margin: '24px 0' }}>
+              <Label htmlFor="password">Password</Label>
+              <Field
+                name="password"
+                component={TextInput}
+                type="password"
+                placeholder=""
+              />
+            </Flex>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+            >
+              Login
+            </Button>
+          </form>
+        )}
+      </Form>
+    </Container>
   );
 };
 
