@@ -19,40 +19,42 @@ import React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Flex } from 'rebass';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import FormTitle from './common/form/FormTitle';
 import FormSubtitle from './common/form/FormSubTitle';
 import TextInput from './common/form/TextInput';
-import {StyledFormButton} from './common/form/Button';
+import { StyledFormButton } from './common/form/Button';
 import validator from '../utils/validator';
-import useApi from '../utils/api';
+import { login } from '../actions';
 
-const LoginForm: React.FC = (props) => {
+interface LoginProps {
+  login: any;
+}
 
+const LoginForm: React.FC<LoginProps> = (props) => {
   const history = useHistory();
-  const api = useApi();
 
   const handleLogin = (formData: any) => {
-    console.log(formData.email);
     history.push('/');
-    api.login(formData).then((data: any) => {
-      history.push('/details');
-      return api.getProjects();
-    }).then(data => {
-      console.log(data);
-    }).catch(e => {
-      console.log(e);
-    });
-  }
+    props
+      .login(formData)
+      .then((data: any) => {
+        history.push('/details');
+        console.error(data);
+        // return api.getProjects();
+      })
+      .catch((e: Error) => {
+        console.error(e);
+      });
+  };
 
   return (
     <Form onSubmit={handleLogin}>
-      {(props) => (
-        <form onSubmit={props.handleSubmit}>
+      {(formProps) => (
+        <form onSubmit={formProps.handleSubmit}>
           <FormTitle>Log In</FormTitle>
-          <FormSubtitle>
-            Please enter your username and password.
-          </FormSubtitle>
+          <FormSubtitle>Please enter your username and password.</FormSubtitle>
           <Flex flexDirection="column">
             <Label htmlFor="email">Email</Label>
             <Field<string>
@@ -64,11 +66,7 @@ const LoginForm: React.FC = (props) => {
           </Flex>
           <Flex flexDirection="column">
             <Label htmlFor="password">Password</Label>
-            <Field
-              name="password"
-              component={TextInput}
-              placeholder=""
-            />
+            <Field name="password" component={TextInput} placeholder="" />
           </Flex>
           <StyledFormButton type="submit">Login</StyledFormButton>
         </form>
@@ -77,4 +75,4 @@ const LoginForm: React.FC = (props) => {
   );
 };
 
-export default LoginForm;
+export default connect(null, { login })(LoginForm);

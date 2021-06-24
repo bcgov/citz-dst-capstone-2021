@@ -19,37 +19,42 @@ import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
 
 interface IProjectContactCardProps {
-  sponsor?: string
-  manager?: string
-  financialContact?: string
+  sponsor?: string;
+  manager?: string;
+  financialContact?: string;
 }
 
 const ProjectContactCard: React.FC<IProjectContactCardProps> = (props) => {
-  const {
-    sponsor = '',
-    manager = '',
-    financialContact = ''
-  } = props;
+  const { sponsor = '', manager = '', financialContact = '' } = props;
 
   return (
-    <Box style={{border: '1px solid black'}} m={4}>
-      <Box display='flex' alignItems="center" justifyContent="center" flexDirection="column" >
-
-        <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bgcolor="#D5D5D5">
+    <Box style={{ border: '1px solid black' }} m={4}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+      >
+        <Box
+          alignItems="left"
+          style={{ borderBottom: '1px solid black' }}
+          width={1}
+          p={2}
+          bgcolor="#D5D5D5"
+        >
           <Typography variant="h4">
-            <Box fontWeight='fontWeightBold' m={1 / 2}>
+            <Box fontWeight="fontWeightBold" m={1 / 2}>
               Project Contacts
             </Box>
           </Typography>
         </Box>
 
-        <Card label={'Project Sponsor'} content={sponsor} />
-        <Card label={'Project Manager'} content={manager} />
-        <Card label={'Financial Contact'} content={financialContact} />
-
+        <Card label="Project Sponsor" content={sponsor} />
+        <Card label="Project Manager" content={manager} />
+        <Card label="Financial Contact" content={financialContact} />
       </Box>
     </Box>
   );
-}
+};
 
 export default ProjectContactCard;

@@ -23,39 +23,42 @@ import ProjectContactCard from '../components/projects/ProjectContactCard';
 
 // Test data to populate project detail views
 const testData = {
-  'name' : 'Example Project',
-  'description' : 'Quarterly report dashboard and management system',
-  'ministry' : 'Citizen Services',
-  'program' : 'Digital Investment Office',
-  'CPS' : 'LCTXXXXXXXXX',
-  'ministryProjectNumber' : 'ITAXXXXXX',
-  'sponsor' : 'John Doe',
-  'manager' : 'Jane Doe',
-  'financialContact' : 'Jane Doe',
-  'phase' : 'Phase 1 Year 20/21',
-  'completionDate' : '05-25-2021',
-  'percentComplete' : 65
+  name: 'Example Project',
+  description: 'Quarterly report dashboard and management system',
+  ministry: 'Citizen Services',
+  program: 'Digital Investment Office',
+  CPS: 'LCTXXXXXXXXX',
+  ministryProjectNumber: 'ITAXXXXXX',
+  sponsor: 'John Doe',
+  manager: 'Jane Doe',
+  financialContact: 'Jane Doe',
+  phase: 'Phase 1 Year 20/21',
+  completionDate: '05-25-2021',
+  percentComplete: 65,
 };
 
 /* TODO: implement tab component to be able to switch between project details and submitted reports */
 const ProjectDetails: React.FC = () => {
   return (
-    <Container maxWidth='lg'>
-      <Box display="flex" alignItems="center" justifyContent="space-between" flexDirection="row" m={4}>
+    <Container maxWidth="lg">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        flexDirection="row"
+        m={4}
+      >
         {/* TODO: change this to display when the next quarterly report is due */}
-        <Typography variant='h4'>
-          Q3a Status Report Due dd-mm-yy
-        </Typography>
-        <Button variant='contained' color='primary'>
-          < EditIcon/>
+        <Typography variant="h4">Q3a Status Report Due dd-mm-yy</Typography>
+        <Button variant="contained" color="primary">
+          <EditIcon />
           Edit Project
         </Button>
       </Box>
 
-      <ProjectProgressCard {...testData}/>
-      <ProjectIDCard {...testData}/>
-      <ProjectContactCard {...testData}/>
-
+      <ProjectProgressCard {...testData} />
+      <ProjectIDCard {...testData} />
+      <ProjectContactCard {...testData} />
     </Container>
   );
 };

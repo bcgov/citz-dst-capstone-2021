@@ -34,27 +34,38 @@ const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
     ministry = '',
     program = '',
     CPS = '',
-    ministryProjectNumber = ''
+    ministryProjectNumber = '',
   } = props;
 
   // TODO: refactor any custom colours and theming using the theme provider
   return (
-    <Box style={{border: '1px solid black'}} m={4}>
-      <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" >
-        <Box alignItems="left" style={{borderBottom: '1px solid black'}} width={1} p={2} bgcolor="#D5D5D5">
-          <Typography variant='h4'>
-            <Box fontWeight='fontWeightBold' m={1 / 2}>
+    <Box style={{ border: '1px solid black' }} m={4}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+      >
+        <Box
+          alignItems="left"
+          style={{ borderBottom: '1px solid black' }}
+          width={1}
+          p={2}
+          bgcolor="#D5D5D5"
+        >
+          <Typography variant="h4">
+            <Box fontWeight="fontWeightBold" m={1 / 2}>
               Project Identification
             </Box>
           </Typography>
         </Box>
 
-        <Card label={'Project Name'} content={name} />
-        <Card label={'Project Description'} content={description} />
-        <Card label={'Ministry'} content={ministry} />
-        <Card label={'Program Name'} content={program} />
-        <Card label={'CPS Identifier'} content={CPS} />
-        <Card label={'Ministry Project Number'} content={ministryProjectNumber} />
+        <Card label="Project Name" content={name} />
+        <Card label="Project Description" content={description} />
+        <Card label="Ministry" content={ministry} />
+        <Card label="Program Name" content={program} />
+        <Card label="CPS Identifier" content={CPS} />
+        <Card label="Ministry Project Number" content={ministryProjectNumber} />
       </Box>
     </Box>
   );

@@ -51,12 +51,16 @@ const schema = {
       message: 'No special characters allowed',
     },
   },
-  componenentOthers: {
+  componentOthers: {
     length: {
       maximum: 512,
       tooLong: 'Max 512 characters',
     },
-    format: { pattern: '^(?! ).+[A-Za-z0-9 ,)(.!?"\']+', flags: 'i', message: 'Invalid format' },
+    format: {
+      pattern: '^(?! ).+[A-Za-z0-9 ,)(.!?"\']+',
+      flags: 'i',
+      message: 'Invalid format',
+    },
   },
   name: {
     presence: { allowEmpty: false, message: 'Required' },
@@ -72,12 +76,16 @@ const schema = {
       maximum: 32,
       tooLong: 'Max 32 characters',
     },
-    format: { pattern: '[A-Za-z0-9-]+', flags: 'i', message: 'Invalid Github account format' },
+    format: {
+      pattern: '[A-Za-z0-9-]+',
+      flags: 'i',
+      message: 'Invalid Github account format',
+    },
   },
   busOrgId: {
     presence: { allowEmpty: false, message: 'Required' },
   },
-  migratingLicenseplate: {
+  migratingLicensePlate: {
     presence: { allowEmpty: false, message: 'Required' },
     length: {
       maximum: 32,
@@ -86,7 +94,8 @@ const schema = {
     format: {
       pattern: '[A-Za-z0-9-_]+',
       flags: 'i',
-      message: 'Must only contain alphanumetic characters, hyphens or underscores',
+      message:
+        'Must only contain alphanumeric characters, hyphens or underscores',
     },
   },
 };
@@ -94,57 +103,27 @@ const schema = {
 export default {
   mustBeValidEmail(value: any) {
     const errors = validate({ email: value }, schema, { fullMessages: false });
-    if (errors && errors.email) {
-      return errors.email[0];
-    }
+    return errors && errors.email ? errors.email[0] : '';
   },
 
   mustBeValidProfileName(value: any) {
-    const errors = validate({ profileName: value }, schema, { fullMessages: false });
-    if (errors && errors.profileName) {
-      return errors.profileName[0];
-    }
+    const errors = validate({ profileName: value }, schema, {
+      fullMessages: false,
+    });
+    return errors && errors.profileName ? errors.profileName[0] : '';
   },
 
-  mustBeValidProfileDescription (value: any) {
-    const errors = validate({ profileDescription: value }, schema, { fullMessages: false });
-    if (errors && errors.profileDescription) {
-      return errors.profileDescription[0];
-    }
+  mustBeValidProfileDescription(value: any) {
+    const errors = validate({ profileDescription: value }, schema, {
+      fullMessages: false,
+    });
+    return errors && errors.profileDescription
+      ? errors.profileDescription[0]
+      : '';
   },
 
-  mustBeValidName (value: any) {
+  mustBeValidName(value: any) {
     const errors = validate({ name: value }, schema, { fullMessages: false });
-    if (errors && errors.name) {
-      return errors.name[0];
-    }
+    return errors && errors.name ? errors.name[0] : '';
   },
-
-  mustBeValidGithubName (value: any) {
-    const errors = validate({ githubName: value }, schema, { fullMessages: false });
-    if (errors && errors.githubName) {
-      return errors.githubName[0];
-    }
-  },
-
-  mustBeValidComponentOthers (value: any) {
-    const errors = validate({ componenentOthers: value }, schema, { fullMessages: false });
-    if (errors && errors.componenentOthers) {
-      return errors.componenentOthers[0];
-    }
-  },
-
-   mustBeValidBusOrgId (value: any) {
-    const errors = validate({ busOrgId: value }, schema, { fullMessages: false });
-    if (errors && errors.componenentOthers) {
-      return errors.componenentOthers[0];
-    }
-  },
-
-  mustBeValidProfileLicenseplate (value: any) {
-    const errors = validate({ migratingLicenseplate: value }, schema, { fullMessages: false });
-    if (errors && errors.migratingLicenseplate) {
-      return errors.migratingLicenseplate[0];
-    }
-  },
-}
+};

@@ -14,8 +14,10 @@
 // limitations under the License.
 //
 
-import { PropsWithChildren } from 'react';
+import { combineReducers } from 'redux';
+import { StoreState } from '../types';
+import userReducer from './userReducer';
 
-const Aux = (props: PropsWithChildren<any>) => props.children;
-
-export default Aux;
+export default combineReducers<StoreState>({
+  user: userReducer,
+});

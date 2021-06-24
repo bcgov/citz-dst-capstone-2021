@@ -1,44 +1,70 @@
-import axios from 'axios';
-import type { AxiosInstance, AxiosResponse } from "axios";
+//
+// Copyright © 2020 Province of British Columbia
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
+import axios from 'axios';
+import type { AxiosInstance, AxiosResponse } from 'axios';
+
+import { AuthRequest, AuthResponse, User } from '../types';
 import { API } from '../constants';
-import assert from 'assert';
 
 const api: { current: AxiosInstance } = {
   current: axios.create({
-    baseURL: API.BASE_URL()
+    baseURL: API.BASE_URL(),
   }),
 };
 
-export const setApiToken = (token: string) => {
-  assert(token, 'token must be set');
-  api.current = axios.create({
-    baseURL: API.BASE_URL(),
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
+export const setApiToken = (token: string): void => {
+  if (token) {
+    api.current = axios.create({
+      baseURL: API.BASE_URL(),
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } else {
+    api.current = axios.create({ baseURL: API.BASE_URL() });
+  }
+};
 
 const useApi = () => {
   return {
-    async login(requestBody: any): Promise<AxiosResponse<any>> {
+    async login(authReq: AuthRequest): Promise<User> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.post(
-        `login`,
-        requestBody
-      ).then(({data}) => {
-        setApiToken(data.token);
-        return data;
+      return api.current
+        .post<AuthResponse>(`login`, authReq)
+        .then(({ data }) => {
+          setApiToken(data.token);
+          return data.user;
+        });
+    },
+
+    async logout(user: User): Promise<User> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current.post('logout').then(() => {
+        setApiToken('');
+        return user;
       });
     },
 
     getProjects(): Promise<AxiosResponse<any>> {
       if (!api.current) throw new Error('axios not set up');
       return api.current.get(`projects`).then(({ data }) => data);
-    }
-  }
-}
+    },
+  };
+};
 
 export default useApi;

@@ -46,7 +46,9 @@ export const StyledFormButton: React.FC<IButtonProps> = (props: any) => {
   );
 };
 
-export const StyledFormDisabledButton: React.FC<IButtonProps> = (props: any) => {
+export const StyledFormDisabledButton: React.FC<IButtonProps> = (
+  props: any
+) => {
   const { children, ...rest } = props;
   return (
     <StyledDisabledButton disabled {...rest}>

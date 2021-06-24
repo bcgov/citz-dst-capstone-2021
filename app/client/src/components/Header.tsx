@@ -1,14 +1,31 @@
-import styled from "@emotion/styled";
-import {Box, Flex, Text} from "rebass";
-import { useHistory } from 'react-router-dom';
+//
+// Copyright © 2020 Province of British Columbia
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
+import { useHistory, Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { connect } from 'react-redux';
+
+import { Box, Flex, Text } from 'rebass';
+import React from 'react';
 import theme from '../theme';
 import typography from '../typography';
 import GovLogo from './common/GovLogo';
-import React from 'react';
-import { Link } from "react-router-dom";
 import Button from './common/buttons/Button';
-
+import { StoreState, User } from '../types';
+import { logout } from '../actions';
 
 const StyledHeader = styled.header`
   background-color: ${theme.colors.primary};
@@ -37,25 +54,35 @@ const StyledText = styled(Text)`
   min-width: 150px;
 `;
 
-const Header: React.FC = (props) => {
+interface HeaderProps {
+  user: User;
+  logout: any;
+}
 
+const Header: React.FC<HeaderProps> = (props) => {
   const history = useHistory();
+  const { email } = props.user;
 
   const redirectLogin = () => {
-    history.push('/login');
-  }
+    if (email) {
+      props.logout(props.user);
+      history.push('/');
+    } else {
+      history.push('/login');
+    }
+  };
 
   return (
     <StyledHeader>
-      <Flex alignItems='center' sx={{ paddingRight: 3 }}>
+      <Flex alignItems="center" sx={{ paddingRight: 3 }}>
         <StyledBanner>
           <Link
             style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
             }}
-            to='/'
+            to="/"
           >
             <GovLogo />
             <StyledText
@@ -69,11 +96,15 @@ const Header: React.FC = (props) => {
             </StyledText>
           </Link>
         </StyledBanner>
-        <Box mx='auto'/>
-        <Button onClick={redirectLogin}>Login</Button>
+        <Box mx="auto" />
+        <Button onClick={redirectLogin}>{email ? 'Logout' : 'Login'}</Button>
       </Flex>
     </StyledHeader>
   );
 };
 
-export default Header;
+const mapState = ({ user }: StoreState): { user: User } => {
+  return { user };
+};
+
+export default connect(mapState, { logout })(Header);

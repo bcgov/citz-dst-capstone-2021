@@ -14,8 +14,17 @@
 // limitations under the License.
 //
 
-import { PropsWithChildren } from 'react';
+import { User, ActionTypes, LoginAction } from '../types';
 
-const Aux = (props: PropsWithChildren<any>) => props.children;
+const userReducer = (user = {} as User, action: LoginAction): User => {
+  switch (action.type) {
+    case ActionTypes.login:
+      return action.payload;
+    case ActionTypes.logout:
+      return {} as User;
+    default:
+      return user;
+  }
+};
 
-export default Aux;
+export default userReducer;
