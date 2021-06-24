@@ -53,6 +53,23 @@ objects:
   - kind: Route
     apiVersion: v1
     metadata:
+      labels:
+        app: "${NAME}${SUFFIX}"
+      name: ${NAME}-to-api
+    spec:
+      host: "${NAME}-${NAMESPACE}"
+      path: "/api"
+      port:
+        targetPort: 8080-tcp
+      tls:
+        termination: edge
+      to:
+        kind: Service
+        name: "rdsi-server${SUFFIX}"
+        weight: 100
+  - kind: Route
+    apiVersion: v1
+    metadata:
       name: "${NAME}${SUFFIX}"
       labels:
         app: "${NAME}"

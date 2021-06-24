@@ -65,7 +65,9 @@ objects:
           kind: ImageStreamTag
           name: "${NAME}:${VERSION}"
       postCommit: {}
-      resources: {}
+      resources:
+        requests:
+          memory: 1024Mi
       runPolicy: Serial
       source:
         contextDir: app/client
