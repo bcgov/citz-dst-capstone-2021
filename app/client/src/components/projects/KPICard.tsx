@@ -16,7 +16,7 @@
 
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
-import CardItem from './CardItem';
+import Card from './Card';
 
 interface IKPICardProps {
   name?: string
@@ -76,9 +76,9 @@ const KPICard: React.FC<IKPICardProps> = (props) => {
           </Typography>
         </Box>
 
-        <CardItem label={'Baseline'} content={`${baselineValue} ${baselineUnit}`} />
-        <CardItem label={'Target'} content={`${targetValue} ${targetUnit}`} />
-        <CardItem label={'Target Date'} content={targetDate} />
+        <Card label={'Baseline'} content={`${baselineValue} ${baselineUnit}`} />
+        <Card label={'Target'} content={`${targetValue} ${targetUnit}`} />
+        <Card label={'Target Date'} content={targetDate} />
 
       </Box>
     </Box>

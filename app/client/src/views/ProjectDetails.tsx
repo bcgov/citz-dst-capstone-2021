@@ -17,12 +17,11 @@ import React from 'react';
 
 import { Typography, Button, Box, Container } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import ProjectIDCard from "../components/projectDetails/ProjectIDCard";
-import ProjectProgressCard from "../components/projectDetails/ProjectProgressCard";
-import ProjectContactCard from "../components/projectDetails/ProjectContactCard";
-import KPICard from "../components/projectDetails/KPICard";
+import ProjectIDCard from "../components/projects/ProjectIDCard";
+import ProjectProgressCard from "../components/projects/ProjectProgressCard";
+import ProjectContactCard from "../components/projects/ProjectContactCard";
+import KPICard from "../components/projects/KPICard";
 import theme from "../theme";
-import { promptErrToastWithText } from "../utils/promptToastHelper";
 
 // Test data to populate project detail views
 const testData = {
