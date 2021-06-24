@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
@@ -20,7 +20,7 @@ import Card from './Card';
 
 interface IKPICardProps {
   name?: string
-  type?: string //we could use an enum here
+  type?: string // we could use an enum here
   description?: string
   baselineUnit?: string
   baselineValue?: number
@@ -76,9 +76,9 @@ const KPICard: React.FC<IKPICardProps> = (props) => {
           </Typography>
         </Box>
 
-        <Card label={'Baseline'} content={`${baselineValue} ${baselineUnit}`} />
-        <Card label={'Target'} content={`${targetValue} ${targetUnit}`} />
-        <Card label={'Target Date'} content={targetDate} />
+        <Card label='Baseline' content={`${baselineValue} ${baselineUnit}`} />
+        <Card label='Target' content={`${targetValue} ${targetUnit}`} />
+        <Card label='Target Date' content={targetDate} />
 
       </Box>
     </Box>
