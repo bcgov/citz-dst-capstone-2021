@@ -12,7 +12,7 @@ afterAll(async () => {
   await disconnect();
 });
 
-describe.skip('loading test data', () => {
+describe('loading test data', () => {
   it('loading sample projects', () => {
     return Promise.all(
       testData.projects.map((prj: CreateProjectDTO) => {

@@ -31,7 +31,14 @@ const projectSchema: Schema<Project> = new Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
     projectNumber: {
+      type: String,
+    },
+    program: {
       type: String,
     },
     ministry: {

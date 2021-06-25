@@ -61,3 +61,19 @@ export interface LoginAction {
 export interface StoreState {
   user: User;
 }
+
+export interface Project {
+  id: string;
+  name: string;
+  cpsIdentifier: string;
+  projectNumber: string;
+  description: string;
+  ministry: string;
+  program: string;
+  sponsor: Record<string, string>;
+  manager: Record<string, string>;
+  financialContact: Record<string, string>;
+  start: string;
+  progress: number;
+  phase: string;
+}

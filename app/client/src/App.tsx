@@ -6,6 +6,7 @@ import AppRoute from './utils/AppRoute';
 import LoginForm from './views/LoginForm';
 import ProjectDetails from './views/ProjectDetails';
 import SignUpForm from './views/SignUpForm';
+import ProjectList from './views/submitter/ProjectList';
 
 const Home = () => {
   return (
@@ -45,6 +46,11 @@ const Home = () => {
           Select <Link to="/details"> Project Details</Link>
         </h3>
       </div>
+      <div>
+        <h3>
+          Select <Link to="/submitter"> Submitter&apos;s Project List</Link>
+        </h3>
+      </div>
     </div>
   );
 };
@@ -56,6 +62,7 @@ function App() {
       <AppRoute path="/login" component={LoginForm} />
       <AppRoute path="/signup" component={SignUpForm} />
       <AppRoute path="/details" component={ProjectDetails} />
+      <AppRoute exact path="/submitter" component={ProjectList} />
       <Redirect to="/" />
     </HashRouter>
   );
