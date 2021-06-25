@@ -60,6 +60,13 @@ const useApi = () => {
       });
     },
 
+    signup(user: any): Promise<User> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current.post('signup', user).then(() => {
+        return user;
+      });
+    },
+
     getProjects(): Promise<AxiosResponse<any>> {
       if (!api.current) throw new Error('axios not set up');
       return api.current.get(`projects`).then(({ data }) => data);
