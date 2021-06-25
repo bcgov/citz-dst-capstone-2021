@@ -15,11 +15,11 @@
  */
 
 export enum Role {
-  Admin = 'admin',
-  Submitter = 'submitter',
-  FA = 'fa', // financial analyst
-  Executive = 'executive',
-  User = 'user',
+  Admin = 'Admin',
+  Submitter = 'Submitter',
+  FA = 'FA', // financial analyst
+  Executive = 'Executive',
+  User = 'User',
 }
 
 export default { Role };

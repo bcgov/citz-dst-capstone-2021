@@ -20,6 +20,9 @@ import { FieldRenderProps } from 'react-final-form';
 
 type Props = FieldRenderProps<string, any>;
 
+/**
+ * @deprecated use
+ */
 const TextInput: React.FC<Props> = ({
   input,
   meta: { active, error, touched },
