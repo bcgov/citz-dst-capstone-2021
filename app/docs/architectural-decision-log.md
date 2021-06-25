@@ -4,7 +4,7 @@
 
 **UI Frameworks:**
 - MaterialUI
-> TODO: SF to write up reasoning for UI Frameworks
+- Formik
 
 **Data Visualization Libraries:** *undecided*
 
@@ -106,6 +106,31 @@ It would not be significantly different whether we choose SQL or NoSQL databases
 ](https://www.red-gate.com/simple-talk/databases/nosql/how-to-choose-between-sql-and-nosql-databases/?utm_source=simpletalk&utm_medium=pubemail&utm_campaign=st2&utm_content=20210511-slota2)
 
 *** [How to Use MongoDB Transactions in Node.js](https://www.mongodb.com/blog/post/quick-start-nodejs--mongodb--how-to-implement-transactions)
+
+---
+# UI Frameworks
+
+## MaterialUI
+
+Pros:
+- Robust component library
+- Includes components for interactive UI features that will save time without compromising on user experience
+- Extensive icon library available (note: icons are a separate package from material-ui)
+- Supports custom styles and themes
+- Good documentation with examples provided in a sandbox environment to experiment with
+- Designed to work with React framework
+- Responsive
+
+Cons:
+- MaterialUI is easily identifiable due to popularity; can be restrictive on branding
+- Some slight usability issues have been noted due to floating action buttons only having space for icons and no assistive text.
+
+### Conclusion
+MaterialUI has components that meet the needs of our project and align with our design goals. The excellent documentation will help the team gain a clear understanding of how to use the framework in a short amount of time. The customization issues noted are not believed to be a hinderance to achieving the desired look and feel of a BC Gov application.
+
+**Sources**
+- [why use material design](https://www.toptal.com/designers/ui/why-use-material-design)
+- [Best React JS CSS UI Components Library](https://holycoders.com/list-of-react-ui-library-and-frameworks/)
 
 ---
 ## Data Visualization Libraries
