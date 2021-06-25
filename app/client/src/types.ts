@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-enum Role {
+export enum Role {
   Admin = 'admin',
   Submitter = 'submitter',
   FA = 'fa', // financial analyst

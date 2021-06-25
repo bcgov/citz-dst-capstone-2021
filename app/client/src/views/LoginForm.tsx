@@ -18,13 +18,13 @@ import { Label } from '@rebass/forms';
 import React from 'react';
 import { Field, Form } from 'react-final-form';
 import { Flex } from 'rebass';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Button, Container } from '@material-ui/core';
-import FormTitle from './common/form/FormTitle';
-import FormSubtitle from './common/form/FormSubTitle';
-import TextInput from './common/form/TextInput';
+import FormTitle from '../components/common/form/FormTitle';
+import FormSubtitle from '../components/common/form/FormSubTitle';
+import TextInput from '../components/common/form/TextInput';
 import validator from '../utils/validator';
 import { login } from '../actions';
 
@@ -75,6 +75,7 @@ const LoginForm: React.FC<LoginProps> = (props) => {
             >
               Login
             </Button>
+            <Link to="/signup">Sign Up</Link>
           </form>
         )}
       </Form>

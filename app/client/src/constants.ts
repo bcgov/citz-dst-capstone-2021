@@ -9,4 +9,29 @@ const Constants = {
   API,
 };
 
+/**
+ * TODO: (nick) move to database
+ */
+export const Ministries = [
+  'Advanced Education and Skills Training',
+  'Agriculture, Food and Fisheries',
+  'Attorney General',
+  'Children and Family Development',
+  "Citizens' Services",
+  'Education',
+  'Energy, Mines and Low Carbon Innovation',
+  'Environment and Climate Change Strategy',
+  'Finance',
+  'Forests, Lands, Natural Resource Operations and Rural Development',
+  'Health',
+  'Indigenous Relations and Reconciliation',
+  'Jobs, Economic Recovery and Innovation',
+  'Labour',
+  'Mental Health and Addictions',
+  'Municipal Affairs',
+  'Public Safety and Solicitor General',
+  'Social Development and Poverty Reduction',
+  'Tourism, Arts, Culture and Sport',
+  'Transportation and Infrastructure',
+];
 export default Constants;
