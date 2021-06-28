@@ -17,11 +17,10 @@ import React from 'react';
 
 import { Typography, Button, Box, Container } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import ProjectIDCard from "../components/projects/ProjectIDCard";
-import ProjectProgressCard from "../components/projects/ProjectProgressCard";
-import ProjectContactCard from "../components/projects/ProjectContactCard";
-import KPICard from "../components/projects/KPICard";
-import theme from "../theme";
+import ProjectIDCard from '../components/projects/ProjectIDCard';
+import ProjectProgressCard from '../components/projects/ProjectProgressCard';
+import ProjectContactCard from '../components/projects/ProjectContactCard';
+import KPICard from '../components/projects/KPICard';
 
 // Test data to populate project detail views
 const testData = {
@@ -40,28 +39,30 @@ const testData = {
 };
 
 const testKPIData = {
-  'kpiAlpha' : {
-    'name' : 'KPI Alpha',
-    'type' : 'Output',
-    'description' : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
-    'baselineUnit' : '%',
-    'baselineValue' : 5,
-    'targetUnit' : '%',
-    'targetValue' : 20,
-    'targetDate' : '2021-07-10'
+  kpiAlpha: {
+    name: 'KPI Alpha',
+    type: 'Output',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
+    baselineUnit: '%',
+    baselineValue: 5,
+    targetUnit: '%',
+    targetValue: 20,
+    targetDate: '2021-07-10',
   },
 
-  'kpiBeta' : {
-    'name' : 'KPI Beta',
-    'type' : 'Outcome',
-    'description' : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
-    'baselineUnit' : 'hrs',
-    'baselineValue' : 2,
-    'targetUnit' : 'min',
-    'targetValue' : 45,
-    'targetDate' : '2022-01-15'
+  kpiBeta: {
+    name: 'KPI Beta',
+    type: 'Outcome',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
+    baselineUnit: 'hrs',
+    baselineValue: 2,
+    targetUnit: 'min',
+    targetValue: 45,
+    targetDate: '2022-01-15',
   },
-}
+};
 
 /* TODO: implement tab component to be able to switch between project details and submitted reports */
 const ProjectDetails: React.FC = () => {
@@ -82,19 +83,16 @@ const ProjectDetails: React.FC = () => {
         </Button>
       </Box>
 
-      <ProjectProgressCard {...testData}/>
-      <ProjectIDCard {...testData}/>
-      <ProjectContactCard {...testData}/>
+      <ProjectProgressCard {...testData} />
+      <ProjectIDCard {...testData} />
+      <ProjectContactCard {...testData} />
 
-      <Typography variant='h4'>
-        Key Performance Indicators
-      </Typography>
+      <Typography variant="h4">Key Performance Indicators</Typography>
 
-      <Box display='flex' alignItems='center' justifyContent='center'>
+      <Box display="flex" alignItems="center" justifyContent="center">
         <KPICard {...testKPIData.kpiAlpha} />
         <KPICard {...testKPIData.kpiBeta} />
       </Box>
-      
     </Container>
   );
 };

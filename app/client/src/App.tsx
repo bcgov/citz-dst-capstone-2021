@@ -3,8 +3,9 @@ import './App.css';
 import { HashRouter, Link, Redirect } from 'react-router-dom';
 
 import AppRoute from './utils/AppRoute';
-import LoginForm from './components/LoginForm';
+import LoginForm from './views/LoginForm';
 import ProjectDetails from './views/ProjectDetails';
+import SignUpForm from './views/SignUpForm';
 
 const Home = () => {
   return (
@@ -53,6 +54,7 @@ function App() {
     <HashRouter>
       <AppRoute path="/" exact component={Home} />
       <AppRoute path="/login" component={LoginForm} />
+      <AppRoute path="/signup" component={SignUpForm} />
       <AppRoute path="/details" component={ProjectDetails} />
       <Redirect to="/" />
     </HashRouter>
