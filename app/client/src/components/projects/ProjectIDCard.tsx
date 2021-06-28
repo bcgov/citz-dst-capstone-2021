@@ -17,25 +17,11 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
+import { Project } from '../../types';
 
-interface IProjectIDCardProps {
-  name?: string;
-  description?: string;
-  ministry?: string;
-  program?: string;
-  CPS?: string;
-  ministryProjectNumber?: string;
-}
-
-const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
-  const {
-    name = '',
-    description = '',
-    ministry = '',
-    program = '',
-    CPS = '',
-    ministryProjectNumber = '',
-  } = props;
+const ProjectIDCard: React.FC<Project> = (props) => {
+  const { name, description, ministry, program, cpsIdentifier, projectNumber } =
+    props;
 
   // TODO: refactor any custom colours and theming using the theme provider
   return (
@@ -64,8 +50,8 @@ const ProjectIDCard: React.FC<IProjectIDCardProps> = (props) => {
         <Card label="Project Description" content={description} />
         <Card label="Ministry" content={ministry} />
         <Card label="Program Name" content={program} />
-        <Card label="CPS Identifier" content={CPS} />
-        <Card label="Ministry Project Number" content={ministryProjectNumber} />
+        <Card label="CPS Identifier" content={cpsIdentifier} />
+        <Card label="Ministry Project Number" content={projectNumber} />
       </Box>
     </Box>
   );

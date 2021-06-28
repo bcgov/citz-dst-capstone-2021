@@ -17,15 +17,16 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
+import { SimpleContact } from '../../types';
 
 interface IProjectContactCardProps {
-  sponsor?: string;
-  manager?: string;
-  financialContact?: string;
+  sponsor?: SimpleContact;
+  manager?: SimpleContact;
+  financialContact?: SimpleContact;
 }
 
 const ProjectContactCard: React.FC<IProjectContactCardProps> = (props) => {
-  const { sponsor = '', manager = '', financialContact = '' } = props;
+  const { sponsor, manager, financialContact } = props;
 
   return (
     <Box style={{ border: '1px solid black' }} m={4}>
@@ -49,9 +50,18 @@ const ProjectContactCard: React.FC<IProjectContactCardProps> = (props) => {
           </Typography>
         </Box>
 
-        <Card label="Project Sponsor" content={sponsor} />
-        <Card label="Project Manager" content={manager} />
-        <Card label="Financial Contact" content={financialContact} />
+        <Card
+          label="Project Sponsor"
+          content={`${sponsor?.firstName} ${sponsor?.lastName}`}
+        />
+        <Card
+          label="Project Manager"
+          content={`${manager?.firstName} ${manager?.lastName}`}
+        />
+        <Card
+          label="Financial Contact"
+          content={`${financialContact?.firstName} ${financialContact?.lastName}`}
+        />
       </Box>
     </Box>
   );

@@ -42,6 +42,7 @@ class ProjectsRoute implements Route {
 
     this.router
       .route('/:id')
+      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjectDetail)
       .delete(passport.authenticate('jwt', { session: false }), ProjectsController.deleteProject)
       .patch(
         passport.authenticate('jwt', { session: false }),

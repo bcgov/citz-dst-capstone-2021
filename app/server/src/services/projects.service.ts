@@ -31,7 +31,10 @@ export default {
   },
 
   async findProjectByCPS(cpsIdentifier: string): Promise<Project> {
-    const project = await ProjectModel.findOne({ cpsIdentifier });
+    const project = await ProjectModel.findOne({ cpsIdentifier })
+      .populate({ path: 'sponsor', select: ['firstName', 'lastName'] })
+      .populate({ path: 'manager', select: ['firstName', 'lastName'] })
+      .populate({ path: 'financialContact', select: ['firstName', 'lastName'] });
     return project;
   },
 
@@ -56,11 +59,17 @@ export default {
     }
     return project;
   },
+
   async updateProject(id: string, input: CreateProjectDTO): Promise<Project> {
     const project = await ProjectModel.findByIdAndUpdate(id, input, { new: true });
     if (!project) {
       throw errorWithCode(`Unable to update user`, 500);
     }
     return project;
+  },
+
+  async getProjectDetail(cpsIdentifier: string) {
+    // TODO: (nick) change so that result includes other info...
+    return this.findProjectByCPS(cpsIdentifier);
   },
 };

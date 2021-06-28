@@ -29,6 +29,16 @@ export default {
     }
   },
 
+  async getProjectDetail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data: Project = await ProjectService.findProjectByCPS(id);
+      res.status(200).json({ data, message: 'project' });
+    } catch (e) {
+      next(e);
+    }
+  },
+
   async createProject(req: Request, res: Response, next: NextFunction) {
     try {
       const input: CreateProjectDTO = req.body;

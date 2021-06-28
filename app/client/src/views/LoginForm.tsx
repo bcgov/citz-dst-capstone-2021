@@ -39,7 +39,7 @@ const LoginForm: React.FC<LoginProps> = (props) => {
     validationSchema: validateLogin,
     onSubmit: (values) => {
       props.login(values).then(() => {
-        history.push('/details');
+        history.push('/projects');
         // return api.getProjects();
       });
     },

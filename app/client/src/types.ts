@@ -57,7 +57,41 @@ export interface LoginAction {
   payload: User;
 }
 
+export interface Action {
+  type: ActionTypes;
+}
+
+export interface ProjectAction {
+  type: ActionTypes.fetchProjects;
+  payload: Project[];
+}
+
 // redux state structure
 export interface StoreState {
   user: User;
+}
+
+// TODO: (nick) users should be mapped to the exact User type
+export interface SimpleContact {
+  firstName: string;
+  lastName: string;
+  id: string;
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  cpsIdentifier: string;
+  projectNumber: string;
+  description: string;
+  ministry: string;
+  program: string;
+  sponsor: SimpleContact;
+  manager: SimpleContact;
+  financialContact: SimpleContact;
+  start: string;
+  estimatedEnd: string;
+  end: string;
+  progress: number;
+  phase: string;
 }
