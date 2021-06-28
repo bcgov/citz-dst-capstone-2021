@@ -71,6 +71,13 @@ export interface StoreState {
   user: User;
 }
 
+// TODO: (nick) users should be mapped to the exact User type
+export interface SimpleContact {
+  firstName: string;
+  lastName: string;
+  id: string;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -79,10 +86,12 @@ export interface Project {
   description: string;
   ministry: string;
   program: string;
-  sponsor: Record<string, string>;
-  manager: Record<string, string>;
-  financialContact: Record<string, string>;
+  sponsor: SimpleContact;
+  manager: SimpleContact;
+  financialContact: SimpleContact;
   start: string;
+  estimatedEnd: string;
+  end: string;
   progress: number;
   phase: string;
 }

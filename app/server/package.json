@@ -69,6 +69,7 @@
     "eslint-config-airbnb-base-ts": "14.1.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.0",
+    "faker": "5.5.3",
     "husky": "6.0.0",
     "jest": "27.0.3",
     "lint-staged": "11.0.0",

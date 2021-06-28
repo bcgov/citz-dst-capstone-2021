@@ -13,30 +13,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Typography, Button, Box, Container } from '@material-ui/core';
+import {
+  Typography,
+  Button,
+  Box,
+  Container,
+  CircularProgress,
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import { useParams } from 'react-router-dom';
 import ProjectIDCard from '../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../components/projects/ProjectContactCard';
 import KPICard from '../components/projects/KPICard';
-
-// Test data to populate project detail views
-const testData = {
-  name: 'Example Project',
-  description: 'Quarterly report dashboard and management system',
-  ministry: 'Citizen Services',
-  program: 'Digital Investment Office',
-  CPS: 'LCTXXXXXXXXX',
-  ministryProjectNumber: 'ITAXXXXXX',
-  sponsor: 'John Doe',
-  manager: 'Jane Doe',
-  financialContact: 'Jane Doe',
-  phase: 'Phase 1 Year 20/21',
-  completionDate: '05-25-2021',
-  percentComplete: 65,
-};
+import useApi from '../utils/api';
+import { Project } from '../types';
 
 const testKPIData = {
   kpiAlpha: {
@@ -66,6 +59,40 @@ const testKPIData = {
 
 /* TODO: implement tab component to be able to switch between project details and submitted reports */
 const ProjectDetails: React.FC = () => {
+  const [project, setProject] = useState({} as Project);
+  const { cps } = useParams<{ cps: string }>();
+
+  const api = useApi();
+
+  useEffect(() => {
+    api.getProjectDetail(cps).then((data) => {
+      setProject(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const renderProject = () => {
+    return (
+      <>
+        <ProjectProgressCard {...project} />
+        <ProjectIDCard {...project} />
+        <ProjectContactCard {...project} />
+
+        <Box mx={4}>
+          <Typography variant="h4">Key Performance Indicators</Typography>
+        </Box>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <KPICard {...testKPIData.kpiAlpha} />
+          <KPICard {...testKPIData.kpiBeta} />
+        </Box>
+      </>
+    );
+  };
+
+  const renderContent = () => {
+    return project.id ? renderProject() : <CircularProgress />;
+  };
+
   return (
     <Container maxWidth="lg">
       <Box
@@ -82,17 +109,7 @@ const ProjectDetails: React.FC = () => {
           Edit Project
         </Button>
       </Box>
-
-      <ProjectProgressCard {...testData} />
-      <ProjectIDCard {...testData} />
-      <ProjectContactCard {...testData} />
-
-      <Typography variant="h4">Key Performance Indicators</Typography>
-
-      <Box display="flex" alignItems="center" justifyContent="center">
-        <KPICard {...testKPIData.kpiAlpha} />
-        <KPICard {...testKPIData.kpiBeta} />
-      </Box>
+      <Box>{renderContent()}</Box>
     </Container>
   );
 };

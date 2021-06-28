@@ -37,13 +37,16 @@ export const login = (loginReq: AuthRequest) => {
 };
 
 export const logout = (user: User) => {
-  return async (dispatch: Dispatch) => {
-    const response = await useApi().logout(user);
-    dispatch<LoginAction>({
-      type: ActionTypes.logout,
-      payload: response,
-    });
-    return response;
+  return (dispatch: Dispatch) => {
+    return useApi()
+      .logout(user)
+      .catch(() => {})
+      .finally(() => {
+        dispatch<LoginAction>({
+          type: ActionTypes.logout,
+          payload: {} as User,
+        });
+      });
   };
 };
 
@@ -51,6 +54,7 @@ export const logout = (user: User) => {
  * TODO: (nick) query projects that the user has permission
  * @param user User
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const fetchProjects = (user?: User) => {
   return async (dispatch: Dispatch) => {
     const response = await useApi().getProjects();
