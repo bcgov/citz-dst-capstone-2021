@@ -62,13 +62,13 @@ const ProjectListRow: React.FC<ProjectListRowProps> = (props) => {
           </IconButton>
         </StyledTableCell>
       </TableRow>
-      <Collapse in={!collapse}>
-        <TableRow>
-          <TableCell colSpan={5}>
+      <TableRow style={{ display: collapse ? 'none' : '' }}>
+        <TableCell colSpan={12}>
+          <Collapse in={!collapse}>
             <ProjectListRowDetail project={row} />
-          </TableCell>
-        </TableRow>
-      </Collapse>
+          </Collapse>
+        </TableCell>
+      </TableRow>
     </>
   );
 };

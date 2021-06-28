@@ -104,7 +104,11 @@ const ProjectDetails: React.FC = () => {
       >
         {/* TODO: change this to display when the next quarterly report is due */}
         <Typography variant="h4">Q3a Status Report Due dd-mm-yy</Typography>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => alert('Not Implemented')}
+        >
           <EditIcon />
           Edit Project
         </Button>

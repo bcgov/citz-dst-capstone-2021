@@ -15,8 +15,9 @@
 //
 
 import React from 'react';
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
+import { useHistory } from 'react-router-dom';
 import { Project } from '../../types';
 import utils from '../../utils';
 
@@ -29,6 +30,8 @@ const ProjectListRowDetail: React.FC<
 > = (props) => {
   const { project } = props;
 
+  const history = useHistory();
+
   return (
     <Grid
       container
@@ -38,22 +41,49 @@ const ProjectListRowDetail: React.FC<
       spacing={1}
     >
       <Grid item xs={4}>
-        <Box>
-          <Typography variant="h6">Project Description</Typography>
+        <Box ml={1}>
+          <Typography variant="subtitle1">Project Description</Typography>
           <Box>{project.description}</Box>
         </Box>
       </Grid>
-      <Grid item xs={5}>
-        <Box display="flex">
-          <Typography variant="h6">Report Due</Typography>
+      <Grid container item xs={6} alignItems="center">
+        <Grid item xs={6}>
+          <Typography variant="subtitle1">Q3 Report Due</Typography>
+        </Grid>
+        <Grid item xs={6}>
           TODO - Due Date
-        </Box>
-        <Box display="flex">
-          <Typography variant="h6">Estimated End</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="subtitle1">
+            Estimated Date of Project Completion
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
           {utils.getISODateString(project.estimatedEnd)}
-        </Box>
+        </Grid>
       </Grid>
-      <Grid item xs={3} />
+      <Grid item xs={2}>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ textTransform: 'none' }}
+            onClick={() => alert('Not implemented')}
+          >
+            Start Report
+          </Button>
+        </div>
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ textTransform: 'none', marginTop: '4px' }}
+            onClick={() => history.push(`/projects/${project.cpsIdentifier}`)}
+          >
+            View Project Detail
+          </Button>
+        </div>
+      </Grid>
     </Grid>
   );
 };
