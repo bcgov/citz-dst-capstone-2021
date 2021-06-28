@@ -43,11 +43,6 @@ const Home = () => {
       <br />
       <div>
         <h3>
-          Select <Link to="/details"> Project Details</Link>
-        </h3>
-      </div>
-      <div>
-        <h3>
           Select <Link to="/projects"> Submitter&apos;s Project List</Link>
         </h3>
       </div>
@@ -61,8 +56,8 @@ function App() {
       <AppRoute path="/" exact component={Home} />
       <AppRoute path="/login" component={LoginForm} />
       <AppRoute path="/signup" component={SignUpForm} />
-      <AppRoute path="/projects/:cps" component={ProjectDetails} />
-      <AppRoute exact path="/projects" component={ProjectList} />
+      <AppRoute requireAuth path="/projects/:cps" component={ProjectDetails} />
+      <AppRoute requireAuth exact path="/projects" component={ProjectList} />
       <Redirect to="/" />
     </HashRouter>
   );
