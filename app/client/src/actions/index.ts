@@ -17,7 +17,13 @@
 import { Dispatch } from 'redux';
 
 import useApi from '../utils/api';
-import { LoginAction, AuthRequest, ActionTypes, User } from '../types';
+import {
+  LoginAction,
+  ProjectAction,
+  AuthRequest,
+  ActionTypes,
+  User,
+} from '../types';
 
 export const login = (loginReq: AuthRequest) => {
   return async (dispatch: Dispatch) => {
@@ -30,12 +36,26 @@ export const login = (loginReq: AuthRequest) => {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const logout = (user: User) => {
   return async (dispatch: Dispatch) => {
     const response = await useApi().logout(user);
     dispatch<LoginAction>({
       type: ActionTypes.logout,
+      payload: response,
+    });
+    return response;
+  };
+};
+
+/**
+ * TODO: (nick) query projects that the user has permission
+ * @param user User
+ */
+export const fetchProjects = (user?: User) => {
+  return async (dispatch: Dispatch) => {
+    const response = await useApi().getProjects();
+    dispatch<ProjectAction>({
+      type: ActionTypes.fetchProjects,
       payload: response,
     });
     return response;

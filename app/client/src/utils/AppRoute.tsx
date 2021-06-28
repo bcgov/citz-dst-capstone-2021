@@ -20,6 +20,7 @@ import { Route, RouteProps } from 'react-router-dom';
 import Layout from '../layout/Layout';
 
 interface IAppRouteProps extends RouteProps {
+  protected?: boolean;
   component: React.ComponentType<any>;
 }
 

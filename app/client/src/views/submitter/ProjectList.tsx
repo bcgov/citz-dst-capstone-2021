@@ -14,7 +14,9 @@
 // limitations under the License.
 //
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -28,74 +30,36 @@ import {
   TableRow,
 } from '@material-ui/core';
 import styled from 'styled-components';
-import { Project } from '../../types';
+import { Project, StoreState, User } from '../../types';
 import theme from '../../theme';
+import useApi from '../../utils/api';
 
-const projects: Project[] = [
-  {
-    name: 'Test Project',
-    cpsIdentifier: 'LCTZSSA6581',
-    projectNumber: 'N/A',
-    description: 'Test project description',
-    ministry: "Citizens' Services",
-    program: 'Test project program',
-    sponsor: {
-      firstName: 'Sponsor',
-      lastName: 'RDSI',
-      id: '60caa6fee7cf1742d87d30f3',
-    },
-    manager: {
-      firstName: 'Manager',
-      lastName: 'RDSI',
-      id: '60caa6f1e7cf1742d87d30f2',
-    },
-    financialContact: {
-      firstName: 'Finance',
-      lastName: 'RDSI',
-      id: '60caa6dee7cf1742d87d30f1',
-    },
-    start: '2020-06-17T01:35:45.782Z',
-    progress: 10,
-    phase: 'project phase',
-    id: '60d6537d4e3478144064bd8d',
-  },
-  {
-    name: 'RDSI Project',
-    cpsIdentifier: 'LCTZABC1234',
-    projectNumber: 'N/A',
-    description: 'Reporting and Dashboard System Improvement Application',
-    ministry: "Citizens' Services",
-    program: '',
-    sponsor: {
-      firstName: 'Sponsor',
-      lastName: 'RDSI',
-      id: '60caa6fee7cf1742d87d30f3',
-    },
-    manager: {
-      firstName: 'Manager',
-      lastName: 'RDSI',
-      id: '60caa6f1e7cf1742d87d30f2',
-    },
-    financialContact: {
-      firstName: 'Finance',
-      lastName: 'RDSI',
-      id: '60caa6dee7cf1742d87d30f1',
-    },
-    start: '2020-05-10T00:00:00.000Z',
-    progress: 30,
-    phase: 'Initiating',
-    id: '60d653ae8fb433148c7ceacb',
-  },
-];
-
-const StyledTableHeader = styled(TableHead)`
+const StyledTableHead = styled(TableHead)`
   background-color: ${theme.colors.primary};
 `;
-const StyledTableCell = styled(TableCell)`
+const StyledTableHeadCell = styled(TableCell)`
   color: ${theme.colors.contrast};
+  padding: 4px;
+  text-align: center;
 `;
 
-const ProjectList = () => {
+interface ProjectListProps {
+  user: User;
+}
+
+const ProjectList: React.FC<ProjectListProps> = () => {
+  const [projects, setProjects] = useState([] as Project[]);
+
+  const api = useApi();
+
+  useEffect(() => {
+    // TODO: (nick) user should be passed to fetch projects owned by the user
+    api.getProjects().then((data) => {
+      setProjects(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Box>
       <Container>
@@ -104,26 +68,30 @@ const ProjectList = () => {
         </Box>
         <TableContainer component={Paper}>
           <Table aria-label="project list">
-            <StyledTableHeader>
-              <StyledTableCell>Ministry</StyledTableCell>
-              <StyledTableCell>CPS Number</StyledTableCell>
-              <StyledTableCell>Project Name</StyledTableCell>
-              <StyledTableCell>Project Description</StyledTableCell>
-              <StyledTableCell>Next Report Due</StyledTableCell>
-              <StyledTableCell>Scope</StyledTableCell>
-              <StyledTableCell>Budget</StyledTableCell>
-              <StyledTableCell>Schedule</StyledTableCell>
-              <StyledTableCell>Project Phase</StyledTableCell>
-              <StyledTableCell>Estimated Completion Date</StyledTableCell>
-            </StyledTableHeader>
+            <StyledTableHead>
+              <StyledTableHeadCell>Ministry</StyledTableHeadCell>
+              <StyledTableHeadCell>CPS Number</StyledTableHeadCell>
+              <StyledTableHeadCell>Project Name</StyledTableHeadCell>
+              <StyledTableHeadCell>Project Description</StyledTableHeadCell>
+              <StyledTableHeadCell>Next Report Due</StyledTableHeadCell>
+              <StyledTableHeadCell>Scope</StyledTableHeadCell>
+              <StyledTableHeadCell>Budget</StyledTableHeadCell>
+              <StyledTableHeadCell>Schedule</StyledTableHeadCell>
+              <StyledTableHeadCell>Project Phase</StyledTableHeadCell>
+              <StyledTableHeadCell>
+                Estimated Completion Date
+              </StyledTableHeadCell>
+            </StyledTableHead>
             <TableBody>
               {projects.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
+                  <TableCell component="th" scope="row" align="center">
                     {row.ministry}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.cpsIdentifier}
+                    <Link to={`/projects/${row.cpsIdentifier}`}>
+                      {row.cpsIdentifier}
+                    </Link>
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {row.name}
@@ -159,4 +127,8 @@ const ProjectList = () => {
   );
 };
 
-export default ProjectList;
+const mapState = ({ user }: StoreState) => {
+  return { user };
+};
+
+export default connect(mapState, null)(ProjectList);

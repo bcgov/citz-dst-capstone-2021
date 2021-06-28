@@ -48,7 +48,7 @@ const Home = () => {
       </div>
       <div>
         <h3>
-          Select <Link to="/submitter"> Submitter&apos;s Project List</Link>
+          Select <Link to="/projects"> Submitter&apos;s Project List</Link>
         </h3>
       </div>
     </div>
@@ -61,8 +61,8 @@ function App() {
       <AppRoute path="/" exact component={Home} />
       <AppRoute path="/login" component={LoginForm} />
       <AppRoute path="/signup" component={SignUpForm} />
-      <AppRoute path="/details" component={ProjectDetails} />
-      <AppRoute exact path="/submitter" component={ProjectList} />
+      <AppRoute path="/projects/:cps" component={ProjectDetails} />
+      <AppRoute exact path="/projects" component={ProjectList} />
       <Redirect to="/" />
     </HashRouter>
   );

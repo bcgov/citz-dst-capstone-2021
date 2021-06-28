@@ -57,6 +57,15 @@ export interface LoginAction {
   payload: User;
 }
 
+export interface Action {
+  type: ActionTypes;
+}
+
+export interface ProjectAction {
+  type: ActionTypes.fetchProjects;
+  payload: Project[];
+}
+
 // redux state structure
 export interface StoreState {
   user: User;
