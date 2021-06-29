@@ -19,7 +19,7 @@ import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
 import { CreateProjectDTO } from '@dtos/projects.dto';
 
-export default {
+const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {
     try {
       const data: Project[] = await ProjectService.findAllProjects();
@@ -70,3 +70,5 @@ export default {
     }
   },
 };
+
+export default ProjectController;
