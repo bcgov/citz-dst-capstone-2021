@@ -18,6 +18,7 @@ import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
 import { Project } from '../../types';
+import utils from '../../utils';
 
 const ProjectProgressCard: React.FC<Project> = (props) => {
   const { phase, estimatedEnd, progress } = props;
@@ -47,7 +48,7 @@ const ProjectProgressCard: React.FC<Project> = (props) => {
         <Card label="Project Phase" content={phase} />
         <Card
           label="Estimated Date of Project Completion"
-          content={estimatedEnd}
+          content={utils.getISODateString(new Date(estimatedEnd))}
         />
         <Card label="Percent Complete" content={`${progress}%`} />
         {/* TODO: a progress bar to display % complete should go here */}
