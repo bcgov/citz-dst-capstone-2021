@@ -15,11 +15,11 @@
  */
 
 import { Document, model, Schema } from 'mongoose';
-import { Report } from '@interfaces/report.interface';
+import { Report, ReportState } from '@interfaces/report.interface';
 
 const ReportModel: Schema<Report> = new Schema(
   {
-    reporter: {
+    submitter: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
@@ -43,7 +43,7 @@ const ReportModel: Schema<Report> = new Schema(
     },
     state: {
       type: Number,
-      required: true,
+      default: ReportState.Draft,
     },
     progress: {
       type: Number,

@@ -17,7 +17,7 @@
 export enum ReportQuarter {
   Q1 = 'Q1',
   Q2 = 'Q2',
-  Q3a = 'Q3',
+  Q3a = 'Q3a',
   Q3b = 'Q3b',
   Q4 = 'Q4',
 }
@@ -29,7 +29,8 @@ export enum ReportState {
 }
 
 export interface Report {
-  reporter: string;
+  id?: string;
+  submitter: string;
   submittedAt: string | Date;
   year: number;
   quarter: ReportQuarter;

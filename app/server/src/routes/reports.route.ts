@@ -19,7 +19,7 @@ import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
 import ReportController from '@controllers/reports.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import CreateReportDTO from '@dtos/reports.dto';
+import CreateReportDTO, { ReportQueryDTO } from '@dtos/reports.dto';
 
 class ReportsRoute implements Route {
   resource = 'reports';
@@ -33,7 +33,11 @@ class ReportsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('jwt', { session: false }), ReportController.getReports)
+      .get(
+        passport.authenticate('jwt', { session: false }),
+        validationMiddleware(ReportQueryDTO, 'query'),
+        ReportController.getReports,
+      )
       .post(
         passport.authenticate('jwt', { session: false }),
         validationMiddleware(CreateReportDTO, 'body'),
@@ -44,7 +48,11 @@ class ReportsRoute implements Route {
       .route('/:id')
       .get(passport.authenticate('jwt', { session: false }), ReportController.getReport)
       .delete(passport.authenticate('jwt', { session: false }), ReportController.deleteReport)
-      .patch(passport.authenticate('jwt', { session: false }), ReportController.updateReport);
+      .patch(
+        passport.authenticate('jwt', { session: false }),
+        validationMiddleware(CreateReportDTO, 'body', true),
+        ReportController.updateReport,
+      );
   }
 }
 

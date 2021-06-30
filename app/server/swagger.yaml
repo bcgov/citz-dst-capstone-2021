@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserCreateRequest"
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
         201:
           description: "Created"
@@ -54,6 +54,8 @@ paths:
           description: "Conflict"
 
   /api/v1/logout:
+    security:
+      - bearerAuth: []
     post:
       tags:
         - Auth
@@ -67,6 +69,8 @@ paths:
   /api/v1/users:
     # [GET] users
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Users
       summary: Find All Users
@@ -79,6 +83,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
         500:
           description: "Server Error"
 
@@ -93,7 +99,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserCreateRequest"
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
         201:
           description: Created
@@ -126,6 +132,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
         409:
           description: "Conflict"
         500:
@@ -136,6 +144,8 @@ paths:
       tags:
         - Users
       summary: Update User By Id
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -148,12 +158,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserCreateRequest"
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
         200:
           description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         400:
           description: "Bad Request"
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
         409:
           description: "Conflict"
         500:
@@ -164,6 +180,8 @@ paths:
       tags:
         - Users
       summary: Delete User By Id
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -182,6 +200,8 @@ paths:
     get:
       tags:
         - Projects
+      security:
+        - bearerAuth: []
       summary: Find all projects
       responses:
         200:
@@ -192,13 +212,15 @@ paths:
       tags:
         - Projects
       summary: Add project
+      security:
+        - bearerAuth: []
       requestBody:
         description: project data
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProjectCreateRequest"
+              $ref: "#/components/schemas/CreateProjectRequest"
       responses:
         201:
           description: Created
@@ -219,9 +241,15 @@ paths:
       tags:
         - Projects
       summary: Find all projects
+      security:
+        - bearerAuth: []
       responses:
         200:
           description: OK
+        400:
+          description: Bad request
+        401:
+          description: Unauthrized
         500:
           description: Server Error
     # [PATCH] projects/id
@@ -229,6 +257,8 @@ paths:
       tags:
         - Projects
       summary: Update a project by id
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -240,12 +270,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProjectCreateRequest"
+              $ref: "#/components/schemas/CreateProjectRequest"
       responses:
         200:
-          description: "OK"
+          description: 'Updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
         400:
           description: "Bad Request"
+        401:
+          description: "Unauthorized"
         409:
           description: "Conflict"
         500:
@@ -256,6 +292,8 @@ paths:
       tags:
         - Projects
       summary: Delete a project by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -264,6 +302,160 @@ paths:
       responses:
         200:
           description: "OK"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
+
+  # [POST] reports
+  /api/v1/reports:
+    get:
+      tags:
+        - Reports
+      summary: Find reports for the project
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: projectId
+          in: query
+          required: true
+        - name: year
+          in: query
+        - name: quarter
+          in: query
+          enum: [Q1, Q2, Q3a, Q3b, Q4]
+          description: report period, [Q1, Q2, Q3a, Q3b, Q4]
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
+
+    post:
+      tags:
+        - Reports
+      summary: Create a report for a project
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: report data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthrized
+        409:
+          description: Conflict
+        500:
+          description: Server Error
+
+
+  /api/v1/reports/{id}:
+    # [GET] reports/id
+    get:
+      tags:
+        - Reports
+      summary: Find report by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
+    # [PATCH] reports/id
+    patch:
+      tags:
+        - Reports
+      summary: Update a report by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: report id
+          required: true
+      requestBody:
+        description: report data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        409:
+          description: "Conflict"
+        500:
+          description: "Server Error"
+
+    # [DELETE] reports/id
+    delete:
+      tags:
+        - Reports
+      summary: Delete a report by id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: report id
+          required: true
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
         409:
           description: "Conflict"
         500:
@@ -273,6 +465,11 @@ components:
   #-------------------------------
   # Reusable schemas (data models)
   #-------------------------------
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     LoginRequest:
       type: object
@@ -288,9 +485,6 @@ components:
           description: password - 8 ~ 20 lowercase, uppercase, and numbers or special characters
     User:
       type: object
-      required: # TODO: (nick) it is not for 'update user'. how to apply 'required' conditionally?
-        - email
-        - password
       properties:
         firstName:
           type: string
@@ -298,6 +492,9 @@ components:
         lastName:
           type: string
           description: last name
+        email:
+          type: string
+          description: email
         title:
           type: string
           description: job title
@@ -308,12 +505,22 @@ components:
           type: string
           description: role in reporting process
 
-    UserCreateRequest:
+    CreateUserRequest:
       allOf:
         - $ref: '#/components/schemas/LoginRequest'
         - $ref: '#/components/schemas/User'
 
-    ProjectCreateRequest:
+    ReportRequest:
+      type: object
+      properties:
+        projectId:
+          type: string
+          description: project id
+        year:
+          type: number
+        quarter:
+          enum: [Q1, Q2, Q3a, Q3b, Q4]
+    CreateProjectRequest:
       type: object
       properties:
         name:
@@ -359,11 +566,49 @@ components:
           type: string
           description: project phase
 
-    Project:
+    CreateReportRequest:
+      type: object
+      properties:
+        submitter:
+          type: string
+          description: user to write and submit the report
+        projectId:
+          type: string
+          description: project's id
+        state:
+          type: number
+          enum: [0, 1, 2]
+          description: default is 0. 0 = Draft, 1 = Review, 3 = Submitted
+        phase:
+          type: string
+          description: phase describing where the project is.
+        progress:
+          type: number
+          description: project progress
+        estimatedEnd:
+          type: string
+          description: project estimated end date
+
+    Report:
       allOf:
-        - $ref: '#/components/schemas/ProjectCreateRequest'
+        - $ref: '#/components/schemas/CreateReportRequest'
         - type: object
           properties:
+            submitter:
+              $ref: '#/components/schemas/User'
+              description: user to write and submit the report
+            id:
+              type: string
+              description: id
+
+    Project:
+      allOf:
+        - $ref: '#/components/schemas/CreateProjectRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              description: id
             sponsor:
               description: project sponsor
               $ref: '#/components/schemas/User'
@@ -374,6 +619,8 @@ components:
               description: project financialContact
               $ref: '#/components/schemas/User'
 
+security:
+  - bearerAuth: []
 schemes:
   - https
   - http

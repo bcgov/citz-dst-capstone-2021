@@ -14,12 +14,36 @@
  * limitations under the License.
  */
 
-import { IsDate, IsDateString, IsEnum, IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import {
+  IsDateString,
+  IsEnum,
+  IsMongoId,
+  IsNumber,
+  IsNumberString,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 import { Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
+import { Type } from 'class-transformer';
+
+export class ReportQueryDTO {
+  @IsMongoId()
+  projectId: string;
+
+  @IsOptional()
+  @IsNumberString()
+  year: number;
+
+  @IsOptional()
+  @IsEnum(ReportQuarter)
+  quarter: ReportQuarter;
+}
 
 class CreateReportDTO implements Report {
   @IsMongoId()
-  reporter: string;
+  submitter: string;
 
   @IsOptional()
   @IsDateString()
@@ -36,12 +60,15 @@ class CreateReportDTO implements Report {
   @IsMongoId()
   projectId: string;
 
+  @IsOptional()
   @IsEnum(ReportState)
   state: ReportState;
 
+  @IsOptional()
   @IsString()
   phase: string;
 
+  @IsOptional()
   @IsNumber()
   @Min(0)
   @Max(100)

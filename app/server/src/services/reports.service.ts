@@ -22,13 +22,16 @@ import CreateReportDTO from '@dtos/reports.dto';
 import { Project } from '@interfaces/project.interface';
 
 const ReportService = {
-  async findAllReports(projectId: string): Promise<Report[]> {
-    const reports: Report[] = await ReportModel.find({ projectId }).populate({ path: 'reporter' });
+  async findAllReports(projectId: string, year: number, quarter: ReportQuarter): Promise<Report[]> {
+    const params = { projectId };
+    if (year) Object.assign(params, { year });
+    if (quarter) Object.assign(params, { quarter });
+    const reports: Report[] = await ReportModel.find(params).populate({ path: 'submitter' });
     return reports;
   },
 
   async findReport(id: string): Promise<Report> {
-    const report: Report = await ReportModel.findById(id).populate({ path: 'reporter' });
+    const report: Report = await ReportModel.findById(id).populate({ path: 'submitter' });
     return report;
   },
 
@@ -50,7 +53,7 @@ const ReportService = {
   async deleteReport(id: string): Promise<Report> {
     const report = await ReportModel.findByIdAndDelete(id);
     if (!report) {
-      throw errorWithCode(`Unable to delete report: ${id}`, 500);
+      throw errorWithCode(`Unable to delete report`, 500);
     }
     return report;
   },

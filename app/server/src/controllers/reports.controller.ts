@@ -22,9 +22,14 @@ import CreateReportDTO from '@dtos/reports.dto';
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
     try {
-      const { projectId } = req.body;
-      const data: Report[] = await ReportService.findAllReports(projectId);
-      res.status(200).json({ data, message: 'reports' });
+      const { projectId, year, quarter } = req.query;
+      if (!projectId) {
+        res.status(400).send('Bad request');
+      } else {
+        const data: Report[] = await ReportService.findAllReports(projectId as string, +year, quarter as ReportQuarter);
+        res.status(200).json({ data, message: 'reports' });
+      }
+      next();
     } catch (e) {
       next(e);
     }
@@ -33,8 +38,12 @@ const ReportController = {
   async getReport(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const data: Report = await ReportService.findReport(id);
-      res.status(200).json({ data, message: 'reports' });
+      if (!id) {
+        res.status(400).send('Bad request');
+      } else {
+        const data: Report = await ReportService.findReport(id);
+        res.status(200).json({ data, message: 'reports' });
+      }
     } catch (e) {
       next(e);
     }
