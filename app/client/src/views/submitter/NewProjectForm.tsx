@@ -29,15 +29,38 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
-import { Role } from '../types';
-import { Ministries } from '../constants';
-import useApi from '../utils/api';
-import { validateSignUp } from '../utils/validationSchema';
+import { Role } from '../../types';
+import { Ministries } from '../../constants';
+import useApi from '../../utils/api';
+import { validateSignUp } from '../../utils/validationSchema';
 
-const ProjectDetails: React.FC = () => {
+function getSteps() {
+  return ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
+}
+
+function getStepContent(step: number) {
+  switch (step) {
+    case 0:
+      return '';
+    case 1:
+      return '';
+    case 2:
+      return '';
+    case 3:
+      return '';
+    case 4:
+      return '';
+    default:
+      return 'unknown step';
+  }
+}
+
+const NewProjectForm: React.FC = () => {
   return (
     <Container maxWidth="lg">
-      
+      <p>Look at me! A view for our new project form!</p>
     </Container>
   );
 };
+
+export default NewProjectForm;
