@@ -14,22 +14,29 @@
  * limitations under the License.
  */
 
-import 'dotenv/config';
-import App from '@/app';
-import AuthRoute from '@routes/auth.route';
-import UsersRoute from '@routes/users.route';
-import ProjectsRoute from '@routes/projects.route';
-
-import validateEnv from '@utils/validateEnv';
-import ReportsRoute from '@routes/reports.route';
-
-validateEnv();
-
-const app = new App([new UsersRoute(), new AuthRoute(), new ProjectsRoute(), new ReportsRoute()]);
-
-if (require.main === module) {
-  // prevent from running in jest testing
-  app.listen();
+export enum ReportQuarter {
+  Q1 = 'Q1',
+  Q2 = 'Q2',
+  Q3a = 'Q3a',
+  Q3b = 'Q3b',
+  Q4 = 'Q4',
 }
 
-export default app;
+export enum ReportState {
+  Draft,
+  Review,
+  Submitted,
+}
+
+export interface Report {
+  id?: string;
+  submitter: string;
+  submittedAt: string | Date;
+  year: number;
+  quarter: ReportQuarter;
+  projectId: string;
+  state: ReportState;
+  phase: string;
+  progress: number;
+  estimatedEnd: string | Date;
+}

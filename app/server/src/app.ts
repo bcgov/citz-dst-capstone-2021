@@ -137,7 +137,7 @@ class App {
         return;
       }
       this.app.use(express.static(webPath));
-      this.app.get('/*', (req, res) => {
+      this.app.get('/', (req, res) => {
         res.sendFile(path.join(webPath, 'index.html'), err => {
           if (err) {
             res.status(500).send(err);

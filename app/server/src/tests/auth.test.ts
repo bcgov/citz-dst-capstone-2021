@@ -85,7 +85,7 @@ describe('Testing Auth', () => {
       const { token } = await AuthService.createToken(data as User, 600);
       return request(app.getServer())
         .post(`${authUrl}/logout`)
-        .set('Cookie', [`token=${token}`])
+        .set('Authorization', `Bearer ${token}`)
         .send(testUser)
         .expect(200);
     });

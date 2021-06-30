@@ -52,7 +52,7 @@ describe('Testing Users', () => {
       const userData = { ...testUser, password: '1234' };
       request(app.getServer())
         .post(uri)
-        .set('Cookie', [`token=${token}`])
+        .set('Authorization', `Bearer ${token}`)
         .send(userData)
         .expect(400)
         .end((err, res) => {
@@ -64,7 +64,7 @@ describe('Testing Users', () => {
       const userData = { ...testUser, email: 'example.com' };
       request(app.getServer())
         .post(uri)
-        .set('Cookie', [`token=${token}`])
+        .set('Authorization', `Bearer ${token}`)
         .send(userData)
         .expect(400)
         .end((err, res) => {
@@ -76,7 +76,7 @@ describe('Testing Users', () => {
       const userData = { ...testUser, role: 'Unknown' };
       request(app.getServer())
         .post(uri)
-        .set('Cookie', [`token=${token}`])
+        .set('Authorization', `Bearer ${token}`)
         .send(userData)
         .expect(400)
         .end((err, res) => {
@@ -90,7 +90,7 @@ describe('Testing Users', () => {
         .then(() => {
           return request(app.getServer())
             .post(`${uri}`)
-            .set('Cookie', [`token=${token}`])
+            .set('Authorization', `Bearer ${token}`)
             .send(testUser)
             .expect(201);
         });
@@ -99,20 +99,14 @@ describe('Testing Users', () => {
 
   describe('[GET] /users', () => {
     it('response fineAll Users', async () => {
-      return request(app.getServer())
-        .get(uri)
-        .set('Cookie', [`token=${token}`])
-        .expect(200);
+      return request(app.getServer()).get(uri).set('Authorization', `Bearer ${token}`).expect(200);
     });
   });
 
   describe('[GET] /users/:id', () => {
     it('response findOne User', () => {
       return UserService.findUserByEmail(admin.email).then(user => {
-        return request(app.getServer())
-          .get(`${uri}/${user.id}`)
-          .set('Cookie', [`token=${token}`])
-          .expect(200);
+        return request(app.getServer()).get(`${uri}/${user.id}`).set('Authorization', `Bearer ${token}`).expect(200);
       });
     });
   });
@@ -123,7 +117,7 @@ describe('Testing Users', () => {
       return UserService.findUserByEmail(testUser.email).then(user => {
         request(app.getServer())
           .patch(`${uri}/${user.id}`)
-          .set('Cookie', [`token=${token}`])
+          .set('Authorization', `Bearer ${token}`)
           .send(userData)
           .expect(200);
       });
@@ -133,10 +127,7 @@ describe('Testing Users', () => {
   describe('[DELETE] /users/:id', () => {
     it('deletes User', () => {
       return UserService.findUserByEmail(testUser.email).then(user => {
-        return request(app.getServer())
-          .delete(`${uri}/${user.id}`)
-          .set('Cookie', [`token=${token}`])
-          .expect(200);
+        return request(app.getServer()).delete(`${uri}/${user.id}`).set('Authorization', `Bearer ${token}`).expect(200);
       });
     });
   });

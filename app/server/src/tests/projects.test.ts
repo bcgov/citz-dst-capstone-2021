@@ -50,22 +50,14 @@ describe('Testing Projects', () => {
       return request(app.getServer()).get(uri).send().expect(401);
     });
     it('get all projects', () => {
-      return request(app.getServer())
-        .get(uri)
-        .set('Cookie', [`token=${token}`])
-        .send()
-        .expect(200);
+      return request(app.getServer()).get(uri).set('Authorization', `Bearer ${token}`).send().expect(200);
     });
   });
   describe('[POST] /projects', () => {
     it('validates new project input', () => {
       const project = { ...testData.projects[0] };
       project.cpsIdentifier = '';
-      return request(app.getServer())
-        .post(uri)
-        .set('Cookie', [`token=${token}`])
-        .send(project)
-        .expect(400);
+      return request(app.getServer()).post(uri).set('Authorization', `Bearer ${token}`).send(project).expect(400);
     });
     it('creates a new project', () => {
       const data = { ...testData.projects[0] };
@@ -77,11 +69,7 @@ describe('Testing Projects', () => {
           return null;
         })
         .then(() => {
-          return request(app.getServer())
-            .post(uri)
-            .set('Cookie', [`token=${token}`])
-            .send(data)
-            .expect(201);
+          return request(app.getServer()).post(uri).set('Authorization', `Bearer ${token}`).send(data).expect(201);
         });
     });
   });
@@ -95,7 +83,7 @@ describe('Testing Projects', () => {
         expect(id).toBeDefined();
         request(app.getServer())
           .patch(`${uri}/${id}`)
-          .set('Cookie', [`token=${token}`])
+          .set('Authorization', `Bearer ${token}`)
           .send(data)
           .end((e, res) => {
             expect(res.body.data.progress).toEqual(progress);
@@ -111,10 +99,7 @@ describe('Testing Projects', () => {
         // eslint-disable-next-line prefer-destructuring
         const id = project.id;
         expect(id).toBeDefined();
-        return request(app.getServer())
-          .delete(`${uri}/${id}`)
-          .set('Cookie', [`token=${token}`])
-          .expect(200);
+        return request(app.getServer()).delete(`${uri}/${id}`).set('Authorization', `Bearer ${token}`).expect(200);
       });
     });
   });

@@ -34,12 +34,7 @@ export default {
     // const { expiresIn, token, user } = await this.authService.login(userData);
     return AuthService.login(userData)
       .then(({ expiresIn, token, user }) => {
-        const httpOnly = process.env.NODE_ENV === 'production';
-        res.cookie('token', token, {
-          maxAge: httpOnly ? expiresIn : Number.MAX_VALUE,
-          httpOnly,
-        });
-        res.status(200).json({ token, user });
+        res.status(200).json({ expiresIn, token, user });
       })
       .catch(e => next(e));
   },
