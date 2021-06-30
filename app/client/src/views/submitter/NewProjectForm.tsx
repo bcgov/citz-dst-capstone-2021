@@ -26,6 +26,9 @@ import {
   MenuItem,
   Select,
   Typography,
+  Stepper,
+  Step,
+  StepLabel,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
@@ -34,31 +37,100 @@ import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateSignUp } from '../../utils/validationSchema';
 
+// this functions can be refactored out and can be passed into a stepper component as props to support quickly building additional forms.
 function getSteps() {
   return ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
 }
 
+// a little more thought should go into how to best refactor this component
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return '';
+      return 'TODO: project identification';
     case 1:
-      return '';
+      return 'TODO: contacts';
     case 2:
-      return '';
+      return 'TODO: timeline';
     case 3:
-      return '';
+      return 'TODO: business case objectives';
     case 4:
-      return '';
+      return 'TODO: KPIs';
     default:
       return 'unknown step';
   }
 }
 
 const NewProjectForm: React.FC = () => {
+
+  // stepper code to refactor into it's own component once it's working
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = getSteps();
+
+  const handleNext = () => {
+    // TODO: Bounds checking
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+  
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  // not required for current functionality but added since a reset is a reasonable feature to have.
+  const handleReset = () => {
+    setActiveStep(0);
+  }
+
   return (
     <Container maxWidth="lg">
-      <p>Look at me! A view for our new project form!</p>
+
+      <Stepper activeStep={activeStep}>
+        {steps.map((label) => {
+          const stepProps: { completed?: boolean } = {};
+          const labelProps: { optional?: React.ReactNode } = {}; // I don't think I need this
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel {...labelProps}>{label}</StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      <div>
+        {activeStep === steps.length ? (
+          <div>
+            <Typography variant="h1">
+              All steps complete!
+              TODO: proper form conclusion layout
+            </Typography>
+          </div>
+        ) : (
+          <div>
+            <div>
+              {getStepContent(activeStep)}
+            </div>
+            <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+            fontWeight={800}
+            >
+              <Button
+              color="primary"
+              variant="contained"
+              type="button"
+              onClick={handleBack}>
+                Back
+              </Button>
+              <Button
+              color="primary"
+              variant="contained"
+              type="button"
+              onClick={handleNext}>
+                Next
+              </Button>
+            </Box>
+          </div>
+        )}
+      </div>
     </Container>
   );
 };
