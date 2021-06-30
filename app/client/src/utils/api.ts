@@ -15,9 +15,9 @@
 //
 
 import axios from 'axios';
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance } from 'axios';
 
-import { AuthRequest, AuthResponse, User } from '../types';
+import { AuthRequest, AuthResponse, Project, User } from '../types';
 import { API } from '../constants';
 
 const api: { current: AxiosInstance } = {
@@ -67,9 +67,18 @@ const useApi = () => {
       });
     },
 
-    getProjects(): Promise<AxiosResponse<any>> {
+    // TODO: (nick) pass user to limit result for the user
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getProjects(user?: User): Promise<Project[]> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.get(`projects`).then(({ data }) => data);
+      return api.current.get(`projects`).then(({ data }) => data.data);
+    },
+
+    getProjectDetail(cps: any): Promise<Project> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current.get(`projects/${cps}`).then(({ data }) => {
+        return data.data;
+      });
     },
   };
 };

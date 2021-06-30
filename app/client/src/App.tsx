@@ -6,6 +6,7 @@ import AppRoute from './utils/AppRoute';
 import LoginForm from './views/LoginForm';
 import ProjectDetails from './views/ProjectDetails';
 import SignUpForm from './views/SignUpForm';
+import ProjectList from './views/submitter/ProjectList';
 
 const Home = () => {
   return (
@@ -42,7 +43,7 @@ const Home = () => {
       <br />
       <div>
         <h3>
-          Select <Link to="/details"> Project Details</Link>
+          Select <Link to="/projects"> Submitter&apos;s Project List</Link>
         </h3>
       </div>
     </div>
@@ -55,7 +56,8 @@ function App() {
       <AppRoute path="/" exact component={Home} />
       <AppRoute path="/login" component={LoginForm} />
       <AppRoute path="/signup" component={SignUpForm} />
-      <AppRoute path="/details" component={ProjectDetails} />
+      <AppRoute requireAuth path="/projects/:cps" component={ProjectDetails} />
+      <AppRoute requireAuth exact path="/projects" component={ProjectList} />
       <Redirect to="/" />
     </HashRouter>
   );

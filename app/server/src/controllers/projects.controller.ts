@@ -19,11 +19,21 @@ import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
 import { CreateProjectDTO } from '@dtos/projects.dto';
 
-export default {
+const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {
     try {
       const data: Project[] = await ProjectService.findAllProjects();
       res.status(200).json({ data, message: 'projects' });
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async getProjectDetail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data: Project = await ProjectService.findProjectByCPS(id);
+      res.status(200).json({ data, message: 'project' });
     } catch (e) {
       next(e);
     }
@@ -60,3 +70,5 @@ export default {
     }
   },
 };
+
+export default ProjectController;

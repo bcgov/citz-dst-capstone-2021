@@ -15,64 +15,43 @@
  */
 
 import { Document, model, Schema } from 'mongoose';
-import { Project } from '@interfaces/project.interface';
+import { Report, ReportState } from '@interfaces/report.interface';
 
-const projectSchema: Schema<Project> = new Schema(
+const ReportModel: Schema<Report> = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
+    submitter: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
-    // version to handle changes in the schema structure
     _schema: {
       type: Number,
     },
-    cpsIdentifier: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    projectNumber: {
-      type: String,
-    },
-    program: {
-      type: String,
-    },
-    ministry: {
-      type: String,
-      required: true,
-    },
-    sponsor: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    manager: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    financialContact: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    start: {
-      type: Date,
-      required: true,
-    },
-    end: {
+    submittedAt: {
       type: Date,
     },
-    estimatedEnd: {
-      type: Date,
-    },
-    progress: {
+    year: {
       type: Number,
       required: true,
     },
-    phase: {
+    quarter: {
       type: String,
+      required: true,
+    },
+    projectId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+    },
+    state: {
+      type: Number,
+      default: ReportState.Draft,
+    },
+    progress: {
+      type: Number,
+      default: 0,
+    },
+    estimatedEnd: {
+      type: Date,
+      required: true,
     },
   },
   {
@@ -90,4 +69,4 @@ const projectSchema: Schema<Project> = new Schema(
   },
 );
 
-export default model<Project & Document>('Project', projectSchema);
+export default model<Report & Document>('Report', ReportModel);

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { Router } from 'express';
 import passport from 'passport';
+import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
-import ProjectsController from '@controllers/projects.controller';
+import ReportController from '@controllers/reports.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import CreateProjectDTO from '@dtos/projects.dto';
+import CreateReportDTO, { ReportQueryDTO } from '@dtos/reports.dto';
 
-class ProjectsRoute implements Route {
-  resource = 'projects';
+class ReportsRoute implements Route {
+  resource = 'reports';
 
   router = Router();
 
@@ -33,23 +33,27 @@ class ProjectsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjects)
+      .get(
+        passport.authenticate('jwt', { session: false }),
+        validationMiddleware(ReportQueryDTO, 'query'),
+        ReportController.getReports,
+      )
       .post(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateProjectDTO, 'body'),
-        ProjectsController.createProject,
+        validationMiddleware(CreateReportDTO, 'body'),
+        ReportController.createReport,
       );
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjectDetail)
-      .delete(passport.authenticate('jwt', { session: false }), ProjectsController.deleteProject)
+      .get(passport.authenticate('jwt', { session: false }), ReportController.getReport)
+      .delete(passport.authenticate('jwt', { session: false }), ReportController.deleteReport)
       .patch(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateProjectDTO, 'body', true),
-        ProjectsController.updateProject,
+        validationMiddleware(CreateReportDTO, 'body', true),
+        ReportController.updateReport,
       );
   }
 }
 
-export default ProjectsRoute;
+export default ReportsRoute;

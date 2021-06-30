@@ -45,12 +45,7 @@ const Layout: React.FC = (props) => {
   return (
     <StyledDiv>
       <Header />
-      <StyledMain>
-        {children}
-        <h3>
-          <Link to="/">Home</Link>
-        </h3>
-      </StyledMain>
+      <StyledMain>{children}</StyledMain>
       <Footer />
     </StyledDiv>
   );
