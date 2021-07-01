@@ -28,11 +28,7 @@ const MilestoneModel: Schema<Milestone> = new Schema(
     },
     status: {
       type: Number,
-      default: Status.Green,
-    },
-    trend: {
-      type: Number,
-      default: MilestoneStatus.NotStarted,
+      default: MilestoneStatus.Green,
     },
     start: {
       type: Date,
@@ -70,6 +66,7 @@ const ReportModel: Schema<Report> = new Schema(
     submitter: {
       type: Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
     _schema: {
       type: Number,
@@ -88,6 +85,7 @@ const ReportModel: Schema<Report> = new Schema(
     projectId: {
       type: Schema.Types.ObjectId,
       ref: 'Project',
+      required: true,
     },
     state: {
       type: Number,

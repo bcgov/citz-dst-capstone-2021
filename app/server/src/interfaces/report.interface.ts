@@ -82,8 +82,7 @@ export interface Milestone {
   id?: string;
   name: string;
   description: string;
-  status: Status;
-  trend: Trend;
+  status: MilestoneStatus;
   start: Date;
   estimatedEnd: Date;
   progress: number;

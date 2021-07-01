@@ -16,6 +16,7 @@
 
 import {
   IsDateString,
+  IsISO8601,
   IsMongoId,
   IsNumber,
   IsOptional,
@@ -65,15 +66,15 @@ export class ProjectDTO {
   @IsMongoId()
   financialContact: string;
 
-  @IsDateString()
+  @IsISO8601()
   start: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsISO8601()
   end: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsISO8601()
   estimatedEnd: string;
 
   @Min(0)

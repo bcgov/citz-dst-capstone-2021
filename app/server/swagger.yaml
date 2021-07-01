@@ -19,7 +19,6 @@ paths:
         - Users
       summary: Sign up with user profile
       requestBody:
-        description: userdata
         required: true
         content:
           application/json:
@@ -96,7 +95,6 @@ paths:
       security:
         - bearerAuth: []
       requestBody:
-        description: userdata
         required: true
         content:
           application/json:
@@ -104,7 +102,6 @@ paths:
               $ref: "#/components/schemas/UserRequest"
       responses:
         201:
-          description: Created
           content:
             application/json:
               schema:
@@ -127,7 +124,6 @@ paths:
       parameters:
         - name: id
           in: path
-          description: User Id
           required: true
       responses:
         200:
@@ -154,10 +150,8 @@ paths:
         - name: id
           in: path
           type: string
-          description: user Id
           required: true
       requestBody:
-        description: user data
         required: true
         content:
           application/json:
@@ -183,13 +177,11 @@ paths:
     delete:
       tags:
         - Users
-      summary: Delete User By Id
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
-          description: user Id
           required: true
       responses:
         200:
@@ -215,11 +207,9 @@ paths:
     post:
       tags:
         - Projects
-      summary: Add project
       security:
         - bearerAuth: []
       requestBody:
-        description: project data
         required: true
         content:
           application/json:
@@ -260,16 +250,13 @@ paths:
     patch:
       tags:
         - Projects
-      summary: Update a project by id
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
-          description: project id
           required: true
       requestBody:
-        description: project data
         required: true
         content:
           application/json:
@@ -295,13 +282,11 @@ paths:
     delete:
       tags:
         - Projects
-      summary: Delete a project by ID
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
-          description: project id
           required: true
       responses:
         200:
@@ -315,8 +300,8 @@ paths:
         500:
           description: "Server Error"
 
-  # [POST] reports
   /api/v1/reports:
+    # [GET] reports
     get:
       tags:
         - Reports
@@ -332,7 +317,6 @@ paths:
         - name: quarter
           in: query
           enum: [Q1, Q2, Q3a, Q3b, Q4]
-          description: report period, [Q1, Q2, Q3a, Q3b, Q4]
       responses:
         200:
           content:
@@ -350,14 +334,13 @@ paths:
         500:
           description: "Server Error"
 
+    # [POST] reports
     post:
       tags:
         - Reports
-      summary: Create a report for a project
       security:
         - bearerAuth: [ ]
       requestBody:
-        description: report data
         required: true
         content:
           application/json:
@@ -406,20 +389,16 @@ paths:
           description: "Conflict"
         500:
           description: "Server Error"
-    # [PATCH] reports/id
     patch:
       tags:
         - Reports
-      summary: Update a report by id
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
-          description: report id
           required: true
       requestBody:
-        description: report data
         required: true
         content:
           application/json:
@@ -441,18 +420,14 @@ paths:
         500:
           description: "Server Error"
 
-    # [DELETE] reports/id
     delete:
       tags:
         - Reports
-      summary: |-
-        Delete a report by id
       security:
         - bearerAuth: []
       parameters:
         - name: id
           in: path
-          description: report id
           required: true
       responses:
         200:
@@ -466,6 +441,108 @@ paths:
         500:
           description: "Server Error"
 
+  /api/v1/reports/{id}/milestones:
+    get:
+      tags:
+        - Reports
+        - Milestones
+      summary: Find all milestones of a report
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: report id
+          required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Milestone'
+        400: Bad request
+        401: Unauthorized
+        404: Not found
+        500: Server error
+    post:
+      tags:
+        - Reports
+        - Milestones
+      summary: Post a new milestone
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MilestoneRequest"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+
+  /api/v1/reports/{id}/milestones/{mid}:
+    patch:
+      tags:
+        - Reports
+        - Milestones
+      summary: Update a milestone
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: report id
+          required: true
+        - name: mid
+          in: path
+          description: milestone id
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MilestoneRequest"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+
+    delete:
+      tags:
+        - Reports
+        - Milestones
+      summary: Delete a milestone
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: report id
+          required: true
+        - name: mid
+          in: path
+          description: milestone id
+          required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+
 components:
   #-------------------------------
   # Reusable schemas (data models)
@@ -478,37 +555,44 @@ components:
   schemas:
     LoginRequest:
       type: object
-      required:
-        - email
-        - password
       properties:
         email:
           type: string
-          description: email
+          format: email
         password:
           type: string
+          format: password
           description: password - 8 ~ 20 lowercase, uppercase, and numbers or special characters
+      required:
+        - email
+        - password
     User:
       type: object
       properties:
         firstName:
           type: string
-          description: first name
         lastName:
           type: string
-          description: last name
         email:
           type: string
-          description: email
         title:
           type: string
-          description: job title
         ministry:
           type: string
-          description: ministry
         role:
           type: string
-          description: role in reporting process
+          enum:
+            - Admin
+            - Executive
+            - FA
+            - User
+            - Submitter
+      required:
+        - firstName
+        - lastName
+        - email
+        - title
+        - ministry
 
     UserRequest:
       allOf:
@@ -520,107 +604,157 @@ components:
       properties:
         name:
           type: string
-          description: project name
         cpsIdentifier:
           type: string
-          description: cpsIdentifier
         projectNumber:
           type: string
-          description: project number
         description:
           type: string
-          description: project description
         ministry:
           type: string
-          description: project ministry
         program:
           type: string
-          description: project program
         sponsor:
           type: string
-          description: project sponsor's id
         manager:
           type: string
-          description: project manager's id
         financialContact:
           type: string
-          description: project financialContact's id
         start:
           type: string
-          description: project start date
+          format: date
         end:
           type: string
-          description: project end date
+          format: date
         estimatedEnd:
           type: string
-          description: project estimated end date
         progress:
-          type: number
-          description: project progress
+          type: integer
+          minimum: 0
+          maximum: 100
         phase:
           type: string
-          description: project phase
+      required:
+        - name
+        - cpsIdentifier
+        - description
+        - ministry
+        - program
+        - sponsor
+        - manager
+        - financialContact
+        - start
+        - phase
 
     ReportRequest:
       type: object
-      description: request body data to create a report
       properties:
         submitter:
           type: string
-          description: user to write and submit the report
         projectId:
           type: string
-          description: project's id
         state:
           type: number
-          enum: [0, 1, 2]
-          description: default is 0. 0 = Draft, 1 = Review, 3 = Submitted
+          enum:
+            - 0 # Draft
+            - 1 # Review
+            - 2 # Submitted
         year:
-          type: number
-          description: reporting year
+          type: integer
         quarter:
           type: string
-          description: reporting quarter, [Q1, Q2, Q3a, Q3b, Q4]
           enum: [Q1, Q2, Q3a, Q3b, Q4]
         phase:
           type: string
-          description: phase describing where the project is.
         progress:
-          type: number
-          description: project progress
+          type: integer
+          minimum: 0
+          maximum: 100
         estimatedEnd:
           type: string
-          description: project estimated end date
-
-    Report:
-      allOf:
-        - $ref: '#/components/schemas/ReportRequest'
-        - type: object
-          properties:
-            submitter:
-              $ref: '#/components/schemas/User'
-              description: user to write and submit the report
-            id:
-              type: string
-              description: id
+          format: date
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Milestone'
+      required:
+        - submitter
+        - projectId
+        - year
+        - quarter
+        - estimatedEnd
 
     Project:
       allOf:
         - $ref: '#/components/schemas/ProjectRequest'
+        - $ref: '#/components/schemas/Timestamps'
         - type: object
           properties:
             id:
               type: string
-              description: id
             sponsor:
-              description: project sponsor
               $ref: '#/components/schemas/User'
             manager:
-              description: project manager
               $ref: '#/components/schemas/User'
             financialContact:
-              description: project financialContact
               $ref: '#/components/schemas/User'
+
+    Report:
+      allOf:
+        - $ref: '#/components/schemas/ReportRequest'
+        - $ref: '#/components/schemas/Timestamps'
+        - type: object
+          properties:
+            submitter:
+              $ref: '#/components/schemas/User'
+            id:
+              type: string
+
+    MilestoneRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: integer
+          enum:
+            - 0 # Green
+            - 1 # Yellow
+            - 2 # Red
+            - 3 # Completed
+            - 4 # NotStarted
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+        start:
+          type: string
+          format: date
+        estimatedEnd:
+          type: string
+          format: date
+        comments:
+          type: string
+      required:
+        - name
+        - start
+        - estimatedEnd
+
+    Milestone:
+      allOf:
+        - $ref: '#/components/schemas/MilestoneRequest'
+        - $ref: '#/components/schemas/Timestamps'
+
+    Timestamps:
+      properties:
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
 
 security:
   - bearerAuth: []

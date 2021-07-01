@@ -17,6 +17,7 @@
 import {
   IsDateString,
   IsEnum,
+  IsISO8601,
   IsMongoId,
   IsNumber,
   IsNumberString,
@@ -77,7 +78,7 @@ class ReportDTO implements Report {
   @Max(100)
   progress: number;
 
-  @IsDateString()
+  @IsISO8601()
   estimatedEnd: string;
 
   @IsOptional()

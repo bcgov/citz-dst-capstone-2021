@@ -140,7 +140,7 @@ class App {
         info: {
           title: 'REST API',
           version: '1.0.0',
-          description: 'Example docs',
+          description: 'Reporting and Dashboard Service Improvement',
         },
       },
       apis: ['swagger.yaml'],

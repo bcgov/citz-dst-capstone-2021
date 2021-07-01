@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Milestone, Status, Trend } from '@interfaces/report.interface';
-import { IsDateString, IsEnum, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { Milestone, MilestoneStatus } from '@interfaces/report.interface';
+import { IsEnum, IsISO8601, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 class MilestoneDTO implements Milestone {
   @IsOptional()
@@ -25,7 +25,7 @@ class MilestoneDTO implements Milestone {
   @IsString()
   description: string;
 
-  @IsDateString()
+  @IsISO8601()
   estimatedEnd: Date;
 
   @IsString()
@@ -37,16 +37,12 @@ class MilestoneDTO implements Milestone {
   @Max(100)
   progress: number;
 
-  @IsDateString()
+  @IsISO8601()
   start: Date;
 
   @IsOptional()
-  @IsEnum(Status)
-  status: Status;
-
-  @IsOptional()
-  @IsEnum(Trend)
-  trend: Trend;
+  @IsEnum(MilestoneStatus)
+  status: MilestoneStatus;
 }
 
 export default MilestoneDTO;
