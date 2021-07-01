@@ -86,7 +86,7 @@ describe('Testing Projects', () => {
           .set('Authorization', `Bearer ${token}`)
           .send(data)
           .end((e, res) => {
-            expect(res.body.data.progress).toEqual(progress);
+            expect(res.body.progress).toEqual(progress);
             done();
           });
       });

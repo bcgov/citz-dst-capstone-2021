@@ -28,7 +28,7 @@ const ReportController = {
         res.status(400).send('Bad request');
       } else {
         const data: Report[] = await ReportService.findAllReports(projectId as string, +year, quarter as ReportQuarter);
-        res.status(200).json({ data, message: 'reports' });
+        res.status(200).json(data);
       }
       next();
     } catch (e) {
@@ -43,7 +43,7 @@ const ReportController = {
         res.status(400).send('Bad request');
       } else {
         const data: Report = await ReportService.findReport(id);
-        res.status(200).json({ data, message: 'reports' });
+        res.status(200).json(data);
       }
     } catch (e) {
       next(e);
@@ -54,7 +54,7 @@ const ReportController = {
     try {
       const input: ReportDTO = req.body;
       const data = await ReportService.createReport(input);
-      res.status(201).json({ data, message: 'created' });
+      res.status(201).json(data);
     } catch (e) {
       next(e);
     }
@@ -65,7 +65,7 @@ const ReportController = {
       const { id } = req.params;
       const input: ReportDTO = req.body;
       const data = await ReportService.updateReport(id, input);
-      res.status(200).json({ data, message: 'updated' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -75,7 +75,7 @@ const ReportController = {
     try {
       const { id } = req.params;
       const data = await ReportService.deleteReport(id);
-      res.status(200).json({ data, message: 'deleted' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -85,7 +85,7 @@ const ReportController = {
     try {
       const { id } = req.params;
       const data = await ReportService.getMilestones(id);
-      res.status(200).json({ data, count: data.length });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -96,7 +96,7 @@ const ReportController = {
       const { id } = req.params;
       const input: MilestoneDTO = req.body;
       const data = await ReportService.createMilestone(id, input);
-      res.status(201).json({ data, message: 'created' });
+      res.status(201).json(data);
     } catch (e) {
       next(e);
     }
@@ -106,7 +106,7 @@ const ReportController = {
     try {
       const { id, mid } = req.params;
       const data = await ReportService.deleteMilestone(id, mid);
-      res.status(200).json({ data, message: 'deleted' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -116,7 +116,7 @@ const ReportController = {
       const { id, mid } = req.params;
       const input: MilestoneDTO = req.body;
       const data = await ReportService.updateMilestone(id, mid, input);
-      res.status(200).json({ data, message: 'updated' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }

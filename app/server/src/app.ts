@@ -24,7 +24,6 @@ import hpp from 'hpp';
 import morgan from 'morgan';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import jwt from 'jsonwebtoken';
 import { connect, set, disconnect } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';

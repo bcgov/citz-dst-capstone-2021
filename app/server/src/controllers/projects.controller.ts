@@ -23,7 +23,7 @@ const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {
     try {
       const data: Project[] = await ProjectService.findAllProjects();
-      res.status(200).json({ data, message: 'projects' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -33,7 +33,7 @@ const ProjectController = {
     try {
       const { id } = req.params;
       const data: Project = await ProjectService.findProjectByCPS(id);
-      res.status(200).json({ data, message: 'project' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -43,7 +43,7 @@ const ProjectController = {
     try {
       const input: ProjectDTO = req.body;
       const data: Project = await ProjectService.createProject(input);
-      res.status(201).json({ data, message: 'created' });
+      res.status(201).json(data);
     } catch (e) {
       next(e);
     }
@@ -52,8 +52,7 @@ const ProjectController = {
     try {
       const { id } = req.params;
       const data: Project = await ProjectService.deleteProject(id);
-      res.status(200).json({ data, message: 'deleted' });
-      next();
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -63,8 +62,7 @@ const ProjectController = {
       const { id } = req.params;
       const input: ProjectDTO = req.body;
       const data: Project = await ProjectService.updateProject(id, input);
-      res.status(200).json({ data, message: 'updated' });
-      next();
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }

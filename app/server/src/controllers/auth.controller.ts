@@ -24,7 +24,7 @@ export default {
     const userData: UserDTO = req.body;
     return AuthService.signup(userData)
       .then(data => {
-        return res.status(201).json({ data, message: 'signup' });
+        return res.status(201).json(data);
       })
       .catch(e => next(e));
   },
@@ -44,7 +44,7 @@ export default {
     return AuthService.logout(user)
       .then(() => {
         res.cookie('token', '');
-        res.status(200).json({ data: '', message: 'logout' });
+        res.status(200).json({});
       })
       .catch(e => next(e));
   },
