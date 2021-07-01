@@ -38,10 +38,11 @@ import useApi from '../../utils/api';
 import { validateSignUp } from '../../utils/validationSchema';
 import FormStepper from '../../components/common/FormStepper';
 import ProjectIDForm from '../../components/projects/ProjectIDForm';
+import ProjectContactsForm from '../../components/projects/ProjectContactsForm';
 
 // TODO: Move to constants file
 const steps = ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
-const stepContent = [ <ProjectIDForm />, <h2>TODO: contacts</h2>, <h2>TODO: timeline</h2>, <h2>TODO: business case objectives</h2>, <h2>TODO: KPIs</h2> ]
+const stepContent = [ <ProjectIDForm />, <ProjectContactsForm />, <h2>TODO: timeline</h2>, <h2>TODO: business case objectives</h2>, <h2>TODO: KPIs</h2> ]
 
 /*
 function getStepContent(step: number) {
