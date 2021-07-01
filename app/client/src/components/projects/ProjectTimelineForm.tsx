@@ -38,7 +38,6 @@ import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectTimelineForm: React.FC = () => {
-
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date('2014-08-18T21:11:54'),
   );
