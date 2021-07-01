@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+// for class-transformer Type method
+import 'reflect-metadata';
+
 import UserService from '@services/users.service';
 import { UserDTO } from '@dtos/users.dto';
 import AuthService from '@services/auth.service';
@@ -42,9 +45,17 @@ afterAll(async () => {
 });
 
 // TODO: (nick) Reports test cases
-describe('Testing Reports', () => {
-  it.skip('[GET] /reports', () => {});
-  it.skip('[POST] /reports', () => {});
-  it.skip('[PATCH] /reports/id', () => {});
-  it.skip('[DELETE] /reports/id', () => {});
+describe('Testing reports', () => {
+  describe.skip('Testing report general info', () => {
+    it('[GET] /reports', () => {});
+    it('[POST] /reports', () => {});
+    it('[PATCH] /reports/id', () => {});
+    it('[DELETE] /reports/id', () => {});
+  });
+  describe('Testing report milestones', () => {
+    it('[GET] /reports/{id}/milestones', () => {});
+    it('[POST] /reports/{id}/milestones', () => {});
+    it('[PATCH] /reports/{id}/milestones/{mid}', () => {});
+    it('[DELETE] /reports/{id}/milestones/{mid}', () => {});
+  });
 });

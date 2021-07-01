@@ -16,7 +16,6 @@
 
 import dotenv from 'dotenv';
 import * as Console from 'console';
-import 'reflect-metadata';
 
 export default () => {
   const config = dotenv.config();

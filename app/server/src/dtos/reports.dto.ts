@@ -26,7 +26,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { Milestone, Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
+import { Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
 import MilestoneDTO from '@dtos/milestone.dto';
