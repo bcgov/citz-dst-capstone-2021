@@ -47,3 +47,12 @@ export const validateSignUp = yup.object({
   role: yup.string().required('Select a role'),
   ministry: yup.string().required('Select a ministry'),
 });
+
+export const validateNewProject = yup.object({
+  name,
+  cpsIdentifier: name,
+  projectNumber: name,
+  description: name,
+  ministry: name,
+  program: name
+});

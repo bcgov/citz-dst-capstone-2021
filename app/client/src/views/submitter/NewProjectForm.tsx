@@ -37,10 +37,30 @@ import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateSignUp } from '../../utils/validationSchema';
 import FormStepper from '../../components/common/FormStepper';
+import ProjectIDForm from '../../components/projects/ProjectIDForm';
 
 // TODO: Move to constants file
 const steps = ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
-const stepContent = [ <h2>TODO: project identification</h2>, <h2>TODO: contacts</h2>, <h2>TODO: timeline</h2>, <h2>TODO: business case objectives</h2>, <h2>TODO: KPIs</h2> ]
+const stepContent = [ <ProjectIDForm />, <h2>TODO: contacts</h2>, <h2>TODO: timeline</h2>, <h2>TODO: business case objectives</h2>, <h2>TODO: KPIs</h2> ]
+
+/*
+function getStepContent(step: number) {
+  switch (step) {
+    case 0:
+      return <h2>TODO: project identification</h2>;
+    case 1:
+      return <h2>TODO: contacts</h2>;
+    case 2:
+      return <h2>TODO: timeline</h2>;
+    case 3:
+      return <h2>TODO: business case objectives</h2>;
+    case 4:
+      return <h2>TODO: KPIs</h2>;
+    default:
+      return 'unknown step';
+  }
+};
+*/
 
 const NewProjectForm: React.FC = () => {
 
