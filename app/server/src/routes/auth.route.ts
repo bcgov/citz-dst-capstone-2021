@@ -25,6 +25,8 @@ import validationMiddleware from '@middlewares/validation.middleware';
 class AuthRoute implements Route {
   public resource = '';
 
+  public secure = false;
+
   public router = Router();
 
   constructor() {
@@ -34,7 +36,7 @@ class AuthRoute implements Route {
   private initializeRoutes() {
     this.router.post('/signup', validationMiddleware(UserDTO, 'body'), AuthController.signUp);
     this.router.post('/login', validationMiddleware(LoginDTO, 'body'), AuthController.login);
-    this.router.post('/logout', passport.authenticate('jwt', { session: false }), AuthController.logout);
+    this.router.post('/logout', AuthController.logout);
   }
 }
 

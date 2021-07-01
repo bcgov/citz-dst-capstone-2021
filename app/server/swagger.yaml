@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserRequest"
+              $ref: "#/components/schemas/UserRequest"
       responses:
         201:
           description: "Created"
@@ -84,7 +84,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
         401:
-          $ref: '#/components/responses/UnauthorizedError'
+          description: 'Unauthorized'
         500:
           description: "Server Error"
 
@@ -93,13 +93,15 @@ paths:
       tags:
         - Users
       summary: Add User
+      security:
+        - bearerAuth: []
       requestBody:
         description: userdata
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserRequest"
+              $ref: "#/components/schemas/UserRequest"
       responses:
         201:
           description: Created
@@ -120,6 +122,8 @@ paths:
       tags:
         - Users
       summary: Find User By Id
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -158,7 +162,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserRequest"
+              $ref: "#/components/schemas/UserRequest"
       responses:
         200:
           description: "OK"
@@ -220,7 +224,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateProjectRequest"
+              $ref: "#/components/schemas/ProjectRequest"
       responses:
         201:
           description: Created
@@ -270,7 +274,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateProjectRequest"
+              $ref: "#/components/schemas/ProjectRequest"
       responses:
         200:
           description: 'Updated'
@@ -358,7 +362,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateReportRequest"
+              $ref: "#/components/schemas/ReportRequest"
       responses:
         201:
           description: Created
@@ -420,7 +424,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateReportRequest"
+              $ref: "#/components/schemas/ReportRequest"
       responses:
         200:
           description: "OK"
@@ -441,7 +445,8 @@ paths:
     delete:
       tags:
         - Reports
-      summary: Delete a report by id
+      summary: |-
+        Delete a report by id
       security:
         - bearerAuth: []
       parameters:
@@ -505,22 +510,12 @@ components:
           type: string
           description: role in reporting process
 
-    CreateUserRequest:
+    UserRequest:
       allOf:
         - $ref: '#/components/schemas/LoginRequest'
         - $ref: '#/components/schemas/User'
 
-    ReportRequest:
-      type: object
-      properties:
-        projectId:
-          type: string
-          description: project id
-        year:
-          type: number
-        quarter:
-          enum: [Q1, Q2, Q3a, Q3b, Q4]
-    CreateProjectRequest:
+    ProjectRequest:
       type: object
       properties:
         name:
@@ -566,8 +561,9 @@ components:
           type: string
           description: project phase
 
-    CreateReportRequest:
+    ReportRequest:
       type: object
+      description: request body data to create a report
       properties:
         submitter:
           type: string
@@ -598,7 +594,7 @@ components:
 
     Report:
       allOf:
-        - $ref: '#/components/schemas/CreateReportRequest'
+        - $ref: '#/components/schemas/ReportRequest'
         - type: object
           properties:
             submitter:
@@ -610,7 +606,7 @@ components:
 
     Project:
       allOf:
-        - $ref: '#/components/schemas/CreateProjectRequest'
+        - $ref: '#/components/schemas/ProjectRequest'
         - type: object
           properties:
             id:

@@ -30,7 +30,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import { logger } from '@bcgov/common-nodejs-utils';
 import DBConfig from '@databases';
-import Routes from '@interfaces/routes.interface';
+import Route from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 
 import User from '@models/users.model';
@@ -46,15 +46,13 @@ class App {
 
   public env: string;
 
-  constructor(routes: Routes[]) {
+  constructor(routes: Route[]) {
     this.app = express();
     this.port = process.env.PORT || 3000;
     this.env = process.env.NODE_ENV || 'development';
 
     this.connectToDatabase();
-    this.initializeMiddlewares();
-    this.initializeRoutes(routes);
-    this.initializeSwagger();
+    this.initializeMiddlewares(routes);
     this.initializeErrorHandling();
   }
 
@@ -89,7 +87,7 @@ class App {
     return connect(DBConfig.url, DBConfig.options);
   }
 
-  private initializeMiddlewares() {
+  private initializeMiddlewares(routes: Route[]) {
     this.app.use(morgan(this.env === 'production' ? 'combined' : 'dev'));
     // TODO: (shp) origin should be set during deployment?
     this.app.use(cors({ origin: config.get('apiUrl'), credentials: true }));
@@ -106,7 +104,11 @@ class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+    this.initializeSwagger();
+    this.initializeRoutes(routes, false);
     this.app.use(passport.initialize());
+    this.app.use(passport.authenticate('jwt', { session: false }));
+    this.initializeRoutes(routes);
 
     // Configure JWT Token Auth
     const jwtOptions = {
@@ -123,26 +125,11 @@ class App {
     );
   }
 
-  private initializeRoutes(routes: Routes[]) {
+  private initializeRoutes(routes: Route[], secure = true) {
     routes.forEach(route => {
-      this.app.use(`${this.api_root}/${route.resource}`, route.router);
-    });
-
-    // serve react pages if it exists
-    const webPath = path.join(__dirname, '../web');
-    fs.access(webPath, fs.constants.R_OK, e => {
-      if (e) {
-        logger.warn('web resources not found');
-        return;
+      if (route.secure === secure) {
+        this.app.use(`${this.api_root}/${route.resource}`, route.router);
       }
-      this.app.use(express.static(webPath));
-      this.app.get('/', (req, res) => {
-        res.sendFile(path.join(webPath, 'index.html'), err => {
-          if (err) {
-            res.status(500).send(err);
-          }
-        });
-      });
     });
   }
 

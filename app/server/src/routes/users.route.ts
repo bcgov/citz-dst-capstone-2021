@@ -24,6 +24,8 @@ import validationMiddleware from '@middlewares/validation.middleware';
 class UsersRoute implements Route {
   public resource = 'users';
 
+  secure = true;
+
   public router = Router();
 
   constructor() {
@@ -33,21 +35,13 @@ class UsersRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('jwt', { session: false }), UsersController.getUsers)
-      .post(
-        passport.authenticate('jwt', { session: false }),
-        validationMiddleware(UserDTO, 'body'),
-        UsersController.createUser,
-      );
+      .get(UsersController.getUsers)
+      .post(validationMiddleware(UserDTO, 'body'), UsersController.createUser);
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('jwt', { session: false }), UsersController.getUserById)
-      .patch(
-        passport.authenticate('jwt', { session: false }),
-        validationMiddleware(UserDTO, 'body', true),
-        UsersController.updateUser,
-      )
+      .get(UsersController.getUserById)
+      .patch(validationMiddleware(UserDTO, 'body', true), UsersController.updateUser)
       .delete(UsersController.deleteUser);
   }
 }

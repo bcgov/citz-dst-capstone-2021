@@ -24,6 +24,8 @@ import ProjectDTO from '@dtos/projects.dto';
 class ProjectsRoute implements Route {
   resource = 'projects';
 
+  secure = true;
+
   router = Router();
 
   constructor() {
@@ -33,7 +35,7 @@ class ProjectsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjects)
+      .get(ProjectsController.getProjects)
       .post(
         passport.authenticate('jwt', { session: false }),
         validationMiddleware(ProjectDTO, 'body'),
@@ -42,8 +44,8 @@ class ProjectsRoute implements Route {
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjectDetail)
-      .delete(passport.authenticate('jwt', { session: false }), ProjectsController.deleteProject)
+      .get(ProjectsController.getProjectDetail)
+      .delete(ProjectsController.deleteProject)
       .patch(
         passport.authenticate('jwt', { session: false }),
         validationMiddleware(ProjectDTO, 'body', true),

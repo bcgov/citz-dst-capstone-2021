@@ -25,6 +25,8 @@ import MilestoneDTO from '@dtos/milestone.dto';
 class ReportsRoute implements Route {
   resource = 'reports';
 
+  secure = true;
+
   router = Router();
 
   constructor() {
@@ -47,8 +49,8 @@ class ReportsRoute implements Route {
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('jwt', { session: false }), ReportController.getReport)
-      .delete(passport.authenticate('jwt', { session: false }), ReportController.deleteReport)
+      .get(ReportController.getReport)
+      .delete(ReportController.deleteReport)
       .patch(
         passport.authenticate('jwt', { session: false }),
         validationMiddleware(ReportDTO, 'body', true),
@@ -56,9 +58,7 @@ class ReportsRoute implements Route {
       );
 
     // Milestone routes
-    this.router
-      .route('/:id/milestones')
-      .get(passport.authenticate('jwt', { session: false }), ReportController.getMilestones);
+    this.router.route('/:id/milestones').get(ReportController.getMilestones);
 
     this.router
       .route('/:id/milestones')
@@ -70,7 +70,7 @@ class ReportsRoute implements Route {
 
     this.router
       .route('/:id/milestones/:mid')
-      .delete(passport.authenticate('jwt', { session: false }), ReportController.deleteMilestone)
+      .delete(ReportController.deleteMilestone)
       .patch(
         passport.authenticate('jwt', { session: false }),
         validationMiddleware(MilestoneDTO, 'body', true),
