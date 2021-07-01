@@ -51,7 +51,6 @@ import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
 // TODO: Move to constants file
 const steps = ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
 
-
 const NewProjectForm: React.FC = () => {
   // Form functionality with formik & api
   const history = useHistory();
