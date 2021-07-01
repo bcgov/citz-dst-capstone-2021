@@ -40,10 +40,12 @@ import FormStepper from '../../components/common/FormStepper';
 import ProjectIDForm from '../../components/projects/ProjectIDForm';
 import ProjectContactsForm from '../../components/projects/ProjectContactsForm';
 import ProjectTimelineForm from '../../components/projects/ProjectTimelineForm';
+import ProjectObjectivesForm from '../../components/projects/ProjectObjectivesForm';
+import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
 
 // TODO: Move to constants file
 const steps = ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
-const stepContent = [ <ProjectIDForm />, <ProjectContactsForm />, <ProjectTimelineForm />, <h2>TODO: business case objectives</h2>, <h2>TODO: KPIs</h2> ]
+const stepContent = [ <ProjectIDForm />, <ProjectContactsForm />, <ProjectTimelineForm />, <ProjectObjectivesForm />, <ProjectKPIsForm /> ]
 
 /*
 function getStepContent(step: number) {
