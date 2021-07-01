@@ -15,7 +15,7 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import UserService from '@services/users.service';
 
@@ -43,7 +43,7 @@ export default {
 
   async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: UserDTO = req.body;
       const data: User = await UserService.createUser(userData);
 
       res.status(201).json({ data, message: 'created' });
@@ -55,7 +55,7 @@ export default {
   async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
-      const userData: CreateUserDto = req.body;
+      const userData: UserDTO = req.body;
       const data: User = await UserService.updateUser(userId, userData);
 
       res.status(200).json({ data, message: 'updated' });

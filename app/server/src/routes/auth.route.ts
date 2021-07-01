@@ -18,7 +18,7 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import AuthController from '@controllers/auth.controller';
-import { CreateUserDto, LoginDto } from '@dtos/users.dto';
+import { UserDTO, LoginDTO } from '@dtos/users.dto';
 import Route from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 
@@ -32,8 +32,8 @@ class AuthRoute implements Route {
   }
 
   private initializeRoutes() {
-    this.router.post('/signup', validationMiddleware(CreateUserDto, 'body'), AuthController.signUp);
-    this.router.post('/login', validationMiddleware(LoginDto, 'body'), AuthController.login);
+    this.router.post('/signup', validationMiddleware(UserDTO, 'body'), AuthController.signUp);
+    this.router.post('/login', validationMiddleware(LoginDTO, 'body'), AuthController.login);
     this.router.post('/logout', passport.authenticate('jwt', { session: false }), AuthController.logout);
   }
 }

@@ -17,7 +17,7 @@
 import { Project } from '@interfaces/project.interface';
 import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
-import { CreateProjectDTO } from '@dtos/projects.dto';
+import { ProjectDTO } from '@dtos/projects.dto';
 
 const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {
@@ -41,7 +41,7 @@ const ProjectController = {
 
   async createProject(req: Request, res: Response, next: NextFunction) {
     try {
-      const input: CreateProjectDTO = req.body;
+      const input: ProjectDTO = req.body;
       const data: Project = await ProjectService.createProject(input);
       res.status(201).json({ data, message: 'created' });
     } catch (e) {
@@ -61,7 +61,7 @@ const ProjectController = {
   async updateProject(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const input: CreateProjectDTO = req.body;
+      const input: ProjectDTO = req.body;
       const data: Project = await ProjectService.updateProject(id, input);
       res.status(200).json({ data, message: 'updated' });
       next();

@@ -19,7 +19,8 @@ import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
 import ReportController from '@controllers/reports.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import CreateReportDTO, { ReportQueryDTO } from '@dtos/reports.dto';
+import ReportDTO, { ReportQueryDTO } from '@dtos/reports.dto';
+import MilestoneDTO from '@dtos/milestone.dto';
 
 class ReportsRoute implements Route {
   resource = 'reports';
@@ -40,7 +41,7 @@ class ReportsRoute implements Route {
       )
       .post(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateReportDTO, 'body'),
+        validationMiddleware(ReportDTO, 'body'),
         ReportController.createReport,
       );
 
@@ -50,8 +51,30 @@ class ReportsRoute implements Route {
       .delete(passport.authenticate('jwt', { session: false }), ReportController.deleteReport)
       .patch(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateReportDTO, 'body', true),
+        validationMiddleware(ReportDTO, 'body', true),
         ReportController.updateReport,
+      );
+
+    // Milestone routes
+    this.router
+      .route('/:id/milestones')
+      .get(passport.authenticate('jwt', { session: false }), ReportController.getMilestones);
+
+    this.router
+      .route('/:id/milestones')
+      .post(
+        passport.authenticate('jwt', { session: false }),
+        validationMiddleware(MilestoneDTO, 'body'),
+        ReportController.createMilestone,
+      );
+
+    this.router
+      .route('/:id/milestones/:mid')
+      .delete(passport.authenticate('jwt', { session: false }), ReportController.deleteMilestone)
+      .patch(
+        passport.authenticate('jwt', { session: false }),
+        validationMiddleware(MilestoneDTO, 'body', true),
+        ReportController.updateMilestone,
       );
   }
 }

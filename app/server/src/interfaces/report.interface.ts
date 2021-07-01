@@ -39,4 +39,62 @@ export interface Report {
   phase: string;
   progress: number;
   estimatedEnd: string | Date;
+  milestones: Milestone[];
+}
+
+export enum Status {
+  Green,
+  Yellow,
+  Red,
+}
+
+export enum Trend {
+  Up,
+  Steady,
+  Down,
+}
+
+enum ReportStatusType {
+  Overall,
+  Scope,
+  Budget,
+  Schedule,
+  Other,
+}
+
+export interface ReportStatus {
+  id: number;
+  type: ReportStatusType;
+  status: Status;
+  trend: Trend;
+  comments: string;
+}
+
+export enum MilestoneStatus {
+  Green,
+  Yellow,
+  Red,
+  Completed,
+  NotStarted,
+}
+
+export interface Milestone {
+  id?: string;
+  name: string;
+  description: string;
+  status: Status;
+  trend: Trend;
+  start: Date;
+  estimatedEnd: Date;
+  progress: number;
+  comments: string;
+}
+
+export interface Objective {
+  id?: number;
+  name: string;
+  description: string;
+  estimatedEnd: Date;
+  status: Status;
+  comments: string;
 }

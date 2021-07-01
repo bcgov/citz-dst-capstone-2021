@@ -15,7 +15,7 @@
  */
 
 import UserService from '@services/users.service';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import AuthService from '@services/auth.service';
 import request from 'supertest';
 import App from '@/app';
@@ -34,7 +34,7 @@ let token = '';
 beforeAll(async () => {
   let user = await UserService.findUserByEmail(admin.email);
   if (!user) {
-    user = await UserService.createUser(admin as CreateUserDto);
+    user = await UserService.createUser(admin as UserDTO);
   }
   const tokenData = await AuthService.createToken(user, 600);
   token = tokenData.token;

@@ -27,7 +27,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateProjectDTO {
+export class ProjectDTO {
   @IsString()
   @MinLength(8)
   @MaxLength(50)
@@ -85,4 +85,4 @@ export class CreateProjectDTO {
   phase: string;
 }
 
-export default CreateProjectDTO;
+export default ProjectDTO;

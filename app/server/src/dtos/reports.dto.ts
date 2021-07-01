@@ -24,9 +24,12 @@ import {
   IsString,
   Max,
   Min,
+  ValidateNested,
 } from 'class-validator';
-import { Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
+import { Milestone, Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
+
+import MilestoneDTO from '@dtos/milestone.dto';
 
 export class ReportQueryDTO {
   @IsMongoId()
@@ -41,7 +44,7 @@ export class ReportQueryDTO {
   quarter: ReportQuarter;
 }
 
-class CreateReportDTO implements Report {
+class ReportDTO implements Report {
   @IsMongoId()
   submitter: string;
 
@@ -76,6 +79,11 @@ class CreateReportDTO implements Report {
 
   @IsDateString()
   estimatedEnd: string;
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => MilestoneDTO)
+  milestones: [MilestoneDTO];
 }
 
-export default CreateReportDTO;
+export default ReportDTO;

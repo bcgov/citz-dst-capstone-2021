@@ -17,7 +17,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import UsersController from '@controllers/users.controller';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import Route from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 
@@ -36,7 +36,7 @@ class UsersRoute implements Route {
       .get(passport.authenticate('jwt', { session: false }), UsersController.getUsers)
       .post(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateUserDto, 'body'),
+        validationMiddleware(UserDTO, 'body'),
         UsersController.createUser,
       );
 
@@ -45,7 +45,7 @@ class UsersRoute implements Route {
       .get(passport.authenticate('jwt', { session: false }), UsersController.getUserById)
       .patch(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateUserDto, 'body', true),
+        validationMiddleware(UserDTO, 'body', true),
         UsersController.updateUser,
       )
       .delete(UsersController.deleteUser);

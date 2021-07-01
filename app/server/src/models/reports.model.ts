@@ -15,7 +15,55 @@
  */
 
 import { Document, model, Schema } from 'mongoose';
-import { Report, ReportState } from '@interfaces/report.interface';
+import { Milestone, MilestoneStatus, Report, ReportState, Status } from '@interfaces/report.interface';
+
+const MilestoneModel: Schema<Milestone> = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    status: {
+      type: Number,
+      default: Status.Green,
+    },
+    trend: {
+      type: Number,
+      default: MilestoneStatus.NotStarted,
+    },
+    start: {
+      type: Date,
+      required: true,
+    },
+    estimatedEnd: {
+      type: Date,
+      required: true,
+    },
+    progress: {
+      type: Number,
+      default: 0,
+    },
+    comments: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      versionKey: false,
+      virtuals: true,
+      transform: (doc, ret) => {
+        /* eslint-disable no-underscore-dangle */
+        /* eslint-disable no-param-reassign */
+        delete ret._id;
+      },
+    },
+    toObject: { virtuals: true },
+  },
+);
 
 const ReportModel: Schema<Report> = new Schema(
   {
@@ -53,6 +101,7 @@ const ReportModel: Schema<Report> = new Schema(
       type: Date,
       required: true,
     },
+    milestones: [MilestoneModel],
   },
   {
     timestamps: true,
