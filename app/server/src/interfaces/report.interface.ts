@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export enum ReportQuarter {
+export enum Quarter {
   Q1 = 'Q1',
   Q2 = 'Q2',
   Q3a = 'Q3a',
@@ -33,13 +33,15 @@ export interface Report {
   submitter: string;
   submittedAt: string | Date;
   year: number;
-  quarter: ReportQuarter;
+  quarter: Quarter;
   projectId: string;
   state: ReportState;
   phase: string;
   progress: number;
   estimatedEnd: string | Date;
   milestones: Milestone[];
+  objectives: Objective[];
+  statuses: ReportStatus[];
 }
 
 export enum Status {
@@ -54,7 +56,7 @@ export enum Trend {
   Down,
 }
 
-enum ReportStatusType {
+export enum StatusType {
   Overall,
   Scope,
   Budget,
@@ -63,8 +65,8 @@ enum ReportStatusType {
 }
 
 export interface ReportStatus {
-  id: number;
-  type: ReportStatusType;
+  id?: string;
+  type: StatusType;
   status: Status;
   trend: Trend;
   comments: string;
@@ -90,7 +92,7 @@ export interface Milestone {
 }
 
 export interface Objective {
-  id?: number;
+  id?: string;
   name: string;
   description: string;
   estimatedEnd: Date;

@@ -15,7 +15,7 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
-import { UserDTO } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
 

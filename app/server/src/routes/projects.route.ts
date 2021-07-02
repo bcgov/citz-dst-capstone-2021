@@ -19,7 +19,7 @@ import passport from 'passport';
 import Route from '@interfaces/routes.interface';
 import ProjectsController from '@controllers/projects.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import ProjectDTO from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/project.dto';
 
 class ProjectsRoute implements Route {
   resource = 'projects';

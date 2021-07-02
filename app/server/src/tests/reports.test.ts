@@ -18,7 +18,7 @@
 import 'reflect-metadata';
 
 import UserService from '@services/users.service';
-import { UserDTO } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import AuthService from '@services/auth.service';
 import App from '@/app';
 import ReportsRoute from '@routes/reports.route';
@@ -45,8 +45,8 @@ afterAll(async () => {
 });
 
 // TODO: (nick) Reports test cases
-describe('Testing reports', () => {
-  describe.skip('Testing report general info', () => {
+describe.skip('Testing reports', () => {
+  describe('Testing report general info', () => {
     it('[GET] /reports', () => {});
     it('[POST] /reports', () => {});
     it('[PATCH] /reports/id', () => {});
@@ -57,5 +57,17 @@ describe('Testing reports', () => {
     it('[POST] /reports/{id}/milestones', () => {});
     it('[PATCH] /reports/{id}/milestones/{mid}', () => {});
     it('[DELETE] /reports/{id}/milestones/{mid}', () => {});
+  });
+  describe('Testing report objectives', () => {
+    it('[GET] /reports/{id}/objectives', () => {});
+    it('[POST] /reports/{id}/objectives', () => {});
+    it('[PATCH] /reports/{id}/objectives/{oid}', () => {});
+    it('[DELETE] /reports/{id}/objectives/{oid}', () => {});
+  });
+  describe('Testing report status', () => {
+    it('[GET] /reports/{id}/statuses', () => {});
+    it('[POST] /reports/{id}/statuses', () => {});
+    it('[PATCH] /reports/{id}/statuses/{oid}', () => {});
+    it('[DELETE] /reports/{id}/statuses/{oid}', () => {});
   });
 });

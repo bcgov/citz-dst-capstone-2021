@@ -27,10 +27,12 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
+import { Report, Quarter, ReportState, Objective, ReportStatus } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
 import MilestoneDTO from '@dtos/milestone.dto';
+import ReportStatusDTO from '@dtos/reportStatus.dto';
+import ObjectiveDTO from '@dtos/objective.dto';
 
 export class ReportQueryDTO {
   @IsMongoId()
@@ -41,8 +43,8 @@ export class ReportQueryDTO {
   year: number;
 
   @IsOptional()
-  @IsEnum(ReportQuarter)
-  quarter: ReportQuarter;
+  @IsEnum(Quarter)
+  quarter: Quarter;
 }
 
 class ReportDTO implements Report {
@@ -58,8 +60,8 @@ class ReportDTO implements Report {
   @Max(3000)
   year: number;
 
-  @IsEnum(ReportQuarter)
-  quarter: ReportQuarter;
+  @IsEnum(Quarter)
+  quarter: Quarter;
 
   @IsMongoId()
   projectId: string;
@@ -85,6 +87,16 @@ class ReportDTO implements Report {
   @ValidateNested({ each: true })
   @Type(() => MilestoneDTO)
   milestones: [MilestoneDTO];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => ObjectiveDTO)
+  objectives: ObjectiveDTO[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => ReportStatusDTO)
+  statuses: ReportStatusDTO[];
 }
 
 export default ReportDTO;

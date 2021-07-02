@@ -15,7 +15,91 @@
  */
 
 import { Document, model, Schema } from 'mongoose';
-import { Milestone, MilestoneStatus, Report, ReportState, Status } from '@interfaces/report.interface';
+import {
+  Milestone,
+  MilestoneStatus,
+  Objective,
+  Report,
+  Quarter,
+  ReportState,
+  ReportStatus,
+  Status,
+  StatusType,
+  Trend,
+} from '@interfaces/report.interface';
+
+const ReportStatusModel: Schema<ReportStatus> = new Schema(
+  {
+    status: {
+      type: Number,
+      default: Status.Green,
+      enum: Object.values(Status),
+    },
+    trend: {
+      type: Number,
+      default: Trend.Steady,
+      enum: Object.values(Trend),
+    },
+    comments: {
+      type: String,
+    },
+    type: {
+      type: Number,
+      enum: Object.values(StatusType),
+      immutable: true,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      versionKey: false,
+      virtuals: true,
+      transform: (doc, ret) => {
+        /* eslint-disable no-underscore-dangle */
+        /* eslint-disable no-param-reassign */
+        delete ret._id;
+      },
+    },
+    toObject: { virtuals: true },
+  },
+);
+
+const ObjectiveModel: Schema<Objective> = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    status: {
+      type: Number,
+      default: Status.Green,
+      enum: Object.values(Status),
+    },
+    estimatedEnd: {
+      type: Date,
+      required: true,
+    },
+    comments: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      versionKey: false,
+      virtuals: true,
+      transform: (doc, ret) => {
+        /* eslint-disable no-underscore-dangle */
+        /* eslint-disable no-param-reassign */
+        delete ret._id;
+      },
+    },
+    toObject: { virtuals: true },
+  },
+);
 
 const MilestoneModel: Schema<Milestone> = new Schema(
   {
@@ -29,6 +113,7 @@ const MilestoneModel: Schema<Milestone> = new Schema(
     status: {
       type: Number,
       default: MilestoneStatus.Green,
+      enum: Object.values(MilestoneStatus),
     },
     start: {
       type: Date,
@@ -81,6 +166,7 @@ const ReportModel: Schema<Report> = new Schema(
     quarter: {
       type: String,
       required: true,
+      enum: Object.values(Quarter),
     },
     projectId: {
       type: Schema.Types.ObjectId,
@@ -90,6 +176,7 @@ const ReportModel: Schema<Report> = new Schema(
     state: {
       type: Number,
       default: ReportState.Draft,
+      enum: Object.values(ReportState),
     },
     progress: {
       type: Number,
@@ -100,6 +187,8 @@ const ReportModel: Schema<Report> = new Schema(
       required: true,
     },
     milestones: [MilestoneModel],
+    objectives: [ObjectiveModel],
+    statuses: [ReportStatusModel],
   },
   {
     timestamps: true,

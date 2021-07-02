@@ -22,7 +22,7 @@ import { Role } from '@interfaces/roles.interface';
 import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
 
-import { UserDTO } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import testData from './testData.json';
 
 const { admin, testUser } = testData;

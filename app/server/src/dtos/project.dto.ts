@@ -15,7 +15,6 @@
  */
 
 import {
-  IsDateString,
   IsISO8601,
   IsMongoId,
   IsNumber,
@@ -28,7 +27,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class ProjectDTO {
+class ProjectDTO {
   @IsString()
   @MinLength(8)
   @MaxLength(50)
