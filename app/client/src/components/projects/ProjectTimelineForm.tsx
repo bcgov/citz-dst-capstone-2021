@@ -32,7 +32,6 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-// import DateFnsUtils from '@date-io/date-fns';
 import LuxonUtils from '@date-io/luxon';
 import { useHistory } from 'react-router-dom';
 import useApi from '../../utils/api';

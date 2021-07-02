@@ -37,7 +37,7 @@ const FormStepper: React.FC<IFormStepper> = (props) => {
 
     const {
       steps = [''],
-      stepContent = [<p>Hello World</p>]
+      stepContent = [<p>Something went wrong.</p>]
     } = props;
   
     const handleNext = () => {

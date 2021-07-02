@@ -68,21 +68,12 @@ const ProjectIDForm: React.FC<IProjectIDForm> = ( projectName, formik ) => {
     }
   });
 */
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
 
-  /*
+  
   const handleSubmit = () => {
     alert('TODO: Handle submit');
   }
-*/
+
 
   return (
     <Container maxWidth="sm">
@@ -98,8 +89,6 @@ const ProjectIDForm: React.FC<IProjectIDForm> = ( projectName, formik ) => {
           type="text"
           margin="normal"
           value={projectName}
-          onChange={handleChange}
-          onBlur={handleBlur}
         />
         <TextField
           fullWidth
