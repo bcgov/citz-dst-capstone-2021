@@ -30,6 +30,32 @@ const name = yup
   .max(50, 'Too Long!')
   .required('Required');
 
+const progress = yup
+  .number()
+  .positive()
+  .max(100, 'Cannot Be Greater Than 100');
+
+const cpsIdentifier = yup
+  .string()
+  .length(11, 'CPS Identifier Must be 11 Characters Long!')
+  .required('Required');
+
+const projectNumber = yup
+  .string()
+  .length(10, 'Project Number Must Be 10 Characters Long!')
+
+  const textField = yup
+  .string()
+  .max(200, 'Too Long!');
+
+  const ministry = yup
+  .string()
+  .required();
+
+  // TODO: Proper date validation
+  const date = yup
+  .string();
+
 export const validateLogin = yup.object({ email, password });
 
 export const validateSignUp = yup.object({
@@ -50,9 +76,17 @@ export const validateSignUp = yup.object({
 
 export const validateNewProject = yup.object({
   name,
-  cpsIdentifier: name,
-  projectNumber: name,
-  description: name,
-  ministry: name,
-  program: name
+  cpsIdentifier,
+  projectNumber,
+  description: textField,
+  ministry,
+  program: name,
+  sponsor: name,
+  manager: name,
+  financialContact: name,
+  start: date,
+  end: date,
+  estimatedEnd: date,
+  progress,
+  phase: name
 });

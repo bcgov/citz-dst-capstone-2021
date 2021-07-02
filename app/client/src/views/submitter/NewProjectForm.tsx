@@ -35,7 +35,7 @@ import { useHistory } from 'react-router-dom';
 import { Role } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
-import { validateSignUp } from '../../utils/validationSchema';
+import { validateNewProject } from '../../utils/validationSchema';
 import FormStepper from '../../components/common/FormStepper';
 import ProjectIDForm from '../../components/projects/ProjectIDForm';
 import ProjectContactsForm from '../../components/projects/ProjectContactsForm';
@@ -45,7 +45,6 @@ import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
 
 // TODO: Move to constants file
 const steps = ['Project Identification', 'Contacts', 'Timeline', 'Business Case Objectives', 'KPIs'];
-const stepContent = [ <ProjectIDForm />, <ProjectContactsForm />, <ProjectTimelineForm />, <ProjectObjectivesForm />, <ProjectKPIsForm /> ]
 
 /*
 function getStepContent(step: number) {
@@ -67,6 +66,44 @@ function getStepContent(step: number) {
 */
 
 const NewProjectForm: React.FC = () => {
+  const history = useHistory();
+  const api = useApi();
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      cpsIdentifier: '',
+      projectNumber: '',
+      description: '',
+      ministry: '',
+      program: '',
+      sponsor: '',
+      manager: '',
+      financialContact: '',
+      start: '',
+      end: '',
+      estimatedEnd: '',
+      progress: 0,
+      phase: '',
+    },
+    validationSchema: validateNewProject,
+    onSubmit: (values) => {
+      const { ...project } = values;
+      // return null;
+    }
+  });
+
+  const {
+    errors,
+    touched,
+    isValid,
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+  } = formik;
+
+  const stepContent = [ <ProjectIDForm projectName={values.name} formik={formik}/>, <ProjectContactsForm />, <ProjectTimelineForm />, <ProjectObjectivesForm />, <ProjectKPIsForm /> ]
 
   return (
     <Container maxWidth="lg">

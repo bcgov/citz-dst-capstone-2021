@@ -32,12 +32,18 @@ import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
 
-const ProjectIDForm: React.FC = () => {
+interface IProjectIDForm {
+  projectName?: string;
+  formik?: any;
+}
+
+const ProjectIDForm: React.FC<IProjectIDForm> = ( projectName, formik ) => {
   const history = useHistory();
   const api = useApi();
 
   // TODO: Complete validation
-/*
+
+  /*
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -46,17 +52,37 @@ const ProjectIDForm: React.FC = () => {
       description: '',
       ministry: '',
       program: '',
+      sponsor: '',
+      manager: '',
+      financialContact: '',
+      start: '',
+      end: '',
+      estimatedEnd: '',
+      progress: 0,
+      phase: '',
     },
     validationSchema: validateNewProject,
     onSubmit: (values) => {
-      const {} = values;
-      return api.
+      const { ...project } = values;
+      // return null;
     }
   });
 */
+  const {
+    errors,
+    touched,
+    isValid,
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+  } = formik;
+
+  /*
   const handleSubmit = () => {
     alert('TODO: Handle submit');
   }
+*/
 
   return (
     <Container maxWidth="sm">
@@ -66,11 +92,14 @@ const ProjectIDForm: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
-          id="projectName"
-          name="projectName"
+          id="name"
+          name="name"
           label="Project Name"
           type="text"
           margin="normal"
+          value={projectName}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
         <TextField
           fullWidth
