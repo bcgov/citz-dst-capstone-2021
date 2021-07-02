@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { IsEnum, IsISO8601, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsEnum, IsISO8601, IsOptional, IsString } from 'class-validator';
 import { Objective, Status } from '@interfaces/report.interface';
 
 class ObjectiveDTO implements Objective {

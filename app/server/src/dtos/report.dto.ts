@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// eslint-disable-next-line max-classes-per-file
 import {
   IsDateString,
   IsEnum,
@@ -27,7 +28,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { Report, Quarter, ReportState, Objective, ReportStatus } from '@interfaces/report.interface';
+import { Report, Quarter, ReportState } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
 import MilestoneDTO from '@dtos/milestone.dto';

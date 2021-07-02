@@ -17,7 +17,7 @@
 import { Project } from '@interfaces/project.interface';
 import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
-import { ProjectDTO } from '@dtos/project.dto';
+import ProjectDTO from '@dtos/project.dto';
 
 const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import passport from 'passport';
 import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
 import ReportController from '@controllers/reports.controller';

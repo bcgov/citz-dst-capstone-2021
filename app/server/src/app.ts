@@ -34,8 +34,6 @@ import Route from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 
 import User from '@models/users.model';
-import * as path from 'path';
-import * as fs from 'fs';
 
 class App {
   public readonly api_root = '/api/v1';
