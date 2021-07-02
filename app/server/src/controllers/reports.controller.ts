@@ -17,7 +17,8 @@
 import { NextFunction, Request, Response } from 'express';
 import ReportService from '@services/reports.service';
 import { Report, ReportQuarter } from '@interfaces/report.interface';
-import CreateReportDTO from '@dtos/reports.dto';
+import ReportDTO from '@dtos/reports.dto';
+import MilestoneDTO from '@dtos/milestone.dto';
 
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
@@ -27,7 +28,7 @@ const ReportController = {
         res.status(400).send('Bad request');
       } else {
         const data: Report[] = await ReportService.findAllReports(projectId as string, +year, quarter as ReportQuarter);
-        res.status(200).json({ data, message: 'reports' });
+        res.status(200).json(data);
       }
       next();
     } catch (e) {
@@ -42,7 +43,7 @@ const ReportController = {
         res.status(400).send('Bad request');
       } else {
         const data: Report = await ReportService.findReport(id);
-        res.status(200).json({ data, message: 'reports' });
+        res.status(200).json(data);
       }
     } catch (e) {
       next(e);
@@ -51,9 +52,9 @@ const ReportController = {
 
   async createReport(req: Request, res: Response, next: NextFunction) {
     try {
-      const input: CreateReportDTO = req.body;
+      const input: ReportDTO = req.body;
       const data = await ReportService.createReport(input);
-      res.status(201).json({ data, message: 'created' });
+      res.status(201).json(data);
     } catch (e) {
       next(e);
     }
@@ -62,9 +63,9 @@ const ReportController = {
   async updateReport(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const input: CreateReportDTO = req.body;
+      const input: ReportDTO = req.body;
       const data = await ReportService.updateReport(id, input);
-      res.status(200).json({ data, message: 'updated' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -74,7 +75,48 @@ const ReportController = {
     try {
       const { id } = req.params;
       const data = await ReportService.deleteReport(id);
-      res.status(200).json({ data, message: 'deleted' });
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async getMilestones(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = await ReportService.getMilestones(id);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async createMilestone(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const input: MilestoneDTO = req.body;
+      const data = await ReportService.createMilestone(id, input);
+      res.status(201).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async deleteMilestone(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, mid } = req.params;
+      const data = await ReportService.deleteMilestone(id, mid);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+  async updateMilestone(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, mid } = req.params;
+      const input: MilestoneDTO = req.body;
+      const data = await ReportService.updateMilestone(id, mid, input);
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }

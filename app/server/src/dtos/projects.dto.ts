@@ -16,6 +16,7 @@
 
 import {
   IsDateString,
+  IsISO8601,
   IsMongoId,
   IsNumber,
   IsOptional,
@@ -27,7 +28,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateProjectDTO {
+export class ProjectDTO {
   @IsString()
   @MinLength(8)
   @MaxLength(50)
@@ -65,15 +66,15 @@ export class CreateProjectDTO {
   @IsMongoId()
   financialContact: string;
 
-  @IsDateString()
+  @IsISO8601()
   start: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsISO8601()
   end: string;
 
   @IsOptional()
-  @IsDateString()
+  @IsISO8601()
   estimatedEnd: string;
 
   @Min(0)
@@ -85,4 +86,4 @@ export class CreateProjectDTO {
   phase: string;
 }
 
-export default CreateProjectDTO;
+export default ProjectDTO;

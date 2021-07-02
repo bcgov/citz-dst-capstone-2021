@@ -16,12 +16,12 @@
 
 import { connect, disconnect } from 'mongoose';
 import faker from 'faker';
-import CreateProjectDTO from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/projects.dto';
 import ProjectService from '@services/projects.service';
 import UserService from '@services/users.service';
 import DBConfig from '@/databases';
 import { Role } from '@interfaces/roles.interface';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import testData from './testData.json';
 
 beforeAll(async () => {
@@ -36,7 +36,7 @@ describe('loading test data', () => {
   it('generate user data', done => {
     Promise.all(
       Object.values(Role).map(role => {
-        const user: CreateUserDto = {
+        const user: UserDTO = {
           active: false,
           email: faker.internet.email(),
           firstName: faker.name.firstName(),
@@ -56,7 +56,7 @@ describe('loading test data', () => {
   });
   it('loading sample projects', () => {
     return Promise.all(
-      testData.projects.map((prj: CreateProjectDTO) => {
+      testData.projects.map((prj: ProjectDTO) => {
         // TODO: (nick) set id of sponsor, manager, and fa by the query result.
         return ProjectService.getProjectDetail(prj.cpsIdentifier).then(data => {
           return data || ProjectService.createProject(prj);

@@ -15,22 +15,22 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
 
 export default {
   async signUp(req: Request, res: Response, next: NextFunction) {
-    const userData: CreateUserDto = req.body;
+    const userData: UserDTO = req.body;
     return AuthService.signup(userData)
       .then(data => {
-        return res.status(201).json({ data, message: 'signup' });
+        return res.status(201).json(data);
       })
       .catch(e => next(e));
   },
 
   async login(req: Request, res: Response, next: NextFunction) {
-    const userData: CreateUserDto = req.body;
+    const userData: UserDTO = req.body;
     // const { expiresIn, token, user } = await this.authService.login(userData);
     return AuthService.login(userData)
       .then(({ expiresIn, token, user }) => {
@@ -44,7 +44,7 @@ export default {
     return AuthService.logout(user)
       .then(() => {
         res.cookie('token', '');
-        res.status(200).json({ data: '', message: 'logout' });
+        res.status(200).json({});
       })
       .catch(e => next(e));
   },

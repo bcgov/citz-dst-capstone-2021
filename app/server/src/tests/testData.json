@@ -6,7 +6,7 @@
     "password": "P@ssw0rd1",
     "title": "System Administrator",
     "ministry": "CITZ",
-    "role": "admin",
+    "role": "Admin",
     "active": true
   },
   "sponsor": {
@@ -16,7 +16,7 @@
     "password": "P@ssw0rd1",
     "title": "Sponsor",
     "ministry": "CITZ",
-    "role": "user",
+    "role": "User",
     "active": true
   },
   "sponsor": {
@@ -26,7 +26,7 @@
     "password": "P@ssw0rd1",
     "title": "Manager",
     "ministry": "CITZ",
-    "role": "submitter",
+    "role": "Submitter",
     "active": true
   },
   "sponsor": {
@@ -36,7 +36,7 @@
     "password": "P@ssw0rd1",
     "title": "Financial Analyst",
     "ministry": "CITZ",
-    "role": "fa",
+    "role": "FA",
     "active": true
   },
   "testUser": {
@@ -46,7 +46,7 @@
     "password": "P@ss0rd1",
     "title": "Finance Analyst",
     "ministry": "CITZ",
-    "role": "user",
+    "role": "User",
     "active": false
   },
   "projects": [

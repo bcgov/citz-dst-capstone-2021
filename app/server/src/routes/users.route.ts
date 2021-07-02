@@ -17,12 +17,14 @@
 import { Router } from 'express';
 import passport from 'passport';
 import UsersController from '@controllers/users.controller';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import Route from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 
 class UsersRoute implements Route {
   public resource = 'users';
+
+  secure = true;
 
   public router = Router();
 
@@ -33,21 +35,13 @@ class UsersRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('jwt', { session: false }), UsersController.getUsers)
-      .post(
-        passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateUserDto, 'body'),
-        UsersController.createUser,
-      );
+      .get(UsersController.getUsers)
+      .post(validationMiddleware(UserDTO, 'body'), UsersController.createUser);
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('jwt', { session: false }), UsersController.getUserById)
-      .patch(
-        passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateUserDto, 'body', true),
-        UsersController.updateUser,
-      )
+      .get(UsersController.getUserById)
+      .patch(validationMiddleware(UserDTO, 'body', true), UsersController.updateUser)
       .delete(UsersController.deleteUser);
   }
 }

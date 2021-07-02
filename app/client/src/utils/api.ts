@@ -71,14 +71,12 @@ const useApi = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getProjects(user?: User): Promise<Project[]> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.get(`projects`).then(({ data }) => data.data);
+      return api.current.get(`projects`).then(({ data }) => data);
     },
 
     getProjectDetail(cps: any): Promise<Project> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.get(`projects/${cps}`).then(({ data }) => {
-        return data.data;
-      });
+      return api.current.get(`projects/${cps}`).then(({ data }) => data);
     },
   };
 };

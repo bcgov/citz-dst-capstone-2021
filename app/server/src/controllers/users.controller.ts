@@ -15,7 +15,7 @@
  */
 
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import UserService from '@services/users.service';
 
@@ -24,9 +24,9 @@ export default {
     try {
       const data: User[] = await UserService.findAllUsers();
 
-      res.status(200).json({ data, message: 'findAll' });
-    } catch (error) {
-      next(error);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
     }
   },
 
@@ -35,32 +35,32 @@ export default {
       const userId: string = req.params.id;
       const data: User = await UserService.findUserById(userId);
 
-      res.status(200).json({ data, message: 'findOne' });
-    } catch (error) {
-      next(error);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
     }
   },
 
   async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: UserDTO = req.body;
       const data: User = await UserService.createUser(userData);
 
-      res.status(201).json({ data, message: 'created' });
-    } catch (error) {
-      next(error);
+      res.status(201).json(data);
+    } catch (e) {
+      next(e);
     }
   },
 
   async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userId: string = req.params.id;
-      const userData: CreateUserDto = req.body;
+      const userData: UserDTO = req.body;
       const data: User = await UserService.updateUser(userId, userData);
 
-      res.status(200).json({ data, message: 'updated' });
-    } catch (error) {
-      next(error);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
     }
   },
 
@@ -69,9 +69,9 @@ export default {
       const userId: string = req.params.id;
       const data: User = await UserService.deleteUser(userId);
 
-      res.status(200).json({ data, message: 'deleted' });
-    } catch (error) {
-      next(error);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
     }
   },
 };

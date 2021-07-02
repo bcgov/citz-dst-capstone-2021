@@ -17,7 +17,7 @@
 import bcrypt from 'bcrypt';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/users.dto';
 import { User } from '@interfaces/users.interface';
 import UserModel from '@models/users.model';
 import { checkIfEmpty } from '@utils/util';
@@ -38,7 +38,7 @@ export default {
     return UserModel.findOne({ email }).then(user => user);
   },
 
-  async createUser(userData: CreateUserDto): Promise<User> {
+  async createUser(userData: UserDTO): Promise<User> {
     checkIfEmpty(userData, 'email', 400);
 
     const user: User = await UserModel.findOne({ email: userData.email });
@@ -53,7 +53,7 @@ export default {
     return createUserData;
   },
 
-  async updateUser(userId: string, userData: CreateUserDto): Promise<User> {
+  async updateUser(userId: string, userData: UserDTO): Promise<User> {
     checkIfEmpty(userId, 'id', 400);
     const input = { ...userData };
     if (input.password) {

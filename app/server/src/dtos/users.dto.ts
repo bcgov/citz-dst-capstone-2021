@@ -18,7 +18,7 @@
 import { IsBoolean, IsEmail, IsEnum, IsString, MaxLength, MinLength, Matches, IsOptional } from 'class-validator';
 import { Role } from '@interfaces/roles.interface';
 
-export class LoginDto {
+export class LoginDTO {
   @IsEmail()
   public email: string;
 
@@ -30,7 +30,7 @@ export class LoginDto {
   public password: string;
 }
 
-export class CreateUserDto extends LoginDto {
+export class UserDTO extends LoginDTO {
   @IsString()
   @MinLength(2)
   @MaxLength(20)

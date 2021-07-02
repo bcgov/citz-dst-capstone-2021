@@ -14,11 +14,35 @@
  * limitations under the License.
  */
 
-import dotenv from 'dotenv';
-import * as Console from 'console';
+import { Milestone, MilestoneStatus } from '@interfaces/report.interface';
+import { IsEnum, IsISO8601, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
-export default () => {
-  const config = dotenv.config();
-  Console.log('\njest global setup - applied env variables');
-  Console.log(config.parsed);
-};
+class MilestoneDTO implements Milestone {
+  @IsOptional()
+  @IsString()
+  comments: string;
+
+  @IsString()
+  description: string;
+
+  @IsISO8601()
+  estimatedEnd: Date;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(100)
+  progress: number;
+
+  @IsISO8601()
+  start: Date;
+
+  @IsOptional()
+  @IsEnum(MilestoneStatus)
+  status: MilestoneStatus;
+}
+
+export default MilestoneDTO;
