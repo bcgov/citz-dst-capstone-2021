@@ -37,108 +37,70 @@ interface IProjectIDForm {
   formik?: any;
 }
 
-const ProjectIDForm: React.FC<IProjectIDForm> = ( projectName, formik ) => {
-  const history = useHistory();
-  const api = useApi();
-
-  // TODO: Complete validation
-
-  /*
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      cpsIdentifier: '',
-      projectNumber: '',
-      description: '',
-      ministry: '',
-      program: '',
-      sponsor: '',
-      manager: '',
-      financialContact: '',
-      start: '',
-      end: '',
-      estimatedEnd: '',
-      progress: 0,
-      phase: '',
-    },
-    validationSchema: validateNewProject,
-    onSubmit: (values) => {
-      const { ...project } = values;
-      // return null;
-    }
-  });
-*/
-
-  
-  const handleSubmit = () => {
-    alert('TODO: Handle submit');
-  }
-
+const ProjectIDForm: React.FC<IProjectIDForm> = ( props ) => {
 
   return (
     <Container maxWidth="sm">
       <Typography variant="h5" align="center">
         Project Identification
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
+      <TextField
+        fullWidth
+        id="name"
+        name="name"
+        label="Project Name"
+        type="text"
+        margin="normal"
+        value={props.projectName}
+      />
+      <TextField
+        fullWidth
+        id="projectDescription"
+        name="projectDescription"
+        label="Project Description"
+        type="text"
+        margin="normal"
+        multiline
+      />
+      <FormControl margin="normal" fullWidth>
+        <InputLabel>Ministry</InputLabel>
+        <Select
+          labelId="ministry-label"
+          id="ministry"
+          name="ministry"
           fullWidth
-          id="name"
-          name="name"
-          label="Project Name"
-          type="text"
-          margin="normal"
-          value={projectName}
-        />
-        <TextField
-          fullWidth
-          id="projectDescription"
-          name="projectDescription"
-          label="Project Description"
-          type="text"
-          margin="normal"
-          multiline
-        />
-        <FormControl margin="normal" fullWidth>
-          <InputLabel>Ministry</InputLabel>
-          <Select
-            labelId="ministry-label"
-            id="ministry"
-            name="ministry"
-            fullWidth
-          >
-            {Ministries.map((ministry) => (
-              <MenuItem value={ministry} key={ministry}>
-                {ministry}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          fullWidth
-          id="programName"
-          name="programName"
-          label="Program Name"
-          type="text"
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          id="cpsIdentifier"
-          name="cpsIdentifier"
-          label="CPS Identifier"
-          type="text"
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          id="ministryProjectNumber"
-          name="ministryProjectNumber"
-          label="Ministry Project Number"
-          type="text"
-          margin="normal"
-        />
-      </form>
+        >
+          {Ministries.map((ministry) => (
+            <MenuItem value={ministry} key={ministry}>
+              {ministry}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <TextField
+        fullWidth
+        id="programName"
+        name="programName"
+        label="Program Name"
+        type="text"
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        id="cpsIdentifier"
+        name="cpsIdentifier"
+        label="CPS Identifier"
+        type="text"
+        margin="normal"
+      />
+      <TextField
+        fullWidth
+        id="ministryProjectNumber"
+        name="ministryProjectNumber"
+        label="Ministry Project Number"
+        type="text"
+        margin="normal"
+      />
     </Container>
   )
 };

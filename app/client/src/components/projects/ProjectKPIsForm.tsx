@@ -17,15 +17,9 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import {
-  Box,
   Container,
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
-  TextField,
-  Button,
 } from '@material-ui/core';
 // import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
@@ -33,12 +27,6 @@ import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectKPIsForm: React.FC = () => {
-  const history = useHistory();
-  const api = useApi();
-
-  const handleSubmit = () => {
-    alert('TODO: Handle submit');
-  }
 
   const handleNewMilestone = () => {
     alert('TODO: implement KPI form modal');
@@ -49,17 +37,15 @@ const ProjectKPIsForm: React.FC = () => {
       <Typography variant="h5" align="center">
         Key Performance Indicators
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <FormControl margin="normal" fullWidth>
-          <Button
-          color="primary"
-          variant="contained"
-          type="button"
-          onClick={handleNewMilestone}>
-            Add New Objective
-          </Button>
-        </FormControl>
-      </form>
+      <FormControl margin="normal" fullWidth>
+        <Button
+        color="primary"
+        variant="contained"
+        type="button"
+        onClick={handleNewMilestone}>
+          Add New Objective
+        </Button>
+      </FormControl>
     </Container>
   )
 };

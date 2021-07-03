@@ -38,30 +38,7 @@ import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectTimelineForm: React.FC = () => {
-  const history = useHistory();
-  const api = useApi();
 
-  // TODO: Complete validation
-/*
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      cpsIdentifier: '',
-      projectNumber: '',
-      description: '',
-      ministry: '',
-      program: '',
-    },
-    validationSchema: validateNewProject,
-    onSubmit: (values) => {
-      const {} = values;
-      return api.
-    }
-  });
-*/
-  const handleSubmit = () => {
-    alert('TODO: Handle submit');
-  }
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date('2014-08-18T21:11:54'),
   );
@@ -79,32 +56,30 @@ const ProjectTimelineForm: React.FC = () => {
       <Typography variant="h5" align="center">
         Project Timeline Information
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <MuiPickersUtilsProvider utils={LuxonUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            format="MM/dd/yyyy"
-            margin="normal"
-            id="completionDate"
-            label="Estimated Completion Date"
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>
-        <FormControl margin="normal" fullWidth>
-          <Button
-          color="primary"
-          variant="contained"
-          type="button"
-          onClick={handleNewMilestone}>
-            Add New Milestone
-          </Button>
-        </FormControl>
-      </form>
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="completionDate"
+          label="Estimated Completion Date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+      </MuiPickersUtilsProvider>
+      <FormControl margin="normal" fullWidth>
+        <Button
+        color="primary"
+        variant="contained"
+        type="button"
+        onClick={handleNewMilestone}>
+          Add New Milestone
+        </Button>
+      </FormControl>
     </Container>
   )
 };

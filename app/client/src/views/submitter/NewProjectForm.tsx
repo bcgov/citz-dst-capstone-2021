@@ -132,7 +132,6 @@ const NewProjectForm: React.FC = () => {
               <Typography variant="h5" align="center">
                 Project Identification
               </Typography>
-              <form onSubmit={handleSubmit}>
                 <TextField
                   fullWidth
                   id="name"
@@ -217,7 +216,6 @@ const NewProjectForm: React.FC = () => {
                   error={touched.projectNumber && Boolean(errors.projectNumber)}
                   helperText={touched.projectNumber && errors.projectNumber}
                 />
-              </form>
             </Container>
           );
 
@@ -227,7 +225,6 @@ const NewProjectForm: React.FC = () => {
               <Typography variant="h5" align="center">
                 Project Contacts
               </Typography>
-              <form onSubmit={handleSubmit}>
                 <TextField
                   fullWidth
                   id="sponsor"
@@ -267,7 +264,6 @@ const NewProjectForm: React.FC = () => {
                   error={touched.financialContact && Boolean(errors.financialContact)}
                   helperText={touched.financialContact && errors.financialContact}
                 />
-              </form>
             </Container>
           );
 
@@ -277,7 +273,6 @@ const NewProjectForm: React.FC = () => {
               <Typography variant="h5" align="center">
                 Project Timeline Information
               </Typography>
-              <form onSubmit={handleSubmit}>
                 <MuiPickersUtilsProvider utils={LuxonUtils}>
                   <KeyboardDatePicker
                     disableToolbar
@@ -302,7 +297,6 @@ const NewProjectForm: React.FC = () => {
                     Add New Milestone
                   </Button>
                 </FormControl>
-              </form>
             </Container>
           );
         case 3:
@@ -337,9 +331,11 @@ const NewProjectForm: React.FC = () => {
         </div>
       ) : (
         <div>
+          <form onSubmit={handleSubmit}>
           <div>
             {/* TODO: Better handling of step content passed into component */}
             {getStepContent(activeStep)}
+            
           </div>
           <Box
           display="flex"
@@ -351,9 +347,18 @@ const NewProjectForm: React.FC = () => {
             color="primary"
             variant="contained"
             type="button"
+            disabled={activeStep <= 0}
             onClick={handleBack}>
               Back
             </Button>
+
+            {activeStep === steps.length - 1 ?
+            <Button
+            color="primary"
+            variant="contained"
+            type="submit">
+              Submit
+            </Button> :
             <Button
             color="primary"
             variant="contained"
@@ -361,7 +366,9 @@ const NewProjectForm: React.FC = () => {
             onClick={handleNext}>
               Next
             </Button>
+            }
           </Box>
+          </form>
         </div>
       )}
     </div>

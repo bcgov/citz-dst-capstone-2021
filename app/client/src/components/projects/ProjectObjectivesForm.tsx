@@ -33,12 +33,6 @@ import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectObjectivesForm: React.FC = () => {
-  const history = useHistory();
-  const api = useApi();
-
-  const handleSubmit = () => {
-    alert('TODO: Handle submit');
-  }
 
   const handleNewMilestone = () => {
     alert('TODO: implement business case objectives form modal');
@@ -49,17 +43,15 @@ const ProjectObjectivesForm: React.FC = () => {
       <Typography variant="h5" align="center">
         Business Case Objectives
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <FormControl margin="normal" fullWidth>
-          <Button
-          color="primary"
-          variant="contained"
-          type="button"
-          onClick={handleNewMilestone}>
-            Add New Objective
-          </Button>
-        </FormControl>
-      </form>
+      <FormControl margin="normal" fullWidth>
+        <Button
+        color="primary"
+        variant="contained"
+        type="button"
+        onClick={handleNewMilestone}>
+          Add New Objective
+        </Button>
+      </FormControl>
     </Container>
   )
 };
