@@ -37,7 +37,6 @@ import {
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import { useHistory } from 'react-router-dom';
-
 import { Role } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
