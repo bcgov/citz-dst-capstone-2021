@@ -16,12 +16,12 @@
 
 import { connect, disconnect } from 'mongoose';
 import faker from 'faker';
-import ProjectDTO from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/project.dto';
 import ProjectService from '@services/projects.service';
 import UserService from '@services/users.service';
 import DBConfig from '@/databases';
 import { Role } from '@interfaces/roles.interface';
-import { UserDTO } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import testData from './testData.json';
 
 beforeAll(async () => {

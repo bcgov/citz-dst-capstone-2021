@@ -15,9 +15,8 @@
  */
 
 import { Router } from 'express';
-import passport from 'passport';
 import UsersController from '@controllers/users.controller';
-import { UserDTO } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import Route from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 

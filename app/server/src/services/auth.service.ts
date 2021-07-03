@@ -18,7 +18,7 @@ import config from 'config';
 import jwt from 'jsonwebtoken';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
-import { UserDTO, LoginDTO } from '@dtos/users.dto';
+import { UserDTO, LoginDTO } from '@dtos/user.dto';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import UserModel from '@models/users.model';

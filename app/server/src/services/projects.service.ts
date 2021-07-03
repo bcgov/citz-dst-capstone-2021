@@ -18,7 +18,7 @@ import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import ProjectModel from '@models/projects.model';
 import { Project } from '@interfaces/project.interface';
-import { ProjectDTO } from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/project.dto';
 
 const ProjectService = {
   async findAllProjects(): Promise<Project[]> {
