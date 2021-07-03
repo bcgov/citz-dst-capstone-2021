@@ -7,6 +7,7 @@ import LoginForm from './views/LoginForm';
 import ProjectDetails from './views/ProjectDetails';
 import SignUpForm from './views/SignUpForm';
 import ProjectList from './views/submitter/ProjectList';
+import NewProjectForm from './views/submitter/NewProjectForm';
 
 const Home = () => {
   return (
@@ -45,6 +46,9 @@ const Home = () => {
         <h3>
           Select <Link to="/projects"> Submitter&apos;s Project List</Link>
         </h3>
+        <h3>
+          Select <Link to="/create-project"> Submitter&apos;s New Project Form (WIP)</Link>
+        </h3>
       </div>
     </div>
   );
@@ -58,6 +62,7 @@ function App() {
       <AppRoute path="/signup" component={SignUpForm} />
       <AppRoute requireAuth path="/projects/:cps" component={ProjectDetails} />
       <AppRoute requireAuth exact path="/projects" component={ProjectList} />
+      <AppRoute requireAuth exact path="/create-project" component={NewProjectForm} />
       <Redirect to="/" />
     </HashRouter>
   );
