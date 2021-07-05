@@ -76,6 +76,7 @@ class ProjectDTO {
   @IsISO8601()
   estimatedEnd: string;
 
+  @IsOptional()
   @Min(0)
   @Max(100)
   progress: number;

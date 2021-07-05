@@ -15,28 +15,14 @@
 //
 
 import React from 'react';
-import { useFormik } from 'formik';
-import {
-  Box,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  TextField,
-  Button,
-} from '@material-ui/core';
+import { Container, FormControl, Typography, Button } from '@material-ui/core';
 // import DateFnsUtils from '@date-io/date-fns';
-import { useHistory } from 'react-router-dom';
-import useApi from '../../utils/api';
-import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectKPIsForm: React.FC = () => {
-
   const handleNewMilestone = () => {
+    // eslint-disable-next-line no-alert
     alert('TODO: implement KPI form modal');
-  }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -45,15 +31,16 @@ const ProjectKPIsForm: React.FC = () => {
       </Typography>
       <FormControl margin="normal" fullWidth>
         <Button
-        color="primary"
-        variant="contained"
-        type="button"
-        onClick={handleNewMilestone}>
+          color="primary"
+          variant="contained"
+          type="button"
+          onClick={handleNewMilestone}
+        >
           Add New Objective
         </Button>
       </FormControl>
     </Container>
-  )
+  );
 };
 
 export default ProjectKPIsForm;
