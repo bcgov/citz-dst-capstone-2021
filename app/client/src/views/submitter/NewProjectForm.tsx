@@ -73,7 +73,9 @@ const NewProjectForm: React.FC = () => {
     null
   );
   const [startDate, setStartDate] = React.useState('');
+  const [startDateInput, setStartDateInput] = React.useState('');
   const [estEndDate, setEstEndDate] = React.useState('');
+  const [estEndDateInput, setEstEndDateInput] = React.useState('');
 
   React.useEffect(() => {
     api.getUsers().then((data) => setUsers(data));
@@ -317,8 +319,6 @@ const NewProjectForm: React.FC = () => {
           getOptionSelected={(item, current) => {
             return item.id === current.id;
           }}
-          // TODO: (nick) fix 'A component is changing the uncontrolled value state of Autocomplete to be controlled.
-          // https://stackoverflow.com/questions/63295924/a-component-is-changing-an-uncontrolled-autocomplete-to-be-controlled
           value={financialContact}
           renderInput={(params) => {
             return (
@@ -355,6 +355,7 @@ const NewProjectForm: React.FC = () => {
           <MuiPickersUtilsProvider utils={LuxonUtils}>
             <KeyboardDatePicker
               disableToolbar
+              autoOk
               variant="inline"
               format="yyyy/MM/dd"
               margin="normal"
@@ -362,9 +363,11 @@ const NewProjectForm: React.FC = () => {
               name="start"
               label={values.start ? ' ' : 'Start'}
               value={startDate}
-              onChange={(value) => {
-                setStartDate(value);
-                formik.setFieldValue('start', value.toISODate());
+              inputValue={startDateInput}
+              onChange={(date, value) => {
+                setStartDate(date);
+                setStartDateInput(String(value || ''));
+                formik.setFieldValue('start', date?.toISODate() || '');
               }}
               error={touched.start && Boolean(errors.start)}
               helperText={touched.start && errors.start}
@@ -376,6 +379,7 @@ const NewProjectForm: React.FC = () => {
           <MuiPickersUtilsProvider utils={LuxonUtils}>
             <KeyboardDatePicker
               disableToolbar
+              autoOk
               variant="inline"
               format="yyyy/MM/dd"
               margin="normal"
@@ -383,9 +387,11 @@ const NewProjectForm: React.FC = () => {
               name="estimatedEnd"
               label={estEndDate ? ' ' : 'Estimated Completion'}
               value={estEndDate}
-              onChange={(value) => {
-                setEstEndDate(value);
-                formik.setFieldValue('estimatedEnd', value.toISODate());
+              inputValue={estEndDateInput}
+              onChange={(date, value) => {
+                setEstEndDate(date);
+                setEstEndDateInput(String(value || ''));
+                formik.setFieldValue('estimatedEnd', date?.toISODate() || '');
               }}
               error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
               helperText={touched.estimatedEnd && errors.estimatedEnd}
