@@ -19,10 +19,12 @@ import passport from 'passport';
 import Route from '@interfaces/routes.interface';
 import ProjectsController from '@controllers/projects.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import CreateProjectDTO from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/project.dto';
 
 class ProjectsRoute implements Route {
   resource = 'projects';
+
+  secure = true;
 
   router = Router();
 
@@ -33,20 +35,20 @@ class ProjectsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjects)
+      .get(ProjectsController.getProjects)
       .post(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateProjectDTO, 'body'),
+        validationMiddleware(ProjectDTO, 'body'),
         ProjectsController.createProject,
       );
 
     this.router
       .route('/:id')
-      .get(passport.authenticate('jwt', { session: false }), ProjectsController.getProjectDetail)
-      .delete(passport.authenticate('jwt', { session: false }), ProjectsController.deleteProject)
+      .get(ProjectsController.getProjectDetail)
+      .delete(ProjectsController.deleteProject)
       .patch(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(CreateProjectDTO, 'body', true),
+        validationMiddleware(ProjectDTO, 'body', true),
         ProjectsController.updateProject,
       );
   }

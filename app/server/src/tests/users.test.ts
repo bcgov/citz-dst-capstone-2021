@@ -22,7 +22,7 @@ import { Role } from '@interfaces/roles.interface';
 import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
 
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import testData from './testData.json';
 
 const { admin, testUser } = testData;
@@ -36,7 +36,7 @@ let token = '';
 beforeAll(async () => {
   let user = await UserService.findUserByEmail(admin.email);
   if (!user) {
-    user = await UserService.createUser(admin as CreateUserDto);
+    user = await UserService.createUser(admin as UserDTO);
   }
   const tokenData = await AuthService.createToken(user, 600);
   token = tokenData.token;

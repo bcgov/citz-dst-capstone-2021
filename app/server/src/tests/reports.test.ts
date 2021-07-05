@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+// for class-transformer Type method
+import 'reflect-metadata';
+
 import UserService from '@services/users.service';
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import AuthService from '@services/auth.service';
 import App from '@/app';
 import ReportsRoute from '@routes/reports.route';
@@ -31,7 +34,7 @@ const { admin } = testData;
 beforeAll(async () => {
   let user = await UserService.findUserByEmail(admin.email);
   if (!user) {
-    user = await UserService.createUser(admin as CreateUserDto);
+    user = await UserService.createUser(admin as UserDTO);
   }
   const tokenData = await AuthService.createToken(user, 600);
   token = tokenData.token;
@@ -42,9 +45,29 @@ afterAll(async () => {
 });
 
 // TODO: (nick) Reports test cases
-describe('Testing Reports', () => {
-  it.skip('[GET] /reports', () => {});
-  it.skip('[POST] /reports', () => {});
-  it.skip('[PATCH] /reports/id', () => {});
-  it.skip('[DELETE] /reports/id', () => {});
+describe.skip('Testing reports', () => {
+  describe('Testing report general info', () => {
+    it('[GET] /reports', () => {});
+    it('[POST] /reports', () => {});
+    it('[PATCH] /reports/id', () => {});
+    it('[DELETE] /reports/id', () => {});
+  });
+  describe('Testing report milestones', () => {
+    it('[GET] /reports/{id}/milestones', () => {});
+    it('[POST] /reports/{id}/milestones', () => {});
+    it('[PATCH] /reports/{id}/milestones/{mid}', () => {});
+    it('[DELETE] /reports/{id}/milestones/{mid}', () => {});
+  });
+  describe('Testing report objectives', () => {
+    it('[GET] /reports/{id}/objectives', () => {});
+    it('[POST] /reports/{id}/objectives', () => {});
+    it('[PATCH] /reports/{id}/objectives/{oid}', () => {});
+    it('[DELETE] /reports/{id}/objectives/{oid}', () => {});
+  });
+  describe('Testing report status', () => {
+    it('[GET] /reports/{id}/statuses', () => {});
+    it('[POST] /reports/{id}/statuses', () => {});
+    it('[PATCH] /reports/{id}/statuses/{oid}', () => {});
+    it('[DELETE] /reports/{id}/statuses/{oid}', () => {});
+  });
 });

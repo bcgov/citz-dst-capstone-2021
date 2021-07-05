@@ -18,7 +18,7 @@ import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import ProjectModel from '@models/projects.model';
 import { Project } from '@interfaces/project.interface';
-import { CreateProjectDTO } from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/project.dto';
 
 const ProjectService = {
   async findAllProjects(): Promise<Project[]> {
@@ -38,7 +38,7 @@ const ProjectService = {
     return project;
   },
 
-  async createProject(input: CreateProjectDTO): Promise<Project> {
+  async createProject(input: ProjectDTO): Promise<Project> {
     const { cpsIdentifier } = input;
     const project = await ProjectModel.findOne({ cpsIdentifier });
     if (project) {
@@ -56,7 +56,7 @@ const ProjectService = {
     return project;
   },
 
-  async updateProject(id: string, input: CreateProjectDTO): Promise<Project> {
+  async updateProject(id: string, input: ProjectDTO): Promise<Project> {
     const project = await ProjectModel.findByIdAndUpdate(id, input, { new: true });
     if (!project) {
       throw errorWithCode(`Unable to update project`, 500);

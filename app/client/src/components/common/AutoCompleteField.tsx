@@ -14,21 +14,30 @@
 // limitations under the License.
 //
 
-export default {
-  getISODateString(input: Date | string): string {
-    try {
-      const date = input instanceof Date ? input : new Date(input);
-      return date.toISOString().slice(0, 10);
-    } catch {
-      return '';
-    }
-  },
+import React from 'react';
 
-  isValidFormInput(
-    values: Record<string, any>,
-    errors: Record<string, string>,
-    keys: string[]
-  ): boolean {
-    return keys.every((key) => !!values[key] && !errors[key]);
-  },
+import { Autocomplete, AutocompleteProps } from '@material-ui/lab/index';
+
+interface AutoCompleteFieldProps<T>
+  extends AutocompleteProps<any, any, any, any> {
+  getLabel: (option: T) => string;
+  options: T[];
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+const AutoCompleteField = <T extends {}>({
+  getLabel,
+  options,
+  ...props
+}: AutoCompleteFieldProps<T>): React.ReactElement => {
+  return (
+    <Autocomplete<T>
+      {...props}
+      options={options}
+      fullWidth
+      getOptionLabel={getLabel}
+    />
+  );
 };
+
+export default AutoCompleteField;

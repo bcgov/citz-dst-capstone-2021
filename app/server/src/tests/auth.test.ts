@@ -24,7 +24,7 @@ import AuthService from '@services/auth.service';
 import { User } from '@/interfaces/users.interface';
 import UsersRoute from '@routes/users.route';
 
-import { CreateUserDto } from '@dtos/users.dto';
+import { UserDTO } from '@dtos/user.dto';
 import testData from './testData.json';
 
 const { testUser } = testData;
@@ -67,7 +67,7 @@ describe('Testing Auth', () => {
 
     it('updates password and login', async () => {
       // update user
-      const userData = { ...testUser, password: `${testUser.password}2` } as CreateUserDto;
+      const userData = { ...testUser, password: `${testUser.password}2` } as UserDTO;
       const user = await UserService.findUserByEmail(userData.email);
       await UserService.updateUser(user.id, userData);
       // try login again

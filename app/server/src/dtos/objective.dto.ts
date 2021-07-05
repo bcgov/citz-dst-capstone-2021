@@ -14,11 +14,26 @@
  * limitations under the License.
  */
 
-import dotenv from 'dotenv';
-import * as Console from 'console';
+import { IsEnum, IsISO8601, IsOptional, IsString } from 'class-validator';
+import { Objective, Status } from '@interfaces/report.interface';
 
-export default () => {
-  const config = dotenv.config();
-  Console.log('\njest global setup - applied env variables');
-  Console.log(config.parsed);
-};
+class ObjectiveDTO implements Objective {
+  @IsOptional()
+  @IsString()
+  comments: string;
+
+  @IsString()
+  description: string;
+
+  @IsISO8601()
+  estimatedEnd: Date;
+
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsEnum(Status)
+  status: Status;
+}
+
+export default ObjectiveDTO;

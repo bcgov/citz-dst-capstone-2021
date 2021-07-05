@@ -17,6 +17,7 @@
 import { Router } from 'express';
 
 interface Route {
+  secure: boolean;
   resource?: string;
   router: Router;
 }

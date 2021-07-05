@@ -14,75 +14,35 @@
  * limitations under the License.
  */
 
-import {
-  IsDateString,
-  IsMongoId,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length,
-  Max,
-  MaxLength,
-  Min,
-  MinLength,
-} from 'class-validator';
+import { Milestone, MilestoneStatus } from '@interfaces/report.interface';
+import { IsEnum, IsISO8601, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
-export class CreateProjectDTO {
-  @IsString()
-  @MinLength(8)
-  @MaxLength(50)
-  name: string;
-
-  @IsOptional()
-  @IsNumber()
-  _schema?: number;
-
-  @IsString()
-  @Length(11)
-  cpsIdentifier: string;
-
+class MilestoneDTO implements Milestone {
   @IsOptional()
   @IsString()
-  projectNumber: string;
+  comments: string;
 
   @IsString()
   description: string;
 
-  @IsString()
-  @MinLength(6)
-  ministry: string;
+  @IsISO8601()
+  estimatedEnd: Date;
 
   @IsString()
-  @MinLength(5)
-  program: string;
-
-  @IsMongoId()
-  sponsor: string;
-
-  @IsMongoId()
-  manager: string;
-
-  @IsMongoId()
-  financialContact: string;
-
-  @IsDateString()
-  start: string;
+  name: string;
 
   @IsOptional()
-  @IsDateString()
-  end: string;
-
-  @IsOptional()
-  @IsDateString()
-  estimatedEnd: string;
-
+  @IsNumber()
   @Min(0)
   @Max(100)
   progress: number;
 
+  @IsISO8601()
+  start: Date;
+
   @IsOptional()
-  @IsString()
-  phase: string;
+  @IsEnum(MilestoneStatus)
+  status: MilestoneStatus;
 }
 
-export default CreateProjectDTO;
+export default MilestoneDTO;

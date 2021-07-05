@@ -107,7 +107,10 @@ const ProjectDetails: React.FC = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => alert('Not Implemented')}
+          onClick={() => {
+            // eslint-disable-next-line no-alert
+            alert('Not Implemented');
+          }}
         >
           <EditIcon />
           Edit Project

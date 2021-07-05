@@ -15,67 +15,75 @@
  */
 
 import {
-  IsDateString,
-  IsEnum,
+  IsISO8601,
   IsMongoId,
   IsNumber,
-  IsNumberString,
   IsOptional,
   IsString,
+  Length,
   Max,
+  MaxLength,
   Min,
+  MinLength,
 } from 'class-validator';
-import { Report, ReportQuarter, ReportState } from '@interfaces/report.interface';
-import { Type } from 'class-transformer';
 
-export class ReportQueryDTO {
-  @IsMongoId()
-  projectId: string;
-
-  @IsOptional()
-  @IsNumberString()
-  year: number;
+class ProjectDTO {
+  @IsString()
+  @MinLength(8)
+  @MaxLength(50)
+  name: string;
 
   @IsOptional()
-  @IsEnum(ReportQuarter)
-  quarter: ReportQuarter;
-}
-
-class CreateReportDTO implements Report {
-  @IsMongoId()
-  submitter: string;
-
-  @IsOptional()
-  @IsDateString()
-  submittedAt: string;
-
   @IsNumber()
-  @Min(1970)
-  @Max(3000)
-  year: number;
+  _schema?: number;
 
-  @IsEnum(ReportQuarter)
-  quarter: ReportQuarter;
-
-  @IsMongoId()
-  projectId: string;
-
-  @IsOptional()
-  @IsEnum(ReportState)
-  state: ReportState;
+  @IsString()
+  @Length(11)
+  cpsIdentifier: string;
 
   @IsOptional()
   @IsString()
-  phase: string;
+  projectNumber: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  @MinLength(6)
+  ministry: string;
+
+  @IsString()
+  @MinLength(5)
+  program: string;
+
+  @IsMongoId()
+  sponsor: string;
+
+  @IsMongoId()
+  manager: string;
+
+  @IsMongoId()
+  financialContact: string;
+
+  @IsISO8601()
+  start: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsISO8601()
+  end: string;
+
+  @IsOptional()
+  @IsISO8601()
+  estimatedEnd: string;
+
+  @IsOptional()
   @Min(0)
   @Max(100)
   progress: number;
 
-  @IsDateString()
-  estimatedEnd: string;
+  @IsOptional()
+  @IsString()
+  phase: string;
 }
 
-export default CreateReportDTO;
+export default ProjectDTO;

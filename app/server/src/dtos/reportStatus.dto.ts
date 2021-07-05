@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-import dotenv from 'dotenv';
-import * as Console from 'console';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { ReportStatus, StatusType, Status, Trend } from '@interfaces/report.interface';
 
-export default () => {
-  const config = dotenv.config();
-  Console.log('\njest global setup - applied env variables');
-  Console.log(config.parsed);
-};
+class ReportStatusDTO implements ReportStatus {
+  @IsOptional()
+  @IsString()
+  comments: string;
+
+  @IsOptional()
+  @IsEnum(Status)
+  status: Status;
+
+  @IsOptional()
+  @IsEnum(Trend)
+  trend: number;
+
+  @IsOptional()
+  @IsEnum(StatusType)
+  type: StatusType;
+}
+
+export default ReportStatusDTO;

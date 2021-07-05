@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
+// for class-transformer Type method
+import 'reflect-metadata';
 import 'dotenv/config';
 import App from '@/app';
 import AuthRoute from '@routes/auth.route';
 import UsersRoute from '@routes/users.route';
 import ProjectsRoute from '@routes/projects.route';
-
-import validateEnv from '@utils/validateEnv';
 import ReportsRoute from '@routes/reports.route';
+import validateEnv from '@utils/validateEnv';
 
 validateEnv();
 

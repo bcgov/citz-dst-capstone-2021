@@ -25,8 +25,11 @@ import {
   TableHead,
   Typography,
   CircularProgress,
+  TableRow,
+  Button,
 } from '@material-ui/core';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { Project, StoreState, User } from '../../types';
 import theme from '../../theme';
 import useApi from '../../utils/api';
@@ -48,6 +51,7 @@ interface ProjectListProps {
 const ProjectList: React.FC<ProjectListProps> = () => {
   const [projects, setProjects] = useState([] as Project[]);
 
+  const history = useHistory();
   const api = useApi();
 
   useEffect(() => {
@@ -66,30 +70,43 @@ const ProjectList: React.FC<ProjectListProps> = () => {
     return (
       <Box>
         <Container>
+          <Box display="flex" justifyContent="flex-end" my={3}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.push('/create-project')}
+            >
+              Create New Project
+            </Button>
+          </Box>
           <Box bgcolor={theme.colors.primary} color="white" p={1}>
             <Typography variant="h5">Projects</Typography>
           </Box>
           <Table aria-label="project list" size="medium">
             <StyledTableHead>
-              <StyledTableHeadCell>Name</StyledTableHeadCell>
-              <StyledTableHeadCell align="center">
-                CPS Number
-              </StyledTableHeadCell>
-              <StyledTableHeadCell align="center">Ministry</StyledTableHeadCell>
-              <StyledTableHeadCell align="right">
-                % Complete
-              </StyledTableHeadCell>
-              <StyledTableHeadCell align="right">
-                Project Phase
-              </StyledTableHeadCell>
-              <StyledTableHeadCell align="right">
-                Next Report Due
-              </StyledTableHeadCell>
-              <TableCell />
+              <TableRow>
+                <StyledTableHeadCell>Name</StyledTableHeadCell>
+                <StyledTableHeadCell align="center">
+                  CPS Number
+                </StyledTableHeadCell>
+                <StyledTableHeadCell align="center">
+                  Ministry
+                </StyledTableHeadCell>
+                <StyledTableHeadCell align="right">
+                  % Complete
+                </StyledTableHeadCell>
+                <StyledTableHeadCell align="right">
+                  Project Phase
+                </StyledTableHeadCell>
+                <StyledTableHeadCell align="right">
+                  Next Report Due
+                </StyledTableHeadCell>
+                <TableCell />
+              </TableRow>
             </StyledTableHead>
             <TableBody>
               {projects.map((row) => (
-                <ProjectListRow project={row} />
+                <ProjectListRow project={row} key={row.id} />
               ))}
             </TableBody>
           </Table>

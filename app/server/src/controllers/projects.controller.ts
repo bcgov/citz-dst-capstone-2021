@@ -17,13 +17,13 @@
 import { Project } from '@interfaces/project.interface';
 import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
-import { CreateProjectDTO } from '@dtos/projects.dto';
+import ProjectDTO from '@dtos/project.dto';
 
 const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {
     try {
       const data: Project[] = await ProjectService.findAllProjects();
-      res.status(200).json({ data, message: 'projects' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -33,7 +33,7 @@ const ProjectController = {
     try {
       const { id } = req.params;
       const data: Project = await ProjectService.findProjectByCPS(id);
-      res.status(200).json({ data, message: 'project' });
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -41,9 +41,9 @@ const ProjectController = {
 
   async createProject(req: Request, res: Response, next: NextFunction) {
     try {
-      const input: CreateProjectDTO = req.body;
+      const input: ProjectDTO = req.body;
       const data: Project = await ProjectService.createProject(input);
-      res.status(201).json({ data, message: 'created' });
+      res.status(201).json(data);
     } catch (e) {
       next(e);
     }
@@ -52,8 +52,7 @@ const ProjectController = {
     try {
       const { id } = req.params;
       const data: Project = await ProjectService.deleteProject(id);
-      res.status(200).json({ data, message: 'deleted' });
-      next();
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
@@ -61,10 +60,9 @@ const ProjectController = {
   async updateProject(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const input: CreateProjectDTO = req.body;
+      const input: ProjectDTO = req.body;
       const data: Project = await ProjectService.updateProject(id, input);
-      res.status(200).json({ data, message: 'updated' });
-      next();
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
