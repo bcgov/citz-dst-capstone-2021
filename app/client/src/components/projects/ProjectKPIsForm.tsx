@@ -19,7 +19,7 @@ import { Container, FormControl, Typography, Button } from '@material-ui/core';
 // import DateFnsUtils from '@date-io/date-fns';
 
 const ProjectKPIsForm: React.FC = () => {
-  const handleNewMilestone = () => {
+  const handleKPI = () => {
     // eslint-disable-next-line no-alert
     alert('TODO: implement KPI form modal');
   };
@@ -34,9 +34,9 @@ const ProjectKPIsForm: React.FC = () => {
           color="primary"
           variant="contained"
           type="button"
-          onClick={handleNewMilestone}
+          onClick={handleKPI}
         >
-          Add New Objective
+          Add New KPI
         </Button>
       </FormControl>
     </Container>
