@@ -44,7 +44,6 @@ const ProjectService = {
     if (project) {
       throw errorWithCode(`The project ${cpsIdentifier} already exits`, 409);
     }
-
     return ProjectModel.create(input);
   },
 

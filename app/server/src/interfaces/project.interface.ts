@@ -15,7 +15,7 @@
  */
 
 export interface Project {
-  id: string;
+  id?: string;
   _schema?: number;
   name: string;
   cpsIdentifier: string;
@@ -26,9 +26,9 @@ export interface Project {
   sponsor: string;
   manager: string;
   financialContact: string;
-  start: string;
-  end?: string;
-  estimatedEnd?: string;
+  start: Date;
+  end?: Date;
+  estimatedEnd?: Date;
   progress: number;
   phase?: string;
 }

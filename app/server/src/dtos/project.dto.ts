@@ -15,7 +15,7 @@
  */
 
 import {
-  IsISO8601,
+  IsDate,
   IsMongoId,
   IsNumber,
   IsOptional,
@@ -26,8 +26,10 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { Project } from '@interfaces/project.interface';
 
-class ProjectDTO {
+class ProjectDTO implements Project {
   @IsString()
   @MinLength(8)
   @MaxLength(50)
@@ -65,16 +67,19 @@ class ProjectDTO {
   @IsMongoId()
   financialContact: string;
 
-  @IsISO8601()
-  start: string;
+  @IsDate()
+  @Type(() => Date)
+  start: Date;
 
   @IsOptional()
-  @IsISO8601()
-  end: string;
+  @IsDate()
+  @Type(() => Date)
+  end: Date;
 
   @IsOptional()
-  @IsISO8601()
-  estimatedEnd: string;
+  @IsDate()
+  @Type(() => Date)
+  estimatedEnd: Date;
 
   @IsOptional()
   @Min(0)

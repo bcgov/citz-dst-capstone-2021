@@ -30,15 +30,15 @@ export enum ReportState {
 
 export interface Report {
   id?: string;
-  submitter: string;
-  submittedAt: string | Date;
+  submitter?: string;
+  submittedAt?: Date;
   year: number;
   quarter: Quarter;
   projectId: string;
   state: ReportState;
   phase: string;
   progress: number;
-  estimatedEnd: string | Date;
+  estimatedEnd?: Date;
   milestones: Milestone[];
   objectives: Objective[];
   statuses: ReportStatus[];
@@ -86,7 +86,7 @@ export interface Milestone {
   description: string;
   status: MilestoneStatus;
   start: Date;
-  estimatedEnd: Date;
+  estimatedEnd?: Date;
   progress: number;
   comments: string;
 }
