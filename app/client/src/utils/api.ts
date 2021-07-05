@@ -78,6 +78,16 @@ const useApi = () => {
       if (!api.current) throw new Error('axios not set up');
       return api.current.get(`projects/${cps}`).then(({ data }) => data);
     },
+
+    getUsers(): Promise<User[]> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current.get(`users`).then(({ data }) => data);
+    },
+
+    createProject(project: any): Promise<Project> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current.post(`projects`, project).then(({ data }) => data);
+    },
   };
 };
 

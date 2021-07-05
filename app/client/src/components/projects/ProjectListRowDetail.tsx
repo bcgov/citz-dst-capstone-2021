@@ -68,7 +68,10 @@ const ProjectListRowDetail: React.FC<
             variant="contained"
             color="primary"
             style={{ textTransform: 'none' }}
-            onClick={() => alert('Not implemented')}
+            onClick={() => {
+              // eslint-disable-next-line no-alert
+              alert('Not implemented');
+            }}
           >
             Start Report
           </Button>

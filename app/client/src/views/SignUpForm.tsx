@@ -164,7 +164,9 @@ const SigUpForm: React.FC = () => {
             onBlur={handleBlur}
           >
             {Object.keys(Role).map((role) => (
-              <MenuItem value={role}>{role}</MenuItem>
+              <MenuItem value={role} key={role}>
+                {role}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
