@@ -121,7 +121,6 @@ const MilestoneModel: Schema<Milestone> = new Schema(
     },
     estimatedEnd: {
       type: Date,
-      required: true,
     },
     progress: {
       type: Number,
@@ -184,7 +183,6 @@ const ReportModel: Schema<Report> = new Schema(
     },
     estimatedEnd: {
       type: Date,
-      required: true,
     },
     milestones: [MilestoneModel],
     objectives: [ObjectiveModel],
