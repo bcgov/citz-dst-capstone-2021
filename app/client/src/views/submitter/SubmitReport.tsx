@@ -60,7 +60,7 @@ const SubmitReport: React.FC = () => {
   const steps = SubmitReportSteps;
 
   const renderStep1 = () => {
-    return(
+    return (
       <Container maxWidth="md">
         <Typography variant="h5" align="center">
           Status Summary
@@ -119,7 +119,150 @@ const SubmitReport: React.FC = () => {
         </Box>
       </Container>
     );
-  }
+  };
+
+  const renderStep2 = () => {
+    return (
+      <Container maxWidth="md">
+        <Typography variant="h5" align="center">
+          Financial Information
+        </Typography>
+
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+        >
+          <Box width={1 / 2} m={5}>
+            <Typography variant="h6" align="center">
+              Current Fiscal Year
+            </Typography>
+            
+            <TextField
+              fullWidth
+              id="current-fy-approved-funding"
+              name="current-fy-approved-funding"
+              label="Current FY Approved Funding"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <Box>
+              <Typography variant="subtitle1" align="left">
+                Current FY Actuals
+              </Typography>
+
+              <TextField
+                fullWidth
+                id="sitting-in-ministry"
+                name="sitting-in-ministry"
+                label="Sitting in Ministry"
+                type="number"
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                fullWidth
+                id="jv-ocio"
+                name="jv-ocio"
+                label="JV'd to OCIO"
+                type="number"
+                margin="normal"
+                variant="outlined"
+              />
+
+              <Box display="flex" flexDirection="row" justifyContent="space-between">
+                <Typography variant="subtitle1" align="left">
+                  Current FY Actuals:
+                </Typography>
+                <Typography variant="subtitle1" align="right">
+                  -
+                </Typography>
+              </Box>
+            </Box>
+            <TextField
+              fullWidth
+              id="current-fy-forecast-spend"
+              name="current-fy-forecast-spend"
+              label="Current Fiscal Year FY Forecasted Spend"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              id="variance-current-fy"
+              name="variance-current-fy"
+              label="Variance to Budget"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+          </Box>
+          <Box width={1 / 2} m={5}>
+            <Typography variant="h6" align="center">
+              Overall Project Information
+            </Typography>
+
+            <TextField
+              fullWidth
+              id="total-project-budget"
+              name="total-project-budget"
+              label="Total Project Budget"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              id="project-spend-previous-fy"
+              name="project-spend-previous-fy"
+              label="Project Spend to End of Previous FY"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              id="current-fy-forecasted-spend"
+              name="current-fy-forecasted-spend"
+              label="Current FY Full Year Forecasted Spend"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              id="funding-remaining"
+              name="funding-remaining"
+              label="Project Funding for Remaining FYs"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              id="estimated-total-cost"
+              name="estimated-total-cost"
+              label="Estimated Total Cost"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              id="variance-overall"
+              name="variance-overall"
+              label="Variance to Budget"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+          </Box>
+        </Box>
+      </Container>
+    );
+  };
 
   const getStepContent = (step: number) => {
     switch (step) {
@@ -128,7 +271,7 @@ const SubmitReport: React.FC = () => {
       case 1:
         return renderStep1();
       case 2:
-        return <p>TODO: Financial Information</p>;
+        return renderStep2();
       case 3:
         return <p>TODO: Business Case Objective Tracking</p>;
       case 4:
