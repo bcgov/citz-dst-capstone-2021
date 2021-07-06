@@ -42,31 +42,91 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { useHistory } from 'react-router-dom';
 
 import { User } from '../../types';
-import { Ministries, ColorStatuses, StatusTrends } from '../../constants';
+import { Ministries, ColorStatuses, SubmitReportSteps } from '../../constants';
 import useApi from '../../utils/api';
 import utils from '../../utils';
 
-// TODO: (Samara) move to constants
-const steps = [
-  'Project Information',
-  'Status Summary',
-  'Financial Information',
-  'Business Case Objective Tracking',
-  'Key Milestone Status',
-  'Key Performance Indicators'
+// status summary trends
+export const StatusTrends = [
+  {icon: <ArrowDownwardIcon />, trend: 'down'},
+  {icon: <ArrowForwardIcon />, trend: 'steady'},
+  {icon: <ArrowUpwardIcon />, trend: 'up'}
 ];
 
 const SubmitReport: React.FC = () => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
+  const steps = SubmitReportSteps;
+
+  const renderStep1 = () => {
+    return(
+      <Container maxWidth="md">
+        <Typography variant="h5" align="center">
+          Status Summary
+        </Typography>
+
+        <Typography variant="h6" align="left">
+          Overall Project Status
+        </Typography>
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+        >
+        <Box>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel>Status</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status"
+              fullWidth
+            >
+              {ColorStatuses.map((status) => (
+                <MenuItem value={status.label} key={status.abbrev}>
+                  {status.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel>Trend</InputLabel>
+            <Select
+              labelId="trend-label"
+              id="trend"
+              fullWidth
+            >
+              {StatusTrends.map((trend) => (
+                <MenuItem value={trend.trend} key={trend.trend}>
+                  {trend.icon}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          </Box>
+          <Box width={3 / 4} pl={5} pt={2}>
+            <TextField
+              id="comments"
+              label="Comments"
+              multiline
+              rows={4}
+              defaultValue="Default Value"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+          </Box>
+        </Box>
+      </Container>
+    );
+  }
 
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
         return <p>TODO: Project Information</p>;
       case 1:
-        return <p>TODO: Status Summary</p>;
+        return renderStep1();
       case 2:
         return <p>TODO: Financial Information</p>;
       case 3:
@@ -100,7 +160,6 @@ const SubmitReport: React.FC = () => {
   // TODO: Implement this method to only allow the user to continue if they 
   // confirm that project information is correct.
   const isNextValid = (): boolean => {
-    
     return true;
   };
 
