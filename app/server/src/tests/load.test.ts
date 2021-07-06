@@ -22,6 +22,7 @@ import UserService from '@services/users.service';
 import DBConfig from '@/databases';
 import { Role } from '@interfaces/roles.interface';
 import { UserDTO } from '@dtos/user.dto';
+import { plainToClass } from 'class-transformer';
 import testData from './testData.json';
 
 beforeAll(async () => {
@@ -56,8 +57,8 @@ describe('loading test data', () => {
   });
   it('loading sample projects', () => {
     return Promise.all(
-      testData.projects.map((prj: ProjectDTO) => {
-        // TODO: (nick) set id of sponsor, manager, and fa by the query result.
+      testData.projects.map((data: any) => {
+        const prj = plainToClass(ProjectDTO, data);
         return ProjectService.getProjectDetail(prj.cpsIdentifier).then(data => {
           return data || ProjectService.createProject(prj);
         });

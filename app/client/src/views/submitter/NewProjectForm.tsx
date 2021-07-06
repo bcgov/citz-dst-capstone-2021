@@ -288,11 +288,11 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.sponsor = value.id;
+            values.sponsor = value?.id;
             setSponsor(value);
           }}
           getOptionSelected={(item, current) => {
-            return item.id === current.id;
+            return item.id === current?.id;
           }}
           value={sponsor}
           renderInput={(params) => {
@@ -313,11 +313,11 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.financialContact = value.id;
+            values.financialContact = value?.id;
             setFinancialContact(value);
           }}
           getOptionSelected={(item, current) => {
-            return item.id === current.id;
+            return item.id === current?.id;
           }}
           value={financialContact}
           renderInput={(params) => {
