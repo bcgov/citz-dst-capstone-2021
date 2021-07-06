@@ -36,10 +36,13 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { useHistory } from 'react-router-dom';
 
 import { User } from '../../types';
-import { Ministries } from '../../constants';
+import { Ministries, ColorStatuses, StatusTrends } from '../../constants';
 import useApi from '../../utils/api';
 import utils from '../../utils';
 
@@ -126,10 +129,9 @@ const SubmitReport: React.FC = () => {
 
   return(
     <Container maxWidth="lg">
+      {/* using a nonLinear stepper allows the user to click on the stepper labels and navigate to that section of the form */}
       <Stepper nonLinear activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
-          // const stepProps: { completed?: boolean } = {};
-          // const labelProps: { optional?: React.ReactNode } = {};
 
           return (
             <Step key={label}>
