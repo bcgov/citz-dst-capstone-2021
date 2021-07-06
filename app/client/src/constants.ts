@@ -34,4 +34,22 @@ export const Ministries = [
   'Tourism, Arts, Culture and Sport',
   'Transportation and Infrastructure',
 ];
+
+// status summary colour statuses
+// TODO: add descriptions to status colors for tooltip functionality
+export const ColorStatuses = {
+  notStarted: {label: 'Not Started', abbrev: 'NS', color: '#707070'},
+  green: {label: 'Green', abbrev: 'G', color: '#479a3b'},
+  yellow: {label: 'Yellow', abbrev: 'Y', color: '#e3a82b'},
+  red: {label: 'Red', abbrev: 'R', color: '#ff0000'},
+  complete: {label: 'Complete', abbrev: 'C', color: '#0029f5'}
+};
+
+// status summary trends
+export const StatusTrends = [
+  {iconName: 'ArrowDownward', trend: 'up'},
+  {iconName: 'ArrowForward', trend: 'steady'},
+  {iconName: 'ArrowUpward', trend: 'down'}
+];
+
 export default Constants;
