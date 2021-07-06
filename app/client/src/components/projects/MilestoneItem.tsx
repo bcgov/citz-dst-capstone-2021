@@ -26,7 +26,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import theme from '../../theme';
-import { MilestoneStatus } from '../../../../server/src/interfaces/report.interface';
+import { MilestoneStatus } from '../../types';
 
 interface MilestoneProps {
   name: string;
@@ -91,9 +91,7 @@ const MilestoneItem: React.FC<MilestoneProps> = () => {
         <GridListTile cols={1}>
           <Box p={2}>
             <Typography variant="subtitle1">Comments</Typography>
-            <Typography variant="body1">
-              laksdjf;alsdjfa;lsdfjlskjflasjkdflksdjflaksdfsldkfj{' '}
-            </Typography>
+            <Typography variant="body1" />
           </Box>
         </GridListTile>
       </GridList>
