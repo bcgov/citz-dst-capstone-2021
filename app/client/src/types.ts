@@ -140,3 +140,14 @@ export interface Milestone extends NewMilestone {
   status: MilestoneStatus;
   progress: number;
 }
+
+export interface Objective {
+  id?: string;
+  name: string;
+  description: string;
+  estimatedEnd: Date;
+  status: Status;
+  phase: string;
+  asset: string;
+  comments: string;
+}

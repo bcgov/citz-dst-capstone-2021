@@ -78,6 +78,12 @@ const ObjectiveModel: Schema<Objective> = new Schema(
       default: Status.Green,
       enum: Object.values(Status),
     },
+    phase: {
+      type: String,
+    },
+    asset: {
+      type: String,
+    },
     estimatedEnd: {
       type: Date,
       required: true,

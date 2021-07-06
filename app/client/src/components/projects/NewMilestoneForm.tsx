@@ -33,10 +33,21 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
+import { makeStyles } from '@material-ui/core/styles';
 import { validateNewProject } from '../../utils/validationSchema';
 import { Milestone, MilestoneStatus } from '../../types';
 
+const useStyles = makeStyles({
+  button: {
+    marginRight: '24px',
+    width: '140px',
+    textTransform: 'none',
+  },
+});
+
 const NewMilestoneForm: React.FC<Milestone> = (props) => {
+  const classes = useStyles();
+
   const [startDate, setStartDate] = React.useState('');
   const [startDateInput, setStartDateInput] = React.useState('');
   const [estEndDate, setEstEndDate] = React.useState('');
@@ -196,14 +207,14 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
           <Button
             variant="contained"
             color="primary"
-            style={{ marginRight: '24px', width: '140px' }}
+            className={classes.button}
           >
             Cancel
           </Button>
           <Button
             variant="contained"
             color="primary"
-            style={{ width: '160px' }}
+            className={classes.button}
             disabled={!isValid}
           >
             Add Milestone

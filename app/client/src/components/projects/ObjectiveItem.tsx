@@ -26,8 +26,9 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
-import theme from '../../theme';
-import { Milestone, MilestoneStatus } from '../../types';
+
+import { Objective } from '../../types';
+import StatusButton from '../common/buttons/StatusButton';
 
 const useStyles = makeStyles({
   header: {
@@ -37,7 +38,6 @@ const useStyles = makeStyles({
     height: 36,
     padding: '8px',
   },
-
   body: {
     border: 1,
     borderTop: 0,
@@ -46,8 +46,9 @@ const useStyles = makeStyles({
   },
 });
 
-const MilestoneItem: React.FC<Milestone> = () => {
-  // const { name, description, status, start, estimatedEnd, progress, comments } = props;
+const ObjectiveItem: React.FC<Objective> = (props) => {
+  const { name, description, status, estimatedEnd, comments, phase, asset } =
+    props;
 
   const classes = useStyles();
 
@@ -55,12 +56,11 @@ const MilestoneItem: React.FC<Milestone> = () => {
     <Box>
       <Box
         display="flex"
-        bgcolor={theme.colors.grey}
         justifyContent="space-between"
         alignItems="center"
         className={classes.header}
       >
-        <Typography variant="h6">Milestone 1</Typography>
+        <Typography variant="h6">Objective 1</Typography>
         <Box display="flex">
           <IconButton size="small">
             <DeleteIcon />
@@ -75,27 +75,22 @@ const MilestoneItem: React.FC<Milestone> = () => {
           <GridListTile cols={1}>
             <Box flexDirection="column" p={1} mr={2}>
               <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Progress</Typography>
-                <Typography>10%</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Status</Typography>
-                <Button
-                  variant="contained"
-                  disabled
-                  size="small"
-                  style={{ borderRadius: '20px' }}
-                >
-                  Green
-                </Button>
+                <StatusButton status={status} />
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Start Date</Typography>
+                <Typography variant="subtitle1">
+                  Target Completion Date
+                </Typography>
                 <Typography>2021/20/30</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Planned Finish Date</Typography>
-                <Typography>2021/20/30</Typography>
+                <Typography variant="subtitle1">Phase</Typography>
+                <Typography>Phase</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Asset</Typography>
+                <Typography>Asset B</Typography>
               </Box>
             </Box>
           </GridListTile>
@@ -111,4 +106,4 @@ const MilestoneItem: React.FC<Milestone> = () => {
   );
 };
 
-export default MilestoneItem;
+export default ObjectiveItem;

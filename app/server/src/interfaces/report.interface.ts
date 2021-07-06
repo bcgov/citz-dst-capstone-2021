@@ -97,5 +97,7 @@ export interface Objective {
   description: string;
   estimatedEnd: Date;
   status: Status;
+  phase: string;
+  asset: string;
   comments: string;
 }
