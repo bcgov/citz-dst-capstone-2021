@@ -68,7 +68,7 @@ const Home = () => {
             Submitter&apos;s New Project Form (WIP)
           </Link>
         </h3>
-        {/* TODO: Samara to remove link when connecting form to existing project */}
+        {/* TODO: (Samara) to remove link when connecting form to existing project */}
         <h3>
           <Link to="/submit-report-wip">
             Submitter&apos;s Quarterly Report Form (WIP)
