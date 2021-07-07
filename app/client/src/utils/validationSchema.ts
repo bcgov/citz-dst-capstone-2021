@@ -54,6 +54,9 @@ const parseDateString = (value: any, originalValue: any) => {
 };
 const date = yup.date().transform(parseDateString);
 
+// TODO: (Samara) update for valid budget dollars; ask if budget is measured in whole dollars
+const dollars = yup.number();
+
 export const validateLogin = yup.object({ email, password });
 
 export const validateSignUp = yup.object({
@@ -113,5 +116,13 @@ export const validateKPI = yup.object({
   baseline: yup.number().min(10, 'Baseline should be larger than 10'),
 });
 export const validateReport = yup.object({
-  start: date,
+  currentFYApprovedFunding: dollars,
+  sittingInMinistry: dollars,
+  JVdOCIO: dollars,
+  currentFYForecastSpend: dollars,
+  totalBudget: dollars,
+  projectSpendPreviousFY: dollars,
+  remainingFunding: dollars,
+  estimatedTotalCost: dollars,
+  tempDateValue: date,
 });
