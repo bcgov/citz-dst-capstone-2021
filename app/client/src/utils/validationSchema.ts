@@ -79,3 +79,7 @@ export const validateNewProject = yup.object({
   end: date,
   estimatedEnd: date,
 });
+
+export const validateReport = yup.object({
+  start: date,
+});
