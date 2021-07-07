@@ -32,7 +32,11 @@ import {
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import { makeStyles } from '@material-ui/core/styles';
-import { validateNewProject } from '../../utils/validationSchema';
+import _ from 'lodash';
+import {
+  validateNewProject,
+  validateObjective,
+} from '../../utils/validationSchema';
 import { MilestoneStatus, Objective, Status } from '../../types';
 
 const useStyles = makeStyles({
@@ -43,24 +47,43 @@ const useStyles = makeStyles({
   },
 });
 
-const NewObjectiveForm: React.FC = (props) => {
+interface NewObjectiveFormProps {
+  closeModal: (data: any) => void;
+  objective: Objective | null;
+}
+
+const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
+  const { closeModal, objective } = props;
   const classes = useStyles();
 
-  const [estEndDate, setEstEndDate] = React.useState('');
-  const [estEndDateInput, setEstEndDateInput] = React.useState('');
+  const defaultEndDate = objective?.estimatedEnd || '';
+  const [estEndDate, setEstEndDate] = React.useState(defaultEndDate);
+  const [estEndDateInput, setEstEndDateInput] = React.useState(defaultEndDate);
+
+  const cancel = () => {
+    closeModal(null);
+  };
+
+  const initialValues = objective
+    ? _.cloneDeep(objective)
+    : {
+        name: '',
+        description: '',
+        start: '',
+        status: Status.Green,
+        estimatedEnd: '',
+        progress: 0,
+        phase: '',
+        asset: '',
+        comments: '',
+      };
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      description: '',
-      status: Status.Green,
-      estimatedEnd: '',
-      phase: '',
-      asset: '',
-      comments: '',
+    initialValues,
+    validationSchema: validateObjective,
+    onSubmit: (values) => {
+      closeModal(values);
     },
-    validationSchema: validateNewProject,
-    onSubmit: () => {},
   });
 
   const {
@@ -74,7 +97,7 @@ const NewObjectiveForm: React.FC = (props) => {
   } = formik;
 
   return (
-    <Box maxWidth="460px">
+    <Box minWidth="500px" style={{ backgroundColor: 'white', padding: '20px' }}>
       <Box display="flex" justifyContent="center">
         <Typography variant="h5">Create New Objective</Typography>
       </Box>
@@ -205,6 +228,7 @@ const NewObjectiveForm: React.FC = (props) => {
             variant="contained"
             color="primary"
             className={classes.button}
+            onClick={cancel}
           >
             Cancel
           </Button>
@@ -212,9 +236,10 @@ const NewObjectiveForm: React.FC = (props) => {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={!isValid}
+            disabled={!values.name || !isValid}
+            type="submit"
           >
-            Add Objective
+            {objective ? 'Update' : 'Add Objective'}
           </Button>
         </Box>
       </form>

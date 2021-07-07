@@ -36,10 +36,7 @@ import LuxonUtils from '@date-io/luxon';
 import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 
-import {
-  validateMilestone,
-  validateNewProject,
-} from '../../utils/validationSchema';
+import { validateMilestone } from '../../utils/validationSchema';
 import { Milestone, MilestoneStatus } from '../../types';
 
 const useStyles = makeStyles({
@@ -75,8 +72,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
     ? _.cloneDeep(milestone)
     : {
         name: '',
-        description: '',
-        start: new Date(),
+        start: '',
         status: MilestoneStatus.Green,
         estimatedEnd: '',
         progress: 0,
@@ -102,7 +98,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
   } = formik;
 
   return (
-    <Box maxWidth="500px" style={{ backgroundColor: 'white', padding: '40px' }}>
+    <Box minWidth="500px" style={{ backgroundColor: 'white', padding: '40px' }}>
       <Box display="flex" justifyContent="center" my={3}>
         <Typography variant="h5">Create New Milestone</Typography>
       </Box>
@@ -240,7 +236,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={!isValid}
+            disabled={!values.name || !values.start || !isValid}
             type="submit"
           >
             {milestone ? 'Update' : 'Add Milestone'}

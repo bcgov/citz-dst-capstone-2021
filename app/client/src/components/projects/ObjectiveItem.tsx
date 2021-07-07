@@ -17,7 +17,6 @@
 import React from 'react';
 import {
   Box,
-  Button,
   GridList,
   GridListTile,
   IconButton,
@@ -46,9 +45,23 @@ const useStyles = makeStyles({
   },
 });
 
-const ObjectiveItem: React.FC<Objective> = (props) => {
-  const { name, description, status, estimatedEnd, comments, phase, asset } =
-    props;
+interface ObjectiveItemProps extends Objective {
+  deleteItem: () => void;
+  editItem: () => void;
+}
+
+const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
+  const {
+    name,
+    description,
+    status,
+    estimatedEnd,
+    comments,
+    phase,
+    asset,
+    deleteItem,
+    editItem,
+  } = props;
 
   const classes = useStyles();
 
@@ -60,12 +73,17 @@ const ObjectiveItem: React.FC<Objective> = (props) => {
         alignItems="center"
         className={classes.header}
       >
-        <Typography variant="h6">Objective 1</Typography>
+        <Box display="flex" alignItems="center">
+          <Typography variant="h6">{name}</Typography>
+          <Typography variant="subtitle1" style={{ marginLeft: '8px' }}>
+            {description}
+          </Typography>
+        </Box>
         <Box display="flex">
-          <IconButton size="small">
+          <IconButton size="small" onClick={deleteItem}>
             <DeleteIcon />
           </IconButton>
-          <IconButton size="small">
+          <IconButton size="small" onClick={editItem}>
             <EditIcon />
           </IconButton>
         </Box>
@@ -73,7 +91,7 @@ const ObjectiveItem: React.FC<Objective> = (props) => {
       <Box className={classes.body}>
         <GridList cols={2} cellHeight={140}>
           <GridListTile cols={1}>
-            <Box flexDirection="column" p={1} mr={2}>
+            <Box flexDirection="column" p={1} mr={1}>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Status</Typography>
                 <StatusButton status={status} />
@@ -82,22 +100,22 @@ const ObjectiveItem: React.FC<Objective> = (props) => {
                 <Typography variant="subtitle1">
                   Target Completion Date
                 </Typography>
-                <Typography>2021/20/30</Typography>
+                <Typography>{estimatedEnd}</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Phase</Typography>
-                <Typography>Phase</Typography>
+                <Typography>{phase}</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Asset</Typography>
-                <Typography>Asset B</Typography>
+                <Typography>{asset}</Typography>
               </Box>
             </Box>
           </GridListTile>
           <GridListTile cols={1}>
             <Box p={1}>
               <Typography variant="subtitle1">Comments</Typography>
-              <Typography variant="body1" />
+              <Typography variant="body1">{comments}</Typography>
             </Box>
           </GridListTile>
         </GridList>

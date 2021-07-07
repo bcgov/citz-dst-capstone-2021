@@ -159,7 +159,6 @@ const NewProjectForm: React.FC = () => {
   const deleteMilestone = (index: number) => {
     return () => {
       if (index >= 0) {
-        console.log('deleting ', index);
         milestones.splice(index, 1);
         setMilestones([...milestones]);
       }
@@ -515,7 +514,7 @@ const NewProjectForm: React.FC = () => {
             {/* TODO: Better handling of step content passed into component */}
             {getStepContent(activeStep)}
           </div>
-          <Container maxWidth="sm">
+          <Container style={{ maxWidth: '800px' }}>
             <Box
               display="flex"
               flexDirection="row"

@@ -54,7 +54,6 @@ interface MilestoneItemProps extends Milestone {
 const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
   const {
     name,
-    description,
     status,
     start,
     estimatedEnd,

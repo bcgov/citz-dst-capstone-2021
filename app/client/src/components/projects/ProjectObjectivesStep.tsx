@@ -21,36 +21,100 @@ import {
   Typography,
   Button,
   Modal,
+  Box,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 import NewObjectiveForm from './NewObjectiveForm';
+import { Objective } from '../../types';
+import ObjectiveItem from './ObjectiveItem';
+
+const useStyles = makeStyles({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 const ProjectObjectivesStep: React.FC = () => {
+  const classes = useStyles();
+
   const [openObjective, setOpenObjective] = React.useState(false);
   const openObjectiveModal = () => {
     setOpenObjective(true);
   };
 
-  const addObjective = (data: any) => {
+  const [objectives, setObjectives] = React.useState<Objective[]>([]);
+
+  const [cacheIndex, setCacheIndex] = React.useState(-1);
+
+  const handleObjectiveModal = (data: Objective) => {
+    setOpenObjective(false);
+    if (!data) return;
     console.log(data);
+    if (cacheIndex >= 0) {
+      // update
+      objectives.splice(cacheIndex, 1, data);
+      setObjectives([...objectives]);
+      setCacheIndex(-1);
+    } else {
+      setObjectives([...objectives, data]);
+    }
+  };
+
+  const deleteObjective = (index: number) => {
+    return () => {
+      if (index >= 0) {
+        objectives.splice(index, 1);
+        setObjectives([...objectives]);
+      }
+    };
+  };
+
+  const editObjective = (index: number) => {
+    return () => {
+      if (index >= 0) {
+        setCacheIndex(index);
+        setOpenObjective(true);
+      }
+    };
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h5" align="center">
-        Business Case Objectives
-      </Typography>
-      <FormControl margin="normal" fullWidth>
-        <Button
-          color="primary"
-          variant="contained"
-          type="button"
-          onClick={openObjectiveModal}
-        >
-          Add New Objective
-        </Button>
-      </FormControl>
-      <Modal open={openObjective} onClose={addObjective}>
-        <NewObjectiveForm />
+    <Container maxWidth="md">
+      <Box display="flex" width="100%" justifyContent="center">
+        <Box minWidth="600px">
+          <Typography variant="h5" align="center">
+            Business Case Objectives
+          </Typography>
+          <Box>
+            {objectives.map((objective, index) => (
+              <ObjectiveItem
+                deleteItem={deleteObjective(index)}
+                editItem={editObjective(index)}
+                {...objective}
+                key={objective.name}
+              />
+            ))}
+          </Box>
+          <FormControl margin="normal" fullWidth>
+            <Button
+              color="primary"
+              variant="contained"
+              type="button"
+              onClick={openObjectiveModal}
+            >
+              Add New Objective
+            </Button>
+          </FormControl>
+        </Box>
+      </Box>
+      <Modal disableEnforceFocus open={openObjective} className={classes.modal}>
+        <NewObjectiveForm
+          objective={objectives[cacheIndex]}
+          closeModal={handleObjectiveModal}
+        />
       </Modal>
     </Container>
   );

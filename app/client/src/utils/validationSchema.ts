@@ -14,6 +14,7 @@
 // limitations under the License.
 
 import * as yup from 'yup';
+import { parse, isDate } from 'date-fns';
 
 const email = yup.string().email('Invalid email').required('Required');
 const password = yup
@@ -30,7 +31,7 @@ const name = yup
   .max(50, 'Too Long!')
   .required('Required');
 
-const progress = yup.number().positive().max(100, 'Cannot Be Greater Than 100');
+const progress = yup.number().min(0).max(100, 'Cannot Be Greater Than 100');
 
 const cpsIdentifier = yup
   .string()
@@ -44,8 +45,14 @@ const textField = yup.string().max(400, 'Too Long!');
 
 const ministry = yup.string().required();
 
-// TODO: Proper date validation
-const date = yup.string();
+const parseDateString = (value: any, originalValue: any) => {
+  const parsedDate = isDate(originalValue)
+    ? originalValue
+    : parse(originalValue, 'yyyy-MM-dd', new Date());
+
+  return parsedDate;
+};
+const date = yup.date().transform(parseDateString);
 
 export const validateLogin = yup.object({ email, password });
 
@@ -82,9 +89,15 @@ export const validateNewProject = yup.object({
 
 export const validateMilestone = yup.object({
   name,
-  description: textField,
   start: date,
   estimatedEnd: date,
   progress,
   comments: textField,
+});
+
+export const validateObjective = yup.object({
+  name,
+  description: textField,
+  comments: textField,
+  start: date,
 });
