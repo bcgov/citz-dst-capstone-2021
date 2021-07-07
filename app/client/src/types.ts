@@ -78,8 +78,35 @@ export interface SimpleContact {
   id: string;
 }
 
-export interface Project {
-  id: string;
+export enum Status {
+  Green,
+  Yellow,
+  Red,
+}
+
+export enum Trend {
+  Up,
+  Steady,
+  Down,
+}
+
+export enum StatusType {
+  Overall,
+  Scope,
+  Budget,
+  Schedule,
+  Other,
+}
+
+export enum MilestoneStatus {
+  Green,
+  Yellow,
+  Red,
+  Completed,
+  NotStarted,
+}
+
+export interface NewProject {
   name: string;
   cpsIdentifier: string;
   projectNumber: string;
@@ -92,6 +119,24 @@ export interface Project {
   start: string;
   estimatedEnd: string;
   end: string;
+}
+
+export interface Project extends NewProject {
+  id: string;
   progress: number;
   phase: string;
+}
+
+export interface NewMilestone {
+  name: string;
+  description: string;
+  start: Date;
+  estimatedEnd?: Date;
+  comments: string;
+}
+
+export interface Milestone extends NewMilestone {
+  id?: string;
+  status: MilestoneStatus;
+  progress: number;
 }
