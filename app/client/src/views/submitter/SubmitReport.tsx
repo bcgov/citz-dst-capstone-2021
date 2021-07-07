@@ -43,17 +43,17 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { useHistory } from 'react-router-dom';
 
-import { User } from '../../types';
-import { Ministries, ColorStatuses, SubmitReportSteps } from '../../constants';
+import { Ministries, SubmitReportSteps } from '../../constants';
+import { Status, Objective, Milestone, MilestoneStatus } from '../../types';
 import useApi from '../../utils/api';
 import { validateReport } from '../../utils/validationSchema';
 import utils from '../../utils';
 
 // status summary trends
 const StatusTrends = [
-  {icon: <ArrowDownwardIcon />, trend: 'down'},
+  {icon: <ArrowUpwardIcon />, trend: 'up'},
   {icon: <ArrowForwardIcon />, trend: 'steady'},
-  {icon: <ArrowUpwardIcon />, trend: 'up'}
+  {icon: <ArrowDownwardIcon />, trend: 'down'}
 ];
 
 // temp test data to display KPIs
@@ -118,7 +118,8 @@ const SubmitReport: React.FC = () => {
     return (
       <>
         <Typography variant="h6" align="left">
-          Overall Project Status
+          Overall Project Status (TODO: use props
+          )
         </Typography>
         <Box
           display="flex"
@@ -133,11 +134,13 @@ const SubmitReport: React.FC = () => {
               id="status"
               fullWidth
             >
-              {ColorStatuses.map((status) => (
-                <MenuItem value={status.label} key={status.abbrev}>
-                  {status.label}
-                </MenuItem>
-              ))}
+              {Object.entries(Status)
+                .filter(([, value]) => typeof value === 'string')
+                .map(([key, value]) => (
+                  <MenuItem value={key} key={key}>
+                    {value}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <FormControl margin="normal" fullWidth>
@@ -191,11 +194,13 @@ const SubmitReport: React.FC = () => {
               id="status"
               fullWidth
             >
-              {ColorStatuses.map((status) => (
-                <MenuItem value={status.label} key={status.abbrev}>
-                  {status.label}
-                </MenuItem>
-              ))}
+              {Object.entries(MilestoneStatus)
+                  .filter(([, value]) => typeof value === 'string')
+                  .map(([key, value]) => (
+                    <MenuItem value={key} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
           <MuiPickersUtilsProvider utils={LuxonUtils}>
@@ -300,11 +305,13 @@ const SubmitReport: React.FC = () => {
               id="status"
               fullWidth
             >
-              {ColorStatuses.map((status) => (
-                <MenuItem value={status.label} key={status.abbrev}>
-                  {status.label}
-                </MenuItem>
-              ))}
+              {Object.entries(MilestoneStatus)
+                    .filter(([, value]) => typeof value === 'string')
+                    .map(([key, value]) => (
+                      <MenuItem value={key} key={key}>
+                        {value}
+                      </MenuItem>
+                    ))}
             </Select>
           </FormControl>
           <FormControl margin="normal" fullWidth>
@@ -363,7 +370,7 @@ const SubmitReport: React.FC = () => {
         <TextField
           id="progress"
           name="progress"
-          label="Progress (%)"
+          label={`Progress (${testKPIs[0].unit})`}
           type="number"
           margin="normal"
           variant="outlined"
@@ -614,7 +621,8 @@ const SubmitReport: React.FC = () => {
   // TODO: Implement this method to only allow the user to continue if they 
   // confirm that project information is correct.
   const isNextValid = (): boolean => {
-    return !(activeStep === 0 && projectInfoConfirmed);
+    // return !(activeStep === 0 && projectInfoConfirmed);
+    return !(activeStep === 0 ? projectInfoConfirmed : true);
   };
 
   const handleNext = () => {
@@ -630,7 +638,11 @@ const SubmitReport: React.FC = () => {
   };
 
   const handleStep = (step: number) => () => {
-    setActiveStep(step);
+    if (projectInfoConfirmed) {
+      setActiveStep(step);
+    } else {
+      setActiveStep(0);
+    }
   };
 
   const handleComplete = () => {
