@@ -88,15 +88,15 @@ const SubmitReport: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      start: '',
-      objectives: {
-        objective1: {
-          targetCompletionDate: '',
-        },
-        objective2: {
-          targetCompletionDate: '',
-        },
-      },
+      currentFYApprovedFunding: '',
+      sittingInMinistry: '',
+      JVdOCIO: '',
+      currentFYForecastSpend: '',
+      totalBudget: '',
+      projectSpendPreviousFY: '',
+      remainingFunding: '',
+      estimatedTotalCost: '',
+      tempDateValue: '',
     },
     validationSchema: validateReport,
     onSubmit: (values) => {
@@ -217,8 +217,6 @@ const SubmitReport: React.FC = () => {
                 setTargetCompletionDate(value);
                 formik.setFieldValue('start', value.toISODate());
               }}
-              error={touched.objectives?.objective1?.targetCompletionDate && Boolean(errors.objectives?.objective1?.targetCompletionDate)}
-              helperText={touched.objectives?.objective1?.targetCompletionDate && errors.objectives?.objective1?.targetCompletionDate}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -268,8 +266,6 @@ const SubmitReport: React.FC = () => {
                 setTargetCompletionDate(value);
                 formik.setFieldValue('start', value.toISODate());
               }}
-              error={touched.objectives?.objective1?.targetCompletionDate && Boolean(errors.objectives?.objective1?.targetCompletionDate)}
-              helperText={touched.objectives?.objective1?.targetCompletionDate && errors.objectives?.objective1?.targetCompletionDate}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -289,8 +285,6 @@ const SubmitReport: React.FC = () => {
                 setTargetCompletionDate(value);
                 formik.setFieldValue('start', value.toISODate());
               }}
-              error={touched.objectives?.objective1?.targetCompletionDate && Boolean(errors.objectives?.objective1?.targetCompletionDate)}
-              helperText={touched.objectives?.objective1?.targetCompletionDate && errors.objectives?.objective1?.targetCompletionDate}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -430,63 +424,90 @@ const SubmitReport: React.FC = () => {
             
             <TextField
               fullWidth
-              id="current-fy-approved-funding"
-              name="current-fy-approved-funding"
+              id="currentFYApprovedFunding"
+              name="currentFYApprovedFunding"
               label="Current FY Approved Funding"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.currentFYApprovedFunding}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.currentFYApprovedFunding && Boolean(errors.currentFYApprovedFunding)}
+              helperText={touched.currentFYApprovedFunding && errors.currentFYApprovedFunding}
             />
-            <Box>
-              <Typography variant="subtitle1" align="left">
-                Current FY Actuals
-              </Typography>
 
+            <Typography variant="subtitle1" align="left">
+              Current FY Actuals
+            </Typography>
+            <Box ml={3}>
               <TextField
                 fullWidth
-                id="sitting-in-ministry"
-                name="sitting-in-ministry"
+                id="sittingInMinistry"
+                name="sittingInMinistry"
                 label="Sitting in Ministry"
                 type="number"
                 margin="normal"
                 variant="outlined"
+                value={values.sittingInMinistry}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.sittingInMinistry && Boolean(errors.sittingInMinistry)}
+                helperText={touched.sittingInMinistry && errors.sittingInMinistry}
               />
               <TextField
                 fullWidth
-                id="jv-ocio"
-                name="jv-ocio"
+                id="JVdOCIO"
+                name="JVdOCIO"
                 label="JV'd to OCIO"
                 type="number"
                 margin="normal"
                 variant="outlined"
+                value={values.JVdOCIO}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.JVdOCIO && Boolean(errors.JVdOCIO)}
+                helperText={touched.JVdOCIO && errors.JVdOCIO}
               />
-
-              <Box display="flex" flexDirection="row" justifyContent="space-between">
-                <Typography variant="subtitle1" align="left">
-                  Current FY Actuals:
-                </Typography>
-                <Typography variant="subtitle1" align="right">
-                  -
-                </Typography>
-              </Box>
+              <TextField
+                fullWidth
+                id="currentFYActuals"
+                name="currentFYActuals"
+                label="Current FY Actuals"
+                type="number"
+                margin="normal"
+                variant="outlined"
+                disabled
+                value={(Number.isNaN(+values.sittingInMinistry) ? 0 : +values.sittingInMinistry) + (Number.isNaN(+values.JVdOCIO) ? 0 : +values.JVdOCIO)}
+              />
             </Box>
+            {/* Note: there are 2 inputs that update each other for currentFYForecastSpend.
+                Decided to have 1 input in current fiscal year and 1 input in overall project information to not deviate too far from how submitters are used to reporting.
+            */}
             <TextField
               fullWidth
-              id="current-fy-forecast-spend"
-              name="current-fy-forecast-spend"
+              id="currentFYForecastSpend"
+              name="currentFYForecastSpend"
               label="Current Fiscal Year FY Forecasted Spend"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.currentFYForecastSpend}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.currentFYForecastSpend && Boolean(errors.currentFYForecastSpend)}
+              helperText={touched.currentFYForecastSpend && errors.currentFYForecastSpend}
             />
             <TextField
               fullWidth
-              id="variance-current-fy"
-              name="variance-current-fy"
+              id="currentFYVariance"
+              name="currentFYVariance"
               label="Variance to Budget"
               type="number"
               margin="normal"
               variant="outlined"
+              disabled
+              value={(Number.isNaN(+values.currentFYApprovedFunding) ? 0 : +values.currentFYApprovedFunding) - (Number.isNaN(+values.currentFYForecastSpend) ? 0 : +values.currentFYForecastSpend)}
             />
           </Box>
           <Box width={1 / 2} m={5}>
@@ -496,57 +517,84 @@ const SubmitReport: React.FC = () => {
 
             <TextField
               fullWidth
-              id="total-project-budget"
-              name="total-project-budget"
+              id="totalBudget"
+              name="totalBudget"
               label="Total Project Budget"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.totalBudget}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.totalBudget && Boolean(errors.totalBudget)}
+              helperText={touched.totalBudget && errors.totalBudget}
             />
             <TextField
               fullWidth
-              id="project-spend-previous-fy"
-              name="project-spend-previous-fy"
+              id="projectSpendPreviousFY"
+              name="projectSpendPreviousFY"
               label="Project Spend to End of Previous FY"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.projectSpendPreviousFY}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.projectSpendPreviousFY && Boolean(errors.projectSpendPreviousFY)}
+              helperText={touched.projectSpendPreviousFY && errors.projectSpendPreviousFY}
             />
             <TextField
               fullWidth
-              id="current-fy-forecasted-spend"
-              name="current-fy-forecasted-spend"
+              id="currentFYForecastSpend"
+              name="currentFYForecastSpend"
               label="Current FY Full Year Forecasted Spend"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.currentFYForecastSpend}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.currentFYForecastSpend && Boolean(errors.currentFYForecastSpend)}
+              helperText={touched.currentFYForecastSpend && errors.currentFYForecastSpend}
             />
             <TextField
               fullWidth
-              id="funding-remaining"
-              name="funding-remaining"
+              id="remainingFunding"
+              name="remainingFunding"
               label="Project Funding for Remaining FYs"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.remainingFunding}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.remainingFunding && Boolean(errors.remainingFunding)}
+              helperText={touched.remainingFunding && errors.remainingFunding}
             />
             <TextField
               fullWidth
-              id="estimated-total-cost"
-              name="estimated-total-cost"
+              id="estimatedTotalCost"
+              name="estimatedTotalCost"
               label="Estimated Total Cost"
               type="number"
               margin="normal"
               variant="outlined"
+              value={values.estimatedTotalCost}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.estimatedTotalCost && Boolean(errors.estimatedTotalCost)}
+              helperText={touched.estimatedTotalCost && errors.estimatedTotalCost}
             />
             <TextField
               fullWidth
-              id="variance-overall"
-              name="variance-overall"
+              id="projectVariance"
+              name="projectVariance"
               label="Variance to Budget"
               type="number"
               margin="normal"
               variant="outlined"
+              disabled
+              value={(Number.isNaN(+values.totalBudget) ? 0 : +values.totalBudget) - (Number.isNaN(+values.estimatedTotalCost) ? 0 : +values.estimatedTotalCost)}
             />
           </Box>
         </Box>
