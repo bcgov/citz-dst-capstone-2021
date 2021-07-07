@@ -69,7 +69,6 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
     : {
         name: '',
         description: '',
-        start: '',
         status: Status.Green,
         estimatedEnd: '',
         progress: 0,
@@ -95,6 +94,16 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
     handleChange,
     handleBlur,
   } = formik;
+
+  // TODO: (nick) FIXME: isValid doesn't work
+  const validate = (): boolean => {
+    return !!(
+      isValid &&
+      values.name &&
+      values.description &&
+      values.estimatedEnd
+    );
+  };
 
   return (
     <Box minWidth="500px" style={{ backgroundColor: 'white', padding: '20px' }}>
@@ -236,7 +245,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={!values.name || !isValid}
+            disabled={!validate()}
             type="submit"
           >
             {objective ? 'Update' : 'Add Objective'}

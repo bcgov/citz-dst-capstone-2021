@@ -38,7 +38,7 @@ import {
 import LuxonUtils from '@date-io/luxon';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Milestone, User } from '../../types';
+import { Milestone, Objective, User } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
@@ -89,6 +89,8 @@ const NewProjectForm: React.FC = () => {
   const [startDateInput, setStartDateInput] = React.useState('');
   const [estEndDate, setEstEndDate] = React.useState('');
   const [estEndDateInput, setEstEndDateInput] = React.useState('');
+
+  const [objectives, setObjectives] = React.useState<Objective[]>([]);
 
   React.useEffect(() => {
     api.getUsers().then((data) => setUsers(data));
@@ -167,22 +169,25 @@ const NewProjectForm: React.FC = () => {
 
   const handleMilestoneModal = (data: Milestone) => {
     setOpenMilestone(false);
+    setCacheIndex(-1);
     if (!data) return;
     if (cacheIndex >= 0) {
       // update
       milestones.splice(cacheIndex, 1, data);
       setMilestones([...milestones]);
-      setCacheIndex(-1);
     } else {
       // add
       setMilestones([...milestones, data]);
     }
   };
 
+  const handleObjectiveChange = (data: Objective[]) => {
+    setObjectives([...data]);
+  };
+
   const isNextValid = (): boolean => {
     switch (activeStep) {
       case 0:
-        return true;
         return utils.isValidFormInput(values, errors, [
           'name',
           'cpsIdentifier',
@@ -191,14 +196,12 @@ const NewProjectForm: React.FC = () => {
           'projectNumber',
         ]);
       case 1:
-        return true;
         return utils.isValidFormInput(values, errors, [
           'sponsor',
           'manager',
           'financialContact',
         ]);
       case 2:
-        return true;
         return utils.isValidFormInput(values, errors, [
           'start',
           'estimatedEnd',
@@ -487,7 +490,12 @@ const NewProjectForm: React.FC = () => {
       case 2:
         return renderStep2();
       case 3:
-        return <ProjectObjectivesStep />;
+        return (
+          <ProjectObjectivesStep
+            data={objectives}
+            onChange={handleObjectiveChange}
+          />
+        );
       case 4:
         return <ProjectKPIsForm />;
       default:

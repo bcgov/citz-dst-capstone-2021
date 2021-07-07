@@ -37,7 +37,14 @@ const useStyles = makeStyles({
   },
 });
 
-const ProjectObjectivesStep: React.FC = () => {
+interface ProjectObjectStepProps {
+  onChange: (objectives: Objective[]) => void;
+  data: Objective[];
+}
+
+const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = (props) => {
+  const { onChange, data: existingObjectives } = props;
+
   const classes = useStyles();
 
   const [openObjective, setOpenObjective] = React.useState(false);
@@ -45,22 +52,26 @@ const ProjectObjectivesStep: React.FC = () => {
     setOpenObjective(true);
   };
 
-  const [objectives, setObjectives] = React.useState<Objective[]>([]);
+  const [objectives, setObjectives] = React.useState<Objective[]>(
+    existingObjectives || []
+  );
 
   const [cacheIndex, setCacheIndex] = React.useState(-1);
 
   const handleObjectiveModal = (data: Objective) => {
     setOpenObjective(false);
+    setCacheIndex(-1);
     if (!data) return;
-    console.log(data);
+    const list: Objective[] = [];
     if (cacheIndex >= 0) {
       // update
       objectives.splice(cacheIndex, 1, data);
-      setObjectives([...objectives]);
-      setCacheIndex(-1);
+      list.push(...objectives);
     } else {
-      setObjectives([...objectives, data]);
+      list.push(...objectives, data);
     }
+    setObjectives(list);
+    onChange(list);
   };
 
   const deleteObjective = (index: number) => {
