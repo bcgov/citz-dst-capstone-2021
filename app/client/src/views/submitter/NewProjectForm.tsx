@@ -31,13 +31,10 @@ import {
   StepLabel,
   Modal,
 } from '@material-ui/core';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import LuxonUtils from '@date-io/luxon';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { Milestone, Objective, User } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
@@ -45,7 +42,6 @@ import { validateNewProject } from '../../utils/validationSchema';
 import ProjectObjectivesStep from '../../components/projects/ProjectObjectivesStep';
 import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
 import AutoCompleteField from '../../components/common/AutoCompleteField';
-
 import utils from '../../utils';
 import NewMilestoneForm from '../../components/projects/NewMilestoneForm';
 import MilestoneItem from '../../components/projects/MilestoneItem';
@@ -85,11 +81,10 @@ const NewProjectForm: React.FC = () => {
   const [financialContact, setFinancialContact] = React.useState<User | null>(
     null
   );
-  const [startDate, setStartDate] = React.useState('');
-  const [startDateInput, setStartDateInput] = React.useState('');
-  const [estEndDate, setEstEndDate] = React.useState('');
-  const [estEndDateInput, setEstEndDateInput] = React.useState('');
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [estEndDate, setEstEndDate] = React.useState<Date | null>(null);
 
+  const [milestones, setMilestones] = React.useState<Milestone[]>([]);
   const [objectives, setObjectives] = React.useState<Objective[]>([]);
 
   React.useEffect(() => {
@@ -113,9 +108,26 @@ const NewProjectForm: React.FC = () => {
     },
     validationSchema: validateNewProject,
     onSubmit: (values) => {
-      api.createProject(values).then(() => {
-        history.push('/projects');
-      });
+      // TODO: (nick)
+      //  Option 1: call just one api endpoint with all data and use transaction
+      //  Option 2: display the steps of the process and the results
+      //
+      return (
+        api
+          .createProject(values)
+          // .then((project) => {
+          //   return api.getReports(project.id);
+          // })
+          // .then((reports) => {
+          //   const report = reports[0];
+          //   report.milestones = milestones;
+          //   report.objectives = objectives;
+          //   return api.updateReport(report);
+          // })
+          .then(() => {
+            history.push('/projects');
+          })
+      );
     },
   });
 
@@ -142,7 +154,6 @@ const NewProjectForm: React.FC = () => {
   };
 
   // prepare modal windows
-  const [milestones, setMilestones] = React.useState<Milestone[]>([]);
   const [openMilestone, setOpenMilestone] = React.useState(false);
   const openMilestoneModal = () => {
     setOpenMilestone(true);
@@ -397,71 +408,68 @@ const NewProjectForm: React.FC = () => {
   const renderStep2 = () => {
     return (
       <Container maxWidth="sm">
-        <Typography variant="h5" align="center">
-          Project Timeline Information
-        </Typography>
+        <Box mb={4}>
+          <Typography variant="h5" align="center">
+            Project Timeline Information
+          </Typography>
+        </Box>
         <Box
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
-          mt={3}
+          mb={4}
         >
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              autoOk
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="start"
-              name="start"
-              label={values.start ? ' ' : 'Start'}
-              value={startDate}
-              inputValue={startDateInput}
-              onChange={(date, value) => {
+          {/* TODO: (nick) Fix -> Warning: A component is changing an uncontrolled input to be controlled.
+            This is likely caused by the value changing from undefined to a defined value, which should not happen. */}
+          {/* TODO: (nick) Fix: it doesn't display errors like https://material-ui-pickers.dev/demo/datepicker */}
+          <KeyboardDatePicker
+            autoOk
+            size="small"
+            variant="inline"
+            inputVariant="outlined"
+            format="yyyy/MM/dd"
+            id="start"
+            name="start"
+            label="Start Date"
+            value={startDate}
+            onChange={(date) => {
+              if (date && !date.invalid) {
                 setStartDate(date);
-                setStartDateInput(String(value || ''));
-                formik.setFieldValue('start', date?.toISODate() || '');
-              }}
-              error={touched.start && Boolean(errors.start)}
-              helperText={touched.start && errors.start}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              autoOk
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="estimatedEnd"
-              name="estimatedEnd"
-              label={estEndDate ? ' ' : 'Estimated Completion'}
-              value={estEndDate}
-              inputValue={estEndDateInput}
-              onChange={(date, value) => {
+                formik.setFieldValue('start', date.toISODate());
+              } else {
+                setStartDate(null);
+                formik.setFieldValue('start', '');
+              }
+            }}
+          />
+          <KeyboardDatePicker
+            autoOk
+            size="small"
+            variant="inline"
+            inputVariant="outlined"
+            format="yyyy/MM/dd"
+            id="estimatedEnd"
+            name="estimatedEnd"
+            label="Estimated Completion"
+            value={estEndDate}
+            onChange={(date) => {
+              if (date && !date.invalid) {
                 setEstEndDate(date);
-                setEstEndDateInput(String(value || ''));
-                formik.setFieldValue('estimatedEnd', date?.toISODate() || '');
-              }}
-              error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
-              helperText={touched.estimatedEnd && errors.estimatedEnd}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
+                formik.setFieldValue('estimatedEnd', date.toISODate());
+              } else {
+                setEstEndDate(null);
+                formik.setFieldValue('estimatedEnd', '');
+              }
+            }}
+          />
         </Box>
-        <Box>
+        <Box my={2}>
           {milestones.map((milestone, index) => {
             return (
               <MilestoneItem
                 deleteItem={deleteMilestone(index)}
                 editItem={editMilestone(index)}
-                {...milestone}
+                milestone={milestone}
                 key={milestone.name}
               />
             );
@@ -551,6 +559,8 @@ const NewProjectForm: React.FC = () => {
           </Container>
         </form>
       </div>
+      {/* TODO: (nick) Fix -> Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+Check the render method of `Unstable_TrapFocus`. */}
       <Modal disableEnforceFocus open={openMilestone} className={classes.modal}>
         <NewMilestoneForm
           milestone={milestones[cacheIndex]}

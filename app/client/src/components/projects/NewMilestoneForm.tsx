@@ -28,11 +28,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import LuxonUtils from '@date-io/luxon';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 
@@ -57,12 +53,22 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
 
   const classes = useStyles();
 
-  const defaultStartDate = milestone?.start || '';
-  const defaultEndDate = milestone?.estimatedEnd || '';
-  const [startDate, setStartDate] = React.useState(defaultStartDate);
-  const [startDateInput, setStartDateInput] = React.useState(defaultStartDate);
-  const [estEndDate, setEstEndDate] = React.useState(defaultEndDate);
-  const [estEndDateInput, setEstEndDateInput] = React.useState(defaultEndDate);
+  const defaultStartDate = milestone?.start ? new Date(milestone.start) : null;
+  const [startDate, setStartDate] = React.useState<Date | null>(
+    defaultStartDate
+  );
+  const defaultEndDate = milestone?.estimatedEnd
+    ? new Date(milestone.estimatedEnd)
+    : null;
+  const [estEndDate, setEstEndDate] = React.useState<Date | null>(
+    defaultEndDate
+  );
+  // if (milestone?.start) {
+  //   setStartDate(new Date(milestone.start));
+  // }
+  // if (milestone?.estimatedEnd) {
+  //   setStartDate(new Date(milestone.estimatedEnd));
+  // }
 
   const cancel = () => {
     closeModal(null);
@@ -103,7 +109,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
   };
 
   return (
-    <Box minWidth="500px" style={{ backgroundColor: 'white', padding: '40px' }}>
+    <Box maxWidth="520px" style={{ backgroundColor: 'white' }} p={4}>
       <Box display="flex" justifyContent="center" my={3}>
         <Typography variant="h5">Create New Milestone</Typography>
       </Box>
@@ -122,69 +128,58 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
             helperText={touched.name && errors.name}
           />
         </Box>
-        <Box display="flex" justifyContent="space-between" my={1}>
+        <Box display="flex" justifyContent="space-between" mt={3}>
           <Box mr={2}>
-            <MuiPickersUtilsProvider utils={LuxonUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                autoOk
-                size="small"
-                variant="inline"
-                format="yyyy/MM/dd"
-                margin="normal"
-                id="start"
-                name="start"
-                label={values.start ? ' ' : 'Start'}
-                value={startDate}
-                inputValue={startDateInput}
-                onChange={(date, value) => {
+            <KeyboardDatePicker
+              autoOk
+              size="small"
+              variant="inline"
+              inputVariant="outlined"
+              format="yyyy/MM/dd"
+              id="start"
+              name="start"
+              label="Start"
+              value={startDate}
+              onChange={(date) => {
+                if (date && !date.invalid) {
                   setStartDate(date);
-                  setStartDateInput(String(value || ''));
-                  formik.setFieldValue('start', date?.toISODate() || '');
-                }}
-                error={touched.start && Boolean(errors.start)}
-                helperText={touched.start && errors.start}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
+                  formik.setFieldValue('start', date.toISODate());
+                } else {
+                  setStartDate(null);
+                  formik.setFieldValue('start', '');
+                }
+              }}
+            />
           </Box>
-          <Box>
-            <MuiPickersUtilsProvider utils={LuxonUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                autoOk
-                size="small"
-                variant="inline"
-                format="yyyy/MM/dd"
-                margin="normal"
-                id="estimatedEnd"
-                name="estimatedEnd"
-                label={estEndDate ? ' ' : 'Planned Finish Date'}
-                value={estEndDate}
-                inputValue={estEndDateInput}
-                onChange={(date, value) => {
+          <Box ml={2}>
+            <KeyboardDatePicker
+              autoOk
+              size="small"
+              variant="inline"
+              format="yyyy/MM/dd"
+              inputVariant="outlined"
+              id="estimatedEnd"
+              name="estimatedEnd"
+              label="Planned Finish Date"
+              value={estEndDate}
+              onChange={(date) => {
+                if (date && !date.invalid) {
                   setEstEndDate(date);
-                  setEstEndDateInput(String(value || ''));
-                  formik.setFieldValue('estimatedEnd', date?.toISODate() || '');
-                }}
-                error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
-                helperText={touched.estimatedEnd && errors.estimatedEnd}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
+                  formik.setFieldValue('estimatedEnd', date.toISODate());
+                } else {
+                  setStartDate(null);
+                  formik.setFieldValue('estimatedEnd', '');
+                }
+              }}
+            />
           </Box>
         </Box>
-        <Box>
+        <Box mt={2}>
           <TextField
             fullWidth
             id="comments"
             name="comments"
-            label="comments"
-            multiline
+            label="Comments"
             rows={3}
             value={values.comments}
             onChange={handleChange}
@@ -193,7 +188,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
             helperText={touched.comments && errors.name}
           />
         </Box>
-        <Box my={3}>
+        <Box mt={3}>
           <GridList cols={3} cellHeight={80}>
             <GridListTile cols={1}>
               <TextField

@@ -150,3 +150,41 @@ export interface Objective {
   asset: string;
   comments: string;
 }
+
+export enum Quarter {
+  Q1 = 'Q1',
+  Q2 = 'Q2',
+  Q3a = 'Q3a',
+  Q3b = 'Q3b',
+  Q4 = 'Q4',
+}
+
+export enum ReportState {
+  Draft,
+  Review,
+  Submitted,
+}
+
+export interface ReportStatus {
+  id?: string;
+  type: StatusType;
+  status: Status;
+  trend: Trend;
+  comments: string;
+}
+
+export interface Report {
+  id?: string;
+  submitter?: string;
+  submittedAt?: Date;
+  year: number;
+  quarter: Quarter;
+  projectId: string;
+  state: ReportState;
+  phase: string;
+  progress: number;
+  estimatedEnd?: Date;
+  milestones: Milestone[];
+  objectives: Objective[];
+  statuses: ReportStatus[];
+}

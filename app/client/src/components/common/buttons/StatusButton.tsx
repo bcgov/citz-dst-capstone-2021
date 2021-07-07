@@ -30,21 +30,33 @@ const useStyles = makeStyles({
 const StatusButton: React.FC<StatusButtonProps> = (props) => {
   const { status } = props;
   const classes = useStyles();
+
   let statusStyle = classes.green;
   let text = 'Green';
-  if (status === Status.Yellow || status === MilestoneStatus.Yellow) {
-    statusStyle = classes.yellow;
-    text = 'Yellow';
-  } else if (status === Status.Red || status === MilestoneStatus.Red) {
-    statusStyle = classes.red;
-    text = 'Red';
-  } else if (status === MilestoneStatus.NotStarted) {
-    statusStyle = classes.grey;
-    text = 'Not Started';
-  } else if (status === MilestoneStatus.Completed) {
-    statusStyle = classes.blue;
-    text = 'Completed';
+
+  switch (+status) {
+    case Status.Yellow:
+    case MilestoneStatus.Yellow:
+      statusStyle = classes.yellow;
+      text = 'Yellow';
+      break;
+    case Status.Red:
+    case MilestoneStatus.Red:
+      statusStyle = classes.red;
+      text = 'Red';
+      break;
+    case MilestoneStatus.NotStarted:
+      statusStyle = classes.grey;
+      text = 'Not Started';
+      break;
+    case MilestoneStatus.Completed:
+      statusStyle = classes.blue;
+      text = 'Completed';
+      break;
+    default:
+      break;
   }
+
   return (
     <Button
       variant="contained"
