@@ -83,7 +83,6 @@ export enum MilestoneStatus {
 export interface Milestone {
   id?: string;
   name: string;
-  description: string;
   status: MilestoneStatus;
   start: Date;
   estimatedEnd?: Date;
@@ -97,5 +96,7 @@ export interface Objective {
   description: string;
   estimatedEnd: Date;
   status: Status;
+  phase: string;
+  asset: string;
   comments: string;
 }

@@ -36,6 +36,14 @@ class ObjectiveDTO implements Objective {
   @IsOptional()
   @IsEnum(Status)
   status: Status;
+
+  @IsOptional()
+  @IsString()
+  phase: string;
+
+  @IsOptional()
+  @IsString()
+  asset: string;
 }
 
 export default ObjectiveDTO;

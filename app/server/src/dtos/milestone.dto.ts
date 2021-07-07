@@ -23,9 +23,6 @@ class MilestoneDTO implements Milestone {
   @IsString()
   comments: string;
 
-  @IsString()
-  description: string;
-
   @IsDate()
   @Type(() => Date)
   estimatedEnd: Date;

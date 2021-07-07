@@ -129,9 +129,8 @@ export interface Project extends NewProject {
 
 export interface NewMilestone {
   name: string;
-  description: string;
-  start: Date;
-  estimatedEnd?: Date;
+  start: string;
+  estimatedEnd: string;
   comments: string;
 }
 
@@ -139,4 +138,15 @@ export interface Milestone extends NewMilestone {
   id?: string;
   status: MilestoneStatus;
   progress: number;
+}
+
+export interface Objective {
+  id?: string;
+  name: string;
+  description: string;
+  estimatedEnd: string;
+  status: Status;
+  phase: string;
+  asset: string;
+  comments: string;
 }

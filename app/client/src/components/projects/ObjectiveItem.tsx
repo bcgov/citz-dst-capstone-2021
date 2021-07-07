@@ -25,8 +25,8 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
-import theme from '../../theme';
-import { Milestone } from '../../types';
+
+import { Objective } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
 const useStyles = makeStyles({
@@ -37,7 +37,6 @@ const useStyles = makeStyles({
     height: 36,
     padding: '8px',
   },
-
   body: {
     border: 1,
     borderTop: 0,
@@ -46,19 +45,20 @@ const useStyles = makeStyles({
   },
 });
 
-interface MilestoneItemProps extends Milestone {
+interface ObjectiveItemProps extends Objective {
   deleteItem: () => void;
   editItem: () => void;
 }
 
-const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
+const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
   const {
     name,
+    description,
     status,
-    start,
     estimatedEnd,
-    progress,
     comments,
+    phase,
+    asset,
     deleteItem,
     editItem,
   } = props;
@@ -69,12 +69,16 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
     <Box>
       <Box
         display="flex"
-        bgcolor={theme.colors.grey}
         justifyContent="space-between"
         alignItems="center"
         className={classes.header}
       >
-        <Typography variant="h6">{name}</Typography>
+        <Box display="flex" alignItems="center">
+          <Typography variant="h6">{name}</Typography>
+          <Typography variant="subtitle1" style={{ marginLeft: '8px' }}>
+            {description}
+          </Typography>
+        </Box>
         <Box display="flex">
           <IconButton size="small" onClick={deleteItem}>
             <DeleteIcon />
@@ -87,37 +91,31 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
       <Box className={classes.body}>
         <GridList cols={2} cellHeight={140}>
           <GridListTile cols={1}>
-            <Box flexDirection="column" p={1} mr={2}>
-              <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Progress</Typography>
-                <Typography>{`${progress}%`}</Typography>
-              </Box>
+            <Box flexDirection="column" p={1} mr={1}>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Status</Typography>
                 <StatusButton status={status} />
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Start Date</Typography>
-                <Typography>{start}</Typography>
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography variant="subtitle1">Planned Finish Date</Typography>
+                <Typography variant="subtitle1">
+                  Target Completion Date
+                </Typography>
                 <Typography>{estimatedEnd}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Phase</Typography>
+                <Typography>{phase}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Asset</Typography>
+                <Typography>{asset}</Typography>
               </Box>
             </Box>
           </GridListTile>
           <GridListTile cols={1}>
             <Box p={1}>
-              <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Comments</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="body1">{comments}</Typography>
-              </Box>
+              <Typography variant="subtitle1">Comments</Typography>
+              <Typography variant="body1">{comments}</Typography>
             </Box>
           </GridListTile>
         </GridList>
@@ -126,4 +124,4 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
   );
 };
 
-export default MilestoneItem;
+export default ObjectiveItem;

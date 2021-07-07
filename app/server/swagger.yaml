@@ -1013,6 +1013,10 @@ components:
         estimatedEnd:
           type: string
           format: date
+        phase:
+          type: string
+        asset:
+          type: string
         comments:
           type: string
       required:

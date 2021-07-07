@@ -33,27 +33,58 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
-import { validateNewProject } from '../../utils/validationSchema';
+import { makeStyles } from '@material-ui/core/styles';
+import _ from 'lodash';
+
+import { validateMilestone } from '../../utils/validationSchema';
 import { Milestone, MilestoneStatus } from '../../types';
 
-const NewMilestoneForm: React.FC<Milestone> = (props) => {
-  const [startDate, setStartDate] = React.useState('');
-  const [startDateInput, setStartDateInput] = React.useState('');
-  const [estEndDate, setEstEndDate] = React.useState('');
-  const [estEndDateInput, setEstEndDateInput] = React.useState('');
+const useStyles = makeStyles({
+  button: {
+    margin: '24px',
+    width: '140px',
+    textTransform: 'none',
+  },
+});
+
+interface NewMilestoneFormProps {
+  closeModal: (data: any) => void;
+  milestone: Milestone | null;
+}
+
+const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
+  const { closeModal, milestone } = props;
+
+  const classes = useStyles();
+
+  const defaultStartDate = milestone?.start || '';
+  const defaultEndDate = milestone?.estimatedEnd || '';
+  const [startDate, setStartDate] = React.useState(defaultStartDate);
+  const [startDateInput, setStartDateInput] = React.useState(defaultStartDate);
+  const [estEndDate, setEstEndDate] = React.useState(defaultEndDate);
+  const [estEndDateInput, setEstEndDateInput] = React.useState(defaultEndDate);
+
+  const cancel = () => {
+    closeModal(null);
+  };
+
+  const initialValues = milestone
+    ? _.cloneDeep(milestone)
+    : {
+        name: '',
+        start: '',
+        status: MilestoneStatus.Green,
+        estimatedEnd: '',
+        progress: 0,
+        comments: '',
+      };
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      description: '',
-      start: '',
-      status: MilestoneStatus.Green,
-      estimatedEnd: '',
-      progress: 0,
-      comments: '',
+    initialValues,
+    validationSchema: validateMilestone,
+    onSubmit: (values) => {
+      closeModal(values);
     },
-    validationSchema: validateNewProject,
-    onSubmit: () => {},
   });
 
   const {
@@ -66,9 +97,14 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
     handleBlur,
   } = formik;
 
+  // TODO: (nick) FIXME: isValid doesn't work
+  const validate = (): boolean => {
+    return !!(isValid && values.name && values.start && values.estimatedEnd);
+  };
+
   return (
-    <Box maxWidth="500px">
-      <Box display="flex" justifyContent="center">
+    <Box minWidth="500px" style={{ backgroundColor: 'white', padding: '40px' }}>
+      <Box display="flex" justifyContent="center" my={3}>
         <Typography variant="h5">Create New Milestone</Typography>
       </Box>
       <form onSubmit={handleSubmit}>
@@ -87,54 +123,60 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
           />
         </Box>
         <Box display="flex" justifyContent="space-between" my={1}>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              autoOk
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="start"
-              name="start"
-              label={values.start ? ' ' : 'Start'}
-              value={startDate}
-              inputValue={startDateInput}
-              onChange={(date, value) => {
-                setStartDate(date);
-                setStartDateInput(String(value || ''));
-                formik.setFieldValue('start', date?.toISODate() || '');
-              }}
-              error={touched.start && Boolean(errors.start)}
-              helperText={touched.start && errors.start}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              autoOk
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="estimatedEnd"
-              name="estimatedEnd"
-              label={estEndDate ? ' ' : 'Planned Finish Date'}
-              value={estEndDate}
-              inputValue={estEndDateInput}
-              onChange={(date, value) => {
-                setEstEndDate(date);
-                setEstEndDateInput(String(value || ''));
-                formik.setFieldValue('estimatedEnd', date?.toISODate() || '');
-              }}
-              error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
-              helperText={touched.estimatedEnd && errors.estimatedEnd}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
+          <Box mr={2}>
+            <MuiPickersUtilsProvider utils={LuxonUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                autoOk
+                size="small"
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="start"
+                name="start"
+                label={values.start ? ' ' : 'Start'}
+                value={startDate}
+                inputValue={startDateInput}
+                onChange={(date, value) => {
+                  setStartDate(date);
+                  setStartDateInput(String(value || ''));
+                  formik.setFieldValue('start', date?.toISODate() || '');
+                }}
+                error={touched.start && Boolean(errors.start)}
+                helperText={touched.start && errors.start}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </Box>
+          <Box>
+            <MuiPickersUtilsProvider utils={LuxonUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                autoOk
+                size="small"
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="estimatedEnd"
+                name="estimatedEnd"
+                label={estEndDate ? ' ' : 'Planned Finish Date'}
+                value={estEndDate}
+                inputValue={estEndDateInput}
+                onChange={(date, value) => {
+                  setEstEndDate(date);
+                  setEstEndDateInput(String(value || ''));
+                  formik.setFieldValue('estimatedEnd', date?.toISODate() || '');
+                }}
+                error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
+                helperText={touched.estimatedEnd && errors.estimatedEnd}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </Box>
         </Box>
         <Box>
           <TextField
@@ -196,17 +238,19 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
           <Button
             variant="contained"
             color="primary"
-            style={{ marginRight: '24px', width: '140px' }}
+            className={classes.button}
+            onClick={cancel}
           >
             Cancel
           </Button>
           <Button
             variant="contained"
             color="primary"
-            style={{ width: '160px' }}
-            disabled={!isValid}
+            className={classes.button}
+            disabled={!validate()}
+            type="submit"
           >
-            Add Milestone
+            {milestone ? 'Update' : 'Add Milestone'}
           </Button>
         </Box>
       </form>
