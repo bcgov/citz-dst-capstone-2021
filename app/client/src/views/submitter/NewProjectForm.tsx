@@ -29,6 +29,7 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Modal,
 } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
@@ -36,15 +37,18 @@ import {
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import { useHistory } from 'react-router-dom';
-import { User } from '../../types';
+import { makeStyles } from '@material-ui/core/styles';
+import { Milestone, User } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
-import ProjectObjectivesForm from '../../components/projects/ProjectObjectivesForm';
+import ProjectObjectivesStep from '../../components/projects/ProjectObjectivesStep';
 import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
 import AutoCompleteField from '../../components/common/AutoCompleteField';
 
 import utils from '../../utils';
+import NewMilestoneForm from '../../components/projects/NewMilestoneForm';
+import MilestoneItem from '../../components/projects/MilestoneItem';
 
 // TODO: Move to constants file
 const steps = [
@@ -55,10 +59,19 @@ const steps = [
   'KPIs',
 ];
 
+const useStyles = makeStyles({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
 const NewProjectForm: React.FC = () => {
   // Form functionality with formik & api
   const history = useHistory();
   const api = useApi();
+  const classes = useStyles();
 
   // for the stepper
   const [activeStep, setActiveStep] = React.useState(0);
@@ -126,14 +139,51 @@ const NewProjectForm: React.FC = () => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleNewMilestone = () => {
-    // eslint-disable-next-line no-alert
-    alert('TODO: implement milestone modal');
+  // prepare modal windows
+  const [milestones, setMilestones] = React.useState<Milestone[]>([]);
+  const [openMilestone, setOpenMilestone] = React.useState(false);
+  const openMilestoneModal = () => {
+    setOpenMilestone(true);
+  };
+
+  const [cacheIndex, setCacheIndex] = React.useState(-1);
+  const editMilestone = (index: number) => {
+    return () => {
+      if (index >= 0) {
+        setCacheIndex(index);
+        setOpenMilestone(true);
+      }
+    };
+  };
+
+  const deleteMilestone = (index: number) => {
+    return () => {
+      if (index >= 0) {
+        console.log('deleting ', index);
+        milestones.splice(index, 1);
+        setMilestones([...milestones]);
+      }
+    };
+  };
+
+  const handleMilestoneModal = (data: Milestone) => {
+    setOpenMilestone(false);
+    if (!data) return;
+    if (cacheIndex >= 0) {
+      // update
+      milestones.splice(cacheIndex, 1, data);
+      setMilestones([...milestones]);
+      setCacheIndex(-1);
+    } else {
+      // add
+      setMilestones([...milestones, data]);
+    }
   };
 
   const isNextValid = (): boolean => {
     switch (activeStep) {
       case 0:
+        return true;
         return utils.isValidFormInput(values, errors, [
           'name',
           'cpsIdentifier',
@@ -142,12 +192,14 @@ const NewProjectForm: React.FC = () => {
           'projectNumber',
         ]);
       case 1:
+        return true;
         return utils.isValidFormInput(values, errors, [
           'sponsor',
           'manager',
           'financialContact',
         ]);
       case 2:
+        return true;
         return utils.isValidFormInput(values, errors, [
           'start',
           'estimatedEnd',
@@ -263,7 +315,7 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.manager = value.id;
+            formik.setFieldValue('manager', value?.id);
             setManager(value);
           }}
           getOptionSelected={(item, current) => {
@@ -288,7 +340,7 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.sponsor = value?.id;
+            formik.setFieldValue('sponsor', value?.id);
             setSponsor(value);
           }}
           getOptionSelected={(item, current) => {
@@ -313,7 +365,7 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.financialContact = value?.id;
+            formik.setFieldValue('financialContact', value?.id);
             setFinancialContact(value);
           }}
           getOptionSelected={(item, current) => {
@@ -401,12 +453,24 @@ const NewProjectForm: React.FC = () => {
             />
           </MuiPickersUtilsProvider>
         </Box>
+        <Box>
+          {milestones.map((milestone, index) => {
+            return (
+              <MilestoneItem
+                deleteItem={deleteMilestone(index)}
+                editItem={editMilestone(index)}
+                {...milestone}
+                key={milestone.name}
+              />
+            );
+          })}
+        </Box>
         <FormControl margin="normal" fullWidth>
           <Button
             color="primary"
             variant="contained"
             type="button"
-            onClick={handleNewMilestone}
+            onClick={openMilestoneModal}
           >
             Add New Milestone
           </Button>
@@ -424,7 +488,7 @@ const NewProjectForm: React.FC = () => {
       case 2:
         return renderStep2();
       case 3:
-        return <ProjectObjectivesForm />;
+        return <ProjectObjectivesStep />;
       case 4:
         return <ProjectKPIsForm />;
       default:
@@ -480,6 +544,12 @@ const NewProjectForm: React.FC = () => {
           </Container>
         </form>
       </div>
+      <Modal disableEnforceFocus open={openMilestone} className={classes.modal}>
+        <NewMilestoneForm
+          milestone={milestones[cacheIndex]}
+          closeModal={handleMilestoneModal}
+        />
+      </Modal>
     </Container>
   );
 };

@@ -40,7 +40,7 @@ const cpsIdentifier = yup
 const projectNumber = yup.string().min(2).max(10);
 // .length(10, 'Project Number Must Be 10 Characters Long!');
 
-const textField = yup.string().max(200, 'Too Long!');
+const textField = yup.string().max(400, 'Too Long!');
 
 const ministry = yup.string().required();
 
@@ -78,4 +78,13 @@ export const validateNewProject = yup.object({
   start: date,
   end: date,
   estimatedEnd: date,
+});
+
+export const validateMilestone = yup.object({
+  name,
+  description: textField,
+  start: date,
+  estimatedEnd: date,
+  progress,
+  comments: textField,
 });

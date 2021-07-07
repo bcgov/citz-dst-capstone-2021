@@ -43,7 +43,7 @@ const useStyles = makeStyles({
   },
 });
 
-const NewObjectiveForm: React.FC<Objective> = (props) => {
+const NewObjectiveForm: React.FC = (props) => {
   const classes = useStyles();
 
   const [estEndDate, setEstEndDate] = React.useState('');

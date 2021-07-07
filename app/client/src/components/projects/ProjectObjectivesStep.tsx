@@ -15,13 +15,23 @@
 //
 
 import React from 'react';
-import { Container, FormControl, Typography, Button } from '@material-ui/core';
-// import DateFnsUtils from '@date-io/date-fns';
+import {
+  Container,
+  FormControl,
+  Typography,
+  Button,
+  Modal,
+} from '@material-ui/core';
+import NewObjectiveForm from './NewObjectiveForm';
 
-const ProjectObjectivesForm: React.FC = () => {
-  const handleNewMilestone = () => {
-    // eslint-disable-next-line no-alert
-    alert('TODO: implement business case objectives form modal');
+const ProjectObjectivesStep: React.FC = () => {
+  const [openObjective, setOpenObjective] = React.useState(false);
+  const openObjectiveModal = () => {
+    setOpenObjective(true);
+  };
+
+  const addObjective = (data: any) => {
+    console.log(data);
   };
 
   return (
@@ -34,13 +44,16 @@ const ProjectObjectivesForm: React.FC = () => {
           color="primary"
           variant="contained"
           type="button"
-          onClick={handleNewMilestone}
+          onClick={openObjectiveModal}
         >
           Add New Objective
         </Button>
       </FormControl>
+      <Modal open={openObjective} onClose={addObjective}>
+        <NewObjectiveForm />
+      </Modal>
     </Container>
   );
 };
 
-export default ProjectObjectivesForm;
+export default ProjectObjectivesStep;

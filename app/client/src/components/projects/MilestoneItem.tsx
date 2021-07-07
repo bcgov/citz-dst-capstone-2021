@@ -17,7 +17,6 @@
 import React from 'react';
 import {
   Box,
-  Button,
   GridList,
   GridListTile,
   IconButton,
@@ -27,7 +26,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import theme from '../../theme';
-import { Milestone, MilestoneStatus } from '../../types';
+import { Milestone } from '../../types';
+import StatusButton from '../common/buttons/StatusButton';
 
 const useStyles = makeStyles({
   header: {
@@ -46,8 +46,23 @@ const useStyles = makeStyles({
   },
 });
 
-const MilestoneItem: React.FC<Milestone> = () => {
-  // const { name, description, status, start, estimatedEnd, progress, comments } = props;
+interface MilestoneItemProps extends Milestone {
+  deleteItem: () => void;
+  editItem: () => void;
+}
+
+const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
+  const {
+    name,
+    description,
+    status,
+    start,
+    estimatedEnd,
+    progress,
+    comments,
+    deleteItem,
+    editItem,
+  } = props;
 
   const classes = useStyles();
 
@@ -60,12 +75,12 @@ const MilestoneItem: React.FC<Milestone> = () => {
         alignItems="center"
         className={classes.header}
       >
-        <Typography variant="h6">Milestone 1</Typography>
+        <Typography variant="h6">{name}</Typography>
         <Box display="flex">
-          <IconButton size="small">
+          <IconButton size="small" onClick={deleteItem}>
             <DeleteIcon />
           </IconButton>
-          <IconButton size="small">
+          <IconButton size="small" onClick={editItem}>
             <EditIcon />
           </IconButton>
         </Box>
@@ -76,33 +91,34 @@ const MilestoneItem: React.FC<Milestone> = () => {
             <Box flexDirection="column" p={1} mr={2}>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Progress</Typography>
-                <Typography>10%</Typography>
+                <Typography>{`${progress}%`}</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Status</Typography>
-                <Button
-                  variant="contained"
-                  disabled
-                  size="small"
-                  style={{ borderRadius: '20px' }}
-                >
-                  Green
-                </Button>
+                <StatusButton status={status} />
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Start Date</Typography>
-                <Typography>2021/20/30</Typography>
+                <Typography>{start}</Typography>
               </Box>
-              <Box display="flex" justifyContent="space-between" mb={1}>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <Typography variant="subtitle1">Planned Finish Date</Typography>
-                <Typography>2021/20/30</Typography>
+                <Typography>{estimatedEnd}</Typography>
               </Box>
             </Box>
           </GridListTile>
           <GridListTile cols={1}>
             <Box p={1}>
-              <Typography variant="subtitle1">Comments</Typography>
-              <Typography variant="body1" />
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Comments</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="body1">{comments}</Typography>
+              </Box>
             </Box>
           </GridListTile>
         </GridList>

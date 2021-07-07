@@ -34,7 +34,12 @@ import {
 } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import { makeStyles } from '@material-ui/core/styles';
-import { validateNewProject } from '../../utils/validationSchema';
+import _ from 'lodash';
+
+import {
+  validateMilestone,
+  validateNewProject,
+} from '../../utils/validationSchema';
 import { Milestone, MilestoneStatus } from '../../types';
 
 const useStyles = makeStyles({
@@ -45,26 +50,45 @@ const useStyles = makeStyles({
   },
 });
 
-const NewMilestoneForm: React.FC<Milestone> = (props) => {
+interface NewMilestoneFormProps {
+  closeModal: (data: any) => void;
+  milestone: Milestone | null;
+}
+
+const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
+  const { closeModal, milestone } = props;
+
   const classes = useStyles();
 
-  const [startDate, setStartDate] = React.useState('');
-  const [startDateInput, setStartDateInput] = React.useState('');
-  const [estEndDate, setEstEndDate] = React.useState('');
-  const [estEndDateInput, setEstEndDateInput] = React.useState('');
+  const defaultStartDate = milestone?.start || '';
+  const defaultEndDate = milestone?.estimatedEnd || '';
+  const [startDate, setStartDate] = React.useState(defaultStartDate);
+  const [startDateInput, setStartDateInput] = React.useState(defaultStartDate);
+  const [estEndDate, setEstEndDate] = React.useState(defaultEndDate);
+  const [estEndDateInput, setEstEndDateInput] = React.useState(defaultEndDate);
+
+  const cancel = () => {
+    closeModal(null);
+  };
+
+  const initialValues = milestone
+    ? _.cloneDeep(milestone)
+    : {
+        name: '',
+        description: '',
+        start: new Date(),
+        status: MilestoneStatus.Green,
+        estimatedEnd: '',
+        progress: 0,
+        comments: '',
+      };
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      description: '',
-      start: '',
-      status: MilestoneStatus.Green,
-      estimatedEnd: '',
-      progress: 0,
-      comments: '',
+    initialValues,
+    validationSchema: validateMilestone,
+    onSubmit: (values) => {
+      closeModal(values);
     },
-    validationSchema: validateNewProject,
-    onSubmit: () => {},
   });
 
   const {
@@ -78,8 +102,8 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
   } = formik;
 
   return (
-    <Box maxWidth="500px">
-      <Box display="flex" justifyContent="center">
+    <Box maxWidth="500px" style={{ backgroundColor: 'white', padding: '40px' }}>
+      <Box display="flex" justifyContent="center" my={3}>
         <Typography variant="h5">Create New Milestone</Typography>
       </Box>
       <form onSubmit={handleSubmit}>
@@ -208,6 +232,7 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
             variant="contained"
             color="primary"
             className={classes.button}
+            onClick={cancel}
           >
             Cancel
           </Button>
@@ -216,8 +241,9 @@ const NewMilestoneForm: React.FC<Milestone> = (props) => {
             color="primary"
             className={classes.button}
             disabled={!isValid}
+            type="submit"
           >
-            Add Milestone
+            {milestone ? 'Update' : 'Add Milestone'}
           </Button>
         </Box>
       </form>
