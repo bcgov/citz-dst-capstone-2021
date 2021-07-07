@@ -17,7 +17,7 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 
-import { AuthRequest, AuthResponse, Project, User } from '../types';
+import { AuthRequest, AuthResponse, Project, Report, User } from '../types';
 import { API } from '../constants';
 
 const api: { current: AxiosInstance } = {
@@ -87,6 +87,20 @@ const useApi = () => {
     createProject(project: any): Promise<Project> {
       if (!api.current) throw new Error('axios not set up');
       return api.current.post(`projects`, project).then(({ data }) => data);
+    },
+
+    getReports(projectId: string): Promise<Report[]> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current
+        .get(`reports`, { params: { projectId } })
+        .then(({ data }) => data);
+    },
+
+    updateReport(report: Report): Promise<Report> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current
+        .patch(`reports/${report.id}`, report)
+        .then(({ data }) => data);
     },
   };
 };

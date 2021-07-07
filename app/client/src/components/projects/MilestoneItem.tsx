@@ -46,23 +46,15 @@ const useStyles = makeStyles({
   },
 });
 
-interface MilestoneItemProps extends Milestone {
+interface MilestoneItemProps {
   deleteItem: () => void;
   editItem: () => void;
+  milestone: Milestone;
 }
 
 const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
-  const {
-    name,
-    status,
-    start,
-    estimatedEnd,
-    progress,
-    comments,
-    deleteItem,
-    editItem,
-  } = props;
-
+  const { milestone, deleteItem, editItem } = props;
+  const { name, status, start, estimatedEnd, progress, comments } = milestone;
   const classes = useStyles();
 
   return (

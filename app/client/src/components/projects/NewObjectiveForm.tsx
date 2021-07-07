@@ -26,17 +26,10 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import LuxonUtils from '@date-io/luxon';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
-import {
-  validateNewProject,
-  validateObjective,
-} from '../../utils/validationSchema';
+import { validateObjective } from '../../utils/validationSchema';
 import { MilestoneStatus, Objective, Status } from '../../types';
 
 const useStyles = makeStyles({
@@ -56,9 +49,12 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
   const { closeModal, objective } = props;
   const classes = useStyles();
 
-  const defaultEndDate = objective?.estimatedEnd || '';
-  const [estEndDate, setEstEndDate] = React.useState(defaultEndDate);
-  const [estEndDateInput, setEstEndDateInput] = React.useState(defaultEndDate);
+  const defaultEndData = objective?.estimatedEnd
+    ? new Date(objective.estimatedEnd)
+    : null;
+  const [estEndDate, setEstEndDate] = React.useState<Date | null>(
+    defaultEndData
+  );
 
   const cancel = () => {
     closeModal(null);
@@ -106,7 +102,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
   };
 
   return (
-    <Box minWidth="500px" style={{ backgroundColor: 'white', padding: '20px' }}>
+    <Box minWidth="520px" style={{ backgroundColor: 'white' }} p={4}>
       <Box display="flex" justifyContent="center">
         <Typography variant="h5">Create New Objective</Typography>
       </Box>
@@ -144,7 +140,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
             fullWidth
             id="comments"
             name="comments"
-            label="comments"
+            label="Comments"
             multiline
             rows={3}
             value={values.comments}
@@ -155,31 +151,27 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
           />
         </Box>
         <Box my={1} display="flex" justifyContent="space-between">
-          <Box>
-            <MuiPickersUtilsProvider utils={LuxonUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                autoOk
-                variant="inline"
-                format="yyyy/MM/dd"
-                margin="normal"
-                id="estimatedEnd"
-                name="estimatedEnd"
-                label={estEndDate ? ' ' : 'Target Completion Date'}
-                value={estEndDate}
-                inputValue={estEndDateInput}
-                onChange={(date, value) => {
+          <Box mt={3}>
+            <KeyboardDatePicker
+              autoOk
+              size="small"
+              variant="inline"
+              inputVariant="outlined"
+              format="yyyy/MM/dd"
+              id="estimatedEnd"
+              name="estimatedEnd"
+              label="Target Completion Date"
+              value={estEndDate}
+              onChange={(date) => {
+                if (date && !date.invalid) {
                   setEstEndDate(date);
-                  setEstEndDateInput(String(value || ''));
-                  formik.setFieldValue('estimatedEnd', date?.toISODate() || '');
-                }}
-                error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
-                helperText={touched.estimatedEnd && errors.estimatedEnd}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-              />
-            </MuiPickersUtilsProvider>
+                  formik.setFieldValue('estimatedEnd', date.toISODate());
+                } else {
+                  setEstEndDate(null);
+                  formik.setFieldValue('estimatedEnd', '');
+                }
+              }}
+            />
           </Box>
           <Box mt={2}>
             <FormControl style={{ width: '150px' }}>

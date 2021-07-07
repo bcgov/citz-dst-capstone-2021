@@ -39,7 +39,7 @@ import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectTimelineForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date('2014-08-18T21:11:54'),
+    new Date('2014-08-18T21:11:54')
   );
 
   const handleDateChange = (date: Date | null) => {
@@ -48,39 +48,40 @@ const ProjectTimelineForm: React.FC = () => {
 
   const handleNewMilestone = () => {
     alert('TODO: implement milestone modal');
-  }
+  };
 
   return (
     <Container maxWidth="sm">
       <Typography variant="h5" align="center">
         Project Timeline Information
       </Typography>
-      <MuiPickersUtilsProvider utils={LuxonUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="completionDate"
-          label="Estimated Completion Date"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
-      </MuiPickersUtilsProvider>
+      <KeyboardDatePicker
+        autoOk
+        size="small"
+        variant="inline"
+        inputVariant="outlined"
+        format="MM/dd/yyyy"
+        margin="normal"
+        id="completionDate"
+        label="Estimated Completion Date"
+        value={selectedDate}
+        onChange={handleDateChange}
+        KeyboardButtonProps={{
+          'aria-label': 'change date',
+        }}
+      />
       <FormControl margin="normal" fullWidth>
         <Button
-        color="primary"
-        variant="contained"
-        type="button"
-        onClick={handleNewMilestone}>
+          color="primary"
+          variant="contained"
+          type="button"
+          onClick={handleNewMilestone}
+        >
           Add New Milestone
         </Button>
       </FormControl>
     </Container>
-  )
+  );
 };
 
 export default ProjectTimelineForm;

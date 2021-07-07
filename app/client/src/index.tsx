@@ -19,10 +19,11 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import LuxonUtils from '@date-io/luxon';
 
 import './index.css';
 import App from './App';
-
 import reportWebVitals from './reportWebVitals';
 import StoreState from './reducers';
 
@@ -35,7 +36,9 @@ const store = createStore(StoreState, composeEnhancers(applyMiddleware(thunk)));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
+        <App />
+      </MuiPickersUtilsProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
