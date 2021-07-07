@@ -50,10 +50,32 @@ import { validateReport } from '../../utils/validationSchema';
 import utils from '../../utils';
 
 // status summary trends
-export const StatusTrends = [
+const StatusTrends = [
   {icon: <ArrowDownwardIcon />, trend: 'down'},
   {icon: <ArrowForwardIcon />, trend: 'steady'},
   {icon: <ArrowUpwardIcon />, trend: 'up'}
+];
+
+// temp test data to display KPIs
+const testKPIs = [{
+    name: "KPI Alpha",
+    description: "Lorem ipsum dolor sit amet, consectetur...",
+    unit: "$",
+    baseline: 1200,
+    target: 1600,
+    targetDate: '2022/05/12',
+    output: true,
+    outcome: false
+  }, {
+    name: "KPI Beta",
+    description: "Lorem ipsum dolor sit amet, consectetur...",
+    unit: "min",
+    baseline: 45,
+    target: 20,
+    targetDate: '2022/05/12',
+    output: true,
+    outcome: true
+  }
 ];
 
 const SubmitReport: React.FC = () => {
@@ -311,6 +333,44 @@ const SubmitReport: React.FC = () => {
       </>
     );
   };
+
+  const getKPIComponent = () => {
+    return (
+      <Box display="flex" flexDirection="row" justifyContent="space-between">
+      <Box flexGrow={1}>
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Typography variant="h6">
+            {testKPIs[0].name}
+          </Typography>
+          <Typography variant="subtitle1">
+            <strong>Target Completion Date - </strong>{testKPIs[0].targetDate}
+          </Typography>
+        </Box>
+        <Typography variant="body1">
+          {testKPIs[0].description}
+        </Typography>
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Typography variant="subtitle1">
+            <strong>Baseline - </strong>{testKPIs[0].unit + testKPIs[0].baseline}
+          </Typography>
+          <Typography variant="subtitle1">
+            <strong>Target - </strong>{testKPIs[0].unit + testKPIs[0].target}
+          </Typography>
+        </Box>
+      </Box>
+      <Box ml={4}>
+        <TextField
+          id="progress"
+          name="progress"
+          label="Progress (%)"
+          type="number"
+          margin="normal"
+          variant="outlined"
+        />
+      </Box>
+      </Box>
+    );
+  };
   
   const renderStep1 = () => {
     return (
@@ -494,6 +554,7 @@ const SubmitReport: React.FC = () => {
         <Typography variant="h5" align="center">
           Key Performance Indicators
         </Typography>
+        {getKPIComponent()}
       </Container>
     );
   };
