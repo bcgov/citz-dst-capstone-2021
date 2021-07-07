@@ -30,6 +30,8 @@ import {
   Step,
   StepLabel,
   StepButton,
+  InputAdornment,
+  OutlinedInput,
 } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
@@ -44,6 +46,7 @@ import { useHistory } from 'react-router-dom';
 import { User } from '../../types';
 import { Ministries, ColorStatuses, SubmitReportSteps } from '../../constants';
 import useApi from '../../utils/api';
+import { validateReport } from '../../utils/validationSchema';
 import utils from '../../utils';
 
 // status summary trends
@@ -57,15 +60,40 @@ const SubmitReport: React.FC = () => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
+  const [targetCompletionDate, setTargetCompletionDate] = React.useState('');
   const steps = SubmitReportSteps;
 
-  const renderStep1 = () => {
-    return (
-      <Container maxWidth="md">
-        <Typography variant="h5" align="center">
-          Status Summary
-        </Typography>
+  const formik = useFormik({
+    initialValues: {
+      start: '',
+      objectives: {
+        objective1: {
+          targetCompletionDate: '',
+        },
+        objective2: {
+          targetCompletionDate: '',
+        },
+      },
+    },
+    validationSchema: validateReport,
+    onSubmit: (values) => {
+      alert(values);
+    },
+  });
 
+  const {
+    errors,
+    touched,
+    isValid,
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+  } = formik;
+
+  const getStatusComponent = () => {
+    return (
+      <>
         <Typography variant="h6" align="left">
           Overall Project Status
         </Typography>
@@ -117,6 +145,180 @@ const SubmitReport: React.FC = () => {
             />
           </Box>
         </Box>
+      </>
+    );
+  };
+
+  const getObjectiveComponent = () => {
+    return (
+      <>
+        <Typography variant="h6" align="left">
+          Overall Project Status
+        </Typography>
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+        >
+        <Box>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel>Status</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status"
+              fullWidth
+            >
+              {ColorStatuses.map((status) => (
+                <MenuItem value={status.label} key={status.abbrev}>
+                  {status.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <MuiPickersUtilsProvider utils={LuxonUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="yyyy/MM/dd"
+              margin="normal"
+              id="start"
+              name="start"
+              label="Target Completion Date"
+              value={targetCompletionDate}
+              onChange={(value) => {
+                setTargetCompletionDate(value);
+                formik.setFieldValue('start', value.toISODate());
+              }}
+              error={touched.objectives?.objective1?.targetCompletionDate && Boolean(errors.objectives?.objective1?.targetCompletionDate)}
+              helperText={touched.objectives?.objective1?.targetCompletionDate && errors.objectives?.objective1?.targetCompletionDate}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          </Box>
+          <Box width={3 / 4} pl={5} pt={2}>
+            <TextField
+              id="comments"
+              label="Comments"
+              multiline
+              rows={4}
+              defaultValue="Default Value"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+          </Box>
+        </Box>
+      </>
+    );
+  };
+
+  const getMilestoneComponent = () => {
+    return (
+      <>
+        <Typography variant="h6" align="left">
+          Milestone 1
+        </Typography>
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+        >
+        <Box>
+          <MuiPickersUtilsProvider utils={LuxonUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="yyyy/MM/dd"
+              margin="normal"
+              id="start"
+              name="start"
+              label="Start Date"
+              value={targetCompletionDate}
+              onChange={(value) => {
+                setTargetCompletionDate(value);
+                formik.setFieldValue('start', value.toISODate());
+              }}
+              error={touched.objectives?.objective1?.targetCompletionDate && Boolean(errors.objectives?.objective1?.targetCompletionDate)}
+              helperText={touched.objectives?.objective1?.targetCompletionDate && errors.objectives?.objective1?.targetCompletionDate}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider utils={LuxonUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="yyyy/MM/dd"
+              margin="normal"
+              id="start"
+              name="start"
+              label="Planned Finish Date"
+              value={targetCompletionDate}
+              onChange={(value) => {
+                setTargetCompletionDate(value);
+                formik.setFieldValue('start', value.toISODate());
+              }}
+              error={touched.objectives?.objective1?.targetCompletionDate && Boolean(errors.objectives?.objective1?.targetCompletionDate)}
+              helperText={touched.objectives?.objective1?.targetCompletionDate && errors.objectives?.objective1?.targetCompletionDate}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </Box>
+        <Box>
+          <FormControl margin="normal" fullWidth>
+            <InputLabel>Status</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status"
+              fullWidth
+            >
+              {ColorStatuses.map((status) => (
+                <MenuItem value={status.label} key={status.abbrev}>
+                  {status.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl margin="normal" fullWidth>
+            <TextField
+              id="progress"
+              name="progress"
+              label="Progress (%)"
+              type="number"
+              margin="normal"
+              variant="outlined"
+            />
+          </FormControl>
+          </Box>
+          <Box width={3 / 4} pl={5} pt={2}>
+            <TextField
+              id="comments"
+              label="Comments"
+              multiline
+              rows={4}
+              defaultValue="Default Value"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+          </Box>
+        </Box>
+      </>
+    );
+  };
+  
+  const renderStep1 = () => {
+    return (
+      <Container maxWidth="md">
+        <Typography variant="h5" align="center">
+          Status Summary
+        </Typography>
+        {getStatusComponent()}
       </Container>
     );
   };
@@ -264,6 +466,38 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  const renderStep3 = () => {
+    return (
+      <Container maxWidth="md">
+        <Typography variant="h5" align="center">
+          Business Case Objective Tracking
+        </Typography>
+        {getObjectiveComponent()}
+      </Container>
+    );
+  };
+
+  const renderStep4 = () => {
+    return (
+      <Container maxWidth="md">
+        <Typography variant="h5" align="center">
+          Key Milestone Status
+        </Typography>
+        {getMilestoneComponent()}
+      </Container>
+    );
+  };
+
+  const renderStep5 = () => {
+    return (
+      <Container maxWidth="md">
+        <Typography variant="h5" align="center">
+          Key Performance Indicators
+        </Typography>
+      </Container>
+    );
+  };
+
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
@@ -273,11 +507,11 @@ const SubmitReport: React.FC = () => {
       case 2:
         return renderStep2();
       case 3:
-        return <p>TODO: Business Case Objective Tracking</p>;
+        return renderStep3();
       case 4:
-        return <p>TODO: Key Milestone Status</p>;
+        return renderStep4();
       case 5:
-        return <p>TODO: Key Performance Indicators</p>;
+        return renderStep5();
       default:
         return 'unknown step';
     }
@@ -293,11 +527,6 @@ const SubmitReport: React.FC = () => {
 
   const allStepsCompleted = () => {
     return completedSteps() === steps.length;
-  };
-
-  // TODO: delete this when implementing formik
-  const handleSubmit = () => {
-    alert("This is a stub to be replaced with Formik functionality");
   };
 
   // TODO: Implement this method to only allow the user to continue if they 

@@ -101,3 +101,7 @@ export const validateObjective = yup.object({
   comments: textField,
   start: date,
 });
+
+export const validateReport = yup.object({
+  start: date,
+});
