@@ -30,30 +30,30 @@ import {
   Step,
   StepLabel,
   StepButton,
-  InputAdornment,
-  OutlinedInput,
+  FormControlLabel,
 } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import LuxonUtils from '@date-io/luxon';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import { useHistory } from 'react-router-dom';
 
-import { User } from '../../types';
-import { Ministries, ColorStatuses, SubmitReportSteps } from '../../constants';
+import { Ministries, SubmitReportSteps } from '../../constants';
+import { Status, StatusType, Objective, Milestone, MilestoneStatus } from '../../types';
 import useApi from '../../utils/api';
 import { validateReport } from '../../utils/validationSchema';
 import utils from '../../utils';
 
 // status summary trends
 const StatusTrends = [
-  {icon: <ArrowDownwardIcon />, trend: 'down'},
+  {icon: <ArrowUpwardIcon />, trend: 'up'},
   {icon: <ArrowForwardIcon />, trend: 'steady'},
-  {icon: <ArrowUpwardIcon />, trend: 'up'}
+  {icon: <ArrowDownwardIcon />, trend: 'down'}
 ];
 
 // temp test data to display KPIs
@@ -83,6 +83,7 @@ const SubmitReport: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
   const [targetCompletionDate, setTargetCompletionDate] = React.useState('');
+  const [projectInfoConfirmed, setProjectInfoConfirmed] = React.useState(false);
   const steps = SubmitReportSteps;
 
   const formik = useFormik({
@@ -113,11 +114,11 @@ const SubmitReport: React.FC = () => {
     handleBlur,
   } = formik;
 
-  const getStatusComponent = () => {
+  const getStatusComponent = (label: string) => {
     return (
       <>
         <Typography variant="h6" align="left">
-          Overall Project Status
+          {label}
         </Typography>
         <Box
           display="flex"
@@ -132,11 +133,13 @@ const SubmitReport: React.FC = () => {
               id="status"
               fullWidth
             >
-              {ColorStatuses.map((status) => (
-                <MenuItem value={status.label} key={status.abbrev}>
-                  {status.label}
-                </MenuItem>
-              ))}
+              {Object.entries(Status)
+                .filter(([, value]) => typeof value === 'string')
+                .map(([key, value]) => (
+                  <MenuItem value={key} key={key}>
+                    {value}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <FormControl margin="normal" fullWidth>
@@ -190,11 +193,13 @@ const SubmitReport: React.FC = () => {
               id="status"
               fullWidth
             >
-              {ColorStatuses.map((status) => (
-                <MenuItem value={status.label} key={status.abbrev}>
-                  {status.label}
-                </MenuItem>
-              ))}
+              {Object.entries(MilestoneStatus)
+                  .filter(([, value]) => typeof value === 'string')
+                  .map(([key, value]) => (
+                    <MenuItem value={key} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
             </Select>
           </FormControl>
           <MuiPickersUtilsProvider utils={LuxonUtils}>
@@ -293,11 +298,13 @@ const SubmitReport: React.FC = () => {
               id="status"
               fullWidth
             >
-              {ColorStatuses.map((status) => (
-                <MenuItem value={status.label} key={status.abbrev}>
-                  {status.label}
-                </MenuItem>
-              ))}
+              {Object.entries(MilestoneStatus)
+                    .filter(([, value]) => typeof value === 'string')
+                    .map(([key, value]) => (
+                      <MenuItem value={key} key={key}>
+                        {value}
+                      </MenuItem>
+                    ))}
             </Select>
           </FormControl>
           <FormControl margin="normal" fullWidth>
@@ -356,7 +363,7 @@ const SubmitReport: React.FC = () => {
         <TextField
           id="progress"
           name="progress"
-          label="Progress (%)"
+          label={`Progress (${testKPIs[0].unit})`}
           type="number"
           margin="normal"
           variant="outlined"
@@ -365,14 +372,41 @@ const SubmitReport: React.FC = () => {
       </Box>
     );
   };
-  
+  const renderStep0 = () => {
+    return (
+      <>
+        <p>TODO: Project Information</p>
+        <FormControlLabel 
+          control={
+            <Checkbox
+              checked={projectInfoConfirmed}
+              onChange={(_, value) => {
+                setProjectInfoConfirmed(value);
+              }}
+              name="project-info-confirmed"
+              color="primary"
+            />
+          }
+          label="I confirm that project information is current and accurate"
+        />
+      </>
+    );
+  };
+
   const renderStep1 = () => {
+    // array of labels to use here based on StatusType defined in types.ts
+    const StatusTypeLabels = ['Overall Status', 'Scope', 'Budget', 'Schedule', 'Other Issues or Risks'];
+    
     return (
       <Container maxWidth="md">
         <Typography variant="h5" align="center">
           Status Summary
         </Typography>
-        {getStatusComponent()}
+        {Object.entries(StatusType)
+        .filter(([, value]) => typeof value === 'number')
+        .map(([key, value]) => (
+          getStatusComponent(StatusTypeLabels[+value])
+        ))}
       </Container>
     );
   };
@@ -610,7 +644,7 @@ const SubmitReport: React.FC = () => {
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <p>TODO: Project Information</p>;
+        return renderStep0();
       case 1:
         return renderStep1();
       case 2:
@@ -641,7 +675,8 @@ const SubmitReport: React.FC = () => {
   // TODO: Implement this method to only allow the user to continue if they 
   // confirm that project information is correct.
   const isNextValid = (): boolean => {
-    return true;
+    // return !(activeStep === 0 && projectInfoConfirmed);
+    return !(activeStep === 0 ? projectInfoConfirmed : true);
   };
 
   const handleNext = () => {
@@ -657,7 +692,11 @@ const SubmitReport: React.FC = () => {
   };
 
   const handleStep = (step: number) => () => {
-    setActiveStep(step);
+    if (projectInfoConfirmed) {
+      setActiveStep(step);
+    } else {
+      setActiveStep(0);
+    }
   };
 
   const handleComplete = () => {
@@ -670,6 +709,7 @@ const SubmitReport: React.FC = () => {
   return(
     <Container maxWidth="lg">
       {/* using a nonLinear stepper allows the user to click on the stepper labels and navigate to that section of the form */}
+      {/* TODO: (samara) figure out how to stop user from using stepper buttons to go to other sections when projectInfoConfirmed is false */}
       <Stepper nonLinear activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
 
@@ -709,7 +749,7 @@ const SubmitReport: React.FC = () => {
               <Button
                 color="primary"
                 variant="contained"
-                disabled={!isNextValid()}
+                disabled={isNextValid()}
                 onClick={handleNext}
               >
                 {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
