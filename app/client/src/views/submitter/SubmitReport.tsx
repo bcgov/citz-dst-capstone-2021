@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -41,10 +41,13 @@ import LuxonUtils from '@date-io/luxon';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
+import ProjectIDCard from '../../components/projects/ProjectIDCard';
+import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
+import ProjectContactCard from '../../components/projects/ProjectContactCard';
 import { Ministries, SubmitReportSteps } from '../../constants';
-import { Status, StatusType, Objective, Milestone, MilestoneStatus } from '../../types';
+import { Status, StatusType, Objective, Milestone, MilestoneStatus, Project } from '../../types';
 import useApi from '../../utils/api';
 import { validateReport } from '../../utils/validationSchema';
 import utils from '../../utils';
@@ -85,6 +88,17 @@ const SubmitReport: React.FC = () => {
   const [targetCompletionDate, setTargetCompletionDate] = React.useState('');
   const [projectInfoConfirmed, setProjectInfoConfirmed] = React.useState(false);
   const steps = SubmitReportSteps;
+  const [project, setProject] = useState({} as Project);
+  const { cps } = useParams<{ cps: string }>();
+
+  const api = useApi();
+
+  useEffect(() => {
+    api.getProjectDetail(cps).then((data) => {
+      setProject(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -372,10 +386,14 @@ const SubmitReport: React.FC = () => {
       </Box>
     );
   };
+  
   const renderStep0 = () => {
     return (
       <>
-        <p>TODO: Project Information</p>
+        <ProjectProgressCard {...project} />
+        <ProjectIDCard {...project} />
+        <ProjectContactCard {...project} />
+
         <FormControlLabel 
           control={
             <Checkbox

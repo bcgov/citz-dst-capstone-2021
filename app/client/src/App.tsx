@@ -68,12 +68,6 @@ const Home = () => {
             Submitter&apos;s New Project Form (WIP)
           </Link>
         </h3>
-        {/* TODO: (Samara) to remove link when connecting form to existing project */}
-        <h3>
-          <Link to="/submit-report-wip">
-            Submitter&apos;s Quarterly Report Form (WIP)
-          </Link>
-        </h3>
       </div>
     </div>
   );
@@ -93,7 +87,7 @@ function App() {
         path="/create-project"
         component={NewProjectForm}
       />
-      <AppRoute path="/submit-report-wip" component={SubmitReport} />
+      <AppRoute path="/submit-report/:cps" component={SubmitReport} />
       <Redirect to="/" />
     </HashRouter>
   );

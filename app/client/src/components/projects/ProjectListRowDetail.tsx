@@ -70,7 +70,7 @@ const ProjectListRowDetail: React.FC<
             style={{ textTransform: 'none' }}
             onClick={() => {
               // eslint-disable-next-line no-alert
-              alert('Not implemented');
+              history.push(`/submit-report/${project.cpsIdentifier}`);
             }}
           >
             Start Report
