@@ -18,11 +18,11 @@ import { errorWithCode } from '@bcgov/common-nodejs-utils';
 import { Milestone, Report, Quarter } from '@interfaces/report.interface';
 import ReportModel from '@models/reports.model';
 import ProjectModel from '@models/projects.model';
-import ReportDTO from '@dtos/report.dto';
+import ReportDTO from '@dtos/ReportDTO';
 import { Project } from '@interfaces/project.interface';
-import MilestoneDTO from '@dtos/milestone.dto';
-import ObjectiveDTO from '@dtos/objective.dto';
-import ReportStatusDTO from '@dtos/reportStatus.dto';
+import MilestoneDTO from '@dtos/MilestoneDTO';
+import ObjectiveDTO from '@dtos/ObjectiveDTO';
+import ReportStatusDTO from '@dtos/ReportStatusDTO';
 
 const ReportService = {
   async findAllReports(projectId: string, year: number, quarter: Quarter): Promise<Report[]> {

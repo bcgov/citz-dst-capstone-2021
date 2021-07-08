@@ -24,7 +24,7 @@ import AuthService from '@services/auth.service';
 import { User } from '@/interfaces/users.interface';
 import UsersRoute from '@routes/users.route';
 
-import { UserDTO } from '@dtos/user.dto';
+import { UserDTO } from '@dtos/UserDTO';
 import testData from './testData.json';
 
 const { testUser } = testData;

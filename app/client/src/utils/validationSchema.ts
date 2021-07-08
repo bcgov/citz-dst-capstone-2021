@@ -27,7 +27,7 @@ const password = yup
 
 const name = yup
   .string()
-  .min(2, 'Too Short!')
+  .min(5, 'Too Short!')
   .max(50, 'Too Long!')
   .required('Required');
 

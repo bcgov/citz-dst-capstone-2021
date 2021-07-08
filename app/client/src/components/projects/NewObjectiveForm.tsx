@@ -67,7 +67,6 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
         description: '',
         status: Status.Green,
         estimatedEnd: '',
-        progress: 0,
         phase: '',
         asset: '',
         comments: '',

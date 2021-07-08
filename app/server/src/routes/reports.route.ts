@@ -18,10 +18,11 @@ import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
 import ReportController from '@controllers/reports.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import ReportDTO, { ReportQueryDTO } from '@dtos/report.dto';
-import MilestoneDTO from '@dtos/milestone.dto';
-import ObjectiveDTO from '@dtos/objective.dto';
-import ReportStatusDTO from '@dtos/reportStatus.dto';
+import ReportDTO from '@dtos/ReportDTO';
+import MilestoneDTO from '@dtos/MilestoneDTO';
+import ObjectiveDTO from '@dtos/ObjectiveDTO';
+import ReportStatusDTO from '@dtos/ReportStatusDTO';
+import ReportQueryDTO from '@dtos/ReportQueryDTO';
 
 class ReportsRoute implements Route {
   resource = 'reports';
