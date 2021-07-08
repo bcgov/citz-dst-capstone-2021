@@ -78,6 +78,12 @@ const ObjectiveModel: Schema<Objective> = new Schema(
       default: Status.Green,
       enum: Object.values(Status),
     },
+    phase: {
+      type: String,
+    },
+    asset: {
+      type: String,
+    },
     estimatedEnd: {
       type: Date,
       required: true,
@@ -107,9 +113,6 @@ const MilestoneModel: Schema<Milestone> = new Schema(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-    },
     status: {
       type: Number,
       default: MilestoneStatus.Green,
@@ -121,7 +124,6 @@ const MilestoneModel: Schema<Milestone> = new Schema(
     },
     estimatedEnd: {
       type: Date,
-      required: true,
     },
     progress: {
       type: Number,
@@ -184,7 +186,6 @@ const ReportModel: Schema<Report> = new Schema(
     },
     estimatedEnd: {
       type: Date,
-      required: true,
     },
     milestones: [MilestoneModel],
     objectives: [ObjectiveModel],

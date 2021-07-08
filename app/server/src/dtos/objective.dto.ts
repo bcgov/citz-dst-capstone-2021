@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { IsEnum, IsISO8601, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Objective, Status } from '@interfaces/report.interface';
+import { Type } from 'class-transformer';
 
 class ObjectiveDTO implements Objective {
   @IsOptional()
@@ -25,7 +26,8 @@ class ObjectiveDTO implements Objective {
   @IsString()
   description: string;
 
-  @IsISO8601()
+  @IsDate()
+  @Type(() => Date)
   estimatedEnd: Date;
 
   @IsString()
@@ -34,6 +36,14 @@ class ObjectiveDTO implements Objective {
   @IsOptional()
   @IsEnum(Status)
   status: Status;
+
+  @IsOptional()
+  @IsString()
+  phase: string;
+
+  @IsOptional()
+  @IsString()
+  asset: string;
 }
 
 export default ObjectiveDTO;

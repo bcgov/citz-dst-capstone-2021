@@ -78,8 +78,35 @@ export interface SimpleContact {
   id: string;
 }
 
-export interface Project {
-  id: string;
+export enum Status {
+  Green,
+  Yellow,
+  Red,
+}
+
+export enum Trend {
+  Up,
+  Steady,
+  Down,
+}
+
+export enum StatusType {
+  Overall,
+  Scope,
+  Budget,
+  Schedule,
+  Other,
+}
+
+export enum MilestoneStatus {
+  Green,
+  Yellow,
+  Red,
+  Completed,
+  NotStarted,
+}
+
+export interface NewProject {
   name: string;
   cpsIdentifier: string;
   projectNumber: string;
@@ -92,6 +119,72 @@ export interface Project {
   start: string;
   estimatedEnd: string;
   end: string;
+}
+
+export interface Project extends NewProject {
+  id: string;
   progress: number;
   phase: string;
+}
+
+export interface NewMilestone {
+  name: string;
+  start: string;
+  estimatedEnd: string;
+  comments: string;
+}
+
+export interface Milestone extends NewMilestone {
+  id?: string;
+  status: MilestoneStatus;
+  progress: number;
+}
+
+export interface Objective {
+  id?: string;
+  name: string;
+  description: string;
+  estimatedEnd: string;
+  status: Status;
+  phase: string;
+  asset: string;
+  comments: string;
+}
+
+export enum Quarter {
+  Q1 = 'Q1',
+  Q2 = 'Q2',
+  Q3a = 'Q3a',
+  Q3b = 'Q3b',
+  Q4 = 'Q4',
+}
+
+export enum ReportState {
+  Draft,
+  Review,
+  Submitted,
+}
+
+export interface ReportStatus {
+  id?: string;
+  type: StatusType;
+  status: Status;
+  trend: Trend;
+  comments: string;
+}
+
+export interface Report {
+  id?: string;
+  submitter?: string;
+  submittedAt?: Date;
+  year: number;
+  quarter: Quarter;
+  projectId: string;
+  state: ReportState;
+  phase: string;
+  progress: number;
+  estimatedEnd?: Date;
+  milestones: Milestone[];
+  objectives: Objective[];
+  statuses: ReportStatus[];
 }

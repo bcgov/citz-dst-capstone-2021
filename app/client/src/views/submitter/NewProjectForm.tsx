@@ -29,22 +29,22 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Modal,
 } from '@material-ui/core';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import LuxonUtils from '@date-io/luxon';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useHistory } from 'react-router-dom';
-import { User } from '../../types';
+import { makeStyles } from '@material-ui/core/styles';
+
+import { Milestone, Objective, User } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
-import ProjectObjectivesForm from '../../components/projects/ProjectObjectivesForm';
+import ProjectObjectivesStep from '../../components/projects/ProjectObjectivesStep';
 import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
 import AutoCompleteField from '../../components/common/AutoCompleteField';
-
 import utils from '../../utils';
+import NewMilestoneForm from '../../components/projects/NewMilestoneForm';
+import MilestoneItem from '../../components/projects/MilestoneItem';
 
 // TODO: Move to constants file
 const steps = [
@@ -55,10 +55,19 @@ const steps = [
   'KPIs',
 ];
 
+const useStyles = makeStyles({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
 const NewProjectForm: React.FC = () => {
   // Form functionality with formik & api
   const history = useHistory();
   const api = useApi();
+  const classes = useStyles();
 
   // for the stepper
   const [activeStep, setActiveStep] = React.useState(0);
@@ -72,8 +81,11 @@ const NewProjectForm: React.FC = () => {
   const [financialContact, setFinancialContact] = React.useState<User | null>(
     null
   );
-  const [startDate, setStartDate] = React.useState('');
-  const [estEndDate, setEstEndDate] = React.useState('');
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [estEndDate, setEstEndDate] = React.useState<Date | null>(null);
+
+  const [milestones, setMilestones] = React.useState<Milestone[]>([]);
+  const [objectives, setObjectives] = React.useState<Objective[]>([]);
 
   React.useEffect(() => {
     api.getUsers().then((data) => setUsers(data));
@@ -96,9 +108,26 @@ const NewProjectForm: React.FC = () => {
     },
     validationSchema: validateNewProject,
     onSubmit: (values) => {
-      api.createProject(values).then(() => {
-        history.push('/projects');
-      });
+      // TODO: (nick)
+      //  Option 1: call just one api endpoint with all data and use transaction
+      //  Option 2: display the steps of the process and the results
+      //
+      return (
+        api
+          .createProject(values)
+          // .then((project) => {
+          //   return api.getReports(project.id);
+          // })
+          // .then((reports) => {
+          //   const report = reports[0];
+          //   report.milestones = milestones;
+          //   report.objectives = objectives;
+          //   return api.updateReport(report);
+          // })
+          .then(() => {
+            history.push('/projects');
+          })
+      );
     },
   });
 
@@ -124,9 +153,47 @@ const NewProjectForm: React.FC = () => {
     setActiveStep(activeStep - 1);
   };
 
-  const handleNewMilestone = () => {
-    // eslint-disable-next-line no-alert
-    alert('TODO: implement milestone modal');
+  // prepare modal windows
+  const [openMilestone, setOpenMilestone] = React.useState(false);
+  const openMilestoneModal = () => {
+    setOpenMilestone(true);
+  };
+
+  const [cacheIndex, setCacheIndex] = React.useState(-1);
+  const editMilestone = (index: number) => {
+    return () => {
+      if (index >= 0) {
+        setCacheIndex(index);
+        setOpenMilestone(true);
+      }
+    };
+  };
+
+  const deleteMilestone = (index: number) => {
+    return () => {
+      if (index >= 0) {
+        milestones.splice(index, 1);
+        setMilestones([...milestones]);
+      }
+    };
+  };
+
+  const handleMilestoneModal = (data: Milestone) => {
+    setOpenMilestone(false);
+    setCacheIndex(-1);
+    if (!data) return;
+    if (cacheIndex >= 0) {
+      // update
+      milestones.splice(cacheIndex, 1, data);
+      setMilestones([...milestones]);
+    } else {
+      // add
+      setMilestones([...milestones, data]);
+    }
+  };
+
+  const handleObjectiveChange = (data: Objective[]) => {
+    setObjectives([...data]);
   };
 
   const isNextValid = (): boolean => {
@@ -261,7 +328,7 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.manager = value.id;
+            formik.setFieldValue('manager', value?.id);
             setManager(value);
           }}
           getOptionSelected={(item, current) => {
@@ -286,11 +353,11 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.sponsor = value.id;
+            formik.setFieldValue('sponsor', value?.id);
             setSponsor(value);
           }}
           getOptionSelected={(item, current) => {
-            return item.id === current.id;
+            return item.id === current?.id;
           }}
           value={sponsor}
           renderInput={(params) => {
@@ -311,14 +378,12 @@ const NewProjectForm: React.FC = () => {
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
-            values.financialContact = value.id;
+            formik.setFieldValue('financialContact', value?.id);
             setFinancialContact(value);
           }}
           getOptionSelected={(item, current) => {
-            return item.id === current.id;
+            return item.id === current?.id;
           }}
-          // TODO: (nick) fix 'A component is changing the uncontrolled value state of Autocomplete to be controlled.
-          // https://stackoverflow.com/questions/63295924/a-component-is-changing-an-uncontrolled-autocomplete-to-be-controlled
           value={financialContact}
           renderInput={(params) => {
             return (
@@ -343,64 +408,79 @@ const NewProjectForm: React.FC = () => {
   const renderStep2 = () => {
     return (
       <Container maxWidth="sm">
-        <Typography variant="h5" align="center">
-          Project Timeline Information
-        </Typography>
+        <Box mb={4}>
+          <Typography variant="h5" align="center">
+            Project Timeline Information
+          </Typography>
+        </Box>
         <Box
           display="flex"
           flexDirection="row"
           justifyContent="space-between"
-          mt={3}
+          mb={4}
         >
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="start"
-              name="start"
-              label={values.start ? ' ' : 'Start'}
-              value={startDate}
-              onChange={(value) => {
-                setStartDate(value);
-                formik.setFieldValue('start', value.toISODate());
-              }}
-              error={touched.start && Boolean(errors.start)}
-              helperText={touched.start && errors.start}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="estimatedEnd"
-              name="estimatedEnd"
-              label={estEndDate ? ' ' : 'Estimated Completion'}
-              value={estEndDate}
-              onChange={(value) => {
-                setEstEndDate(value);
-                formik.setFieldValue('estimatedEnd', value.toISODate());
-              }}
-              error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
-              helperText={touched.estimatedEnd && errors.estimatedEnd}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
+          {/* TODO: (nick) Fix -> Warning: A component is changing an uncontrolled input to be controlled.
+            This is likely caused by the value changing from undefined to a defined value, which should not happen. */}
+          {/* TODO: (nick) Fix: it doesn't display errors like https://material-ui-pickers.dev/demo/datepicker */}
+          <KeyboardDatePicker
+            autoOk
+            size="small"
+            variant="inline"
+            inputVariant="outlined"
+            format="yyyy/MM/dd"
+            id="start"
+            name="start"
+            label="Start Date"
+            value={startDate}
+            onChange={(date) => {
+              if (date && !date.invalid) {
+                setStartDate(date);
+                formik.setFieldValue('start', date.toISODate());
+              } else {
+                setStartDate(null);
+                formik.setFieldValue('start', '');
+              }
+            }}
+          />
+          <KeyboardDatePicker
+            autoOk
+            size="small"
+            variant="inline"
+            inputVariant="outlined"
+            format="yyyy/MM/dd"
+            id="estimatedEnd"
+            name="estimatedEnd"
+            label="Estimated Completion"
+            value={estEndDate}
+            onChange={(date) => {
+              if (date && !date.invalid) {
+                setEstEndDate(date);
+                formik.setFieldValue('estimatedEnd', date.toISODate());
+              } else {
+                setEstEndDate(null);
+                formik.setFieldValue('estimatedEnd', '');
+              }
+            }}
+          />
+        </Box>
+        <Box my={2}>
+          {milestones.map((milestone, index) => {
+            return (
+              <MilestoneItem
+                deleteItem={deleteMilestone(index)}
+                editItem={editMilestone(index)}
+                milestone={milestone}
+                key={milestone.name}
+              />
+            );
+          })}
         </Box>
         <FormControl margin="normal" fullWidth>
           <Button
             color="primary"
             variant="contained"
             type="button"
-            onClick={handleNewMilestone}
+            onClick={openMilestoneModal}
           >
             Add New Milestone
           </Button>
@@ -418,7 +498,12 @@ const NewProjectForm: React.FC = () => {
       case 2:
         return renderStep2();
       case 3:
-        return <ProjectObjectivesForm />;
+        return (
+          <ProjectObjectivesStep
+            data={objectives}
+            onChange={handleObjectiveChange}
+          />
+        );
       case 4:
         return <ProjectKPIsForm />;
       default:
@@ -445,7 +530,7 @@ const NewProjectForm: React.FC = () => {
             {/* TODO: Better handling of step content passed into component */}
             {getStepContent(activeStep)}
           </div>
-          <Container maxWidth="sm">
+          <Container style={{ maxWidth: '800px' }}>
             <Box
               display="flex"
               flexDirection="row"
@@ -474,6 +559,14 @@ const NewProjectForm: React.FC = () => {
           </Container>
         </form>
       </div>
+      {/* TODO: (nick) Fix -> Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+Check the render method of `Unstable_TrapFocus`. */}
+      <Modal disableEnforceFocus open={openMilestone} className={classes.modal}>
+        <NewMilestoneForm
+          milestone={milestones[cacheIndex]}
+          closeModal={handleMilestoneModal}
+        />
+      </Modal>
     </Container>
   );
 };

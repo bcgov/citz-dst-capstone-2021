@@ -19,6 +19,16 @@ import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
+const getValidationErrorMessage = (error: ValidationError): string => {
+  if (error.constraints) {
+    return Object.values(error.constraints).join('\n');
+  }
+  if (error.children) {
+    return error.children.map(e => getValidationErrorMessage(e)).join(',');
+  }
+  return '';
+};
+
 const validationMiddleware = (
   type: any,
   value: string | 'body' | 'query' | 'params' = 'body',
@@ -30,7 +40,7 @@ const validationMiddleware = (
     validate(plainToClass(type, req[value]), { skipMissingProperties, whitelist, forbidNonWhitelisted }).then(
       (errors: ValidationError[]) => {
         if (errors.length > 0) {
-          const message = errors.map((error: ValidationError) => Object.values(error.constraints)).join(', ');
+          const message = errors.map((error: ValidationError) => getValidationErrorMessage(error)).join(',');
           next(errorWithCode(message, 400));
         } else {
           next();

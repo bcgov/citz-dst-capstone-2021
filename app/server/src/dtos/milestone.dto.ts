@@ -15,17 +15,16 @@
  */
 
 import { Milestone, MilestoneStatus } from '@interfaces/report.interface';
-import { IsEnum, IsISO8601, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 
 class MilestoneDTO implements Milestone {
   @IsOptional()
   @IsString()
   comments: string;
 
-  @IsString()
-  description: string;
-
-  @IsISO8601()
+  @IsDate()
+  @Type(() => Date)
   estimatedEnd: Date;
 
   @IsString()
@@ -37,7 +36,8 @@ class MilestoneDTO implements Milestone {
   @Max(100)
   progress: number;
 
-  @IsISO8601()
+  @IsDate()
+  @Type(() => Date)
   start: Date;
 
   @IsOptional()

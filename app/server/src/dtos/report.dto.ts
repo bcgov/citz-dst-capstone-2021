@@ -16,9 +16,8 @@
 
 // eslint-disable-next-line max-classes-per-file
 import {
-  IsDateString,
+  IsDate,
   IsEnum,
-  IsISO8601,
   IsMongoId,
   IsNumber,
   IsNumberString,
@@ -53,8 +52,9 @@ class ReportDTO implements Report {
   submitter: string;
 
   @IsOptional()
-  @IsDateString()
-  submittedAt: string;
+  @IsDate()
+  @Type(() => Date)
+  submittedAt: Date;
 
   @IsNumber()
   @Min(1970)
@@ -81,8 +81,10 @@ class ReportDTO implements Report {
   @Max(100)
   progress: number;
 
-  @IsISO8601()
-  estimatedEnd: string;
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  estimatedEnd: Date;
 
   @IsOptional()
   @ValidateNested({ each: true })
