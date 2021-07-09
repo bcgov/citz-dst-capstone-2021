@@ -112,22 +112,11 @@ const NewProjectForm: React.FC = () => {
       //  Option 1: call just one api endpoint with all data and use transaction
       //  Option 2: display the steps of the process and the results
       //
-      return (
-        api
-          .createProject(values)
-          // .then((project) => {
-          //   return api.getReports(project.id);
-          // })
-          // .then((reports) => {
-          //   const report = reports[0];
-          //   report.milestones = milestones;
-          //   report.objectives = objectives;
-          //   return api.updateReport(report);
-          // })
-          .then(() => {
-            history.push('/projects');
-          })
-      );
+      const data = { ...values, milestones, objectives };
+      console.log(data);
+      return api.createProject(data).then(() => {
+        history.push('/projects');
+      });
     },
   });
 

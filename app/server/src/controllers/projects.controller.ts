@@ -17,10 +17,11 @@
 import { Project } from '@interfaces/project.interface';
 import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
-import ProjectDTO from '@dtos/project.dto';
+import ProjectDTO from '@dtos/ProjectDTO';
 import { Report } from '@interfaces/report.interface';
 import { getInitialReport } from '@utils/reportUtils';
 import ReportModel from '@models/reports.model';
+import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 
 const ProjectController = {
   async getProjects(req: Request, res: Response, next: NextFunction) {
@@ -42,13 +43,15 @@ const ProjectController = {
     }
   },
 
+  // TODO: (nick) need to use transaction that is supported from mongodb v4
   async createProject(req: Request, res: Response, next: NextFunction) {
     try {
-      const input: ProjectDTO = req.body;
+      const input: ProjectCreateDTO = req.body;
       const project: Project = await ProjectService.createProject(input);
 
-      const report: Report = getInitialReport(project);
-      await ReportModel.create(report);
+      const { milestones, objectives } = input;
+      let report: Report = getInitialReport(project, milestones, objectives);
+      report = await ReportModel.create(report);
       res.status(201).json(project);
     } catch (e) {
       next(e);
@@ -58,6 +61,7 @@ const ProjectController = {
     try {
       const { id } = req.params;
       const data: Project = await ProjectService.deleteProject(id);
+      // TODO: (nick) delete all reports in a transaction
       res.status(200).json(data);
     } catch (e) {
       next(e);

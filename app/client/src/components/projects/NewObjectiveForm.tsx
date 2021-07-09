@@ -56,9 +56,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
     defaultEndData
   );
 
-  const cancel = () => {
-    closeModal(null);
-  };
+  const cancel = () => closeModal(null);
 
   const initialValues = objective
     ? _.cloneDeep(objective)
@@ -67,7 +65,6 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
         description: '',
         status: Status.Green,
         estimatedEnd: '',
-        progress: 0,
         phase: '',
         asset: '',
         comments: '',
@@ -91,7 +88,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
     handleBlur,
   } = formik;
 
-  // TODO: (nick) FIXME: isValid doesn't work
+  // TODO: (nick) FIXME: formik.isValid doesn't work
   const validate = (): boolean => {
     return !!(
       isValid &&

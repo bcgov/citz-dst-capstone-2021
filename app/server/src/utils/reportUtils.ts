@@ -16,9 +16,11 @@
 
 import { Project } from '@interfaces/project.interface';
 import { Quarter, Report, ReportState, ReportStatus, Status, StatusType, Trend } from '@interfaces/report.interface';
+import MilestoneDTO from '@dtos/MilestoneDTO';
+import ObjectiveDTO from '@dtos/ObjectiveDTO';
 
 // eslint-disable-next-line import/prefer-default-export
-export const getInitialReport = (project: Project): Report => {
+export const getInitialReport = (project: Project, milestones: MilestoneDTO[], objectives: ObjectiveDTO[]): Report => {
   const { id: projectId, estimatedEnd, start, manager: submitter } = project;
 
   const year = start.getFullYear();
@@ -42,8 +44,6 @@ export const getInitialReport = (project: Project): Report => {
   const report: Report = {
     projectId,
     estimatedEnd,
-    milestones: [],
-    objectives: [],
     phase: '',
     progress: 0,
     quarter,
@@ -51,6 +51,8 @@ export const getInitialReport = (project: Project): Report => {
     state: ReportState.Draft,
     statuses,
     year,
+    milestones,
+    objectives,
   };
   return report;
 };

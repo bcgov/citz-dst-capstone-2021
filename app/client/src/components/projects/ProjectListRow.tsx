@@ -44,7 +44,7 @@ const ProjectListRow: React.FC<ProjectListRowProps> = (props) => {
         <StyledTableCell component="th" scope="row" align="center">
           <Link to={`/projects/${row.cpsIdentifier}`}>{row.cpsIdentifier}</Link>
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row" align="center">
+        <StyledTableCell component="th" scope="row" align="left">
           {row.ministry}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="right">

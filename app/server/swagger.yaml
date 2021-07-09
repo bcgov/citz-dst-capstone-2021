@@ -191,7 +191,7 @@ paths:
         500:
           description: "Server Error"
 
-  # [GET] projects
+  # [GET] projects # TODO: (nick) Add query params
   /api/v1/projects:
     get:
       tags:
@@ -214,7 +214,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProjectRequest"
+              $ref: "#/components/schemas/ProjectCreateRequest"
       responses:
         201:
           description: Created
@@ -1085,6 +1085,19 @@ components:
           properties:
             submitter:
               $ref: '#/components/schemas/User'
+    ProjectCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/ProjectRequest'
+        - type: object
+          properties:
+            milestones:
+              type: array
+              items:
+                $ref: '#/components/schemas/MilestoneRequest'
+            objectives:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObjectiveRequest'
     UserRequest:
       allOf:
         - $ref: '#/components/schemas/LoginRequest'

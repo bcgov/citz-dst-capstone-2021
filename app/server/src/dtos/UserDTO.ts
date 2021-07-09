@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-/* eslint-disable-next-line max-classes-per-file */
-import { IsBoolean, IsEmail, IsEnum, IsString, MaxLength, MinLength, Matches, IsOptional } from 'class-validator';
+import { IsBoolean, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { Role } from '@interfaces/roles.interface';
-
-export class LoginDTO {
-  @IsEmail()
-  public email: string;
-
-  @IsString()
-  @MinLength(8)
-  @MaxLength(20)
-  // uppercase && lowercase && (numbers or special characters)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, { message: 'password too weak' })
-  public password: string;
-}
+import LoginDTO from '@dtos/LoginDTO';
 
 export class UserDTO extends LoginDTO {
   @IsString()

@@ -18,7 +18,8 @@ import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import ProjectModel from '@models/projects.model';
 import { Project } from '@interfaces/project.interface';
-import ProjectDTO from '@dtos/project.dto';
+import ProjectDTO from '@dtos/ProjectDTO';
+import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 
 const ProjectService = {
   async findAllProjects(): Promise<Project[]> {
@@ -38,7 +39,7 @@ const ProjectService = {
     return project;
   },
 
-  async createProject(input: ProjectDTO): Promise<Project> {
+  async createProject(input: ProjectCreateDTO): Promise<Project> {
     const { cpsIdentifier } = input;
     const project = await ProjectModel.findOne({ cpsIdentifier });
     if (project) {

@@ -17,10 +17,10 @@
 import { NextFunction, Request, Response } from 'express';
 import ReportService from '@services/reports.service';
 import { Report, Quarter } from '@interfaces/report.interface';
-import ReportDTO from '@dtos/report.dto';
-import MilestoneDTO from '@dtos/milestone.dto';
-import ObjectiveDTO from '@dtos/objective.dto';
-import ReportStatusDTO from '@dtos/reportStatus.dto';
+import ReportDTO from '@dtos/ReportDTO';
+import MilestoneDTO from '@dtos/MilestoneDTO';
+import ObjectiveDTO from '@dtos/ObjectiveDTO';
+import ReportStatusDTO from '@dtos/ReportStatusDTO';
 
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {

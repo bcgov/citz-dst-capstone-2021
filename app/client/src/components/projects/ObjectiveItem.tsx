@@ -20,6 +20,7 @@ import {
   GridList,
   GridListTile,
   IconButton,
+  Paper,
   Typography,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -45,28 +46,21 @@ const useStyles = makeStyles({
   },
 });
 
-interface ObjectiveItemProps extends Objective {
+interface ObjectiveItemProps {
   deleteItem: () => void;
   editItem: () => void;
+  objective: Objective;
 }
 
 const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
-  const {
-    name,
-    description,
-    status,
-    estimatedEnd,
-    comments,
-    phase,
-    asset,
-    deleteItem,
-    editItem,
-  } = props;
+  const { deleteItem, editItem, objective } = props;
+  const { name, description, status, estimatedEnd, comments, phase, asset } =
+    objective;
 
   const classes = useStyles();
 
   return (
-    <Box>
+    <Paper variant="outlined">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -120,7 +114,7 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
           </GridListTile>
         </GridList>
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

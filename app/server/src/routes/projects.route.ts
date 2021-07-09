@@ -19,7 +19,8 @@ import passport from 'passport';
 import Route from '@interfaces/routes.interface';
 import ProjectsController from '@controllers/projects.controller';
 import validationMiddleware from '@middlewares/validation.middleware';
-import ProjectDTO from '@dtos/project.dto';
+import ProjectDTO from '@dtos/ProjectDTO';
+import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 
 class ProjectsRoute implements Route {
   resource = 'projects';
@@ -38,7 +39,7 @@ class ProjectsRoute implements Route {
       .get(ProjectsController.getProjects)
       .post(
         passport.authenticate('jwt', { session: false }),
-        validationMiddleware(ProjectDTO, 'body'),
+        validationMiddleware(ProjectCreateDTO, 'body'),
         ProjectsController.createProject,
       );
 

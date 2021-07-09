@@ -18,12 +18,13 @@ import config from 'config';
 import jwt from 'jsonwebtoken';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
-import { UserDTO, LoginDTO } from '@dtos/user.dto';
+import { UserDTO } from '@dtos/UserDTO';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import UserModel from '@models/users.model';
 import { checkIfEmpty } from '@utils/util';
 import bcrypt from 'bcrypt';
+import LoginDTO from '@dtos/LoginDTO';
 
 export default {
   async signup(userData: UserDTO): Promise<User> {
