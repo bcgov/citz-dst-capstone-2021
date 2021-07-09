@@ -91,18 +91,15 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
     <Container maxWidth="sm">
       <Paper variant="outlined">
         <Box maxWidth="560px" p={4}>
-          <Box>
-            <Box display="flex" justifyContent="center">
-              <Typography variant="h5">
-                Create Key Performance Indicator
-              </Typography>
-            </Box>
+          <Box display="flex" justifyContent="center" my={3}>
+            <Typography variant="h5">
+              Create Key Performance Indicator
+            </Typography>
           </Box>
           <form onSubmit={handleSubmit}>
-            <Box my={3}>
+            <Box my={1}>
               <TextField
                 fullWidth
-                variant="outlined"
                 size="small"
                 id="name"
                 name="name"
@@ -118,7 +115,6 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
             <Box my={3}>
               <TextField
                 fullWidth
-                variant="outlined"
                 size="small"
                 id="description"
                 name="description"
@@ -133,7 +129,6 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
             </Box>
             <Box my={3}>
               <TextField
-                variant="outlined"
                 size="small"
                 id="unit"
                 name="unit"
@@ -148,7 +143,6 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
             </Box>
             <Box display="flex" justifyContent="space-between" my={3}>
               <TextField
-                variant="outlined"
                 size="small"
                 id="baseline"
                 name="baseline"
@@ -161,7 +155,6 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 helperText={touched.baseline && errors.baseline}
               />
               <TextField
-                variant="outlined"
                 size="small"
                 id="target"
                 name="target"

@@ -23,10 +23,18 @@ import {
   Box,
   Modal,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { Kpi } from '../../types';
 import KPIItem from './KPIItem';
-import NewObjectiveForm from './NewObjectiveForm';
 import NewKPIForm from './NewKPIForm';
+
+const useStyles = makeStyles({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 interface ProjectKPIsStepProps {
   onChange: (kpis: Kpi[]) => void;
@@ -35,6 +43,8 @@ interface ProjectKPIsStepProps {
 
 const ProjectKPIsStep: React.FC<ProjectKPIsStepProps> = (props) => {
   const { onChange, data: existingKpis } = props;
+
+  const classes = useStyles();
 
   const [modalVisible, setModalVisible] = React.useState(false);
 
@@ -110,7 +120,7 @@ const ProjectKPIsStep: React.FC<ProjectKPIsStepProps> = (props) => {
           </FormControl>
         </Box>
       </Box>
-      <Modal disableEnforceFocus open={modalVisible}>
+      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
         <NewKPIForm kpi={kpis[cacheIndex]} closeModal={handleModal} />
       </Modal>
     </Container>

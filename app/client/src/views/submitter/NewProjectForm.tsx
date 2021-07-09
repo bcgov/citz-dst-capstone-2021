@@ -110,7 +110,6 @@ const NewProjectForm: React.FC = () => {
     validationSchema: validateNewProject,
     onSubmit: (values) => {
       const data = { ...values, milestones, objectives, kpis };
-      console.log(data);
       return api.createProject(data).then(() => {
         history.push('/projects');
       });
