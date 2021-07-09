@@ -21,6 +21,9 @@ import {
   Box,
   Container,
   CircularProgress,
+  Tabs,
+  Tab,
+  AppBar
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams } from 'react-router-dom';
@@ -30,32 +33,6 @@ import ProjectContactCard from '../components/projects/ProjectContactCard';
 import KPICard from '../components/projects/KPICard';
 import useApi from '../utils/api';
 import { Project } from '../types';
-
-const testKPIData = {
-  kpiAlpha: {
-    name: 'KPI Alpha',
-    type: 'Output',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
-    baselineUnit: '%',
-    baselineValue: 5,
-    targetUnit: '%',
-    targetValue: 20,
-    targetDate: '2021-07-10',
-  },
-
-  kpiBeta: {
-    name: 'KPI Beta',
-    type: 'Outcome',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
-    baselineUnit: 'hrs',
-    baselineValue: 2,
-    targetUnit: 'min',
-    targetValue: 45,
-    targetDate: '2022-01-15',
-  },
-};
 
 /* TODO: implement tab component to be able to switch between project details and submitted reports */
 const ProjectDetails: React.FC = () => {
@@ -77,14 +54,6 @@ const ProjectDetails: React.FC = () => {
         <ProjectProgressCard {...project} />
         <ProjectIDCard {...project} />
         <ProjectContactCard {...project} />
-
-        <Box mx={4}>
-          <Typography variant="h4">Key Performance Indicators</Typography>
-        </Box>
-        <Box display="flex" alignItems="center" justifyContent="center">
-          <KPICard {...testKPIData.kpiAlpha} />
-          <KPICard {...testKPIData.kpiBeta} />
-        </Box>
       </>
     );
   };
@@ -103,20 +72,11 @@ const ProjectDetails: React.FC = () => {
         m={4}
       >
         {/* TODO: change this to display when the next quarterly report is due */}
-        <Typography variant="h4">Q3a Status Report Due dd-mm-yy</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            // eslint-disable-next-line no-alert
-            alert('Not Implemented');
-          }}
-        >
-          <EditIcon />
-          Edit Project
-        </Button>
+        <Typography variant="h4">{project.name} - {project.cpsIdentifier}</Typography>
       </Box>
-      <Box>{renderContent()}</Box>
+      <Box>
+        {renderContent()}
+      </Box>
     </Container>
   );
 };
