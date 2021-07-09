@@ -28,7 +28,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import { validateKPI } from '../../utils/validationSchema';
-import { KPI } from '../../types';
+import { Kpi } from '../../types';
 import RoundLabel from '../common/RoundLabel';
 import KPIProgress from '../common/KPIProgress';
 

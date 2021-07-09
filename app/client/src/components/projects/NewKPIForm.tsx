@@ -29,7 +29,7 @@ import _ from 'lodash';
 import { useFormik } from 'formik';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
-import { KPI } from '../../types';
+import { Kpi } from '../../types';
 import { validateKPI } from '../../utils/validationSchema';
 
 const useStyles = makeStyles({
@@ -42,7 +42,7 @@ const useStyles = makeStyles({
 
 interface NewKPIFormProps {
   closeModal: (data: any) => void;
-  kpi: KPI | null;
+  kpi: Kpi | null;
 }
 
 const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {

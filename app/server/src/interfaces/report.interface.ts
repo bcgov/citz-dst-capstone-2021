@@ -42,6 +42,7 @@ export interface Report {
   milestones: Milestone[];
   objectives: Objective[];
   statuses: ReportStatus[];
+  kpis: Kpi[];
 }
 
 export enum Status {
@@ -99,4 +100,16 @@ export interface Objective {
   phase: string;
   asset: string;
   comments: string;
+}
+
+export interface Kpi {
+  id?: string;
+  name: string;
+  description: string;
+  unit: string;
+  baseline: number;
+  target: number;
+  end: Date;
+  outcome: boolean;
+  output: boolean;
 }

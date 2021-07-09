@@ -19,7 +19,7 @@ import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import { UserDTO } from '@dtos/UserDTO';
 import { User } from '@interfaces/users.interface';
-import UserModel from '@models/users.model';
+import UserModel from '@models/UserModel';
 import { checkIfEmpty } from '@utils/util';
 
 export default {

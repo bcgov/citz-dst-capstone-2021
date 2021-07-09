@@ -82,6 +82,8 @@ class ReportsRoute implements Route {
       .route('/:id/statuses/:sid')
       .delete(ReportController.deleteStatus)
       .patch(validationMiddleware(ReportStatusDTO, 'body', true), ReportController.updateStatus);
+
+    // TODO: (nick) API: do we need APIs for Kpi?
   }
 }
 

@@ -189,7 +189,7 @@ export interface Report {
   statuses: ReportStatus[];
 }
 
-export interface KPI {
+export interface Kpi {
   id?: string;
   name: string;
   description: string;
