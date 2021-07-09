@@ -16,10 +16,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {
   Box,
+  Button,
   Container,
   FormControl,
   InputLabel,
@@ -100,6 +100,7 @@ const SubmitReport: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO: track form values for Objectives, Statuses, KPIs, and Milestones.
   const formik = useFormik({
     initialValues: {
       currentFYApprovedFunding: '',
@@ -114,7 +115,7 @@ const SubmitReport: React.FC = () => {
     },
     validationSchema: validateReport,
     onSubmit: (values) => {
-      alert(values);
+      alert("Not Implemented");
     },
   });
 
@@ -128,6 +129,8 @@ const SubmitReport: React.FC = () => {
     handleBlur,
   } = formik;
 
+  // renders form component for singular status summary type
+  // Only passes in label at the moment
   const getStatusComponent = (label: string) => {
     return (
       <>
@@ -188,6 +191,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // Renders component for singular Objective
   const getObjectiveComponent = () => {
     return (
       <>
@@ -253,6 +257,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // Renders component for singular Milestone
   const getMilestoneComponent = () => {
     return (
       <>
@@ -349,44 +354,46 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // Renders form component for singular KPI
   const getKPIComponent = () => {
     return (
       <Box display="flex" flexDirection="row" justifyContent="space-between">
-      <Box flexGrow={1}>
-        <Box display="flex" flexDirection="row" justifyContent="space-between">
-          <Typography variant="h6">
-            {testKPIs[0].name}
+        <Box flexGrow={1}>
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
+            <Typography variant="h6">
+              {testKPIs[0].name}
+            </Typography>
+            <Typography variant="subtitle1">
+              <strong>Target Completion Date - </strong>{testKPIs[0].targetDate}
+            </Typography>
+          </Box>
+          <Typography variant="body1">
+            {testKPIs[0].description}
           </Typography>
-          <Typography variant="subtitle1">
-            <strong>Target Completion Date - </strong>{testKPIs[0].targetDate}
-          </Typography>
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
+            <Typography variant="subtitle1">
+              <strong>Baseline - </strong>{testKPIs[0].unit + testKPIs[0].baseline}
+            </Typography>
+            <Typography variant="subtitle1">
+              <strong>Target - </strong>{testKPIs[0].unit + testKPIs[0].target}
+            </Typography>
+          </Box>
         </Box>
-        <Typography variant="body1">
-          {testKPIs[0].description}
-        </Typography>
-        <Box display="flex" flexDirection="row" justifyContent="space-between">
-          <Typography variant="subtitle1">
-            <strong>Baseline - </strong>{testKPIs[0].unit + testKPIs[0].baseline}
-          </Typography>
-          <Typography variant="subtitle1">
-            <strong>Target - </strong>{testKPIs[0].unit + testKPIs[0].target}
-          </Typography>
+        <Box ml={4}>
+          <TextField
+            id="progress"
+            name="progress"
+            label={`Progress (${testKPIs[0].unit})`}
+            type="number"
+            margin="normal"
+            variant="outlined"
+          />
         </Box>
-      </Box>
-      <Box ml={4}>
-        <TextField
-          id="progress"
-          name="progress"
-          label={`Progress (${testKPIs[0].unit})`}
-          type="number"
-          margin="normal"
-          variant="outlined"
-        />
-      </Box>
       </Box>
     );
   };
-  
+
+  // Renders project info for form confirmation
   const renderStep0 = () => {
     return (
       <>
@@ -411,6 +418,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // Renders Status Summary section of form
   const renderStep1 = () => {
     // array of labels to use here based on StatusType defined in types.ts
     const StatusTypeLabels = ['Overall Status', 'Scope', 'Budget', 'Schedule', 'Other Issues or Risks'];
@@ -429,6 +437,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // Renders financial information section of form
   const renderStep2 = () => {
     return (
       <Container maxWidth="md">
@@ -626,6 +635,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // renders business case objective tracking section of form
   const renderStep3 = () => {
     return (
       <Container maxWidth="md">
@@ -637,6 +647,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // renders key milestone section of form
   const renderStep4 = () => {
     return (
       <Container maxWidth="md">
@@ -648,6 +659,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // renders KPI section of form
   const renderStep5 = () => {
     return (
       <Container maxWidth="md">
@@ -659,6 +671,7 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  // used in stepper to determine which section of the form to render based on step number passed in
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
@@ -717,6 +730,7 @@ const SubmitReport: React.FC = () => {
     }
   };
 
+  // TODO: proper implementation of how to handle completed steps
   const handleComplete = () => {
     const newCompleted = completed;
     newCompleted[activeStep] = true;

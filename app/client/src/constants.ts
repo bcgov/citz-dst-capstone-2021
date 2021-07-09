@@ -35,16 +35,6 @@ export const Ministries = [
   'Transportation and Infrastructure',
 ];
 
-// status summary colour statuses
-// TODO: add descriptions to status colors for tooltip functionality
-export const ColorStatuses = [
-  {label: 'Not Started', abbrev: 'NS', color: '#707070'},
-  {label: 'Green', abbrev: 'G', color: '#479a3b'},
-  {label: 'Yellow', abbrev: 'Y', color: '#e3a82b'},
-  {label: 'Red', abbrev: 'R', color: '#ff0000'},
-  {label: 'Complete', abbrev: 'C', color: '#0029f5'}
-];
-
 export const SubmitReportSteps = [
   'Project Information',
   'Status Summary',
