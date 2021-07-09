@@ -34,4 +34,14 @@ export const Ministries = [
   'Tourism, Arts, Culture and Sport',
   'Transportation and Infrastructure',
 ];
+
+export const SubmitReportSteps = [
+  'Project Information',
+  'Status Summary',
+  'Financial Information',
+  'Business Case Objective Tracking',
+  'Key Milestone Status',
+  'Key Performance Indicators',
+];
+
 export default Constants;
