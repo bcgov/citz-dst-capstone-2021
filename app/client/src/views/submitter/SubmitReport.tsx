@@ -47,44 +47,54 @@ import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
 import { Ministries, SubmitReportSteps } from '../../constants';
-import { Status, StatusType, Objective, Milestone, MilestoneStatus, Project } from '../../types';
+import {
+  Status,
+  StatusType,
+  Objective,
+  Milestone,
+  MilestoneStatus,
+  Project,
+} from '../../types';
 import useApi from '../../utils/api';
 import { validateReport } from '../../utils/validationSchema';
 import utils from '../../utils';
 
 // status summary trends
 const StatusTrends = [
-  {icon: <ArrowUpwardIcon />, trend: 'up'},
-  {icon: <ArrowForwardIcon />, trend: 'steady'},
-  {icon: <ArrowDownwardIcon />, trend: 'down'}
+  { icon: <ArrowUpwardIcon />, trend: 'up' },
+  { icon: <ArrowForwardIcon />, trend: 'steady' },
+  { icon: <ArrowDownwardIcon />, trend: 'down' },
 ];
 
 // temp test data to display KPIs
-const testKPIs = [{
-    name: "KPI Alpha",
-    description: "Lorem ipsum dolor sit amet, consectetur...",
-    unit: "$",
+const testKPIs = [
+  {
+    name: 'KPI Alpha',
+    description: 'Lorem ipsum dolor sit amet, consectetur...',
+    unit: '$',
     baseline: 1200,
     target: 1600,
     targetDate: '2022/05/12',
     output: true,
-    outcome: false
-  }, {
-    name: "KPI Beta",
-    description: "Lorem ipsum dolor sit amet, consectetur...",
-    unit: "min",
+    outcome: false,
+  },
+  {
+    name: 'KPI Beta',
+    description: 'Lorem ipsum dolor sit amet, consectetur...',
+    unit: 'min',
     baseline: 45,
     target: 20,
     targetDate: '2022/05/12',
     output: true,
-    outcome: true
-  }
+    outcome: true,
+  },
 ];
 
 const SubmitReport: React.FC = () => {
-
   const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>({});
+  const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>(
+    {}
+  );
   const [targetCompletionDate, setTargetCompletionDate] = React.useState('');
   const [projectInfoConfirmed, setProjectInfoConfirmed] = React.useState(false);
   const steps = SubmitReportSteps;
@@ -115,7 +125,7 @@ const SubmitReport: React.FC = () => {
     },
     validationSchema: validateReport,
     onSubmit: (values) => {
-      alert("Not Implemented");
+      alert('Not Implemented');
     },
   });
 
@@ -137,42 +147,30 @@ const SubmitReport: React.FC = () => {
         <Typography variant="h6" align="left">
           {label}
         </Typography>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-        >
-        <Box>
-          <FormControl margin="normal" fullWidth>
-            <InputLabel>Status</InputLabel>
-            <Select
-              labelId="status-label"
-              id="status"
-              fullWidth
-            >
-              {Object.entries(Status)
-                .filter(([, value]) => typeof value === 'string')
-                .map(([key, value]) => (
-                  <MenuItem value={key} key={key}>
-                    {value}
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <Box>
+            <FormControl margin="normal" fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select labelId="status-label" id="status" fullWidth>
+                {Object.entries(Status)
+                  .filter(([, value]) => typeof value === 'string')
+                  .map(([key, value]) => (
+                    <MenuItem value={key} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl margin="normal" fullWidth>
+              <InputLabel>Trend</InputLabel>
+              <Select labelId="trend-label" id="trend" fullWidth>
+                {StatusTrends.map((trend) => (
+                  <MenuItem value={trend.trend} key={trend.trend}>
+                    {trend.icon}
                   </MenuItem>
                 ))}
-            </Select>
-          </FormControl>
-          <FormControl margin="normal" fullWidth>
-            <InputLabel>Trend</InputLabel>
-            <Select
-              labelId="trend-label"
-              id="trend"
-              fullWidth
-            >
-              {StatusTrends.map((trend) => (
-                <MenuItem value={trend.trend} key={trend.trend}>
-                  {trend.icon}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              </Select>
+            </FormControl>
           </Box>
           <Box width={3 / 4} pl={5} pt={2}>
             <TextField
@@ -198,47 +196,39 @@ const SubmitReport: React.FC = () => {
         <Typography variant="h6" align="left">
           Overall Project Status
         </Typography>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-        >
-        <Box>
-          <FormControl margin="normal" fullWidth>
-            <InputLabel>Status</InputLabel>
-            <Select
-              labelId="status-label"
-              id="status"
-              fullWidth
-            >
-              {Object.entries(MilestoneStatus)
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <Box>
+            <FormControl margin="normal" fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select labelId="status-label" id="status" fullWidth>
+                {Object.entries(MilestoneStatus)
                   .filter(([, value]) => typeof value === 'string')
                   .map(([key, value]) => (
                     <MenuItem value={key} key={key}>
                       {value}
                     </MenuItem>
                   ))}
-            </Select>
-          </FormControl>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="start"
-              name="start"
-              label="Target Completion Date"
-              value={targetCompletionDate}
-              onChange={(value) => {
-                setTargetCompletionDate(value);
-                formik.setFieldValue('start', value.toISODate());
-              }}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
+              </Select>
+            </FormControl>
+            <MuiPickersUtilsProvider utils={LuxonUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="start"
+                name="start"
+                label="Target Completion Date"
+                value={targetCompletionDate}
+                onChange={(value) => {
+                  setTargetCompletionDate(value);
+                  formik.setFieldValue('start', value.toISODate());
+                }}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
           </Box>
           <Box width={3 / 4} pl={5} pt={2}>
             <TextField
@@ -264,78 +254,70 @@ const SubmitReport: React.FC = () => {
         <Typography variant="h6" align="left">
           Milestone 1
         </Typography>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-        >
-        <Box>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="start"
-              name="start"
-              label="Start Date"
-              value={targetCompletionDate}
-              onChange={(value) => {
-                setTargetCompletionDate(value);
-                formik.setFieldValue('start', value.toISODate());
-              }}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={LuxonUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="yyyy/MM/dd"
-              margin="normal"
-              id="start"
-              name="start"
-              label="Planned Finish Date"
-              value={targetCompletionDate}
-              onChange={(value) => {
-                setTargetCompletionDate(value);
-                formik.setFieldValue('start', value.toISODate());
-              }}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-          </MuiPickersUtilsProvider>
-        </Box>
-        <Box>
-          <FormControl margin="normal" fullWidth>
-            <InputLabel>Status</InputLabel>
-            <Select
-              labelId="status-label"
-              id="status"
-              fullWidth
-            >
-              {Object.entries(MilestoneStatus)
-                    .filter(([, value]) => typeof value === 'string')
-                    .map(([key, value]) => (
-                      <MenuItem value={key} key={key}>
-                        {value}
-                      </MenuItem>
-                    ))}
-            </Select>
-          </FormControl>
-          <FormControl margin="normal" fullWidth>
-            <TextField
-              id="progress"
-              name="progress"
-              label="Progress (%)"
-              type="number"
-              margin="normal"
-              variant="outlined"
-            />
-          </FormControl>
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <Box>
+            <MuiPickersUtilsProvider utils={LuxonUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="start"
+                name="start"
+                label="Start Date"
+                value={targetCompletionDate}
+                onChange={(value) => {
+                  setTargetCompletionDate(value);
+                  formik.setFieldValue('start', value.toISODate());
+                }}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider utils={LuxonUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="yyyy/MM/dd"
+                margin="normal"
+                id="start"
+                name="start"
+                label="Planned Finish Date"
+                value={targetCompletionDate}
+                onChange={(value) => {
+                  setTargetCompletionDate(value);
+                  formik.setFieldValue('start', value.toISODate());
+                }}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </Box>
+          <Box>
+            <FormControl margin="normal" fullWidth>
+              <InputLabel>Status</InputLabel>
+              <Select labelId="status-label" id="status" fullWidth>
+                {Object.entries(MilestoneStatus)
+                  .filter(([, value]) => typeof value === 'string')
+                  .map(([key, value]) => (
+                    <MenuItem value={key} key={key}>
+                      {value}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+            <FormControl margin="normal" fullWidth>
+              <TextField
+                id="progress"
+                name="progress"
+                label="Progress (%)"
+                type="number"
+                margin="normal"
+                variant="outlined"
+              />
+            </FormControl>
           </Box>
           <Box width={3 / 4} pl={5} pt={2}>
             <TextField
@@ -359,23 +341,30 @@ const SubmitReport: React.FC = () => {
     return (
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Box flexGrow={1}>
-          <Box display="flex" flexDirection="row" justifyContent="space-between">
-            <Typography variant="h6">
-              {testKPIs[0].name}
-            </Typography>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Typography variant="h6">{testKPIs[0].name}</Typography>
             <Typography variant="subtitle1">
-              <strong>Target Completion Date - </strong>{testKPIs[0].targetDate}
+              <strong>Target Completion Date - </strong>
+              {testKPIs[0].targetDate}
             </Typography>
           </Box>
-          <Typography variant="body1">
-            {testKPIs[0].description}
-          </Typography>
-          <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Typography variant="body1">{testKPIs[0].description}</Typography>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
             <Typography variant="subtitle1">
-              <strong>Baseline - </strong>{testKPIs[0].unit + testKPIs[0].baseline}
+              <strong>Baseline - </strong>
+              {testKPIs[0].unit + testKPIs[0].baseline}
             </Typography>
             <Typography variant="subtitle1">
-              <strong>Target - </strong>{testKPIs[0].unit + testKPIs[0].target}
+              <strong>Target - </strong>
+              {testKPIs[0].unit + testKPIs[0].target}
             </Typography>
           </Box>
         </Box>
@@ -401,7 +390,7 @@ const SubmitReport: React.FC = () => {
         <ProjectIDCard {...project} />
         <ProjectContactCard {...project} />
 
-        <FormControlLabel 
+        <FormControlLabel
           control={
             <Checkbox
               checked={projectInfoConfirmed}
@@ -421,18 +410,22 @@ const SubmitReport: React.FC = () => {
   // Renders Status Summary section of form
   const renderStep1 = () => {
     // array of labels to use here based on StatusType defined in types.ts
-    const StatusTypeLabels = ['Overall Status', 'Scope', 'Budget', 'Schedule', 'Other Issues or Risks'];
-    
+    const StatusTypeLabels = [
+      'Overall Status',
+      'Scope',
+      'Budget',
+      'Schedule',
+      'Other Issues or Risks',
+    ];
+
     return (
       <Container maxWidth="md">
         <Typography variant="h5" align="center">
           Status Summary
         </Typography>
         {Object.entries(StatusType)
-        .filter(([, value]) => typeof value === 'number')
-        .map(([key, value]) => (
-          getStatusComponent(StatusTypeLabels[+value])
-        ))}
+          .filter(([, value]) => typeof value === 'number')
+          .map(([key, value]) => getStatusComponent(StatusTypeLabels[+value]))}
       </Container>
     );
   };
@@ -445,16 +438,12 @@ const SubmitReport: React.FC = () => {
           Financial Information
         </Typography>
 
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-        >
+        <Box display="flex" flexDirection="row" justifyContent="center">
           <Box width={1 / 2} m={5}>
             <Typography variant="h6" align="center">
               Current Fiscal Year
             </Typography>
-            
+
             <TextField
               fullWidth
               id="currentFYApprovedFunding"
@@ -466,8 +455,14 @@ const SubmitReport: React.FC = () => {
               value={values.currentFYApprovedFunding}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.currentFYApprovedFunding && Boolean(errors.currentFYApprovedFunding)}
-              helperText={touched.currentFYApprovedFunding && errors.currentFYApprovedFunding}
+              error={
+                touched.currentFYApprovedFunding &&
+                Boolean(errors.currentFYApprovedFunding)
+              }
+              helperText={
+                touched.currentFYApprovedFunding &&
+                errors.currentFYApprovedFunding
+              }
             />
 
             <Typography variant="subtitle1" align="left">
@@ -485,8 +480,12 @@ const SubmitReport: React.FC = () => {
                 value={values.sittingInMinistry}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.sittingInMinistry && Boolean(errors.sittingInMinistry)}
-                helperText={touched.sittingInMinistry && errors.sittingInMinistry}
+                error={
+                  touched.sittingInMinistry && Boolean(errors.sittingInMinistry)
+                }
+                helperText={
+                  touched.sittingInMinistry && errors.sittingInMinistry
+                }
               />
               <TextField
                 fullWidth
@@ -511,7 +510,12 @@ const SubmitReport: React.FC = () => {
                 margin="normal"
                 variant="outlined"
                 disabled
-                value={(Number.isNaN(+values.sittingInMinistry) ? 0 : +values.sittingInMinistry) + (Number.isNaN(+values.JVdOCIO) ? 0 : +values.JVdOCIO)}
+                value={
+                  (Number.isNaN(+values.sittingInMinistry)
+                    ? 0
+                    : +values.sittingInMinistry) +
+                  (Number.isNaN(+values.JVdOCIO) ? 0 : +values.JVdOCIO)
+                }
               />
             </Box>
             {/* Note: there are 2 inputs that update each other for currentFYForecastSpend.
@@ -528,8 +532,13 @@ const SubmitReport: React.FC = () => {
               value={values.currentFYForecastSpend}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.currentFYForecastSpend && Boolean(errors.currentFYForecastSpend)}
-              helperText={touched.currentFYForecastSpend && errors.currentFYForecastSpend}
+              error={
+                touched.currentFYForecastSpend &&
+                Boolean(errors.currentFYForecastSpend)
+              }
+              helperText={
+                touched.currentFYForecastSpend && errors.currentFYForecastSpend
+              }
             />
             <TextField
               fullWidth
@@ -540,7 +549,14 @@ const SubmitReport: React.FC = () => {
               margin="normal"
               variant="outlined"
               disabled
-              value={(Number.isNaN(+values.currentFYApprovedFunding) ? 0 : +values.currentFYApprovedFunding) - (Number.isNaN(+values.currentFYForecastSpend) ? 0 : +values.currentFYForecastSpend)}
+              value={
+                (Number.isNaN(+values.currentFYApprovedFunding)
+                  ? 0
+                  : +values.currentFYApprovedFunding) -
+                (Number.isNaN(+values.currentFYForecastSpend)
+                  ? 0
+                  : +values.currentFYForecastSpend)
+              }
             />
           </Box>
           <Box width={1 / 2} m={5}>
@@ -573,8 +589,13 @@ const SubmitReport: React.FC = () => {
               value={values.projectSpendPreviousFY}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.projectSpendPreviousFY && Boolean(errors.projectSpendPreviousFY)}
-              helperText={touched.projectSpendPreviousFY && errors.projectSpendPreviousFY}
+              error={
+                touched.projectSpendPreviousFY &&
+                Boolean(errors.projectSpendPreviousFY)
+              }
+              helperText={
+                touched.projectSpendPreviousFY && errors.projectSpendPreviousFY
+              }
             />
             <TextField
               fullWidth
@@ -587,8 +608,13 @@ const SubmitReport: React.FC = () => {
               value={values.currentFYForecastSpend}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.currentFYForecastSpend && Boolean(errors.currentFYForecastSpend)}
-              helperText={touched.currentFYForecastSpend && errors.currentFYForecastSpend}
+              error={
+                touched.currentFYForecastSpend &&
+                Boolean(errors.currentFYForecastSpend)
+              }
+              helperText={
+                touched.currentFYForecastSpend && errors.currentFYForecastSpend
+              }
             />
             <TextField
               fullWidth
@@ -601,7 +627,9 @@ const SubmitReport: React.FC = () => {
               value={values.remainingFunding}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.remainingFunding && Boolean(errors.remainingFunding)}
+              error={
+                touched.remainingFunding && Boolean(errors.remainingFunding)
+              }
               helperText={touched.remainingFunding && errors.remainingFunding}
             />
             <TextField
@@ -615,8 +643,12 @@ const SubmitReport: React.FC = () => {
               value={values.estimatedTotalCost}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.estimatedTotalCost && Boolean(errors.estimatedTotalCost)}
-              helperText={touched.estimatedTotalCost && errors.estimatedTotalCost}
+              error={
+                touched.estimatedTotalCost && Boolean(errors.estimatedTotalCost)
+              }
+              helperText={
+                touched.estimatedTotalCost && errors.estimatedTotalCost
+              }
             />
             <TextField
               fullWidth
@@ -627,7 +659,12 @@ const SubmitReport: React.FC = () => {
               margin="normal"
               variant="outlined"
               disabled
-              value={(Number.isNaN(+values.totalBudget) ? 0 : +values.totalBudget) - (Number.isNaN(+values.estimatedTotalCost) ? 0 : +values.estimatedTotalCost)}
+              value={
+                (Number.isNaN(+values.totalBudget) ? 0 : +values.totalBudget) -
+                (Number.isNaN(+values.estimatedTotalCost)
+                  ? 0
+                  : +values.estimatedTotalCost)
+              }
             />
           </Box>
         </Box>
@@ -689,7 +726,7 @@ const SubmitReport: React.FC = () => {
       default:
         return 'unknown step';
     }
-  }
+  };
 
   const completedSteps = () => {
     return Object.keys(completed).length;
@@ -703,7 +740,7 @@ const SubmitReport: React.FC = () => {
     return completedSteps() === steps.length;
   };
 
-  // TODO: Implement this method to only allow the user to continue if they 
+  // TODO: Implement this method to only allow the user to continue if they
   // confirm that project information is correct.
   const isNextValid = (): boolean => {
     // return !(activeStep === 0 && projectInfoConfirmed);
@@ -736,18 +773,20 @@ const SubmitReport: React.FC = () => {
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     handleNext();
-  }
+  };
 
-  return(
+  return (
     <Container maxWidth="lg">
       {/* using a nonLinear stepper allows the user to click on the stepper labels and navigate to that section of the form */}
       {/* TODO: (samara) figure out how to stop user from using stepper buttons to go to other sections when projectInfoConfirmed is false */}
       <Stepper nonLinear activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
-
           return (
             <Step key={label}>
-              <StepButton onClick={handleStep(index)} completed={completed[index]}>
+              <StepButton
+                onClick={handleStep(index)}
+                completed={completed[index]}
+              >
                 {label}
               </StepButton>
             </Step>

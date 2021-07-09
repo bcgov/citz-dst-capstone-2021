@@ -41,7 +41,7 @@ export const SubmitReportSteps = [
   'Financial Information',
   'Business Case Objective Tracking',
   'Key Milestone Status',
-  'Key Performance Indicators'
+  'Key Performance Indicators',
 ];
 
 export default Constants;

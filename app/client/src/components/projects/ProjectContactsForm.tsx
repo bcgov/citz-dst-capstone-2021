@@ -25,7 +25,7 @@ import {
   Select,
   Typography,
   TextField,
-  Button
+  Button,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { Ministries } from '../../constants';
@@ -37,7 +37,7 @@ const ProjectContactsForm: React.FC = () => {
   const api = useApi();
 
   // TODO: Complete validation
-/*
+  /*
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -56,7 +56,7 @@ const ProjectContactsForm: React.FC = () => {
 */
   const handleSubmit = () => {
     alert('TODO: Handle submit');
-  }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -91,7 +91,7 @@ const ProjectContactsForm: React.FC = () => {
         />
       </form>
     </Container>
-  )
+  );
 };
 
 export default ProjectContactsForm;

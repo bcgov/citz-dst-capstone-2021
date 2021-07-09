@@ -115,6 +115,7 @@ export const validateKPI = yup.object({
   target: yup.number().min(10, 'Target should be larger than 10'),
   baseline: yup.number().min(10, 'Baseline should be larger than 10'),
 });
+
 export const validateReport = yup.object({
   currentFYApprovedFunding: dollars,
   sittingInMinistry: dollars,
