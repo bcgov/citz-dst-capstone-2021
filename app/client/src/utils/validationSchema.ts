@@ -35,7 +35,7 @@ const progress = yup.number().min(0).max(100, 'Cannot Be Greater Than 100');
 
 const cpsIdentifier = yup
   .string()
-  .length(11, 'CPS Identifier Must be 11 Characters Long!')
+  .length(11, 'CPS Identifier must be 11 Characters Long!')
   .required('Required');
 
 const projectNumber = yup.string().min(2).max(10);
@@ -100,4 +100,15 @@ export const validateObjective = yup.object({
   description: textField,
   comments: textField,
   start: date,
+});
+
+export const validateKPI = yup.object({
+  name,
+  description: textField,
+  comments: textField,
+  start: date,
+  unit: yup.string().min(1, 'Unit is required'),
+  end: date,
+  target: yup.number().min(10, 'Target should be larger than 10'),
+  baseline: yup.number().min(10, 'Baseline should be larger than 10'),
 });

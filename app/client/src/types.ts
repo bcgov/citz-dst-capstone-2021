@@ -188,3 +188,15 @@ export interface Report {
   objectives: Objective[];
   statuses: ReportStatus[];
 }
+
+export interface KPI {
+  id?: string;
+  name: string;
+  description: string;
+  unit: string;
+  baseline: number;
+  target: number;
+  end: Date;
+  outcome: boolean;
+  output: boolean;
+}
