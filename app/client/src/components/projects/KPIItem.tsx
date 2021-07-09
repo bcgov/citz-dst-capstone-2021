@@ -22,12 +22,9 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import _ from 'lodash';
-import { useFormik } from 'formik';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
-import { validateKPI } from '../../utils/validationSchema';
 import { Kpi } from '../../types';
 import RoundLabel from '../common/RoundLabel';
 import KPIProgress from '../common/KPIProgress';
@@ -38,16 +35,26 @@ const useStyles = makeStyles({
   },
 });
 
-// interface KPIItemProps {
-//   deleteItem: () => void;
-//   editItem: () => void;
-//   kpi: KPI;
-// }
-const KPIItem: React.FC = (props) => {
-  // const { deleteItem, editItem, kpi } = props;
+interface KPIItemProps {
+  deleteItem: () => void;
+  editItem: () => void;
+  kpi: Kpi;
+}
+
+const KPIItem: React.FC<KPIItemProps> = (props) => {
+  const { deleteItem, editItem, kpi } = props;
   const classes = useStyles();
-  // const { name, description, unit, baseline, target, end, outcome, output } =
-  //   kpi;
+  const {
+    name,
+    description,
+    unit,
+    baseline,
+    target,
+    value,
+    end,
+    outcome,
+    output,
+  } = kpi;
 
   return (
     <Paper variant="outlined">
@@ -59,20 +66,20 @@ const KPIItem: React.FC = (props) => {
             alignItems="center"
           >
             <Typography variant="h6" className={classes.bold}>
-              KPI Alpha
+              {name}
             </Typography>
-            <Box ml={4}>
+            <Box ml={4} display={outcome ? 'inline' : 'none'}>
               <RoundLabel text="Outcome" />
             </Box>
-            <Box mx={1}>
+            <Box mx={1} display={output ? 'inline' : 'none'}>
               <RoundLabel text="Output" />
             </Box>
           </Box>
           <Box display="flex">
-            <IconButton size="small" onClick={() => {}}>
+            <IconButton size="small" onClick={deleteItem}>
               <DeleteIcon />
             </IconButton>
-            <IconButton size="small" onClick={() => {}}>
+            <IconButton size="small" onClick={editItem}>
               <EditIcon />
             </IconButton>
           </Box>
@@ -84,37 +91,32 @@ const KPIItem: React.FC = (props) => {
             </Typography>
           </Box>
           <Box>
-            <Typography>2022-02-11</Typography>
+            <Typography>{end}</Typography>
           </Box>
         </Box>
         <Box>
-          <Typography variant="body2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-            blanditiis tenetur unde suscipit, quam beatae rerum inventore
-            consectetur, neque doloribus, cupiditate numquam dignissimos laborum
-            fugiat deleniti? Eum quasi quidem quibusdam.
-          </Typography>
+          <Typography variant="body2">{description}</Typography>
         </Box>
         <Box display="flex" justifyContent="center" mt={2}>
           <Typography className={classes.bold}>Current Progress</Typography>
           <Box ml={2}>
-            <Typography>$2300</Typography>
+            <Typography>{`${value} ${unit}`}</Typography>
           </Box>
         </Box>
         <Box>
-          <KPIProgress value={20} />
+          <KPIProgress value={(value * 100) / target} />
         </Box>
         <Box display="flex" justifyContent="space-between">
           <Box display="flex">
             <Typography className={classes.bold}>Baseline</Typography>
             <Box ml={1}>
-              <Typography>$1200</Typography>
+              <Typography>{`${baseline} ${unit}`}</Typography>
             </Box>
           </Box>
           <Box display="flex">
             <Typography className={classes.bold}>Target</Typography>
             <Box mx={1}>
-              <Typography>$1200</Typography>
+              <Typography>{`${target} ${unit}`}</Typography>
             </Box>
           </Box>
         </Box>

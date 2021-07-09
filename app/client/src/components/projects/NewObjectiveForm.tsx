@@ -30,7 +30,7 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 import { validateObjective } from '../../utils/validationSchema';
-import { MilestoneStatus, Objective, Status } from '../../types';
+import { Objective, Status } from '../../types';
 
 const useStyles = makeStyles({
   button: {
@@ -182,7 +182,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
-                {Object.entries(MilestoneStatus)
+                {Object.entries(Status)
                   .filter(([, value]) => typeof value === 'string')
                   .map(([key, value]) => (
                     <MenuItem value={key} key={key}>

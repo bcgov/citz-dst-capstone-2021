@@ -19,6 +19,10 @@ export const KpiSchema: Schema<Kpi> = new Schema(
       type: Number,
       default: 0,
     },
+    value: {
+      type: Number,
+      default: 0,
+    },
     target: {
       type: Number,
       default: 100,

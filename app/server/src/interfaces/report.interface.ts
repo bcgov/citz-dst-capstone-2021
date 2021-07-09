@@ -109,6 +109,7 @@ export interface Kpi {
   unit: string;
   baseline: number;
   target: number;
+  value;
   end: Date;
   outcome: boolean;
   output: boolean;

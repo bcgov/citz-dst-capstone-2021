@@ -1045,6 +1045,8 @@ components:
           type: string
         baseline:
           type: integer
+        value:
+          type: integer
         target:
           type: integer
         outcome:

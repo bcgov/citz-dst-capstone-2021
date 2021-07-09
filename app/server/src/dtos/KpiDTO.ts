@@ -41,6 +41,10 @@ class KpiDTO implements Kpi {
 
   @IsOptional()
   @IsNumber()
+  value: number;
+
+  @IsOptional()
+  @IsNumber()
   target: number;
 
   @IsOptional()

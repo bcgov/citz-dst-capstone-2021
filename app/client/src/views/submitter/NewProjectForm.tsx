@@ -35,12 +35,12 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Milestone, Objective, User } from '../../types';
+import { Kpi, Milestone, Objective, User } from '../../types';
 import { Ministries } from '../../constants';
 import useApi from '../../utils/api';
 import { validateNewProject } from '../../utils/validationSchema';
 import ProjectObjectivesStep from '../../components/projects/ProjectObjectivesStep';
-import ProjectKPIsForm from '../../components/projects/ProjectKPIsForm';
+import ProjectKPIsStep from '../../components/projects/ProjectKPIsStep';
 import AutoCompleteField from '../../components/common/AutoCompleteField';
 import utils from '../../utils';
 import NewMilestoneForm from '../../components/projects/NewMilestoneForm';
@@ -86,6 +86,7 @@ const NewProjectForm: React.FC = () => {
 
   const [milestones, setMilestones] = React.useState<Milestone[]>([]);
   const [objectives, setObjectives] = React.useState<Objective[]>([]);
+  const [kpis, setKpis] = React.useState<Kpi[]>([]);
 
   React.useEffect(() => {
     api.getUsers().then((data) => setUsers(data));
@@ -108,11 +109,7 @@ const NewProjectForm: React.FC = () => {
     },
     validationSchema: validateNewProject,
     onSubmit: (values) => {
-      // TODO: (nick)
-      //  Option 1: call just one api endpoint with all data and use transaction
-      //  Option 2: display the steps of the process and the results
-      //
-      const data = { ...values, milestones, objectives };
+      const data = { ...values, milestones, objectives, kpis };
       console.log(data);
       return api.createProject(data).then(() => {
         history.push('/projects');
@@ -183,6 +180,10 @@ const NewProjectForm: React.FC = () => {
 
   const handleObjectiveChange = (data: Objective[]) => {
     setObjectives([...data]);
+  };
+
+  const handleKpiChange = (data: Kpi[]) => {
+    setKpis([...data]);
   };
 
   const isNextValid = (): boolean => {
@@ -494,7 +495,7 @@ const NewProjectForm: React.FC = () => {
           />
         );
       case 4:
-        return <ProjectKPIsForm />;
+        return <ProjectKPIsStep data={kpis} onChange={handleKpiChange} />;
       default:
         return 'unknown step';
     }

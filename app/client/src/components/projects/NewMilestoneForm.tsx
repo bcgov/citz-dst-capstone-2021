@@ -63,12 +63,6 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
   const [estEndDate, setEstEndDate] = React.useState<Date | null>(
     defaultEndDate
   );
-  // if (milestone?.start) {
-  //   setStartDate(new Date(milestone.start));
-  // }
-  // if (milestone?.estimatedEnd) {
-  //   setStartDate(new Date(milestone.estimatedEnd));
-  // }
 
   const cancel = () => {
     closeModal(null);
