@@ -16,8 +16,8 @@
 
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 import { Milestone, Report, Quarter } from '@interfaces/report.interface';
-import ReportModel from '@models/reports.model';
-import ProjectModel from '@models/projects.model';
+import ReportModel from '@models/ReportModel';
+import ProjectModel from '@models/ProjectModel';
 import ReportDTO from '@dtos/ReportDTO';
 import { Project } from '@interfaces/project.interface';
 import MilestoneDTO from '@dtos/MilestoneDTO';

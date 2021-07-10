@@ -19,11 +19,13 @@ import { useFormik } from 'formik';
 import {
   Box,
   Button,
+  Container,
   FormControl,
   GridList,
   GridListTile,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   TextField,
   Typography,
@@ -63,12 +65,6 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
   const [estEndDate, setEstEndDate] = React.useState<Date | null>(
     defaultEndDate
   );
-  // if (milestone?.start) {
-  //   setStartDate(new Date(milestone.start));
-  // }
-  // if (milestone?.estimatedEnd) {
-  //   setStartDate(new Date(milestone.estimatedEnd));
-  // }
 
   const cancel = () => {
     closeModal(null);
@@ -109,147 +105,151 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
   };
 
   return (
-    <Box maxWidth="520px" style={{ backgroundColor: 'white' }} p={4}>
-      <Box display="flex" justifyContent="center" my={3}>
-        <Typography variant="h5">Create New Milestone</Typography>
-      </Box>
-      <form onSubmit={handleSubmit}>
-        <Box>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="Milestone Name"
-            type="text"
-            value={values.name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.name && Boolean(errors.name)}
-            helperText={touched.name && errors.name}
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between" mt={3}>
-          <Box mr={2}>
-            <KeyboardDatePicker
-              autoOk
-              size="small"
-              variant="inline"
-              inputVariant="outlined"
-              format="yyyy/MM/dd"
-              id="start"
-              name="start"
-              label="Start"
-              value={startDate}
-              onChange={(date) => {
-                if (date && !date.invalid) {
-                  setStartDate(date);
-                  formik.setFieldValue('start', date.toISODate());
-                } else {
-                  setStartDate(null);
-                  formik.setFieldValue('start', '');
-                }
-              }}
-            />
+    <Container maxWidth="sm">
+      <Paper variant="outlined">
+        <Box maxWidth="560px" p={4}>
+          <Box display="flex" justifyContent="center" my={3}>
+            <Typography variant="h5">Create New Milestone</Typography>
           </Box>
-          <Box ml={2}>
-            <KeyboardDatePicker
-              autoOk
-              size="small"
-              variant="inline"
-              format="yyyy/MM/dd"
-              inputVariant="outlined"
-              id="estimatedEnd"
-              name="estimatedEnd"
-              label="Planned Finish Date"
-              value={estEndDate}
-              onChange={(date) => {
-                if (date && !date.invalid) {
-                  setEstEndDate(date);
-                  formik.setFieldValue('estimatedEnd', date.toISODate());
-                } else {
-                  setStartDate(null);
-                  formik.setFieldValue('estimatedEnd', '');
-                }
-              }}
-            />
-          </Box>
-        </Box>
-        <Box mt={2}>
-          <TextField
-            fullWidth
-            id="comments"
-            name="comments"
-            label="Comments"
-            rows={3}
-            value={values.comments}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.comments && Boolean(errors.comments)}
-            helperText={touched.comments && errors.name}
-          />
-        </Box>
-        <Box mt={3}>
-          <GridList cols={3} cellHeight={80}>
-            <GridListTile cols={1}>
+          <form onSubmit={handleSubmit}>
+            <Box>
               <TextField
                 fullWidth
-                id="progress"
-                name="progress"
-                label="Progress"
-                type="number"
-                value={values.progress}
+                id="name"
+                name="name"
+                label="Milestone Name"
+                type="text"
+                value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.progress && Boolean(errors.progress)}
-                helperText={touched.progress && errors.progress}
+                error={touched.name && Boolean(errors.name)}
+                helperText={touched.name && errors.name}
               />
-            </GridListTile>
-            <GridListTile cols={1} />
-            <GridListTile cols={1}>
-              <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  fullWidth
-                  id="status"
-                  name="status"
-                  labelId="Status"
-                  value={values.status}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  {Object.entries(MilestoneStatus)
-                    .filter(([, value]) => typeof value === 'string')
-                    .map(([key, value]) => (
-                      <MenuItem value={key} key={key}>
-                        {value}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-            </GridListTile>
-          </GridList>
+            </Box>
+            <Box display="flex" justifyContent="space-between" mt={3}>
+              <Box mr={2}>
+                <KeyboardDatePicker
+                  autoOk
+                  size="small"
+                  variant="inline"
+                  inputVariant="outlined"
+                  format="yyyy/MM/dd"
+                  id="start"
+                  name="start"
+                  label="Start"
+                  value={startDate}
+                  onChange={(date) => {
+                    if (date && !date.invalid) {
+                      setStartDate(date);
+                      formik.setFieldValue('start', date.toISODate());
+                    } else {
+                      setStartDate(null);
+                      formik.setFieldValue('start', '');
+                    }
+                  }}
+                />
+              </Box>
+              <Box ml={2}>
+                <KeyboardDatePicker
+                  autoOk
+                  size="small"
+                  variant="inline"
+                  format="yyyy/MM/dd"
+                  inputVariant="outlined"
+                  id="estimatedEnd"
+                  name="estimatedEnd"
+                  label="Planned Finish Date"
+                  value={estEndDate}
+                  onChange={(date) => {
+                    if (date && !date.invalid) {
+                      setEstEndDate(date);
+                      formik.setFieldValue('estimatedEnd', date.toISODate());
+                    } else {
+                      setStartDate(null);
+                      formik.setFieldValue('estimatedEnd', '');
+                    }
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box mt={2}>
+              <TextField
+                fullWidth
+                id="comments"
+                name="comments"
+                label="Comments"
+                rows={3}
+                value={values.comments}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.comments && Boolean(errors.comments)}
+                helperText={touched.comments && errors.name}
+              />
+            </Box>
+            <Box mt={3}>
+              <GridList cols={3} cellHeight={80}>
+                <GridListTile cols={1}>
+                  <TextField
+                    fullWidth
+                    id="progress"
+                    name="progress"
+                    label="Progress"
+                    type="number"
+                    value={values.progress}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.progress && Boolean(errors.progress)}
+                    helperText={touched.progress && errors.progress}
+                  />
+                </GridListTile>
+                <GridListTile cols={1} />
+                <GridListTile cols={1}>
+                  <FormControl fullWidth>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      fullWidth
+                      id="status"
+                      name="status"
+                      labelId="Status"
+                      value={values.status}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      {Object.entries(MilestoneStatus)
+                        .filter(([, value]) => typeof value === 'string')
+                        .map(([key, value]) => (
+                          <MenuItem value={key} key={key}>
+                            {value}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </GridListTile>
+              </GridList>
+            </Box>
+            <Box display="flex" justifyContent="center">
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={cancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={!validate()}
+                type="submit"
+              >
+                {milestone ? 'Update' : 'Add Milestone'}
+              </Button>
+            </Box>
+          </form>
         </Box>
-        <Box display="flex" justifyContent="center">
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={cancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            disabled={!validate()}
-            type="submit"
-          >
-            {milestone ? 'Update' : 'Add Milestone'}
-          </Button>
-        </Box>
-      </form>
-    </Box>
+      </Paper>
+    </Container>
   );
 };
 

@@ -111,9 +111,10 @@ export const validateKPI = yup.object({
   comments: textField,
   start: date,
   unit: yup.string().min(1, 'Unit is required'),
+  value: yup.number().min(0), // TODO: (nick) greater than baseline and less than target
   end: date,
   target: yup.number().min(10, 'Target should be larger than 10'),
-  baseline: yup.number().min(10, 'Baseline should be larger than 10'),
+  baseline: yup.number().min(0, 'Baseline should be positive'), // TODO: (nick) less than target
 });
 
 export const validateReport = yup.object({

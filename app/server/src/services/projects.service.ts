@@ -16,7 +16,7 @@
 
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
-import ProjectModel from '@models/projects.model';
+import ProjectModel from '@models/ProjectModel';
 import { Project } from '@interfaces/project.interface';
 import ProjectDTO from '@dtos/ProjectDTO';
 import ProjectCreateDTO from '@dtos/ProjectCreateDTO';

@@ -20,7 +20,7 @@ import ProjectService from '@services/projects.service';
 import ProjectDTO from '@dtos/ProjectDTO';
 import { Report } from '@interfaces/report.interface';
 import { getInitialReport } from '@utils/reportUtils';
-import ReportModel from '@models/reports.model';
+import ReportModel from '@models/ReportModel';
 import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 
 const ProjectController = {
@@ -49,9 +49,10 @@ const ProjectController = {
       const input: ProjectCreateDTO = req.body;
       const project: Project = await ProjectService.createProject(input);
 
-      const { milestones, objectives } = input;
-      let report: Report = getInitialReport(project, milestones, objectives);
+      const { milestones, objectives, kpis } = input;
+      let report: Report = getInitialReport(project, milestones, objectives, kpis);
       report = await ReportModel.create(report);
+
       res.status(201).json(project);
     } catch (e) {
       next(e);
