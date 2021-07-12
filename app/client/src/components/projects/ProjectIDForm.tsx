@@ -25,7 +25,7 @@ import {
   Select,
   Typography,
   TextField,
-  Button
+  Button,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { Ministries } from '../../constants';
@@ -37,8 +37,7 @@ interface IProjectIDForm {
   formik?: any;
 }
 
-const ProjectIDForm: React.FC<IProjectIDForm> = ( props ) => {
-
+const ProjectIDForm: React.FC<IProjectIDForm> = (props) => {
   return (
     <Container maxWidth="sm">
       <Typography variant="h5" align="center">
@@ -102,7 +101,7 @@ const ProjectIDForm: React.FC<IProjectIDForm> = ( props ) => {
         margin="normal"
       />
     </Container>
-  )
+  );
 };
 
-  export default ProjectIDForm;
+export default ProjectIDForm;

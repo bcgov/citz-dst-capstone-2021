@@ -15,37 +15,14 @@
  */
 
 // eslint-disable-next-line max-classes-per-file
-import {
-  IsDate,
-  IsEnum,
-  IsMongoId,
-  IsNumber,
-  IsNumberString,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-  ValidateNested,
-} from 'class-validator';
-import { Report, Quarter, ReportState } from '@interfaces/report.interface';
+import { IsDate, IsEnum, IsMongoId, IsNumber, IsOptional, IsString, Max, Min, ValidateNested } from 'class-validator';
+import { Quarter, Report, ReportState, Kpi } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
-import MilestoneDTO from '@dtos/milestone.dto';
-import ReportStatusDTO from '@dtos/reportStatus.dto';
-import ObjectiveDTO from '@dtos/objective.dto';
-
-export class ReportQueryDTO {
-  @IsMongoId()
-  projectId: string;
-
-  @IsOptional()
-  @IsNumberString()
-  year: number;
-
-  @IsOptional()
-  @IsEnum(Quarter)
-  quarter: Quarter;
-}
+import MilestoneDTO from '@dtos/MilestoneDTO';
+import ReportStatusDTO from '@dtos/ReportStatusDTO';
+import ObjectiveDTO from '@dtos/ObjectiveDTO';
+import KpiDTO from '@dtos/KpiDTO';
 
 class ReportDTO implements Report {
   @IsMongoId()
@@ -100,6 +77,11 @@ class ReportDTO implements Report {
   @ValidateNested({ each: true })
   @Type(() => ReportStatusDTO)
   statuses: ReportStatusDTO[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => KpiDTO)
+  kpis: Kpi[];
 }
 
 export default ReportDTO;

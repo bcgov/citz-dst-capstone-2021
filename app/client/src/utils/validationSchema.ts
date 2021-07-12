@@ -27,7 +27,7 @@ const password = yup
 
 const name = yup
   .string()
-  .min(2, 'Too Short!')
+  .min(5, 'Too Short!')
   .max(50, 'Too Long!')
   .required('Required');
 
@@ -35,7 +35,7 @@ const progress = yup.number().min(0).max(100, 'Cannot Be Greater Than 100');
 
 const cpsIdentifier = yup
   .string()
-  .length(11, 'CPS Identifier Must be 11 Characters Long!')
+  .length(11, 'CPS Identifier must be 11 Characters Long!')
   .required('Required');
 
 const projectNumber = yup.string().min(2).max(10);
@@ -53,6 +53,9 @@ const parseDateString = (value: any, originalValue: any) => {
   return parsedDate;
 };
 const date = yup.date().transform(parseDateString);
+
+// TODO: (Samara) update for valid budget dollars; ask if budget is measured in whole dollars
+const dollars = yup.number();
 
 export const validateLogin = yup.object({ email, password });
 
@@ -100,4 +103,28 @@ export const validateObjective = yup.object({
   description: textField,
   comments: textField,
   start: date,
+});
+
+export const validateKPI = yup.object({
+  name,
+  description: textField,
+  comments: textField,
+  start: date,
+  unit: yup.string().min(1, 'Unit is required'),
+  value: yup.number().min(0), // TODO: (nick) greater than baseline and less than target
+  end: date,
+  target: yup.number().min(10, 'Target should be larger than 10'),
+  baseline: yup.number().min(0, 'Baseline should be positive'), // TODO: (nick) less than target
+});
+
+export const validateReport = yup.object({
+  currentFYApprovedFunding: dollars,
+  sittingInMinistry: dollars,
+  JVdOCIO: dollars,
+  currentFYForecastSpend: dollars,
+  totalBudget: dollars,
+  projectSpendPreviousFY: dollars,
+  remainingFunding: dollars,
+  estimatedTotalCost: dollars,
+  tempDateValue: date,
 });

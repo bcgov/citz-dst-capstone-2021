@@ -16,13 +16,14 @@
 
 import { connect, disconnect } from 'mongoose';
 import faker from 'faker';
-import ProjectDTO from '@dtos/project.dto';
+import ProjectDTO from '@dtos/ProjectDTO';
 import ProjectService from '@services/projects.service';
 import UserService from '@services/users.service';
 import DBConfig from '@/databases';
 import { Role } from '@interfaces/roles.interface';
-import { UserDTO } from '@dtos/user.dto';
+import { UserDTO } from '@dtos/UserDTO';
 import { plainToClass } from 'class-transformer';
+import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 import testData from './testData.json';
 
 beforeAll(async () => {
@@ -57,8 +58,8 @@ describe('loading test data', () => {
   });
   it('loading sample projects', () => {
     return Promise.all(
-      testData.projects.map((data: any) => {
-        const prj = plainToClass(ProjectDTO, data);
+      testData.projects.map((prjData: any) => {
+        const prj = plainToClass(ProjectCreateDTO, prjData);
         return ProjectService.getProjectDetail(prj.cpsIdentifier).then(data => {
           return data || ProjectService.createProject(prj);
         });

@@ -33,7 +33,7 @@ import DBConfig from '@databases';
 import Route from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 
-import User from '@models/users.model';
+import User from '@models/UserModel';
 
 class App {
   public readonly api_root = '/api/v1';

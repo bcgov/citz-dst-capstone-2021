@@ -191,7 +191,7 @@ paths:
         500:
           description: "Server Error"
 
-  # [GET] projects
+  # [GET] projects # TODO: (nick) Add query params
   /api/v1/projects:
     get:
       tags:
@@ -214,7 +214,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProjectRequest"
+              $ref: "#/components/schemas/ProjectCreateRequest"
       responses:
         201:
           description: Created
@@ -960,6 +960,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Milestone'
+        objectives:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectiveRequest'
+        kpis:
+          type: array
+          items:
+            $ref: '#/components/schemas/KpiRequest'
       required:
         - submitter
         - projectId
@@ -1023,6 +1031,31 @@ components:
         - name
         - start
         - estimatedEnd
+    KpiRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        end:
+          type: string
+          format: date
+        unit:
+          type: string
+        baseline:
+          type: integer
+        value:
+          type: integer
+        target:
+          type: integer
+        outcome:
+          type: boolean
+        output:
+          type: boolean
+      required:
+        - name
+        - end
     ReportStatusRequest:
       type: object
       properties:
@@ -1065,6 +1098,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReportStatusRequest'
         - $ref: '#/components/schemas/CommonProperties'
+    Kpi:
+      allOf:
+        - $ref: '#/components/schemas/KpiRequest'
+        - $ref: '#/components/schemas/CommonProperties'
     Project:
       allOf:
         - $ref: '#/components/schemas/ProjectRequest'
@@ -1085,6 +1122,35 @@ components:
           properties:
             submitter:
               $ref: '#/components/schemas/User'
+            milestones:
+              type: array
+              items:
+                $ref: '#/components/schemas/Milestone'
+            objectives:
+              type: array
+              items:
+                $ref: '#/components/schemas/Objective'
+            kpis:
+              type: array
+              items:
+                $ref: '#/components/schemas/Kpi'
+    ProjectCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/ProjectRequest'
+        - type: object
+          properties:
+            milestones:
+              type: array
+              items:
+                $ref: '#/components/schemas/MilestoneRequest'
+            objectives:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObjectiveRequest'
+            kpis:
+              type: array
+              items:
+                $ref: '#/components/schemas/KpiRequest'
     UserRequest:
       allOf:
         - $ref: '#/components/schemas/LoginRequest'

@@ -104,7 +104,7 @@ const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = (props) => {
               <ObjectiveItem
                 deleteItem={deleteObjective(index)}
                 editItem={editObjective(index)}
-                {...objective}
+                objective={objective}
                 key={objective.name}
               />
             ))}

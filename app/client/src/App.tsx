@@ -24,6 +24,7 @@ import ProjectDetails from './views/ProjectDetails';
 import SignUpForm from './views/SignUpForm';
 import ProjectList from './views/submitter/ProjectList';
 import NewProjectForm from './views/submitter/NewProjectForm';
+import SubmitReport from './views/submitter/SubmitReport';
 
 const Home = () => {
   return (
@@ -86,6 +87,7 @@ function App() {
         path="/create-project"
         component={NewProjectForm}
       />
+      <AppRoute path="/submit-report/:cps" component={SubmitReport} />
       <Redirect to="/" />
     </HashRouter>
   );
