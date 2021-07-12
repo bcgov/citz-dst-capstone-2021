@@ -31,8 +31,9 @@ import ProjectIDCard from '../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../components/projects/ProjectContactCard';
 import KPICard from '../components/projects/KPICard';
+import MilestoneItem from '../components/projects/MilestoneItem';
 import useApi from '../utils/api';
-import { Project } from '../types';
+import { Project, Report, Milestone } from '../types';
 
 /* TODO: move to constants file */
 const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
@@ -72,6 +73,8 @@ const allyProps = (index: any) => {
 
 const ProjectDetails: React.FC = () => {
   const [project, setProject] = useState({} as Project);
+  const [reports, setReports] = useState([] as Report[]);
+  const [milestones, setMilestones] = useState([] as Milestone[]);
   const { cps } = useParams<{ cps: string }>();
 
   const [value, setValue] = React.useState(0);
@@ -85,6 +88,16 @@ const ProjectDetails: React.FC = () => {
   useEffect(() => {
     api.getProjectDetail(cps).then((data) => {
       setProject(data);
+      
+      api.getReports(data.id).then((reportData) => {
+        setReports(reportData);
+        // TODO: (samara) update so it always grabs most recent report
+        if (reportData[0]) {
+          setMilestones(reportData[0].milestones);
+        } else {
+          setMilestones([] as Milestone[]);
+        }
+      });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -106,8 +119,21 @@ const ProjectDetails: React.FC = () => {
   };
 
   const renderMilestones = () => {
+    // console.log(reports);
+
     return (
-      <h1>TODO: Milestone Tab Content</h1>
+      <>
+        { milestones && milestones.length > 0 ? 
+          milestones.map((milestone) => (
+            <MilestoneItem
+              milestone={milestone}
+              key={`${milestone.id}`}
+            />
+          )) :
+          <h1>No Milestones to Display</h1>
+        }
+      
+      </>
     );
   };
 
@@ -128,11 +154,9 @@ const ProjectDetails: React.FC = () => {
       <>
         <Paper>
           <Tabs value={value} onChange={handleChange}>
-            <Tab label={projectDetailTabs[0]} {...allyProps(0)} />
-            <Tab label={projectDetailTabs[1]} {...allyProps(1)} />
-            <Tab label={projectDetailTabs[2]} {...allyProps(2)} />
-            <Tab label={projectDetailTabs[3]} {...allyProps(3)} />
-            <Tab label={projectDetailTabs[4]} {...allyProps(4)} />
+            {projectDetailTabs.map((tab, index) => (
+              <Tab label={tab} {...allyProps(index)} />
+            ))}
           </Tabs>
         </Paper>
         <TabPanel value={value} index={0}>

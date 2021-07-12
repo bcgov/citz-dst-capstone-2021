@@ -47,8 +47,8 @@ const useStyles = makeStyles({
 });
 
 interface MilestoneItemProps {
-  deleteItem: () => void;
-  editItem: () => void;
+  deleteItem?: () => void;
+  editItem?: () => void;
   milestone: Milestone;
 }
 
