@@ -959,7 +959,7 @@ components:
         milestones:
           type: array
           items:
-            $ref: '#/components/schemas/Milestone'
+            $ref: '#/components/schemas/MilestoneRequest'
         objectives:
           type: array
           items:
@@ -968,6 +968,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/KpiRequest'
+        finance:
+          type: object
+          $ref: '#/components/schemas/FinancialStatus'
       required:
         - submitter
         - projectId
@@ -1056,6 +1059,25 @@ components:
       required:
         - name
         - end
+    FinancialStatus:
+      type: object
+      properties:
+        budget:
+          type: integer
+        estimatedTotalCost:
+          type: integer
+        fyApproved:
+          type: integer
+        fyForecast:
+          type: integer
+        fySitting:
+          type: integer
+        jvToOcio:
+          type: integer
+        remaining:
+          type: integer
+        spendToEndOfPreFy:
+          type: integer
     ReportStatusRequest:
       type: object
       properties:
