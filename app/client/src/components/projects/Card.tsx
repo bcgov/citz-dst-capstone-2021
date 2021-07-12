@@ -32,13 +32,13 @@ const Card: React.FC<ICardItem> = (props) => {
         justifyContent="space-between"
         fontWeight={800}
       >
-        <Typography variant="h5">
+        <Typography variant="h6">
           <Box fontWeight="fontWeightBold" mb={1} ml={3}>
             {label}
           </Box>
         </Typography>
 
-        <Typography variant="h5">
+        <Typography variant="h6">
           <Box fontWeight="fontWeightRegular" mb={1} mr={3}>
             {content}
           </Box>

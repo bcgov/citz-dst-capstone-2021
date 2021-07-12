@@ -38,7 +38,7 @@ const ProjectProgressCard: React.FC<Project> = (props) => {
           p={2}
           bgcolor="#D5D5D5"
         >
-          <Typography variant="h4">
+          <Typography variant="h5">
             <Box fontWeight="fontWeightBold" m={1 / 2}>
               Project Progress
             </Box>
