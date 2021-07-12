@@ -128,11 +128,9 @@ const ProjectDetails: React.FC = () => {
       <>
         <Paper>
           <Tabs value={value} onChange={handleChange}>
-            <Tab label={projectDetailTabs[0]} {...allyProps(0)} />
-            <Tab label={projectDetailTabs[1]} {...allyProps(1)} />
-            <Tab label={projectDetailTabs[2]} {...allyProps(2)} />
-            <Tab label={projectDetailTabs[3]} {...allyProps(3)} />
-            <Tab label={projectDetailTabs[4]} {...allyProps(4)} />
+            {projectDetailTabs.map((tab, index) => (
+              <Tab label={tab} {...allyProps(index)} />
+            ))}
           </Tabs>
         </Paper>
         <TabPanel value={value} index={0}>
