@@ -15,11 +15,47 @@
  */
 
 import { Document, model, Schema } from 'mongoose';
-import { Quarter, Report, ReportState } from '@interfaces/report.interface';
+import { FinancialStatus, Quarter, Report, ReportState } from '@interfaces/report.interface';
 import { KpiSchema } from '@models/KpiModel';
 import { MilestoneSchema } from '@models/MilestoneModel';
 import { ObjectiveSchema } from '@models/ObjectiveModel';
 import { ReportStatusSchema } from '@models/ReportStatusModel';
+import FinancialStatusDTO from '@dtos/FinancialStatusDTO';
+
+const Finance = {
+  budget: {
+    type: Number,
+    default: 0,
+  },
+  estimatedTotalCost: {
+    type: Number,
+    default: 0,
+  },
+  fyApproved: {
+    type: Number,
+    default: 0,
+  },
+  fyForecast: {
+    type: Number,
+    default: 0,
+  },
+  fySitting: {
+    type: Number,
+    default: 0,
+  },
+  jvToOcio: {
+    type: Number,
+    default: 0,
+  },
+  remaining: {
+    type: Number,
+    default: 0,
+  },
+  spendToEndOfPreFy: {
+    type: Number,
+    default: 0,
+  },
+};
 
 const ReportModel: Schema<Report> = new Schema(
   {
@@ -59,6 +95,9 @@ const ReportModel: Schema<Report> = new Schema(
     },
     estimatedEnd: {
       type: Date,
+    },
+    finance: {
+      type: Finance,
     },
     milestones: [MilestoneSchema],
     objectives: [ObjectiveSchema],

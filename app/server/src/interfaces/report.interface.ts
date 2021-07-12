@@ -114,3 +114,14 @@ export interface Kpi {
   outcome: boolean;
   output: boolean;
 }
+
+export interface FinancialStatus {
+  fyApproved: number; // current fiscal year approved funding
+  fySitting: number; // sitting in ministry
+  jvToOcio: number; // journal voucher to OCIO
+  fyForecast: number; // current fiscal year full year forecasted spend
+  budget: number; // total project budget
+  spendToEndOfPreFy: number; // project spend to end of previous fiscal year
+  remaining: number; // projected funding for remaining fiscal years
+  estimatedTotalCost: number; // estimated total cost
+}

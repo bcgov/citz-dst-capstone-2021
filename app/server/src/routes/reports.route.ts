@@ -84,6 +84,8 @@ class ReportsRoute implements Route {
       .patch(validationMiddleware(ReportStatusDTO, 'body', true), ReportController.updateStatus);
 
     // TODO: (nick) API: do we need APIs for Kpi?
+
+    // TODO: (nick) API: do we need APIs for the financial data of a report?
   }
 }
 
