@@ -57,6 +57,8 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
   const { name, status, start, estimatedEnd, progress, comments } = milestone;
   const classes = useStyles();
 
+  console.log(typeof estimatedEnd);
+
   return (
     <Box>
       <Box
@@ -67,14 +69,19 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
         className={classes.header}
       >
         <Typography variant="h6">{name}</Typography>
-        <Box display="flex">
-          <IconButton size="small" onClick={deleteItem}>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton size="small" onClick={editItem}>
-            <EditIcon />
-          </IconButton>
-        </Box>
+        {props.deleteItem && props.editItem ?
+          <Box display="flex">
+            <IconButton size="small" onClick={deleteItem}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton size="small" onClick={editItem}>
+              <EditIcon />
+            </IconButton>
+          </Box>
+        :
+          <></>
+        }
+        
       </Box>
       <Box className={classes.body}>
         <GridList cols={2} cellHeight={140}>
