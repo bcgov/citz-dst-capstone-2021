@@ -14,8 +14,6 @@
 // limitations under the License.
 //
 
-import { FinancialStatus } from '../../server/src/interfaces/report.interface';
-
 export enum Role {
   Admin = 'Admin',
   Submitter = 'Submitter',
@@ -173,6 +171,17 @@ export interface ReportStatus {
   status: Status;
   trend: Trend;
   comments: string;
+}
+
+export interface FinancialStatus {
+  fyApproved: number; // current fiscal year approved funding
+  fySitting: number; // sitting in ministry
+  jvToOcio: number; // journal voucher to OCIO
+  fyForecast: number; // current fiscal year full year forecasted spend
+  budget: number; // total project budget
+  spendToEndOfPreFy: number; // project spend to end of previous fiscal year
+  remaining: number; // projected funding for remaining fiscal years
+  estimatedTotalCost: number; // estimated total cost
 }
 
 export interface Report {

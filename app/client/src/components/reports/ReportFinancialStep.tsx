@@ -20,7 +20,7 @@ import TextField from '@material-ui/core/TextField';
 import { useFormik } from 'formik';
 import _ from 'lodash';
 import { validateFinance } from '../../utils/validationSchema';
-import { FinancialStatus } from '../../../../server/src/interfaces/report.interface';
+import { FinancialStatus } from '../../types';
 
 const useStyles = makeStyles({
   elevation: {
