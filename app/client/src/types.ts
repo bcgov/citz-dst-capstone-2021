@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+import { FinancialStatus } from '../../server/src/interfaces/report.interface';
+
 export enum Role {
   Admin = 'Admin',
   Submitter = 'Submitter',
@@ -188,6 +190,8 @@ export interface Report {
   objectives: Objective[];
   kpis: Kpi[];
   statuses: ReportStatus[];
+  finance?: FinancialStatus;
+  kpis: Kpi[];
 }
 
 export interface Kpi {

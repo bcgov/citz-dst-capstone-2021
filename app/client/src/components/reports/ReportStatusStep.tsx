@@ -16,7 +16,7 @@
 
 import * as React from 'react';
 import { Container, Typography } from '@material-ui/core';
-import ReportStatusComponent from './ReportStatusComponent';
+import ReportStatusItem from './ReportStatusItem';
 import { ReportStatus } from '../../types';
 
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
   onValidation: (valid: boolean) => void;
 };
 
-const StatusSummary = (props: Props) => {
+const ReportStatusStep = (props: Props) => {
   const { statuses, onChange, onValidation } = props;
 
   const handleChange = (index: number) => {
@@ -51,7 +51,7 @@ const StatusSummary = (props: Props) => {
         Status Summary
       </Typography>
       {statuses.map((status, index) => (
-        <ReportStatusComponent
+        <ReportStatusItem
           status={status}
           key={status.type}
           onChange={handleChange(index)}
@@ -62,4 +62,4 @@ const StatusSummary = (props: Props) => {
   );
 };
 
-export default StatusSummary;
+export default ReportStatusStep;

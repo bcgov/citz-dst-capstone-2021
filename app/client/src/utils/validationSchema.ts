@@ -147,3 +147,9 @@ export const validateReportStatus = yup.object({
         .required('You must enter comments when the trend is down'),
     }),
 });
+
+export const validateFinance = yup.object({
+  // TODO: (nick) Which restrictions can we apply?
+  budget: yup.number().min(1),
+  estimatedTotalCost: yup.number().min(1),
+});
