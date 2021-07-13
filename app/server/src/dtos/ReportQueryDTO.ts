@@ -1,4 +1,4 @@
-import { IsEnum, IsMongoId, IsNumberString, IsOptional } from 'class-validator';
+import { IsBoolean, IsBooleanString, IsEnum, IsMongoId, IsNumberString, IsOptional } from 'class-validator';
 import { Quarter } from '@interfaces/report.interface';
 
 class ReportQueryDTO {
@@ -12,6 +12,10 @@ class ReportQueryDTO {
   @IsOptional()
   @IsEnum(Quarter)
   quarter: Quarter;
+
+  @IsOptional()
+  @IsBooleanString()
+  last: boolean;
 }
 
 export default ReportQueryDTO;

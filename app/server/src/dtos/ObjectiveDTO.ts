@@ -34,6 +34,7 @@ class ObjectiveDTO implements Objective {
   name: string;
 
   @IsOptional()
+  @Type(() => Number)
   @IsEnum(Status)
   status: Status;
 

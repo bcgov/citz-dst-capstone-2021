@@ -47,8 +47,8 @@ const useStyles = makeStyles({
 });
 
 interface MilestoneItemProps {
-  deleteItem: () => void;
-  editItem: () => void;
+  deleteItem?: () => void;
+  editItem?: () => void;
   milestone: Milestone;
 }
 
@@ -56,6 +56,10 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
   const { milestone, deleteItem, editItem } = props;
   const { name, status, start, estimatedEnd, progress, comments } = milestone;
   const classes = useStyles();
+
+  // formats dates to yyyy-mm-dd format
+  const formattedEstimatedEnd = (new Date(estimatedEnd)).toLocaleDateString('en-CA');
+  const formattedStart = (new Date(start).toLocaleDateString('en-CA'));
 
   return (
     <Box>
@@ -68,12 +72,20 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
       >
         <Typography variant="h6">{name}</Typography>
         <Box display="flex">
-          <IconButton size="small" onClick={deleteItem}>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton size="small" onClick={editItem}>
-            <EditIcon />
-          </IconButton>
+          {props.deleteItem ? 
+            <IconButton size="small" onClick={deleteItem}>
+              <DeleteIcon />
+            </IconButton>
+          :
+            <></>
+          }
+          {props.editItem ?
+            <IconButton size="small" onClick={editItem}>
+              <EditIcon />
+            </IconButton>
+          :
+            <></>
+          }
         </Box>
       </Box>
       <Box className={classes.body}>
@@ -90,7 +102,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Start Date</Typography>
-                <Typography>{start}</Typography>
+                <Typography>{formattedStart}</Typography>
               </Box>
               <Box
                 display="flex"
@@ -98,7 +110,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
                 alignItems="center"
               >
                 <Typography variant="subtitle1">Planned Finish Date</Typography>
-                <Typography>{estimatedEnd}</Typography>
+                <Typography>{formattedEstimatedEnd}</Typography>
               </Box>
             </Box>
           </GridListTile>

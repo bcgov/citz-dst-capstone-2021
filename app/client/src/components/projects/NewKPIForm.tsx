@@ -202,6 +202,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                       <Checkbox
                         checked={values.output}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         id="output"
                         name="output"
                         color="primary"
