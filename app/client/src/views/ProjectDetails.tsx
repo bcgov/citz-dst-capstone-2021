@@ -91,9 +91,10 @@ const ProjectDetails: React.FC = () => {
       
       api.getReports(data.id).then((reportData) => {
         setReports(reportData);
-        // TODO: (samara) update so it always grabs most recent report
-        if (reportData[0]) {
-          setMilestones(reportData[0].milestones);
+
+        // TODO: (samara) implement a better way to determine the most recent report submitted
+        if (reportData[reportData.length - 1]) {
+          setMilestones(reportData[reportData.length - 1].milestones);
         } else {
           setMilestones([] as Milestone[]);
         }
