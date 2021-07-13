@@ -47,17 +47,24 @@ const useStyles = makeStyles({
 });
 
 interface ObjectiveItemProps {
-  deleteItem: () => void;
-  editItem: () => void;
+  deleteItem?: () => void;
+  editItem?: () => void;
   objective: Objective;
 }
 
 const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
   const { deleteItem, editItem, objective } = props;
-  const { name, description, status, estimatedEnd, comments, phase, asset } =
-    objective;
-
   const classes = useStyles();
+  const { 
+    name,
+    description,
+    status,
+    estimatedEnd,
+    comments,
+    phase,
+    asset } = objective;
+
+  const formattedEstimatedEnd = (new Date(estimatedEnd)).toLocaleDateString('en-CA');
 
   return (
     <Paper variant="outlined">
@@ -94,7 +101,7 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
                 <Typography variant="subtitle1">
                   Target Completion Date
                 </Typography>
-                <Typography>{estimatedEnd}</Typography>
+                <Typography>{formattedEstimatedEnd}</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Phase</Typography>

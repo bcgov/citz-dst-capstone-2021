@@ -33,8 +33,9 @@ import ProjectContactCard from '../components/projects/ProjectContactCard';
 import KPICard from '../components/projects/KPICard';
 import MilestoneItem from '../components/projects/MilestoneItem';
 import KPIItem from '../components/projects/KPIItem';
+import ObjectiveItem from '../components/projects/ObjectiveItem';
 import useApi from '../utils/api';
-import { Project, Report, Milestone, Kpi } from '../types';
+import { Project, Report, Milestone, Kpi, Objective } from '../types';
 
 /* TODO: move to constants file */
 const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
@@ -77,6 +78,7 @@ const ProjectDetails: React.FC = () => {
   const [reports, setReports] = useState([] as Report[]);
   const [milestones, setMilestones] = useState([] as Milestone[]);
   const [kpis, setKpis] = useState([] as Kpi[]);
+  const [objectives, setObjectives] = useState([] as Objective[]);
   const { cps } = useParams<{ cps: string }>();
 
   const [value, setValue] = React.useState(0);
@@ -98,6 +100,7 @@ const ProjectDetails: React.FC = () => {
         if (reportData[reportData.length - 1]) {
           setMilestones(reportData[reportData.length - 1].milestones);
           setKpis(reportData[reportData.length - 1].kpis);
+          setObjectives(reportData[reportData.length - 1].objectives);
         } else {
           setMilestones([] as Milestone[]);
         }
@@ -154,7 +157,18 @@ const ProjectDetails: React.FC = () => {
 
   const renderObjectives = () => {
     return (
-      <h1>TODO: Objective Tab Content</h1>
+      <Container maxWidth="md">
+        { objectives && objectives.length > 0 ?
+          objectives.map((objective) => (
+            <ObjectiveItem
+              objective={objective}
+              key={objective.id}
+            />
+          ))
+          :
+          <h1>No Objectives to Display</h1>
+        }
+      </Container>
     );
   };
 
