@@ -30,8 +30,8 @@ const useStyles = makeStyles({
 });
 
 interface KPIItemProps {
-  deleteItem: () => void;
-  editItem: () => void;
+  deleteItem?: () => void;
+  editItem?: () => void;
   kpi: Kpi;
 }
 
@@ -49,6 +49,9 @@ const KPIItem: React.FC<KPIItemProps> = (props) => {
     outcome,
     output,
   } = kpi;
+
+  // format dates to yyyy-mm-dd
+  const formattedTargetDate = (new Date(end)).toLocaleDateString('en-CA');
 
   return (
     <Paper variant="outlined">
@@ -70,12 +73,21 @@ const KPIItem: React.FC<KPIItemProps> = (props) => {
             </Box>
           </Box>
           <Box display="flex">
-            <IconButton size="small" onClick={deleteItem}>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton size="small" onClick={editItem}>
-              <EditIcon />
-            </IconButton>
+            {deleteItem ?
+              <IconButton size="small" onClick={deleteItem}>
+                <DeleteIcon />
+              </IconButton>
+            :
+              <></>
+            }
+            {editItem ?
+              <IconButton size="small" onClick={editItem}>
+                <EditIcon />
+              </IconButton>
+            :
+              <></>
+            }
+
           </Box>
         </Box>
         <Box display="flex">
@@ -85,7 +97,7 @@ const KPIItem: React.FC<KPIItemProps> = (props) => {
             </Typography>
           </Box>
           <Box>
-            <Typography>{end}</Typography>
+            <Typography>{formattedTargetDate}</Typography>
           </Box>
         </Box>
         <Box>
