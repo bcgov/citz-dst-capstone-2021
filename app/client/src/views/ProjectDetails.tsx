@@ -23,10 +23,16 @@ import {
   CircularProgress,
   Tabs,
   Tab,
-  Paper
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import ProjectIDCard from '../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../components/projects/ProjectContactCard';
@@ -35,10 +41,20 @@ import MilestoneItem from '../components/projects/MilestoneItem';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
 import useApi from '../utils/api';
+import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
 
 /* TODO: move to constants file */
 const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
+
+const StyledTableHead = styled(TableHead)`
+  background-color: ${theme.colors.grey};
+`;
+
+const StyledTableHeadCell = styled(TableCell)`
+  font-weight: bold;
+  padding: 4px !important;
+`;
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -174,7 +190,27 @@ const ProjectDetails: React.FC = () => {
 
   const renderQRList = () => {
     return (
-      <h1>TODO: Quarterly Report List Tab Content</h1>
+      <>
+        <Box bgcolor={theme.colors.primary} color="white" p={1}>
+          <Typography variant="h5">Quarterly Status Reports</Typography>
+        </Box>
+        <Table aria-label="quarterly report list" size="medium">
+          <StyledTableHead>
+            <StyledTableHeadCell>
+              Reporting Period
+            </StyledTableHeadCell>
+            <StyledTableHeadCell>
+              Report Status
+            </StyledTableHeadCell>
+            <StyledTableHeadCell>
+              Reporting Period Start
+            </StyledTableHeadCell>
+            <StyledTableHeadCell>
+              Reporting Period End
+            </StyledTableHeadCell>
+          </StyledTableHead>
+        </Table>
+      </>
     )
   }
 
