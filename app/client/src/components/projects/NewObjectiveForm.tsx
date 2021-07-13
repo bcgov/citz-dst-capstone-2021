@@ -189,7 +189,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
                     {Object.entries(Status)
                       .filter(([, value]) => typeof value === 'string')
                       .map(([key, value]) => (
-                        <MenuItem value={key} key={key}>
+                        <MenuItem value={+key} key={key}>
                           {value}
                         </MenuItem>
                       ))}

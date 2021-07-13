@@ -61,7 +61,7 @@ describe('Testing Projects', () => {
     });
     it('creates a new project', () => {
       const data = { ...testData.projects[0] };
-      return ProjectService.findProjectByCPS(data.cpsIdentifier)
+      return ProjectService.findProjectById(data.cpsIdentifier)
         .then(project => {
           if (project) {
             return ProjectService.deleteProject(project.id);
@@ -77,7 +77,7 @@ describe('Testing Projects', () => {
     it('updates a project', done => {
       const progress = 79;
       const data = { ...testData.projects[0], progress };
-      ProjectService.findProjectByCPS(data.cpsIdentifier).then(project => {
+      ProjectService.findProjectById(data.cpsIdentifier).then(project => {
         // eslint-disable-next-line prefer-destructuring
         const id = project.id;
         expect(id).toBeDefined();
@@ -95,7 +95,7 @@ describe('Testing Projects', () => {
   describe('[DELETE] /projects/:id', () => {
     it('delete a project', () => {
       const data = testData.projects[0];
-      return ProjectService.findProjectByCPS(data.cpsIdentifier).then(project => {
+      return ProjectService.findProjectById(data.cpsIdentifier).then(project => {
         // eslint-disable-next-line prefer-destructuring
         const id = project.id;
         expect(id).toBeDefined();

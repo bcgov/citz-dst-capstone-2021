@@ -15,6 +15,7 @@
 
 import * as yup from 'yup';
 import { parse, isDate } from 'date-fns';
+import { Status, Trend } from '../types';
 
 const email = yup.string().email('Invalid email').required('Required');
 const password = yup
@@ -127,4 +128,22 @@ export const validateReport = yup.object({
   remainingFunding: dollars,
   estimatedTotalCost: dollars,
   tempDateValue: date,
+});
+
+export const validateReportStatus = yup.object({
+  status: yup.mixed().oneOf(Object.values(Status)),
+  comments: yup
+    .string()
+    .when('status', {
+      is: (status: any) => status !== Status.Green,
+      then: yup
+        .string()
+        .required('You must enter comments when the status is not green'),
+    })
+    .when('trend', {
+      is: (trend: any) => trend === Trend.Down,
+      then: yup
+        .string()
+        .required('You must enter comments when the trend is down'),
+    }),
 });

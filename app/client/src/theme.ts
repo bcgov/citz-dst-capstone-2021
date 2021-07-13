@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+// TODO: (nick) to be migrated to material-ui theme.
+
 const theme = {
   breakpoints: ['40em', '52em', '64em'],
   colors: {

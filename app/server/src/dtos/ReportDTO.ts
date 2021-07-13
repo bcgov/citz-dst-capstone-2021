@@ -39,6 +39,7 @@ class ReportDTO implements Report {
   @Max(3000)
   year: number;
 
+  @Type(() => Number)
   @IsEnum(Quarter)
   quarter: Quarter;
 
@@ -46,6 +47,7 @@ class ReportDTO implements Report {
   projectId: string;
 
   @IsOptional()
+  @Type(() => Number)
   @IsEnum(ReportState)
   state: ReportState;
 

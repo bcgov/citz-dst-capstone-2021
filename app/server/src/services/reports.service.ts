@@ -25,11 +25,15 @@ import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
 
 const ReportService = {
-  async findAllReports(projectId: string, year: number, quarter: Quarter): Promise<Report[]> {
+  async findAllReports(projectId: string, year: number, quarter: Quarter, last: boolean): Promise<Report[]> {
     const params = { projectId };
     if (year) Object.assign(params, { year });
     if (quarter) Object.assign(params, { quarter });
-    const reports: Report[] = await ReportModel.find(params).populate({ path: 'submitter' });
+    let query = ReportModel.find(params);
+    if (last) {
+      query = query.sort({ createdAt: -1 }).limit(1);
+    }
+    const reports: Report[] = await query.exec();
     return reports;
   },
 
