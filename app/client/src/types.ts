@@ -188,7 +188,6 @@ export interface Report {
   estimatedEnd?: Date;
   milestones: Milestone[];
   objectives: Objective[];
-  kpis: Kpi[];
   statuses: ReportStatus[];
   finance?: FinancialStatus;
   kpis: Kpi[];
