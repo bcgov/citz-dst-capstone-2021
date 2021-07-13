@@ -71,7 +71,7 @@ const trendIcons = [
   { icon: <ArrowDownwardIcon />, value: Trend.Down },
 ];
 
-const ReportStatusComponent = (props: Props) => {
+const ReportStatusItem = (props: Props) => {
   const { status, onChange, onValidation } = props;
 
   const classes = useStyles();
@@ -179,4 +179,4 @@ const ReportStatusComponent = (props: Props) => {
   );
 };
 
-export default ReportStatusComponent;
+export default ReportStatusItem;
