@@ -81,7 +81,7 @@ const ProjectListRowDetail: React.FC<
             variant="contained"
             color="primary"
             style={{ textTransform: 'none', marginTop: '4px' }}
-            onClick={() => history.push(`/projects/${project.cpsIdentifier}`)}
+            onClick={() => history.push(`/projects/${project.id}`)}
           >
             View Project Detail
           </Button>

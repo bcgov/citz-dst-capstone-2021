@@ -74,7 +74,7 @@ const useApi = () => {
       return api.current.get(`projects`).then(({ data }) => data);
     },
 
-    getProjectDetail(cps: any): Promise<Project> {
+    getProjectDetail(cps: string): Promise<Project> {
       if (!api.current) throw new Error('axios not set up');
       return api.current.get(`projects/${cps}`).then(({ data }) => data);
     },
@@ -93,6 +93,13 @@ const useApi = () => {
       if (!api.current) throw new Error('axios not set up');
       return api.current
         .get(`reports`, { params: { projectId } })
+        .then(({ data }) => data);
+    },
+
+    getLastReport(projectId: string): Promise<Report[]> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current
+        .get('reports', { params: { projectId, last: true } })
         .then(({ data }) => data);
     },
 

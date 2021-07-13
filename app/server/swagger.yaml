@@ -316,6 +316,10 @@ paths:
         - name: quarter
           in: query
           enum: [Q1, Q2, Q3a, Q3b, Q4]
+        - name: last
+          in: query
+          schema:
+            type: boolean
       responses:
         200:
           content:

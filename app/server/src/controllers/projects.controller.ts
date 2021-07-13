@@ -36,7 +36,7 @@ const ProjectController = {
   async getProjectDetail(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const data: Project = await ProjectService.findProjectByCPS(id);
+      const data: Project = await ProjectService.findProjectById(id);
       res.status(200).json(data);
     } catch (e) {
       next(e);
