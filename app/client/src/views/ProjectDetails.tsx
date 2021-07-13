@@ -119,7 +119,6 @@ const ProjectDetails: React.FC = () => {
   };
 
   const renderMilestones = () => {
-    // console.log(reports);
 
     return (
       <>
@@ -129,7 +128,8 @@ const ProjectDetails: React.FC = () => {
               milestone={milestone}
               key={`${milestone.id}`}
             />
-          )) :
+          ))
+          :
           <h1>No Milestones to Display</h1>
         }
       

@@ -57,7 +57,9 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
   const { name, status, start, estimatedEnd, progress, comments } = milestone;
   const classes = useStyles();
 
-  console.log(typeof estimatedEnd);
+  // formats dates to yyyy-mm-dd format
+  const formattedEstimatedEnd = (new Date(estimatedEnd)).toLocaleDateString('en-CA');
+  const formattedStart = (new Date(start).toLocaleDateString('en-CA'));
 
   return (
     <Box>
@@ -69,19 +71,22 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
         className={classes.header}
       >
         <Typography variant="h6">{name}</Typography>
-        {props.deleteItem && props.editItem ?
-          <Box display="flex">
+        <Box display="flex">
+          {props.deleteItem ? 
             <IconButton size="small" onClick={deleteItem}>
               <DeleteIcon />
             </IconButton>
+          :
+            <></>
+          }
+          {props.editItem ?
             <IconButton size="small" onClick={editItem}>
               <EditIcon />
             </IconButton>
-          </Box>
-        :
-          <></>
-        }
-        
+          :
+            <></>
+          }
+        </Box>
       </Box>
       <Box className={classes.body}>
         <GridList cols={2} cellHeight={140}>
@@ -97,7 +102,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Start Date</Typography>
-                <Typography>{start}</Typography>
+                <Typography>{formattedStart}</Typography>
               </Box>
               <Box
                 display="flex"
@@ -105,7 +110,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
                 alignItems="center"
               >
                 <Typography variant="subtitle1">Planned Finish Date</Typography>
-                <Typography>{estimatedEnd}</Typography>
+                <Typography>{formattedEstimatedEnd}</Typography>
               </Box>
             </Box>
           </GridListTile>
