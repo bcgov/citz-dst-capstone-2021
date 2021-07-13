@@ -21,6 +21,9 @@ import {
   Box,
   Container,
   CircularProgress,
+  Tabs,
+  Tab,
+  Paper
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams } from 'react-router-dom';
@@ -31,36 +34,51 @@ import KPICard from '../components/projects/KPICard';
 import useApi from '../utils/api';
 import { Project } from '../types';
 
-const testKPIData = {
-  kpiAlpha: {
-    name: 'KPI Alpha',
-    type: 'Output',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
-    baselineUnit: '%',
-    baselineValue: 5,
-    targetUnit: '%',
-    targetValue: 20,
-    targetDate: '2021-07-10',
-  },
+/* TODO: move to constants file */
+const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
 
-  kpiBeta: {
-    name: 'KPI Beta',
-    type: 'Outcome',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras venenatis tincidunt placerat.',
-    baselineUnit: 'hrs',
-    baselineValue: 2,
-    targetUnit: 'min',
-    targetValue: 45,
-    targetDate: '2022-01-15',
-  },
-};
+interface TabPanelProps {
+  // eslint-disable-next-line react/require-default-props
+  children?: React.ReactNode;
+  index: any;
+  value: any;
+}
 
-/* TODO: implement tab component to be able to switch between project details and submitted reports */
+const TabPanel = (props: TabPanelProps) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      {...other}
+      >
+        {value === index && (
+          <Box p={3}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+  )
+}
+
+const allyProps = (index: any) => {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
+  }
+}
+
 const ProjectDetails: React.FC = () => {
   const [project, setProject] = useState({} as Project);
   const { cps } = useParams<{ cps: string }>();
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.ChangeEvent<{[k: string]: never}>, newValue: number) => {
+    setValue(newValue);
+  }
 
   const api = useApi();
 
@@ -71,26 +89,73 @@ const ProjectDetails: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderProject = () => {
+  const renderProjectInfo = () => {
     return (
       <>
         <ProjectProgressCard {...project} />
         <ProjectIDCard {...project} />
         <ProjectContactCard {...project} />
+      </>
+    );
+  };
 
-        <Box mx={4}>
-          <Typography variant="h4">Key Performance Indicators</Typography>
-        </Box>
-        <Box display="flex" alignItems="center" justifyContent="center">
-          <KPICard {...testKPIData.kpiAlpha} />
-          <KPICard {...testKPIData.kpiBeta} />
-        </Box>
+  const renderKPIs = () => {
+    return (
+      <h1>TODO: KPI Tab Content</h1>
+    );
+  };
+
+  const renderMilestones = () => {
+    return (
+      <h1>TODO: Milestone Tab Content</h1>
+    );
+  };
+
+  const renderObjectives = () => {
+    return (
+      <h1>TODO: Objective Tab Content</h1>
+    );
+  };
+
+  const renderQRList = () => {
+    return (
+      <h1>TODO: Quarterly Report List Tab Content</h1>
+    )
+  }
+
+  const renderTabs = () => {
+    return (
+      <>
+        <Paper>
+          <Tabs value={value} onChange={handleChange}>
+            <Tab label={projectDetailTabs[0]} {...allyProps(0)} />
+            <Tab label={projectDetailTabs[1]} {...allyProps(1)} />
+            <Tab label={projectDetailTabs[2]} {...allyProps(2)} />
+            <Tab label={projectDetailTabs[3]} {...allyProps(3)} />
+            <Tab label={projectDetailTabs[4]} {...allyProps(4)} />
+          </Tabs>
+        </Paper>
+        <TabPanel value={value} index={0}>
+          {renderProjectInfo()}
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          {renderKPIs()}
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          {renderMilestones()}
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          {renderObjectives()}
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          {renderQRList()}
+        </TabPanel>
       </>
     );
   };
 
   const renderContent = () => {
-    return project.id ? renderProject() : <CircularProgress />;
+    return project.id ? renderTabs() : <CircularProgress />;
   };
 
   return (
@@ -102,21 +167,11 @@ const ProjectDetails: React.FC = () => {
         flexDirection="row"
         m={4}
       >
-        {/* TODO: change this to display when the next quarterly report is due */}
-        <Typography variant="h4">Q3a Status Report Due dd-mm-yy</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            // eslint-disable-next-line no-alert
-            alert('Not Implemented');
-          }}
-        >
-          <EditIcon />
-          Edit Project
-        </Button>
+        <Typography variant="h4">{project.name} - {project.cpsIdentifier}</Typography>
       </Box>
-      <Box>{renderContent()}</Box>
+      <Box>
+        {renderContent()}
+      </Box>
     </Container>
   );
 };
