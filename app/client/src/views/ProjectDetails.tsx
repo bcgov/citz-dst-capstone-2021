@@ -40,6 +40,7 @@ import KPICard from '../components/projects/KPICard';
 import MilestoneItem from '../components/projects/MilestoneItem';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
+import QuarterlyReportListRow from '../components/quarterly-reports/QuarterlyReportListRow';
 import useApi from '../utils/api';
 import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
@@ -209,6 +210,11 @@ const ProjectDetails: React.FC = () => {
               Reporting Period End
             </StyledTableHeadCell>
           </StyledTableHead>
+          <TableBody>
+            {reports.map((row) => (
+              <QuarterlyReportListRow report={row} key={row.id} />
+            ))}
+          </TableBody>
         </Table>
       </>
     )
