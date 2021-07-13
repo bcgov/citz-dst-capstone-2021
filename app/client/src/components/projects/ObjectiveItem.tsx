@@ -81,12 +81,20 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
           </Typography>
         </Box>
         <Box display="flex">
-          <IconButton size="small" onClick={deleteItem}>
-            <DeleteIcon />
-          </IconButton>
-          <IconButton size="small" onClick={editItem}>
-            <EditIcon />
-          </IconButton>
+          {deleteItem ?
+            <IconButton size="small" onClick={deleteItem}>
+              <DeleteIcon />
+            </IconButton>
+            :
+            <></>
+          }
+          {editItem ?
+            <IconButton size="small" onClick={editItem}>
+              <EditIcon />
+            </IconButton>
+            :
+            <></>
+          }
         </Box>
       </Box>
       <Box className={classes.body}>
