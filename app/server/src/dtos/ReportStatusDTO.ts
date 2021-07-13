@@ -16,6 +16,7 @@
 
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { ReportStatus, StatusType, Status, Trend } from '@interfaces/report.interface';
+import { Type } from 'class-transformer';
 
 class ReportStatusDTO implements ReportStatus {
   @IsOptional()
@@ -23,14 +24,17 @@ class ReportStatusDTO implements ReportStatus {
   comments: string;
 
   @IsOptional()
+  @Type(() => Number)
   @IsEnum(Status)
   status: Status;
 
   @IsOptional()
+  @Type(() => Number)
   @IsEnum(Trend)
   trend: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsEnum(StatusType)
   type: StatusType;
 }

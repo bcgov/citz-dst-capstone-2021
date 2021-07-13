@@ -41,6 +41,7 @@ class MilestoneDTO implements Milestone {
   start: Date;
 
   @IsOptional()
+  @Type(() => Number)
   @IsEnum(MilestoneStatus)
   status: MilestoneStatus;
 }

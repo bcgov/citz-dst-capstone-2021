@@ -25,11 +25,16 @@ import ReportStatusDTO from '@dtos/ReportStatusDTO';
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
     try {
-      const { projectId, year, quarter } = req.query;
+      const { projectId, year, quarter, last } = req.query;
       if (!projectId) {
         res.status(400).send('Bad request');
       } else {
-        const data: Report[] = await ReportService.findAllReports(projectId as string, +year, quarter as Quarter);
+        const data: Report[] = await ReportService.findAllReports(
+          projectId as string,
+          +year,
+          quarter as Quarter,
+          !!last,
+        );
         res.status(200).json(data);
       }
       next();

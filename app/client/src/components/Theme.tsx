@@ -14,28 +14,22 @@
 // limitations under the License.
 //
 
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core';
 
-const useStyles = makeStyles({
-  root: {
-    border: 'solid 1',
-    backgroundColor: 'lightgrey',
-    borderRadius: '12px',
-    height: '22px',
-    padding: '2px 12px',
-    fontSize: '14px',
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#036', // BC blue
+    },
+  },
+  typography: {
+    subtitle1: {
+      fontWeight: 700,
+    },
+    h5: {
+      fontWeight: 700,
+    },
   },
 });
 
-interface RoundLabelProps {
-  text: string;
-}
-
-const RoundLabel: React.FC<RoundLabelProps> = (props) => {
-  const classes = useStyles();
-  const { text } = props;
-  return <div className={classes.root}>{text}</div>;
-};
-
-export default RoundLabel;
+export default theme;

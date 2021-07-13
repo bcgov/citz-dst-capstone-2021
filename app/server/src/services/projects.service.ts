@@ -20,6 +20,7 @@ import ProjectModel from '@models/ProjectModel';
 import { Project } from '@interfaces/project.interface';
 import ProjectDTO from '@dtos/ProjectDTO';
 import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
+import { Types } from 'mongoose';
 
 const ProjectService = {
   async findAllProjects(): Promise<Project[]> {
@@ -31,8 +32,12 @@ const ProjectService = {
     return projects;
   },
 
-  async findProjectByCPS(cpsIdentifier: string): Promise<Project> {
-    const project = await ProjectModel.findOne({ cpsIdentifier })
+  /**
+   * @param id projectId or cpsIdentifier
+   */
+  async findProjectById(id: string): Promise<Project> {
+    const param = Types.ObjectId.isValid(id) ? { _id: id } : { cpsIdentifier: id };
+    const project = await ProjectModel.findOne(param)
       .populate({ path: 'sponsor' })
       .populate({ path: 'manager' })
       .populate({ path: 'financialContact' });
@@ -64,9 +69,9 @@ const ProjectService = {
     return project;
   },
 
-  async getProjectDetail(cpsIdentifier: string) {
+  async getProjectDetail(id: string) {
     // TODO: (nick) change so that result includes other info...
-    return this.findProjectByCPS(cpsIdentifier);
+    return this.findProjectById(id);
   },
 };
 

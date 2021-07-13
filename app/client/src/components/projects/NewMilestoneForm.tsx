@@ -218,7 +218,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
                       {Object.entries(MilestoneStatus)
                         .filter(([, value]) => typeof value === 'string')
                         .map(([key, value]) => (
-                          <MenuItem value={key} key={key}>
+                          <MenuItem value={+key} key={key}>
                             {value}
                           </MenuItem>
                         ))}

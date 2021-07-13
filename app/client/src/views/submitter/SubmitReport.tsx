@@ -28,7 +28,6 @@ import {
   Typography,
   Stepper,
   Step,
-  StepLabel,
   StepButton,
   FormControlLabel,
 } from '@material-ui/core';
@@ -36,35 +35,18 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox';
 import LuxonUtils from '@date-io/luxon';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
-import { Ministries, SubmitReportSteps } from '../../constants';
-import {
-  Status,
-  StatusType,
-  Objective,
-  Milestone,
-  MilestoneStatus,
-  Project,
-} from '../../types';
+import { SubmitReportSteps } from '../../constants';
+import { MilestoneStatus, Project, Report, ReportStatus } from '../../types';
 import useApi from '../../utils/api';
 import { validateReport } from '../../utils/validationSchema';
-import utils from '../../utils';
-
-// status summary trends
-const StatusTrends = [
-  { icon: <ArrowUpwardIcon />, trend: 'up' },
-  { icon: <ArrowForwardIcon />, trend: 'steady' },
-  { icon: <ArrowDownwardIcon />, trend: 'down' },
-];
+import StatusSummary from '../../components/reports/StatusSummary';
 
 // temp test data to display KPIs
 const testKPIs = [
@@ -92,21 +74,24 @@ const testKPIs = [
 
 const SubmitReport: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>(
-    {}
-  );
   const [targetCompletionDate, setTargetCompletionDate] = React.useState('');
   const [projectInfoConfirmed, setProjectInfoConfirmed] = React.useState(false);
   const steps = SubmitReportSteps;
-  const [project, setProject] = useState({} as Project);
-  const { cps } = useParams<{ cps: string }>();
+  const [project, setProject] = useState<Project>({} as Project);
+  const [report, setReport] = useState<Report>({} as Report);
+  const { projectId } = useParams<{ projectId: string }>();
+  const [valid, setValid] = React.useState<boolean[]>(steps.map(() => false));
 
   const api = useApi();
 
   useEffect(() => {
-    api.getProjectDetail(cps).then((data) => {
-      setProject(data);
-    });
+    api
+      .getProjectDetail(projectId)
+      .then((data) => {
+        setProject(data);
+        return api.getLastReport(data.id);
+      })
+      .then((data) => setReport(data[0]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -124,70 +109,13 @@ const SubmitReport: React.FC = () => {
       tempDateValue: '',
     },
     validationSchema: validateReport,
-    onSubmit: (values) => {
+    onSubmit: () => {
       alert('Not Implemented');
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
-
-  // renders form component for singular status summary type
-  // Only passes in label at the moment
-  const getStatusComponent = (label: string) => {
-    return (
-      <>
-        <Typography variant="h6" align="left">
-          {label}
-        </Typography>
-        <Box display="flex" flexDirection="row" justifyContent="center">
-          <Box>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select labelId="status-label" id="status" fullWidth>
-                {Object.entries(Status)
-                  .filter(([, value]) => typeof value === 'string')
-                  .map(([key, value]) => (
-                    <MenuItem value={key} key={key}>
-                      {value}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <FormControl margin="normal" fullWidth>
-              <InputLabel>Trend</InputLabel>
-              <Select labelId="trend-label" id="trend" fullWidth>
-                {StatusTrends.map((trend) => (
-                  <MenuItem value={trend.trend} key={trend.trend}>
-                    {trend.icon}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-          <Box width={3 / 4} pl={5} pt={2}>
-            <TextField
-              id="comments"
-              label="Comments"
-              multiline
-              rows={4}
-              defaultValue="Default Value"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-          </Box>
-        </Box>
-      </>
-    );
-  };
+  const { errors, touched, values, handleSubmit, handleChange, handleBlur } =
+    formik;
 
   // Renders component for singular Objective
   const getObjectiveComponent = () => {
@@ -204,7 +132,7 @@ const SubmitReport: React.FC = () => {
                 {Object.entries(MilestoneStatus)
                   .filter(([, value]) => typeof value === 'string')
                   .map(([key, value]) => (
-                    <MenuItem value={key} key={key}>
+                    <MenuItem value={+key} key={key}>
                       {value}
                     </MenuItem>
                   ))}
@@ -302,7 +230,7 @@ const SubmitReport: React.FC = () => {
                 {Object.entries(MilestoneStatus)
                   .filter(([, value]) => typeof value === 'string')
                   .map(([key, value]) => (
-                    <MenuItem value={key} key={key}>
+                    <MenuItem value={+key} key={key}>
                       {value}
                     </MenuItem>
                   ))}
@@ -396,7 +324,10 @@ const SubmitReport: React.FC = () => {
               checked={projectInfoConfirmed}
               onChange={(_, value) => {
                 setProjectInfoConfirmed(value);
+                valid[0] = value;
+                setValid([...valid]);
               }}
+              value={valid[0]}
               name="project-info-confirmed"
               color="primary"
             />
@@ -404,29 +335,6 @@ const SubmitReport: React.FC = () => {
           label="I confirm that project information is current and accurate"
         />
       </>
-    );
-  };
-
-  // Renders Status Summary section of form
-  const renderStep1 = () => {
-    // array of labels to use here based on StatusType defined in types.ts
-    const StatusTypeLabels = [
-      'Overall Status',
-      'Scope',
-      'Budget',
-      'Schedule',
-      'Other Issues or Risks',
-    ];
-
-    return (
-      <Container maxWidth="md">
-        <Typography variant="h5" align="center">
-          Status Summary
-        </Typography>
-        {Object.entries(StatusType)
-          .filter(([, value]) => typeof value === 'number')
-          .map(([key, value]) => getStatusComponent(StatusTypeLabels[+value]))}
-      </Container>
     );
   };
 
@@ -708,13 +616,31 @@ const SubmitReport: React.FC = () => {
     );
   };
 
+  const handleStatusChange = (status: ReportStatus, index: number) => {
+    report.statuses.splice(index, 1, status);
+    setReport(report);
+  };
+
+  const handleValidation = (step: number) => {
+    return (value: boolean) => {
+      valid[step] = value;
+      setValid([...valid]);
+    };
+  };
+
   // used in stepper to determine which section of the form to render based on step number passed in
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
         return renderStep0();
       case 1:
-        return renderStep1();
+        return (
+          <StatusSummary
+            statuses={report?.statuses || []}
+            onValidation={handleValidation(step)}
+            onChange={handleStatusChange}
+          />
+        );
       case 2:
         return renderStep2();
       case 3:
@@ -728,27 +654,19 @@ const SubmitReport: React.FC = () => {
     }
   };
 
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
-
-  const isLastStep = () => {
-    return Object.keys(completed).length;
-  };
-
-  const allStepsCompleted = () => {
-    return completedSteps() === steps.length;
-  };
-
   // TODO: Implement this method to only allow the user to continue if they
   // confirm that project information is correct.
   const isNextValid = (): boolean => {
-    // return !(activeStep === 0 && projectInfoConfirmed);
-    return !(activeStep === 0 ? projectInfoConfirmed : true);
+    return valid[activeStep] || (activeStep === 0 && projectInfoConfirmed);
   };
 
   const handleNext = () => {
     if (activeStep >= steps.length - 1) {
+      const index = valid.findIndex((v) => !v);
+      if (index >= 0) {
+        alert(`step ${activeStep} is not valid`);
+        return;
+      }
       handleSubmit();
     } else {
       setActiveStep(activeStep + 1);
@@ -767,14 +685,6 @@ const SubmitReport: React.FC = () => {
     }
   };
 
-  // TODO: proper implementation of how to handle completed steps
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
-
   return (
     <Container maxWidth="lg">
       {/* using a nonLinear stepper allows the user to click on the stepper labels and navigate to that section of the form */}
@@ -785,7 +695,8 @@ const SubmitReport: React.FC = () => {
             <Step key={label}>
               <StepButton
                 onClick={handleStep(index)}
-                completed={completed[index]}
+                completed={valid[index]}
+                disabled={!valid[0]}
               >
                 {label}
               </StepButton>
@@ -820,7 +731,7 @@ const SubmitReport: React.FC = () => {
               <Button
                 color="primary"
                 variant="contained"
-                disabled={isNextValid()}
+                disabled={!isNextValid()}
                 onClick={handleNext}
               >
                 {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
