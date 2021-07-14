@@ -43,7 +43,9 @@ const validationMiddleware = (
       forbidNonWhitelisted,
     }).then((errors: ValidationError[]) => {
       if (errors.length > 0) {
-        const message = errors.map((error: ValidationError) => getValidationErrorMessage(error)).join(',');
+        const message = errors
+          .map((error: ValidationError) => getValidationErrorMessage(error))
+          .join(',');
         next(errorWithCode(message, 400));
       } else {
         next();

@@ -38,17 +38,23 @@ const ReportKpiItem = (props: Props) => {
 
   const formik = useFormik({
     initialValues,
+    validationSchema: validateKPI,
     onSubmit: values => {
       onChange(values);
     },
   });
 
-  const { errors, touched, values, isValid, handleChange, handleBlur, setTouched } = formik;
+  const { errors, touched, values, isValid, handleChange, handleBlur, setTouched, validateForm } = formik;
+
+  useEffect(() => {
+    console.log('valid => ', isValid);
+    onValidation(isValid);
+    // eslint-disable-next-line
+  }, [isValid]);
 
   useEffect(() => {
     const allTouched = Object.keys(values).reduce((a, c) => ({ ...a, [c]: true }), {});
     setTouched(allTouched);
-    onValidation(isValid);
     // eslint-disable-next-line
   }, []);
 
@@ -56,58 +62,61 @@ const ReportKpiItem = (props: Props) => {
     handleChange(event);
     const { name: key, value } = event.target;
     try {
-      const updatedValues = { ...values, [key]: value };
+      const updatedValues = { ...values, [key]: +value };
       validateKPI.validateSync(updatedValues);
       onChange(updatedValues);
       onValidation(true);
       // eslint-disable-next-line no-empty
     } catch (e) {
+      console.log(e);
       onValidation(false);
     }
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" alignItems="center" p={1}>
-      <Box flexGrow={1}>
-        <Box display="flex" flexDirection="row" justifyContent="space-between">
-          <Typography variant="h6">{name}</Typography>
-          <Typography variant="subtitle1">
-            <strong>Target Completion Date - </strong>
-            {utils.getISODateString(end)}
-          </Typography>
+    <form>
+      <Box display="flex" justifyContent="space-between" alignItems="center" p={1}>
+        <Box flexGrow={1}>
+          <Box display="flex" flexDirection="row" justifyContent="space-between">
+            <Typography variant="h6">{name}</Typography>
+            <Typography variant="subtitle1">
+              <strong>Target Completion Date - </strong>
+              {utils.getISODateString(end)}
+            </Typography>
+          </Box>
+          <Typography variant="body1">{description}</Typography>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="subtitle1">
+              <strong>Baseline - </strong>
+              {baseline + unit}
+            </Typography>
+            <Typography variant="subtitle1">
+              <strong>Target - </strong>
+              {/* {TODO: (nick) how to decide unit is prepending or appending */}
+              {unit === '$' ? unit + target : target + unit}
+            </Typography>
+          </Box>
         </Box>
-        <Typography variant="body1">{description}</Typography>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="subtitle1">
-            <strong>Baseline - </strong>
-            {baseline + unit}
-          </Typography>
-          <Typography variant="subtitle1">
-            <strong>Target - </strong>
-            {/* {TODO: (nick) how to decide unit is prepending or appending */}
-            {unit === '$' ? unit + target : target + unit}
-          </Typography>
+        <Box ml={4} minWidth="140px">
+          <TextField
+            fullWidth
+            id="value"
+            name="value"
+            label={`Progress (${unit})`}
+            type="number"
+            margin="normal"
+            variant="outlined"
+            size="small"
+            inputProps={{ min: +baseline, max: +target }}
+            value={values.value}
+            onChange={handleChangeAndSubmit}
+            onBlur={handleBlur}
+            error={touched.value && Boolean(errors.value)}
+            helperText={touched.value && errors.value}
+          />
         </Box>
       </Box>
-      <Box ml={4} minWidth="140px">
-        <TextField
-          fullWidth
-          id="value"
-          name="value"
-          label={`Progress (${unit})`}
-          type="number"
-          margin="normal"
-          variant="outlined"
-          size="small"
-          inputProps={{ min: baseline, max: target }}
-          value={values.value}
-          onChange={handleChangeAndSubmit}
-          onBlur={handleBlur}
-          error={touched.value && Boolean(errors.value)}
-          helperText={touched.value && errors.value}
-        />
-      </Box>
-    </Box>
+    </form>
   );
 };
 export default ReportKpiItem;
