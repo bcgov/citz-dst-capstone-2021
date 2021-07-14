@@ -19,7 +19,7 @@ import { Collapse, IconButton, TableCell, TableRow } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
-import { Report } from '../../types';
+import { Report, ReportState } from '../../types';
 
 const StyledTableCell = styled(TableCell)`
   padding: 4px !important;
@@ -29,6 +29,52 @@ interface QuarterlyReportListRowProps {
   report: Report;
 }
 
+const getFiscalYearString = (year: number, quarter: string) => {
+  switch (quarter) {
+    case 'Q1':
+    case 'Q2':
+    case 'Q3a':
+    case 'Q3b':
+      return `${year % 100}/${(year + 1) % 100}`;
+    case 'Q4':
+      return `${(year - 1) % 100}/${year % 100}`;
+    default:
+      return 'unexpected value';
+  }
+};
+
+const getReportingPeriodStart = (year: number, quarter: string): Date => {
+  switch (quarter) {
+    case 'Q1':
+      return new Date(year, 3, 1);
+    case 'Q2':
+      return new Date(year, 6, 1);
+    case 'Q3a':
+    case 'Q3b':
+      return new Date(year, 9, 1);
+    case 'Q4':
+      return new Date(year, 0, 1);
+    default:
+      return new Date(0, 0, 0);
+  }
+};
+
+const getReportingPeriodEnd = (year: number, quarter: string): Date => {
+  switch (quarter) {
+    case 'Q1':
+      return new Date(year, 5, 30);
+    case 'Q2':
+      return new Date(year, 8, 30);
+    case 'Q3a':
+    case 'Q3b':
+      return new Date(year, 11, 31);
+    case 'Q4':
+      return new Date(year, 2, 31);
+    default:
+      return new Date(0, 0, 0);
+  }
+};
+
 const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) => {
   const { report : row } = props;
   const [collapse, setCollapse] = useState(true);
@@ -37,16 +83,16 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
     <>
       <TableRow key={row.id}>
         <StyledTableCell component="th" scope="row">
-          {row.quarter}
+          {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row">
-          TODO: Status
+          {row.statuses.length > 0 ? String(ReportState[row.statuses.length - 1]) : 'N/A'}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row">
-          TODO: start
+          {getReportingPeriodStart(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row">
-          TODO: end
+          {getReportingPeriodEnd(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
       </TableRow>
     </>
