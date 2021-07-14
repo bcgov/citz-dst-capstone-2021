@@ -190,6 +190,8 @@ const ProjectDetails: React.FC = () => {
   };
 
   const renderQRList = () => {
+    console.log(reports);
+
     return (
       <>
         <Box bgcolor={theme.colors.primary} color="white" p={1}>
