@@ -110,16 +110,15 @@ const ProjectDetails: React.FC = () => {
     api.getProjectDetail(cps).then((data) => {
       setProject(data);
       
-      api.getReports(data.id).then((reportData) => {
-        setReports(reportData);
+      api.getReports(data.id).then((reportsData) => {
+        setReports(reportsData);
+      });
 
-        // TODO: (samara) implement a better way to determine the most recent report submitted
-        if (reportData[reportData.length - 1]) {
-          setMilestones(reportData[reportData.length - 1].milestones);
-          setKpis(reportData[reportData.length - 1].kpis);
-          setObjectives(reportData[reportData.length - 1].objectives);
-        } else {
-          setMilestones([] as Milestone[]);
+      api.getLastReport(data.id).then((reportData) => {
+        if (reportData) {
+          setMilestones(reportData[0].milestones);
+          setKpis(reportData[0].kpis);
+          setObjectives(reportData[0].objectives);
         }
       });
     });
@@ -199,18 +198,19 @@ const ProjectDetails: React.FC = () => {
         </Box>
         <Table aria-label="quarterly report list" size="medium">
           <StyledTableHead>
-            <StyledTableHeadCell>
+            <StyledTableHeadCell align="left">
               Reporting Period
             </StyledTableHeadCell>
-            <StyledTableHeadCell>
+            <StyledTableHeadCell align="center">
               Report Status
             </StyledTableHeadCell>
-            <StyledTableHeadCell>
+            <StyledTableHeadCell align="right">
               Reporting Period Start
             </StyledTableHeadCell>
-            <StyledTableHeadCell>
+            <StyledTableHeadCell align="right">
               Reporting Period End
             </StyledTableHeadCell>
+            <TableCell />
           </StyledTableHead>
           <TableBody>
             {reports.map((row) => (

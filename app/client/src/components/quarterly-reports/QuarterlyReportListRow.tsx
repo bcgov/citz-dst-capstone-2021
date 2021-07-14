@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
 import { Report, ReportState } from '../../types';
+import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail'
 
 const StyledTableCell = styled(TableCell)`
   padding: 4px !important;
@@ -85,15 +86,27 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
         <StyledTableCell component="th" scope="row">
           {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
-          {row.statuses.length > 0 ? String(ReportState[row.statuses.length - 1]) : 'N/A'}
+        <StyledTableCell component="th" scope="row" align="center">
+          {row.state ? String(ReportState[row.state]) : "N/A"}
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
+        <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodStart(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
-        <StyledTableCell component="th" scope="row">
+        <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodEnd(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
+        <StyledTableCell>
+          <IconButton onClick={() => setCollapse(!collapse)}>
+            {collapse ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
+          </IconButton>
+        </StyledTableCell>
+      </TableRow>
+      <TableRow style={{ display: collapse ? 'none' : '' }}>
+        <TableCell colSpan={12}>
+          <Collapse in={!collapse}>
+            <QuarterlyReportListRowDetail report={row}/>
+          </Collapse>
+        </TableCell>
       </TableRow>
     </>
   );
