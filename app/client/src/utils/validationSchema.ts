@@ -23,21 +23,14 @@ const password = yup
   .required('Required')
   .matches(
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-    'Password must contain at least 8 characters, one uppercase, one number and one special case character'
+    'Password must contain at least 8 characters, one uppercase, one number and one special case character',
   );
 
-const name = yup
-  .string()
-  .min(5, 'Too Short!')
-  .max(50, 'Too Long!')
-  .required('Required');
+const name = yup.string().min(5, 'Too Short!').max(50, 'Too Long!').required('Required');
 
-const progress = yup.number().min(0).max(100, 'Cannot Be Greater Than 100');
+const progress = yup.number().min(0, 'Progress cannot be less than 0').max(100, 'Progress cannot be greater than 100');
 
-const cpsIdentifier = yup
-  .string()
-  .length(11, 'CPS Identifier must be 11 Characters Long!')
-  .required('Required');
+const cpsIdentifier = yup.string().length(11, 'CPS Identifier must be 11 Characters Long!').required('Required');
 
 const projectNumber = yup.string().min(2).max(10);
 // .length(10, 'Project Number Must Be 10 Characters Long!');
@@ -46,12 +39,13 @@ const textField = yup.string().max(400, 'Too Long!');
 
 const ministry = yup.string().required();
 
-const parseDateString = (value: any, originalValue: any) => {
-  const parsedDate = isDate(originalValue)
-    ? originalValue
-    : parse(originalValue, 'yyyy-MM-dd', new Date());
-
-  return parsedDate;
+const parseDateString = (value: any, originalValue: any): Date => {
+  if (isDate(originalValue)) {
+    return originalValue;
+  }
+  const d = new Date(originalValue);
+  if (isDate(d)) return d;
+  return parse(originalValue, 'yyyy-MM-dd', new Date());
 };
 const date = yup.date().transform(parseDateString);
 
@@ -94,7 +88,7 @@ export const validateNewProject = yup.object({
 export const validateMilestone = yup.object({
   name,
   start: date,
-  estimatedEnd: date,
+  estimatedEnd: date.min(yup.ref('start'), 'End date must be later than start'),
   progress,
   comments: textField,
 });
@@ -102,7 +96,11 @@ export const validateMilestone = yup.object({
 export const validateObjective = yup.object({
   name,
   description: textField,
-  comments: textField,
+  status: yup.number(),
+  comments: textField.when('status', {
+    is: (status: any) => status !== Status.Green,
+    then: yup.string().required('You must enter comments when the status is not green'),
+  }),
   start: date,
 });
 
@@ -111,11 +109,11 @@ export const validateKPI = yup.object({
   description: textField,
   comments: textField,
   start: date,
-  unit: yup.string().min(1, 'Unit is required'),
-  value: yup.number().min(0), // TODO: (nick) greater than baseline and less than target
+  unit: yup.string().required(),
+  value: yup.number().max(yup.ref('target')),
   end: date,
-  target: yup.number().min(10, 'Target should be larger than 10'),
-  baseline: yup.number().min(0, 'Baseline should be positive'), // TODO: (nick) less than target
+  target: yup.number().min(yup.ref('value')),
+  baseline: yup.number().max(yup.ref('target')),
 });
 
 export const validateReport = yup.object({
@@ -136,20 +134,16 @@ export const validateReportStatus = yup.object({
     .string()
     .when('status', {
       is: (status: any) => status !== Status.Green,
-      then: yup
-        .string()
-        .required('You must enter comments when the status is not green'),
+      then: yup.string().required('You must enter comments when the status is not green'),
     })
     .when('trend', {
       is: (trend: any) => trend === Trend.Down,
-      then: yup
-        .string()
-        .required('You must enter comments when the trend is down'),
+      then: yup.string().required('You must enter comments when the trend is down'),
     }),
 });
 
 export const validateFinance = yup.object({
   // TODO: (nick) Which restrictions can we apply?
-  budget: yup.number().min(1),
+  budget: yup.number().min(1).required(),
   estimatedTotalCost: yup.number().min(1),
 });

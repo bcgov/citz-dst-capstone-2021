@@ -22,7 +22,7 @@ import { Role } from '@interfaces/roles.interface';
 import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
 
-import { UserDTO } from '@dtos/UserDTO';
+import UserDTO from '@dtos/UserDTO';
 import testData from './testData.json';
 
 const { admin, testUser } = testData;
@@ -105,9 +105,12 @@ describe('Testing Users', () => {
 
   describe('[GET] /users/:id', () => {
     it('response findOne User', () => {
-      return UserService.findUserByEmail(admin.email).then(user => {
-        return request(app.getServer()).get(`${uri}/${user.id}`).set('Authorization', `Bearer ${token}`).expect(200);
-      });
+      return UserService.findUserByEmail(admin.email).then(user =>
+        request(app.getServer())
+          .get(`${uri}/${user.id}`)
+          .set('Authorization', `Bearer ${token}`)
+          .expect(200),
+      );
     });
   });
 
@@ -127,7 +130,10 @@ describe('Testing Users', () => {
   describe('[DELETE] /users/:id', () => {
     it('deletes User', () => {
       return UserService.findUserByEmail(testUser.email).then(user => {
-        return request(app.getServer()).delete(`${uri}/${user.id}`).set('Authorization', `Bearer ${token}`).expect(200);
+        return request(app.getServer())
+          .delete(`${uri}/${user.id}`)
+          .set('Authorization', `Bearer ${token}`)
+          .expect(200);
       });
     });
   });

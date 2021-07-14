@@ -15,52 +15,97 @@
 //
 
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Typography,
-  Stepper,
-  Step,
-  StepButton,
-  FormControlLabel,
-} from '@material-ui/core';
+import { Box, Button, Container, Typography, Stepper, Step, StepButton, FormControlLabel } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
 import { SubmitReportSteps } from '../../constants';
-import { Project, Report, ReportStatus } from '../../types';
+import { Kpi, Milestone, Objective, Project, Report, ReportStatus } from '../../types';
 import useApi from '../../utils/api';
 import ReportStatusStep from '../../components/reports/ReportStatusStep';
 import ReportFinancialStep from '../../components/reports/ReportFinancialStep';
 import ReportObjectiveStep from '../../components/reports/ReportObjectiveStep';
 import ReportMilestoneStep from '../../components/reports/ReportMilestoneStep';
 import ReportKpiStep from '../../components/reports/ReportKpiStep';
+import utils from '../../utils';
 
 const SubmitReport: React.FC = () => {
+  const history = useHistory();
+  const api = useApi();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [projectInfoConfirmed, setProjectInfoConfirmed] = React.useState(false);
   const steps = SubmitReportSteps;
   const [project, setProject] = useState<Project>({} as Project);
   const [report, setReport] = useState<Report>({} as Report);
   const { projectId } = useParams<{ projectId: string }>();
-  const [valid, setValid] = React.useState<boolean[]>(steps.map(() => false));
-
-  const api = useApi();
 
   useEffect(() => {
     api
       .getProjectDetail(projectId)
-      .then((data) => {
+      .then(data => {
         setProject(data);
         return api.getLastReport(data.id);
       })
-      .then((data) => setReport(data[0]));
+      .then(data => setReport(data[0]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleStatusChange = (data: ReportStatus, index: number) => {
+    report.statuses.splice(index, 1, data);
+    setReport(report);
+  };
+  const handleObjectiveChange = (data: Objective, index: number) => {
+    report.objectives.splice(index, 1, data);
+    setReport(report);
+  };
+  const handleMilestoneChange = (data: Milestone, index: number) => {
+    report.milestones.splice(index, 1, data);
+    setReport(report);
+  };
+  const handleKpiChange = (data: Kpi, index: number) => {
+    report.kpis.splice(index, 1, data);
+    setReport(report);
+  };
+
+  // TODO: (nick) how to use array instead of followings?
+  // each step interferes with each other during simultaneous updates
+  const [valid0, setValid0] = React.useState(false);
+  const [valid1, setValid1] = React.useState(false);
+  const [valid2, setValid2] = React.useState(false);
+  const [valid3, setValid3] = React.useState(false);
+  const [valid4, setValid4] = React.useState(false);
+  const [valid5, setValid5] = React.useState(false);
+  const handleValidation = (step: number) => {
+    return (value: boolean) => {
+      switch (step) {
+        case 0:
+          return setValid0(value);
+        case 1:
+          return setValid1(value);
+        case 2:
+          return setValid2(value);
+        case 3:
+          return setValid3(value);
+        case 4:
+          return setValid4(value);
+        case 5:
+          return setValid5(value);
+        default:
+          return null;
+      }
+    };
+  };
+
+  const handleChange = (key: string) => {
+    return (data: any) => {
+      Object.assign(report, { [key]: data });
+      setReport(report);
+    };
+  };
 
   // Renders project info for form confirmation
   const renderStep0 = () => {
@@ -76,10 +121,9 @@ const SubmitReport: React.FC = () => {
               checked={projectInfoConfirmed}
               onChange={(_, value) => {
                 setProjectInfoConfirmed(value);
-                valid[0] = value;
-                setValid([...valid]);
+                handleValidation(0)(value);
               }}
-              value={valid[0]}
+              value={valid0}
               name="project-info-confirmed"
               color="primary"
             />
@@ -88,25 +132,6 @@ const SubmitReport: React.FC = () => {
         />
       </>
     );
-  };
-
-  const handleStatusChange = (status: ReportStatus, index: number) => {
-    report.statuses.splice(index, 1, status);
-    setReport(report);
-  };
-
-  const handleValidation = (step: number) => {
-    return (value: boolean) => {
-      valid[step] = value;
-      setValid([...valid]);
-    };
-  };
-
-  const handleChange = (key: string) => {
-    return (data: any) => {
-      Object.assign(report, { [key]: data });
-      setReport(report);
-    };
   };
 
   // used in stepper to determine which section of the form to render based on step number passed in
@@ -127,32 +152,54 @@ const SubmitReport: React.FC = () => {
           <ReportFinancialStep
             finance={report.finance}
             onChange={handleChange('finance')}
+            onValidation={handleValidation(step)}
           />
         );
       case 3:
-        return <ReportObjectiveStep objectives={report.objectives} />;
+        return (
+          <ReportObjectiveStep
+            objectives={report.objectives}
+            onChange={handleObjectiveChange}
+            onValidation={handleValidation(step)}
+          />
+        );
       case 4:
-        return <ReportMilestoneStep milestones={report.milestones} />;
+        return (
+          <ReportMilestoneStep
+            milestones={report.milestones}
+            onChange={handleMilestoneChange}
+            onValidation={handleValidation(step)}
+          />
+        );
       case 5:
-        return <ReportKpiStep kpis={report.kpis} />;
+        return (
+          <ReportKpiStep
+            kpis={report.kpis}
+            onChange={handleKpiChange}
+            onValidation={handleValidation(step)}
+          />
+        );
       default:
         return 'unknown step';
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    utils.removeProperties(report, 'updatedAt', 'createdAt');
+    api.updateReport(report).then(() => {
+      history.push(`/projects/${project.cpsIdentifier}`);
+    });
+  };
 
   const isNextValid = (): boolean => {
-    return valid[0] || (activeStep === 0 && projectInfoConfirmed);
+    if (activeStep === steps.length - 1) {
+      return valid0 && valid1 && valid2 && valid3 && valid4 && valid5;
+    }
+    return valid0;
   };
 
   const handleNext = () => {
     if (activeStep >= steps.length - 1) {
-      const index = valid.findIndex((v) => !v);
-      if (index >= 0) {
-        alert(`step ${activeStep} is not valid`);
-        return;
-      }
       handleSubmit();
     } else {
       setActiveStep(activeStep + 1);
@@ -171,19 +218,32 @@ const SubmitReport: React.FC = () => {
     }
   };
 
+  const stepCompleted = (step: number) => {
+    switch (step) {
+      case 0:
+        return valid0;
+      case 1:
+        return valid1;
+      case 2:
+        return valid2;
+      case 3:
+        return valid3;
+      case 4:
+        return valid4;
+      case 5:
+        return valid5;
+      default:
+        return false;
+    }
+  };
+
   return (
     <Container maxWidth="lg">
-      {/* using a nonLinear stepper allows the user to click on the stepper labels and navigate to that section of the form */}
-      {/* TODO: (samara) figure out how to stop user from using stepper buttons to go to other sections when projectInfoConfirmed is false */}
       <Stepper nonLinear activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           return (
             <Step key={label}>
-              <StepButton
-                onClick={handleStep(index)}
-                completed={valid[index]}
-                disabled={!valid[0]}
-              >
+              <StepButton onClick={handleStep(index)} completed={stepCompleted(index)} disabled={!valid0}>
                 {label}
               </StepButton>
             </Step>

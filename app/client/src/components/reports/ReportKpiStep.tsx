@@ -15,22 +15,47 @@
 //
 
 import * as React from 'react';
-import { Container, Typography } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import { Kpi } from '../../types';
 import ReportKpiItem from './ReportKpiItem';
 
 type Props = {
   kpis: Kpi[];
+  onChange: (kpi: Kpi, index: number) => void;
+  onValidation: (valid: boolean) => void;
 };
+
 const ReportKpiStep = (props: Props) => {
-  const { kpis } = props;
+  const { kpis, onChange, onValidation } = props;
+
+  // validity of each status
+  const [valid, setValid] = React.useState<boolean[]>(kpis.map(() => true));
+  if (kpis.length === 0) onValidation(true);
+
+  const handleValidation = (index: number) => {
+    return (value: boolean) => {
+      const clone = [...valid];
+      clone[index] = value;
+      setValid(clone);
+      onValidation(valid.every(v => v));
+    };
+  };
+
+  const handleChange = (index: number) => {
+    return (kpi: Kpi) => {
+      onChange(kpi, index);
+    };
+  };
+
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center">
         Key Performance Indicators
       </Typography>
-      {kpis.map((kpi) => (
-        <ReportKpiItem kpi={kpi} key={kpi.id} />
+      {kpis.map((kpi, index) => (
+        <Box key={kpi.id} boxShadow={1} p={1} my={2}>
+          <ReportKpiItem kpi={kpi} onChange={handleChange(index)} onValidation={handleValidation(index)} />
+        </Box>
       ))}
     </Container>
   );

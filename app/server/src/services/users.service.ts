@@ -17,7 +17,7 @@
 import bcrypt from 'bcrypt';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
-import { UserDTO } from '@dtos/UserDTO';
+import UserDTO from '@dtos/UserDTO';
 import { User } from '@interfaces/users.interface';
 import UserModel from '@models/UserModel';
 import { checkIfEmpty } from '@utils/util';

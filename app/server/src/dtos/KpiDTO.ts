@@ -15,10 +15,22 @@
  */
 
 import { Kpi } from '@interfaces/report.interface';
-import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsMongoId,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 class KpiDTO implements Kpi {
+  @IsOptional()
+  @IsMongoId()
+  id: string;
+
   @IsString()
   @MinLength(8)
   @MaxLength(50)
@@ -36,15 +48,15 @@ class KpiDTO implements Kpi {
   unit: string;
 
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
   baseline: number;
 
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
   value: number;
 
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
   target: number;
 
   @IsOptional()

@@ -15,23 +15,52 @@
 //
 
 import * as React from 'react';
-import { Container, Typography } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import { Milestone } from '../../types';
 import ReportMilestoneItem from './ReportMilestoneItem';
 
 type Props = {
   milestones: Milestone[];
+  onChange: (milestone: Milestone, index: number) => void;
+  onValidation: (valid: boolean) => void;
 };
 const ReportMilestoneStep = (props: Props) => {
-  const { milestones } = props;
+  const { milestones, onChange, onValidation } = props;
+
+  const handleChange = (index: number) => {
+    return (data: Milestone) => {
+      onChange(data, index);
+    };
+  };
+
+  // validity of each status
+  const [valid, setValid] = React.useState<boolean[]>(milestones.map(() => true));
+  if (milestones.length === 0) {
+    onValidation(true);
+  }
+
+  const handleValidation = (index: number) => {
+    return (value: boolean) => {
+      const clone = [...valid];
+      clone[index] = value;
+      setValid(clone);
+      onValidation(valid.every(v => v));
+    };
+  };
 
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center">
         Key Milestone Status
       </Typography>
-      {milestones.map((stone) => (
-        <ReportMilestoneItem milestone={stone} key={stone.id} />
+      {milestones.map((stone, index) => (
+        <Box key={stone.id} boxShadow={1} p={1} my={2}>
+          <ReportMilestoneItem
+            milestone={stone}
+            onChange={handleChange(index)}
+            onValidation={handleValidation(index)}
+          />
+        </Box>
       ))}
     </Container>
   );

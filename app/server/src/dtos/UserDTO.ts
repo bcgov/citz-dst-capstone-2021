@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-import { IsBoolean, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsEnum, IsMongoId, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import { Role } from '@interfaces/roles.interface';
 import LoginDTO from '@dtos/LoginDTO';
 
-export class UserDTO extends LoginDTO {
+class UserDTO extends LoginDTO {
+  @IsOptional()
+  @IsMongoId()
+  id?: string;
+
   @IsString()
   @MinLength(2)
   @MaxLength(20)
@@ -42,3 +46,5 @@ export class UserDTO extends LoginDTO {
   @IsString()
   ministry: string;
 }
+
+export default UserDTO;

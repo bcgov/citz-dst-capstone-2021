@@ -18,7 +18,7 @@
 import 'reflect-metadata';
 
 import UserService from '@services/users.service';
-import { UserDTO } from '@dtos/UserDTO';
+import UserDTO from '@dtos/UserDTO';
 import AuthService from '@services/auth.service';
 import App from '@/app';
 import ReportsRoute from '@routes/reports.route';

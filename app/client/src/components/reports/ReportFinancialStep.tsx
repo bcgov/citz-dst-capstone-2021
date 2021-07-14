@@ -19,6 +19,7 @@ import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { useFormik } from 'formik';
 import _ from 'lodash';
+import { useEffect, useRef } from 'react';
 import { validateFinance } from '../../utils/validationSchema';
 import { FinancialStatus } from '../../types';
 
@@ -31,9 +32,10 @@ const useStyles = makeStyles({
 type Props = {
   finance?: FinancialStatus | undefined;
   onChange: (data: FinancialStatus) => void;
+  onValidation: (valid: boolean) => void;
 };
 const ReportFinancialStep = (props: Props) => {
-  const { finance, onChange } = props;
+  const { finance, onChange, onValidation } = props;
   const classes = useStyles();
 
   const initialValues: FinancialStatus = finance
@@ -52,16 +54,32 @@ const ReportFinancialStep = (props: Props) => {
   const formik = useFormik({
     initialValues,
     validationSchema: validateFinance,
-    onSubmit: () => {}, // submit in the dismount hook
+    onSubmit: values => {
+      try {
+        validateFinance.validateSync(values);
+        onChange(values);
+        onValidation(true);
+      } catch {
+        onValidation(false);
+      }
+    }, // submit in the dismount hook
   });
 
-  const { errors, touched, values, isValid, handleChange, handleBlur } = formik;
+  const { errors, values, isValid, handleSubmit, handleChange, handleBlur, setTouched } = formik;
 
-  // submit when the active step changes and component dismounts
-  React.useEffect(() => {
+  // report validation to parent
+  useEffect(() => {
+    onValidation(isValid);
+    // eslint-disable-next-line
+  }, [isValid]);
+
+  useEffect(() => {
+    // initial validation
+    const allTouched = Object.keys(values).reduce((a, c) => ({ ...a, [c]: true }), {});
+    setTouched(allTouched);
     return () => {
-      console.log('financial valid => ', isValid);
-      onChange(values);
+      // submit at dismount
+      handleSubmit();
     };
     // eslint-disable-next-line
   }, []);
@@ -72,212 +90,209 @@ const ReportFinancialStep = (props: Props) => {
         Financial Information
       </Typography>
 
-      <Box display="flex" flexDirection="row" justifyContent="center">
-        <Box width={1 / 2} m={5}>
-          <Typography variant="h6" align="center">
-            Current Fiscal Year
-          </Typography>
-
-          <TextField
-            fullWidth
-            id="fyApproved"
-            name="fyApproved"
-            label="Current FY Approved Funding"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.fyApproved}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.fyApproved && Boolean(errors.fyApproved)}
-            helperText={touched.fyApproved && errors.fyApproved}
-            className={classes.elevation}
-          />
-
-          <Typography variant="subtitle1" align="left">
-            Current FY Actuals
-          </Typography>
-          <Box ml={3}>
+      <form>
+        <Box display="flex" justifyContent="center">
+          <Box width={1 / 2} m={5}>
+            <Typography variant="h6" align="center">
+              Current Fiscal Year
+            </Typography>
             <TextField
               fullWidth
-              id="fySitting"
-              name="fySitting"
-              label="Sitting in Ministry"
+              id="fyApproved"
+              name="fyApproved"
+              label="Current FY Approved Funding"
               type="number"
               margin="normal"
               variant="outlined"
-              value={values.fySitting}
+              value={values.fyApproved}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={touched.fySitting && Boolean(errors.fySitting)}
-              helperText={touched.fySitting && errors.fySitting}
+              error={Boolean(errors.fyApproved)}
+              helperText={errors.fyApproved}
+              className={classes.elevation}
+            />
+
+            <Typography variant="subtitle1" align="left">
+              Current FY Actuals
+            </Typography>
+            <Box ml={3}>
+              <TextField
+                fullWidth
+                id="fySitting"
+                name="fySitting"
+                label="Sitting in Ministry"
+                type="number"
+                margin="normal"
+                variant="outlined"
+                value={values.fySitting}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(errors.fySitting)}
+                helperText={errors.fySitting}
+                className={classes.elevation}
+              />
+              <TextField
+                fullWidth
+                id="jvToOcio"
+                name="jvToOcio"
+                label="JV'd to OCIO"
+                type="number"
+                margin="normal"
+                variant="outlined"
+                value={values.jvToOcio}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(errors.jvToOcio)}
+                helperText={errors.jvToOcio}
+                className={classes.elevation}
+              />
+              <TextField
+                fullWidth
+                id="currentFYActuals"
+                name="currentFYActuals"
+                label="Current FY Actuals"
+                type="number"
+                margin="normal"
+                variant="outlined"
+                disabled
+                value={
+                  (Number.isNaN(+values.fySitting) ? 0 : +values.fySitting) +
+                  (Number.isNaN(+values.jvToOcio) ? 0 : +values.jvToOcio)
+                }
+              />
+            </Box>
+            {/* Note: there are 2 inputs that update each other for fyForecast.
+                  Decided to have 1 input in current fiscal year and 1 input
+                  in overall project information to not deviate too far from
+                  how submitters are used to reporting.
+            */}
+            <TextField
+              fullWidth
+              id="fyForecast"
+              name="fyForecast"
+              label="Current Fiscal Year FY Forecasted Spend"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              value={values.fyForecast}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.fyForecast)}
+              helperText={errors.fyForecast}
               className={classes.elevation}
             />
             <TextField
               fullWidth
-              id="jvToOcio"
-              name="jvToOcio"
-              label="JV'd to OCIO"
-              type="number"
-              margin="normal"
-              variant="outlined"
-              value={values.jvToOcio}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.jvToOcio && Boolean(errors.jvToOcio)}
-              helperText={touched.jvToOcio && errors.jvToOcio}
-              className={classes.elevation}
-            />
-            <TextField
-              fullWidth
-              id="currentFYActuals"
-              name="currentFYActuals"
-              label="Current FY Actuals"
+              id="currentFYVariance"
+              name="currentFYVariance"
+              label="Variance to Budget"
               type="number"
               margin="normal"
               variant="outlined"
               disabled
               value={
-                (Number.isNaN(+values.fySitting) ? 0 : +values.fySitting) +
-                (Number.isNaN(+values.jvToOcio) ? 0 : +values.jvToOcio)
+                (Number.isNaN(+values.fyApproved) ? 0 : +values.fyApproved) -
+                (Number.isNaN(+values.fyForecast) ? 0 : +values.fyForecast)
               }
             />
           </Box>
-          {/* Note: there are 2 inputs that update each other for fyForecast.
-                Decided to have 1 input in current fiscal year and 1 input in overall project information to not deviate too far from how submitters are used to reporting.
-            */}
-          <TextField
-            fullWidth
-            id="fyForecast"
-            name="fyForecast"
-            label="Current Fiscal Year FY Forecasted Spend"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.fyForecast}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.fyForecast && Boolean(errors.fyForecast)}
-            helperText={touched.fyForecast && errors.fyForecast}
-            className={classes.elevation}
-          />
-          <TextField
-            fullWidth
-            id="currentFYVariance"
-            name="currentFYVariance"
-            label="Variance to Budget"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            disabled
-            value={
-              (Number.isNaN(+values.fyApproved) ? 0 : +values.fyApproved) -
-              (Number.isNaN(+values.fyForecast) ? 0 : +values.fyForecast)
-            }
-          />
-        </Box>
-        <Box width={1 / 2} m={5}>
-          <Typography variant="h6" align="center">
-            Overall Project Information
-          </Typography>
+          <Box width={1 / 2} m={5}>
+            <Typography variant="h6" align="center">
+              Overall Project Information
+            </Typography>
 
-          <TextField
-            fullWidth
-            id="budget"
-            name="budget"
-            label="Total Project Budget"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.budget}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.budget && Boolean(errors.budget)}
-            helperText={touched.budget && errors.budget}
-            className={classes.elevation}
-          />
-          <TextField
-            fullWidth
-            id="spendToEndOfPreFy"
-            name="spendToEndOfPreFy"
-            label="Project Spend to End of Previous FY"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.spendToEndOfPreFy}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={
-              touched.spendToEndOfPreFy && Boolean(errors.spendToEndOfPreFy)
-            }
-            helperText={touched.spendToEndOfPreFy && errors.spendToEndOfPreFy}
-            className={classes.elevation}
-          />
-          <TextField
-            fullWidth
-            id="fyForecast"
-            name="fyForecast"
-            label="Current FY Full Year Forecasted Spend"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.fyForecast}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.fyForecast && Boolean(errors.fyForecast)}
-            helperText={touched.fyForecast && errors.fyForecast}
-            className={classes.elevation}
-          />
-          <TextField
-            fullWidth
-            id="remaining"
-            name="remaining"
-            label="Project Funding for Remaining FYs"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.remaining}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.remaining && Boolean(errors.remaining)}
-            helperText={touched.remaining && errors.remaining}
-            className={classes.elevation}
-          />
-          <TextField
-            fullWidth
-            id="estimatedTotalCost"
-            name="estimatedTotalCost"
-            label="Estimated Total Cost"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            value={values.estimatedTotalCost}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={
-              touched.estimatedTotalCost && Boolean(errors.estimatedTotalCost)
-            }
-            helperText={touched.estimatedTotalCost && errors.estimatedTotalCost}
-            className={classes.elevation}
-          />
-          <TextField
-            fullWidth
-            id="projectVariance"
-            name="projectVariance"
-            label="Variance to Budget"
-            type="number"
-            margin="normal"
-            variant="outlined"
-            disabled
-            value={
-              (Number.isNaN(+values.budget) ? 0 : +values.budget) -
-              (Number.isNaN(+values.estimatedTotalCost)
-                ? 0
-                : +values.estimatedTotalCost)
-            }
-          />
+            <TextField
+              fullWidth
+              id="budget"
+              name="budget"
+              label="Total Project Budget"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              value={values.budget}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.budget)}
+              helperText={errors.budget}
+              className={classes.elevation}
+            />
+            <TextField
+              fullWidth
+              id="spendToEndOfPreFy"
+              name="spendToEndOfPreFy"
+              label="Project Spend to End of Previous FY"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              value={values.spendToEndOfPreFy}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.spendToEndOfPreFy)}
+              helperText={errors.spendToEndOfPreFy}
+              className={classes.elevation}
+            />
+            <TextField
+              fullWidth
+              id="fyForecast"
+              name="fyForecast"
+              label="Current FY Full Year Forecasted Spend"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              value={values.fyForecast}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.fyForecast)}
+              helperText={errors.fyForecast}
+              className={classes.elevation}
+            />
+            <TextField
+              fullWidth
+              id="remaining"
+              name="remaining"
+              label="Project Funding for Remaining FYs"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              value={values.remaining}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.remaining)}
+              helperText={errors.remaining}
+              className={classes.elevation}
+            />
+            <TextField
+              fullWidth
+              id="estimatedTotalCost"
+              name="estimatedTotalCost"
+              label="Estimated Total Cost"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              value={values.estimatedTotalCost}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={Boolean(errors.estimatedTotalCost)}
+              helperText={errors.estimatedTotalCost}
+              className={classes.elevation}
+            />
+            <TextField
+              fullWidth
+              id="projectVariance"
+              name="projectVariance"
+              label="Variance to Budget"
+              type="number"
+              margin="normal"
+              variant="outlined"
+              disabled
+              value={
+                (Number.isNaN(+values.budget) ? 0 : +values.budget) -
+                (Number.isNaN(+values.estimatedTotalCost) ? 0 : +values.estimatedTotalCost)
+              }
+            />
+          </Box>
         </Box>
-      </Box>
+      </form>
     </Container>
   );
 };

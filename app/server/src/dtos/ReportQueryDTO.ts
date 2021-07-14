@@ -1,4 +1,4 @@
-import { IsBoolean, IsBooleanString, IsEnum, IsMongoId, IsNumberString, IsOptional } from 'class-validator';
+import { IsBooleanString, IsEnum, IsMongoId, IsNumberString, IsOptional } from 'class-validator';
 import { Quarter } from '@interfaces/report.interface';
 
 class ReportQueryDTO {

@@ -15,10 +15,14 @@
  */
 
 import { Milestone, MilestoneStatus } from '@interfaces/report.interface';
-import { IsDate, IsEnum, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsDate, IsEnum, IsMongoId, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class MilestoneDTO implements Milestone {
+  @IsOptional()
+  @IsMongoId()
+  id: string;
+
   @IsOptional()
   @IsString()
   comments: string;

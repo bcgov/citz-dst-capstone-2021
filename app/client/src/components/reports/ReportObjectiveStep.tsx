@@ -15,22 +15,50 @@
 //
 
 import * as React from 'react';
-import { Container, Typography } from '@material-ui/core';
+import { Box, Container, Typography } from '@material-ui/core';
 import { Objective } from '../../types';
 import ReportObjectiveItem from './ReportObjectiveItem';
 
 type Props = {
   objectives: Objective[];
+  onChange: (status: Objective, index: number) => void;
+  onValidation: (valid: boolean) => void;
 };
 const ReportObjectiveStep = (props: Props) => {
-  const { objectives } = props;
+  const { objectives, onChange, onValidation } = props;
+
+  const handleChange = (index: number) => {
+    return (objective: Objective) => {
+      onChange(objective, index);
+    };
+  };
+
+  // validity of each status
+  const [valid, setValid] = React.useState<boolean[]>(objectives.map(() => true));
+  if (objectives.length === 0) {
+    onValidation(true);
+  }
+
+  const handleValidation = (index: number) => {
+    return (value: boolean) => {
+      const clone = [...valid];
+      clone[index] = value;
+      setValid(clone);
+      onValidation(valid.every(v => v));
+    };
+  };
+
   return (
     <Container maxWidth="md">
-      <Typography variant="h5" align="center">
-        Business Case Objective Tracking
-      </Typography>
-      {objectives.map((obj) => (
-        <ReportObjectiveItem objective={obj} key={obj.id} />
+      <Box>
+        <Typography variant="h5" align="center">
+          Business Case Objective Tracking
+        </Typography>
+      </Box>
+      {objectives.map((obj, index) => (
+        <Box key={obj.id} boxShadow={1} p={1} my={2}>
+          <ReportObjectiveItem objective={obj} onChange={handleChange(index)} onValidation={handleValidation(index)} />
+        </Box>
       ))}
     </Container>
   );
