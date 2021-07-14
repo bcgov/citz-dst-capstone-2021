@@ -36,9 +36,31 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
 
   return(
     <>
-      <Box>
-        <strong>Submitter</strong>
-        <p>{submitter.firstName} {submitter.lastName}</p>
+      <Box display="flex" justifyContent="space-between">
+        <Box display="contents" justifyContent="space-between">
+          <Typography variant="body2">
+            <strong>Submitter</strong>
+          </Typography>
+          <Typography variant="body2">
+            {submitter.firstName} {submitter.lastName}
+          </Typography>
+        </Box>
+        <Box display="contents" justifyContent="space-between">
+          <Typography variant="body2">
+            <strong>Report Due</strong>
+          </Typography>
+          <Typography variant="body2">
+            {/* TODO: Implement due dates for quarterly reports */}
+            yyyy-mm-dd
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {alert('TODO: view report')}}
+          >
+            View Report
+          </Button>
       </Box>
     </>
   );
