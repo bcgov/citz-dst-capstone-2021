@@ -14,12 +14,13 @@
 // limitations under the License.
 //
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Collapse, IconButton, TableCell, TableRow } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
-import { Report, ReportState } from '../../types';
+import useApi from '../../utils/api';
+import { Report, ReportState, User } from '../../types';
 import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail'
 
 const StyledTableCell = styled(TableCell)`
@@ -79,6 +80,15 @@ const getReportingPeriodEnd = (year: number, quarter: string): Date => {
 const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) => {
   const { report : row } = props;
   const [collapse, setCollapse] = useState(true);
+  const [submitter, setSubmitter] = useState({} as User)
+  const api = useApi();
+
+  useEffect(() => {
+    api.getUser(String(row.submitter)).then((data) => {
+      setSubmitter(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -104,7 +114,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
       <TableRow style={{ display: collapse ? 'none' : '' }}>
         <TableCell colSpan={12}>
           <Collapse in={!collapse}>
-            <QuarterlyReportListRowDetail report={row}/>
+            <QuarterlyReportListRowDetail report={row} submitter={submitter}/>
           </Collapse>
         </TableCell>
       </TableRow>

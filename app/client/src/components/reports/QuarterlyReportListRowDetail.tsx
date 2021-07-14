@@ -20,21 +20,25 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { Report } from '../../types';
+import { Report, User } from '../../types';
 
 
 interface QuarterlyReportListRowDetailProps {
   report: Report;
+  submitter: User;
 }
 
 const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = (props) => {
-  const { report } = props;
+  const {
+    report,
+    submitter
+  } = props;
 
   return(
     <>
       <Box>
         <strong>Submitter</strong>
-        <p>{report.submitter}</p>
+        <p>{submitter.firstName} {submitter.lastName}</p>
       </Box>
     </>
   );

@@ -40,22 +40,13 @@ import KPICard from '../components/projects/KPICard';
 import MilestoneItem from '../components/projects/MilestoneItem';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
-import QuarterlyReportListRow from '../components/quarterly-reports/QuarterlyReportListRow';
+import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
 import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
 
 /* TODO: move to constants file */
 const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
-
-const StyledTableHead = styled(TableHead)`
-  background-color: ${theme.colors.grey};
-`;
-
-const StyledTableHeadCell = styled(TableCell)`
-  font-weight: bold;
-  padding: 4px !important;
-`;
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -188,40 +179,6 @@ const ProjectDetails: React.FC = () => {
     );
   };
 
-  const renderQRList = () => {
-    console.log(reports);
-
-    return (
-      <>
-        <Box bgcolor={theme.colors.primary} color="white" p={1}>
-          <Typography variant="h5">Quarterly Status Reports</Typography>
-        </Box>
-        <Table aria-label="quarterly report list" size="medium">
-          <StyledTableHead>
-            <StyledTableHeadCell align="left">
-              Reporting Period
-            </StyledTableHeadCell>
-            <StyledTableHeadCell align="center">
-              Report Status
-            </StyledTableHeadCell>
-            <StyledTableHeadCell align="right">
-              Reporting Period Start
-            </StyledTableHeadCell>
-            <StyledTableHeadCell align="right">
-              Reporting Period End
-            </StyledTableHeadCell>
-            <TableCell />
-          </StyledTableHead>
-          <TableBody>
-            {reports.map((row) => (
-              <QuarterlyReportListRow report={row} key={row.id} />
-            ))}
-          </TableBody>
-        </Table>
-      </>
-    )
-  }
-
   const renderTabs = () => {
     return (
       <>
@@ -245,7 +202,7 @@ const ProjectDetails: React.FC = () => {
           {renderObjectives()}
         </TabPanel>
         <TabPanel value={value} index={4}>
-          {renderQRList()}
+          <QuarterlyReportList reports={reports} />
         </TabPanel>
       </>
     );
