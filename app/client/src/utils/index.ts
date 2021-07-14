@@ -24,11 +24,17 @@ export default {
     }
   },
 
-  isValidFormInput(
-    values: Record<string, any>,
-    errors: Record<string, string>,
-    keys: string[]
-  ): boolean {
-    return keys.every((key) => !!values[key] && !errors[key]);
+  isValidFormInput(values: Record<string, any>, errors: Record<string, string>, keys: string[]): boolean {
+    return keys.every(key => !!values[key] && !errors[key]);
+  },
+
+  removeProperties(obj: Record<string, any>, ...fields: any[]) {
+    // eslint-disable-next-line no-param-reassign
+    fields.forEach(key => delete obj[key]);
+    Object.values(obj).forEach(value => {
+      if (typeof value === 'object') {
+        this.removeProperties(value, ...fields);
+      }
+    });
   },
 };

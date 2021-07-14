@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { Objective, Status } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
 class ObjectiveDTO implements Objective {
+  @IsOptional()
+  @IsMongoId()
+  id: string;
+
   @IsOptional()
   @IsString()
   comments: string;

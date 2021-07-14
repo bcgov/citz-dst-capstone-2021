@@ -39,9 +39,10 @@ const ReportStatusStep = (props: Props) => {
 
   const handleValidation = (index: number) => {
     return (value: boolean) => {
-      valid[index] = value;
-      setValid([...valid]);
-      onValidation(valid.every((v) => v));
+      const clone = [...valid];
+      clone[index] = value;
+      setValid(clone);
+      onValidation(valid.every(v => v));
     };
   };
 

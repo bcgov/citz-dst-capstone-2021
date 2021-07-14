@@ -129,8 +129,8 @@ export interface Project extends NewProject {
 
 export interface NewMilestone {
   name: string;
-  start: string;
-  estimatedEnd: string;
+  start: Date;
+  estimatedEnd: Date;
   comments: string;
 }
 

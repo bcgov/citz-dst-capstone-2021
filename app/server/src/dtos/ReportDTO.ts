@@ -26,6 +26,10 @@ import KpiDTO from '@dtos/KpiDTO';
 import FinancialStatusDTO from '@dtos/FinancialStatusDTO';
 
 class ReportDTO implements Report {
+  @IsOptional()
+  @IsMongoId()
+  id: string;
+
   @IsMongoId()
   submitter: string;
 
@@ -39,7 +43,6 @@ class ReportDTO implements Report {
   @Max(3000)
   year: number;
 
-  @Type(() => Number)
   @IsEnum(Quarter)
   quarter: Quarter;
 
