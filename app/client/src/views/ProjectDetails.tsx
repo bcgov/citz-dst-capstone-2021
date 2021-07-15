@@ -13,45 +13,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from "react";
 
-import {
-  Typography,
-  Button,
-  Box,
-  Container,
-  CircularProgress,
-  Tabs,
-  Tab,
-  Paper,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import { Typography, Box, Container, CircularProgress, Tabs, Tab, Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import { projectDetailTabs } from '../constants';
-import ProjectIDCard from '../components/projects/ProjectIDCard';
-import ProjectProgressCard from '../components/projects/ProjectProgressCard';
-import ProjectContactCard from '../components/projects/ProjectContactCard';
-import KPICard from '../components/projects/KPICard';
-import MilestoneItem from '../components/projects/MilestoneItem';
-import KPIItem from '../components/projects/KPIItem';
-import ObjectiveItem from '../components/projects/ObjectiveItem';
 import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
-import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
 import ProjectDetailsKpiStep from '../components/projects/ProjectDetailsKpiStep';
-import ProjectDetailsMilestoneStep from "../components/projects/ProjectDetailsMilestoneStep";
+import ProjectDetailsMilestoneStep from '../components/projects/ProjectDetailsMilestoneStep';
+import ProjectDetailsObjectiveStep from '../components/projects/ProjectDetailsObjectiveStep';
 
-interface TabPanelProps {
-  // eslint-disable-next-line react/require-default-props
-  children?: React.ReactNode;
+interface TabPanelProps extends PropsWithChildren<any> {
   index: any;
   value: any;
 }
@@ -112,22 +87,6 @@ const ProjectDetails: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderObjectives = () => {
-    return (
-      <Container maxWidth="md">
-        {objectives && objectives.length > 0 ? (
-          objectives.map(objective => (
-            <Box m={4}>
-              <ObjectiveItem objective={objective} key={objective.id} />
-            </Box>
-          ))
-        ) : (
-          <h1>No Objectives to Display</h1>
-        )}
-      </Container>
-    );
-  };
-
   const renderTabs = () => {
     return (
       <>
@@ -149,7 +108,7 @@ const ProjectDetails: React.FC = () => {
             <ProjectDetailsMilestoneStep milestones={milestones} />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            {renderObjectives()}
+            <ProjectDetailsObjectiveStep objectives={objectives} />
           </TabPanel>
           <TabPanel value={value} index={4}>
             <QuarterlyReportList reports={reports} />
