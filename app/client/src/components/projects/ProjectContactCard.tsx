@@ -15,7 +15,7 @@
 //
 
 import React from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, Paper } from '@material-ui/core';
 import Card from './Card';
 import { SimpleContact } from '../../types';
 
@@ -25,44 +25,36 @@ interface IProjectContactCardProps {
   financialContact?: SimpleContact;
 }
 
-const ProjectContactCard: React.FC<IProjectContactCardProps> = (props) => {
+const ProjectContactCard: React.FC<IProjectContactCardProps> = props => {
   const { sponsor, manager, financialContact } = props;
 
   return (
-    <Box style={{ border: '1px solid black' }} m={4}>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-      >
+    <Box boxShadow={2}>
+      <Paper variant="outlined">
         <Box
           alignItems="left"
-          style={{ borderBottom: '1px solid black' }}
           width={1}
-          p={2}
+          p={1}
           bgcolor="#D5D5D5"
         >
-          <Typography variant="h5">
-            <Box fontWeight="fontWeightBold" m={1 / 2}>
-              Project Contacts
-            </Box>
-          </Typography>
+          <Typography variant="h5">Project Contacts</Typography>
         </Box>
 
-        <Card
-          label="Project Sponsor"
-          content={`${sponsor?.firstName} ${sponsor?.lastName}`}
-        />
-        <Card
-          label="Project Manager"
-          content={`${manager?.firstName} ${manager?.lastName}`}
-        />
-        <Card
-          label="Financial Contact"
-          content={`${financialContact?.firstName} ${financialContact?.lastName}`}
-        />
-      </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          py={2}
+        >
+          <Card label="Project Sponsor" content={`${sponsor?.firstName} ${sponsor?.lastName}`} />
+          <Card label="Project Manager" content={`${manager?.firstName} ${manager?.lastName}`} />
+          <Card
+            label="Financial Contact"
+            content={`${financialContact?.firstName} ${financialContact?.lastName}`}
+          />
+        </Box>
+      </Paper>
     </Box>
   );
 };

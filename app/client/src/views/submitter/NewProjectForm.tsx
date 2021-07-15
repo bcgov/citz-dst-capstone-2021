@@ -310,9 +310,11 @@ const NewProjectForm: React.FC = () => {
   const renderStep1 = () => {
     return (
       <Container maxWidth="sm">
-        <Typography variant="h5" align="center">
-          Project Contacts
-        </Typography>
+        <Box my={4}>
+          <Typography variant="h5" align="center">
+            Project Contacts
+          </Typography>
+        </Box>
         <AutoCompleteField<User>
           options={users}
           getLabel={(user) => `${user.firstName} ${user.lastName}`}
@@ -397,7 +399,7 @@ const NewProjectForm: React.FC = () => {
   const renderStep2 = () => {
     return (
       <Container maxWidth="sm">
-        <Box mb={4}>
+        <Box my={4}>
           <Typography variant="h5" align="center">
             Project Timeline Information
           </Typography>

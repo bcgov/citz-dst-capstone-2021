@@ -21,28 +21,15 @@ interface ICardItem {
   label?: string;
   content?: string;
 }
-const Card: React.FC<ICardItem> = (props) => {
+const Card: React.FC<ICardItem> = props => {
   const { label = '', content = '' } = props;
 
   return (
     <Box width={1}>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        fontWeight={800}
-      >
-        <Typography variant="h6">
-          <Box fontWeight="fontWeightBold" mb={1} ml={3}>
-            {label}
-          </Box>
-        </Typography>
+      <Box display="flex" flexDirection="row" justifyContent="space-between" px={2}>
+        <Typography variant="h6">{label}</Typography>
 
-        <Typography variant="h6">
-          <Box fontWeight="fontWeightRegular" mb={1} mr={3}>
-            {content}
-          </Box>
-        </Typography>
+        <Typography variant="h6">{content}</Typography>
       </Box>
     </Box>
   );
