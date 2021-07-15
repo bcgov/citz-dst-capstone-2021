@@ -44,4 +44,12 @@ export const SubmitReportSteps = [
   'Key Performance Indicators',
 ];
 
+export const projectDetailTabs = [
+  'Project Information',
+  'Key Performance Indicators',
+  'Key Milestones',
+  'Business Case Objectives',
+  'Quarterly Status Reports'
+];
+
 export default Constants;

@@ -16,12 +16,11 @@
 
 import { connect, disconnect } from 'mongoose';
 import faker from 'faker';
-import ProjectDTO from '@dtos/ProjectDTO';
 import ProjectService from '@services/projects.service';
 import UserService from '@services/users.service';
 import DBConfig from '@/databases';
 import { Role } from '@interfaces/roles.interface';
-import { UserDTO } from '@dtos/UserDTO';
+import UserDTO from '@dtos/UserDTO';
 import { plainToClass } from 'class-transformer';
 import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 import testData from './testData.json';

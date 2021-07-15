@@ -15,21 +15,14 @@
 //
 
 import * as React from 'react';
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  Typography,
-} from '@material-ui/core';
+import { Box, FormControl, InputLabel, makeStyles, MenuItem, Select, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import _ from 'lodash';
 import { useFormik } from 'formik';
+import { useEffect } from 'react';
 import { ReportStatus, Status, StatusType, Trend } from '../../types';
 import { validateReportStatus } from '../../utils/validationSchema';
 import theme from '../Theme';
@@ -71,7 +64,7 @@ const trendIcons = [
   { icon: <ArrowDownwardIcon />, value: Trend.Down },
 ];
 
-const ReportStatusComponent = (props: Props) => {
+const ReportStatusItem = (props: Props) => {
   const { status, onChange, onValidation } = props;
 
   const classes = useStyles();
@@ -81,36 +74,35 @@ const ReportStatusComponent = (props: Props) => {
   const formik = useFormik({
     initialValues,
     validationSchema: validateReportStatus,
-    onSubmit: () => {},
+    onSubmit: values => {
+      try {
+        validateReportStatus.validateSync(values);
+        onChange(values);
+        onValidation(true);
+      } catch {
+        onValidation(false);
+      }
+    },
   });
 
-  const { errors, touched, values, handleChange, handleBlur, setTouched } =
-    formik;
+  const { errors, touched, values, isValid, handleChange, handleSubmit, handleBlur, setTouched } = formik;
 
-  const handleChangeAndSubmit = (event: any) => {
-    handleChange(event);
-    const allTouched = Object.keys(values).reduce(
-      (a, c) => ({ ...a, [c]: true }),
-      {}
-    );
+  useEffect(() => {
+    onValidation(isValid);
+    // eslint-disable-next-line
+  }, [isValid]);
+
+  useEffect(() => {
+    const allTouched = Object.keys(values).reduce((a, c) => ({ ...a, [c]: true }), {});
     setTouched(allTouched);
-    const { name, value } = event.target;
-    try {
-      const updatedValues = { ...values, [name]: value };
-      validateReportStatus.validateSync(updatedValues);
-      onChange(updatedValues);
-      onValidation(true);
-      // eslint-disable-next-line no-empty
-    } catch {
-      onValidation(false);
-    }
-  };
+    return () => {
+      handleSubmit();
+    };
+    // eslint-disable-next-line
+  }, []);
 
   return (
-    <Box
-      p={2}
-      className={status.type === StatusType.Overall ? classes.bottomBorder : ''}
-    >
+    <Box p={2} className={status.type === StatusType.Overall ? classes.bottomBorder : ''}>
       <Typography variant="h6" align="left">
         {statusTypeLabels[status.type]}
       </Typography>
@@ -123,7 +115,7 @@ const ReportStatusComponent = (props: Props) => {
               id="status"
               name="status"
               value={values.status}
-              onChange={handleChangeAndSubmit}
+              onChange={handleChange}
               onBlur={handleBlur}
               fullWidth
               className={classes[values.status]}
@@ -144,7 +136,7 @@ const ReportStatusComponent = (props: Props) => {
               id="trend"
               name="trend"
               value={values.trend}
-              onChange={handleChangeAndSubmit}
+              onChange={handleChange}
               onBlur={handleBlur}
               className={classes[values.trend]}
               fullWidth
@@ -165,7 +157,7 @@ const ReportStatusComponent = (props: Props) => {
             multiline
             rows={4}
             value={values.comments}
-            onChange={handleChangeAndSubmit}
+            onChange={handleChange}
             onBlur={handleBlur}
             error={touched.comments && Boolean(errors.comments)}
             helperText={touched.comments && errors.comments}
@@ -179,4 +171,4 @@ const ReportStatusComponent = (props: Props) => {
   );
 };
 
-export default ReportStatusComponent;
+export default ReportStatusItem;

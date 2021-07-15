@@ -23,10 +23,17 @@ import {
   CircularProgress,
   Tabs,
   Tab,
-  Paper
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { projectDetailTabs } from '../constants'
 import ProjectIDCard from '../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../components/projects/ProjectContactCard';
@@ -34,11 +41,10 @@ import KPICard from '../components/projects/KPICard';
 import MilestoneItem from '../components/projects/MilestoneItem';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
+import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
+import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
-
-/* TODO: move to constants file */
-const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -93,16 +99,15 @@ const ProjectDetails: React.FC = () => {
     api.getProjectDetail(cps).then((data) => {
       setProject(data);
       
-      api.getReports(data.id).then((reportData) => {
-        setReports(reportData);
+      api.getReports(data.id).then((reportsData) => {
+        setReports(reportsData);
+      });
 
-        // TODO: (samara) implement a better way to determine the most recent report submitted
-        if (reportData[reportData.length - 1]) {
-          setMilestones(reportData[reportData.length - 1].milestones);
-          setKpis(reportData[reportData.length - 1].kpis);
-          setObjectives(reportData[reportData.length - 1].objectives);
-        } else {
-          setMilestones([] as Milestone[]);
+      api.getLastReport(data.id).then((reportData) => {
+        if (reportData) {
+          setMilestones(reportData[0].milestones);
+          setKpis(reportData[0].kpis);
+          setObjectives(reportData[0].objectives);
         }
       });
     });
@@ -121,13 +126,15 @@ const ProjectDetails: React.FC = () => {
 
   const renderKPIs = () => {
     return (
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         { kpis && kpis.length > 0 ?
         kpis.map((kpi) => (
-          <KPIItem
-            kpi={kpi}
-            key={kpi.id}
-          />
+          <Box m={4}>
+            <KPIItem
+              kpi={kpi}
+              key={kpi.id}
+            />
+          </Box>
         ))
         :
         <h1>No Key Performance Indicators to Display</h1>
@@ -142,10 +149,12 @@ const ProjectDetails: React.FC = () => {
       <>
         { milestones && milestones.length > 0 ? 
           milestones.map((milestone) => (
-            <MilestoneItem
-              milestone={milestone}
-              key={milestone.id}
-            />
+            <Box m={4}>
+              <MilestoneItem
+                milestone={milestone}
+                key={milestone.id}
+              />
+            </Box>
           ))
           :
           <h1>No Milestones to Display</h1>
@@ -160,10 +169,12 @@ const ProjectDetails: React.FC = () => {
       <Container maxWidth="md">
         { objectives && objectives.length > 0 ?
           objectives.map((objective) => (
-            <ObjectiveItem
-              objective={objective}
-              key={objective.id}
-            />
+            <Box m={4}>
+              <ObjectiveItem
+                objective={objective}
+                key={objective.id}
+              />
+            </Box>
           ))
           :
           <h1>No Objectives to Display</h1>
@@ -172,17 +183,16 @@ const ProjectDetails: React.FC = () => {
     );
   };
 
-  const renderQRList = () => {
-    return (
-      <h1>TODO: Quarterly Report List Tab Content</h1>
-    )
-  }
-
   const renderTabs = () => {
     return (
       <>
         <Paper>
-          <Tabs value={value} onChange={handleChange}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="primary"
+            indicatorColor="primary"
+          >
             {projectDetailTabs.map((tab, index) => (
               <Tab label={tab} {...allyProps(index)} />
             ))}
@@ -201,7 +211,7 @@ const ProjectDetails: React.FC = () => {
           {renderObjectives()}
         </TabPanel>
         <TabPanel value={value} index={4}>
-          {renderQRList()}
+          <QuarterlyReportList reports={reports} />
         </TabPanel>
       </>
     );

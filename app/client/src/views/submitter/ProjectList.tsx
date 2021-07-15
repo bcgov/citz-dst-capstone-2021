@@ -56,7 +56,7 @@ const ProjectList: React.FC<ProjectListProps> = () => {
 
   useEffect(() => {
     // TODO: (nick) user should be passed to fetch projects owned by the user
-    api.getProjects().then((data) => {
+    api.getProjects().then(data => {
       setProjects(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,26 +86,16 @@ const ProjectList: React.FC<ProjectListProps> = () => {
             <StyledTableHead>
               <TableRow>
                 <StyledTableHeadCell>Name</StyledTableHeadCell>
-                <StyledTableHeadCell align="center">
-                  CPS Number
-                </StyledTableHeadCell>
-                <StyledTableHeadCell align="center">
-                  Ministry
-                </StyledTableHeadCell>
-                <StyledTableHeadCell align="right">
-                  % Complete
-                </StyledTableHeadCell>
-                <StyledTableHeadCell align="right">
-                  Project Phase
-                </StyledTableHeadCell>
-                <StyledTableHeadCell align="right">
-                  Next Report Due
-                </StyledTableHeadCell>
+                <StyledTableHeadCell align="center">CPS Number</StyledTableHeadCell>
+                <StyledTableHeadCell align="center">Ministry</StyledTableHeadCell>
+                <StyledTableHeadCell align="right">% Complete</StyledTableHeadCell>
+                <StyledTableHeadCell align="right">Project Phase</StyledTableHeadCell>
+                <StyledTableHeadCell align="right">Next Report Due</StyledTableHeadCell>
                 <TableCell />
               </TableRow>
             </StyledTableHead>
             <TableBody>
-              {projects.map((row) => (
+              {projects.map(row => (
                 <ProjectListRow project={row} key={row.id} />
               ))}
             </TableBody>

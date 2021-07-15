@@ -42,6 +42,7 @@ export interface Report {
   milestones: Milestone[];
   objectives: Objective[];
   statuses: ReportStatus[];
+  finance?: FinancialStatus;
   kpis: Kpi[];
 }
 
@@ -109,7 +110,7 @@ export interface Kpi {
   unit: string;
   baseline: number;
   target: number;
-  value;
+  value: number;
   end: Date;
   outcome: boolean;
   output: boolean;

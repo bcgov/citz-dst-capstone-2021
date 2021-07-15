@@ -15,51 +15,55 @@
 //
 
 import * as React from 'react';
-import { Container, Typography } from '@material-ui/core';
-import ReportStatusComponent from './ReportStatusComponent';
-import { ReportStatus } from '../../types';
+import { Box, Container, Typography } from '@material-ui/core';
+import { Milestone } from '../../types';
+import ReportMilestoneItem from './ReportMilestoneItem';
 
 type Props = {
-  statuses: ReportStatus[];
-  onChange: (status: ReportStatus, index: number) => void;
+  milestones: Milestone[];
+  onChange: (milestone: Milestone, index: number) => void;
   onValidation: (valid: boolean) => void;
 };
-
-const StatusSummary = (props: Props) => {
-  const { statuses, onChange, onValidation } = props;
+const ReportMilestoneStep = (props: Props) => {
+  const { milestones, onChange, onValidation } = props;
 
   const handleChange = (index: number) => {
-    return (status: ReportStatus) => {
-      onChange(status, index);
+    return (data: Milestone) => {
+      onChange(data, index);
     };
   };
 
   // validity of each status
-  const [valid, setValid] = React.useState<boolean[]>(statuses.map(() => true));
+  const [valid, setValid] = React.useState<boolean[]>(milestones.map(() => true));
+  if (milestones.length === 0) {
+    onValidation(true);
+  }
 
   const handleValidation = (index: number) => {
     return (value: boolean) => {
-      valid[index] = value;
-      setValid([...valid]);
-      onValidation(valid.every((v) => v));
+      const clone = [...valid];
+      clone[index] = value;
+      setValid(clone);
+      onValidation(valid.every(v => v));
     };
   };
 
   return (
     <Container maxWidth="md">
       <Typography variant="h5" align="center">
-        Status Summary
+        Key Milestone Status
       </Typography>
-      {statuses.map((status, index) => (
-        <ReportStatusComponent
-          status={status}
-          key={status.type}
-          onChange={handleChange(index)}
-          onValidation={handleValidation(index)}
-        />
+      {milestones.map((stone, index) => (
+        <Box key={stone.id} boxShadow={1} p={1} my={2}>
+          <ReportMilestoneItem
+            milestone={stone}
+            onChange={handleChange(index)}
+            onValidation={handleValidation(index)}
+          />
+        </Box>
       ))}
     </Container>
   );
 };
 
-export default StatusSummary;
+export default ReportMilestoneStep;

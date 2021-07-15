@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { ReportStatus, StatusType, Status, Trend } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
 class ReportStatusDTO implements ReportStatus {
+  @IsOptional()
+  @IsMongoId()
+  id: string;
+
   @IsOptional()
   @IsString()
   comments: string;

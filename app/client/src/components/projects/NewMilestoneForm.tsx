@@ -147,6 +147,8 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
                       formik.setFieldValue('start', '');
                     }
                   }}
+                  error={touched.start && Boolean(errors.start)}
+                  helperText={touched.start && errors.start}
                 />
               </Box>
               <Box ml={2}>
@@ -169,6 +171,8 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
                       formik.setFieldValue('estimatedEnd', '');
                     }
                   }}
+                  error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
+                  helperText={touched.estimatedEnd && errors.estimatedEnd}
                 />
               </Box>
             </Box>

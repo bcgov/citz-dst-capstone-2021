@@ -129,8 +129,8 @@ export interface Project extends NewProject {
 
 export interface NewMilestone {
   name: string;
-  start: string;
-  estimatedEnd: string;
+  start: Date;
+  estimatedEnd: Date;
   comments: string;
 }
 
@@ -173,6 +173,17 @@ export interface ReportStatus {
   comments: string;
 }
 
+export interface FinancialStatus {
+  fyApproved: number; // current fiscal year approved funding
+  fySitting: number; // sitting in ministry
+  jvToOcio: number; // journal voucher to OCIO
+  fyForecast: number; // current fiscal year full year forecasted spend
+  budget: number; // total project budget
+  spendToEndOfPreFy: number; // project spend to end of previous fiscal year
+  remaining: number; // projected funding for remaining fiscal years
+  estimatedTotalCost: number; // estimated total cost
+}
+
 export interface Report {
   id?: string;
   submitter?: string;
@@ -186,8 +197,9 @@ export interface Report {
   estimatedEnd?: Date;
   milestones: Milestone[];
   objectives: Objective[];
-  kpis: Kpi[];
   statuses: ReportStatus[];
+  finance?: FinancialStatus;
+  kpis: Kpi[];
 }
 
 export interface Kpi {

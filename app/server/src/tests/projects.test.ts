@@ -15,7 +15,7 @@
  */
 
 import UserService from '@services/users.service';
-import { UserDTO } from '@dtos/UserDTO';
+import UserDTO from '@dtos/UserDTO';
 import AuthService from '@services/auth.service';
 import request from 'supertest';
 import App from '@/app';
