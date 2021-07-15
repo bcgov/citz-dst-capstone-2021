@@ -126,13 +126,15 @@ const ProjectDetails: React.FC = () => {
 
   const renderKPIs = () => {
     return (
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         { kpis && kpis.length > 0 ?
         kpis.map((kpi) => (
-          <KPIItem
-            kpi={kpi}
-            key={kpi.id}
-          />
+          <Box m={4}>
+            <KPIItem
+              kpi={kpi}
+              key={kpi.id}
+            />
+          </Box>
         ))
         :
         <h1>No Key Performance Indicators to Display</h1>
@@ -147,10 +149,12 @@ const ProjectDetails: React.FC = () => {
       <>
         { milestones && milestones.length > 0 ? 
           milestones.map((milestone) => (
-            <MilestoneItem
-              milestone={milestone}
-              key={milestone.id}
-            />
+            <Box m={4}>
+              <MilestoneItem
+                milestone={milestone}
+                key={milestone.id}
+              />
+            </Box>
           ))
           :
           <h1>No Milestones to Display</h1>
@@ -165,10 +169,12 @@ const ProjectDetails: React.FC = () => {
       <Container maxWidth="md">
         { objectives && objectives.length > 0 ?
           objectives.map((objective) => (
-            <ObjectiveItem
-              objective={objective}
-              key={objective.id}
-            />
+            <Box m={4}>
+              <ObjectiveItem
+                objective={objective}
+                key={objective.id}
+              />
+            </Box>
           ))
           :
           <h1>No Objectives to Display</h1>
@@ -181,7 +187,12 @@ const ProjectDetails: React.FC = () => {
     return (
       <>
         <Paper>
-          <Tabs value={value} onChange={handleChange}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="primary"
+            indicatorColor="primary"
+          >
             {projectDetailTabs.map((tab, index) => (
               <Tab label={tab} {...allyProps(index)} />
             ))}
