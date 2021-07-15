@@ -34,6 +34,34 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
     submitter
   } = props;
 
+  // TODO: (Samara) add additional report details for completed reports
+  const getDetailsCompleteReport = () => {
+    return (
+      <Box display="flex" justifyContent="space-between">
+        <Typography variant="body2">
+          <strong>Report Submitted</strong>
+        </Typography>
+        <Typography variant="body2">
+          {report.submittedAt? report.submittedAt : 'Not Submitted'}
+        </Typography>
+      </Box>
+    );
+  }
+
+  const getDetailsIncompleteReport = () => {
+    return (
+      <Box display="flex" justifyContent="space-between">
+        <Typography variant="body2">
+          <strong>Report Due</strong>
+        </Typography>
+        <Typography variant="body2">
+          {/* TODO: Implement due dates for quarterly reports */}
+          yyyy-mm-dd
+        </Typography>
+      </Box>
+    );
+  }
+
   const getButtonText = (state: ReportState) => {
     switch(state) {
       case ReportState.Draft:
@@ -46,10 +74,23 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
     }
   };
 
+  const getReportDetails = (state: ReportState) => {
+    switch(state) {
+      case ReportState.Draft:
+        return getDetailsIncompleteReport();
+      case ReportState.Submitted:
+      case ReportState.Review:
+        return getDetailsCompleteReport();
+      default:
+        return 'Start Report'
+    }
+  };
+  
   return(
     <>
-      <Box display="flex" justifyContent="space-between">
-        <Box display="contents" justifyContent="space-between">
+      <Grid container spacing={3} justify="space-between">
+        <Grid item xs={4}>
+        <Box display="flex" justifyContent="space-between">
           <Typography variant="body2">
             <strong>Submitter</strong>
           </Typography>
@@ -57,35 +98,20 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
             {submitter.firstName} {submitter.lastName}
           </Typography>
         </Box>
-        {report.state === ReportState.Draft ? 
-        <Box display="contents" justifyContent="space-between">
-          <Typography variant="body2">
-            <strong>Report Submitted</strong>
-          </Typography>
-          <Typography variant="body2">
-            {report.submittedAt}
-          </Typography>
-        </Box>
-        : 
-        <Box display="contents" justifyContent="space-between">
-          <Typography variant="body2">
-            <strong>Report Due</strong>
-          </Typography>
-          <Typography variant="body2">
-            {/* TODO: Implement due dates for quarterly reports */}
-            yyyy-mm-dd
-          </Typography>
-        </Box>
-        }
-
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {alert('TODO: view report')}}
-        >
-          {getButtonText(report.state)}
-        </Button>
-      </Box>
+        </Grid>
+        <Grid item xs={4}>
+        {getReportDetails(report.state)}
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {alert('TODO: view report')}}
+          >
+            {getButtonText(report.state)}
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 }
