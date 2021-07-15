@@ -33,6 +33,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { projectDetailTabs } from '../constants'
 import ProjectIDCard from '../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../components/projects/ProjectContactCard';
@@ -44,9 +45,6 @@ import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
 import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
-
-/* TODO: move to constants file */
-const projectDetailTabs = ['Project Information', 'Key Performance Indicators', 'Key Milestones', 'Business Case Objectives', 'Quarterly Status Reports'];
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props

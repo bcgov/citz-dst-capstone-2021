@@ -20,7 +20,7 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { Report, User } from '../../types';
+import { Report, User, ReportState } from '../../types';
 
 
 interface QuarterlyReportListRowDetailProps {
@@ -34,6 +34,18 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
     submitter
   } = props;
 
+  const getButtonText = (state: ReportState) => {
+    switch(state) {
+      case ReportState.Draft:
+        return 'Continue Report';
+      case ReportState.Submitted:
+      case ReportState.Review:
+        return 'View Report';
+      default:
+        return 'Start Report'
+    }
+  };
+
   return(
     <>
       <Box display="flex" justifyContent="space-between">
@@ -45,6 +57,16 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
             {submitter.firstName} {submitter.lastName}
           </Typography>
         </Box>
+        {report.state === ReportState.Draft ? 
+        <Box display="contents" justifyContent="space-between">
+          <Typography variant="body2">
+            <strong>Report Submitted</strong>
+          </Typography>
+          <Typography variant="body2">
+            {report.submittedAt}
+          </Typography>
+        </Box>
+        : 
         <Box display="contents" justifyContent="space-between">
           <Typography variant="body2">
             <strong>Report Due</strong>
@@ -54,13 +76,15 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
             yyyy-mm-dd
           </Typography>
         </Box>
+        }
+
         <Button
           variant="contained"
           color="primary"
           onClick={() => {alert('TODO: view report')}}
-          >
-            View Report
-          </Button>
+        >
+          {getButtonText(report.state)}
+        </Button>
       </Box>
     </>
   );
