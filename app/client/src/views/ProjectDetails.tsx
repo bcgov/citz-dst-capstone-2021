@@ -67,7 +67,6 @@ const ProjectDetails: React.FC = () => {
   };
 
   const api = useApi();
-
   useEffect(() => {
     api.getProjectDetail(cps).then(data => {
       setProject(data);

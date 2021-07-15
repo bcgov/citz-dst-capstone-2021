@@ -1,6 +1,7 @@
 const EventType = {
-  PROJECT: {
-    RELOAD: 'project.reload',
+  Project: {
+    Reload: 'project.reload',
+    Update: 'project.update',
   },
 };
 

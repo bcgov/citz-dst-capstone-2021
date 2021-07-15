@@ -25,16 +25,11 @@ import utils from '../../utils';
 const ProjectProgressCard: React.FC<Project> = props => {
   const { phase, estimatedEnd, progress } = props;
 
-  const [showModal, setShowModal] = React.useState(false);
-
   return (
     <Box boxShadow={2}>
       <Paper variant="outlined">
         <Box display="flex" justifyContent="space-between" width={1} p={1} bgcolor="#D5D5D5">
           <Typography variant="h5">Project Progress</Typography>
-          <IconButton size="small" onClick={() => setShowModal(!showModal)}>
-            <EditIcon />
-          </IconButton>
         </Box>
 
         <Box

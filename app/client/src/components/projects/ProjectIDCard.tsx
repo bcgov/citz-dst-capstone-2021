@@ -20,10 +20,15 @@ import EditIcon from "@material-ui/icons/Edit";
 import Card from './Card';
 import { Project } from '../../types';
 
-const ProjectIDCard: React.FC<Project> = props => {
-  const { name, description, ministry, program, cpsIdentifier, projectNumber } = props;
+type Props = {
+  project: Project;
+  editItem?: () => void;
+}
 
-  const [showModal, setShowModal] = React.useState(false);
+const ProjectIDCard: React.FC<Props> = props => {
+  const { project, editItem } = props;
+  const { name, description, ministry, program, cpsIdentifier, projectNumber } = project;
+
 
   // TODO: refactor any custom colours and theming using the theme provider
   return (
@@ -36,7 +41,7 @@ const ProjectIDCard: React.FC<Project> = props => {
           bgcolor="#D5D5D5"
         >
           <Typography variant="h5">Project Identification</Typography>
-          <IconButton size="small" onClick={() => setShowModal(!showModal)}>
+          <IconButton size="small" onClick={editItem}>
             <EditIcon />
           </IconButton>
         </Box>

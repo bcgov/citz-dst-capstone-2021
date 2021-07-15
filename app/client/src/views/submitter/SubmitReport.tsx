@@ -111,9 +111,15 @@ const SubmitReport: React.FC = () => {
   const renderStep0 = () => {
     return (
       <>
-        <ProjectProgressCard {...project} />
-        <ProjectIDCard {...project} />
+        <Box my={2}>
+          <ProjectProgressCard {...project} />
+        </Box>
+        <Box my={2}>
+          <ProjectIDCard project={project} />
+        </Box>
+        <Box my={2}>
         <ProjectContactCard {...project} />
+        </Box>
 
         <FormControlLabel
           control={

@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
-import { Box, Modal } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Box, Modal } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { Kpi, Milestone } from "../../types";
+import { Kpi, Milestone } from '../../types';
 import KPIItem from './KPIItem';
-import NewKPIForm from "./NewKPIForm";
+import NewKPIForm from './NewKPIForm';
 
 const useStyles = makeStyles({
   modal: {
@@ -44,7 +44,7 @@ const ProjectDetailsKpiStep = (props: Props) => {
       {kpis && kpis.length > 0 ? (
         kpis.map((kpi, index) => (
           <Box m={4}>
-            <KPIItem kpi={kpi} key={kpi.id} editItem={editItem(index)}/>
+            <KPIItem kpi={kpi} key={kpi.id} editItem={editItem(index)} />
           </Box>
         ))
       ) : (

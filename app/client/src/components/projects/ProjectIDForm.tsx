@@ -26,80 +26,169 @@ import {
   Typography,
   TextField,
   Button,
+  Paper,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import _ from 'lodash';
+import { makeStyles } from '@material-ui/core/styles';
+
 import { Ministries } from '../../constants';
-import useApi from '../../utils/api';
-import { validateNewProject } from '../../utils/validationSchema';
+import { validateNewProject, validateProjectIdentity } from "../../utils/validationSchema";
+import { Project } from '../../types';
+import emitter from '../../events/Emitter';
+import EventType from '../../events/Events';
 
-interface IProjectIDForm {
-  projectName?: string;
-  formik?: any;
-}
+const useStyles = makeStyles({
+  button: {
+    marginRight: '24px',
+    width: '140px',
+    textTransform: 'none',
+  },
+});
 
-const ProjectIDForm: React.FC<IProjectIDForm> = (props) => {
+type Props = {
+  project: Project;
+};
+
+const ProjectIDForm: React.FC<Props> = props => {
+  const { project } = props;
+  const classes = useStyles();
+
+  const { name, cpsIdentifier, projectNumber, description, ministry, program } = project;
+
+  const initialValues = {
+    name,
+    cpsIdentifier,
+    projectNumber,
+    description,
+    ministry,
+    program,
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: validateProjectIdentity,
+    onSubmit: values => {
+      emitter.emit(EventType.Project.Update, values);
+    },
+  });
+
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
+
+  const cancel = () => {
+    emitter.emit(EventType.Project.Update, null);
+  };
+
   return (
     <Container maxWidth="sm">
-      <Typography variant="h5" align="center">
-        Project Identification
-      </Typography>
-      <TextField
-        fullWidth
-        id="name"
-        name="name"
-        label="Project Name"
-        type="text"
-        margin="normal"
-        value={props.projectName}
-      />
-      <TextField
-        fullWidth
-        id="projectDescription"
-        name="projectDescription"
-        label="Project Description"
-        type="text"
-        margin="normal"
-        multiline
-      />
-      <FormControl margin="normal" fullWidth>
-        <InputLabel>Ministry</InputLabel>
-        <Select
-          labelId="ministry-label"
-          id="ministry"
-          name="ministry"
-          fullWidth
-        >
-          {Ministries.map((ministry) => (
-            <MenuItem value={ministry} key={ministry}>
-              {ministry}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <TextField
-        fullWidth
-        id="programName"
-        name="programName"
-        label="Program Name"
-        type="text"
-        margin="normal"
-      />
-      <TextField
-        fullWidth
-        id="cpsIdentifier"
-        name="cpsIdentifier"
-        label="CPS Identifier"
-        type="text"
-        margin="normal"
-      />
-      <TextField
-        fullWidth
-        id="ministryProjectNumber"
-        name="ministryProjectNumber"
-        label="Ministry Project Number"
-        type="text"
-        margin="normal"
-      />
+      <Box p={3} bgcolor="white" boxShadow={5} borderRadius={4}>
+        <Box my={3}>
+          <Typography variant="h5" align="center">
+            Project Identification
+          </Typography>
+        </Box>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            id="name"
+            name="name"
+            label="Project Name"
+            type="text"
+            margin="normal"
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.name && Boolean(errors.name)}
+            helperText={touched.name && errors.name}
+          />
+          <TextField
+            fullWidth
+            id="description"
+            name="description"
+            label="Project Description"
+            type="text"
+            margin="normal"
+            multiline
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.description && Boolean(errors.description)}
+            helperText={touched.description && errors.description}
+          />
+          {/* TODO: (nick) resolve 'Warning: findDOMNode is deprecated in StrictMode'
+        https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode */}
+          <FormControl margin="normal" fullWidth>
+            <InputLabel>Ministry</InputLabel>
+            <Select
+              labelId="ministry-label"
+              id="ministry"
+              name="ministry"
+              fullWidth
+              value={values.ministry}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            >
+              {Ministries.map(item => (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            fullWidth
+            id="program"
+            name="program"
+            label="Program Name"
+            type="text"
+            margin="normal"
+            value={values.program}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.program && Boolean(errors.program)}
+            helperText={touched.program && errors.program}
+          />
+          <TextField
+            fullWidth
+            id="cpsIdentifier"
+            name="cpsIdentifier"
+            label="CPS Identifier"
+            type="text"
+            margin="normal"
+            value={values.cpsIdentifier}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.cpsIdentifier && Boolean(errors.cpsIdentifier)}
+            helperText={touched.cpsIdentifier && errors.cpsIdentifier}
+          />
+          <TextField
+            fullWidth
+            id="projectNumber"
+            name="projectNumber"
+            label="Ministry Project Number"
+            type="text"
+            margin="normal"
+            value={values.projectNumber}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.projectNumber && Boolean(errors.projectNumber)}
+            helperText={touched.projectNumber && errors.projectNumber}
+          />
+          <Box display="flex" justifyContent="center" mt={5}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={cancel}>
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              disabled={!isValid}
+              type="submit"
+            >
+              Update
+            </Button>
+          </Box>
+        </form>
+      </Box>
     </Container>
   );
 };
