@@ -15,24 +15,30 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper } from '@material-ui/core';
+import { Typography, Box, Paper, IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import Card from './Card';
 import { Project } from '../../types';
 
 const ProjectIDCard: React.FC<Project> = props => {
   const { name, description, ministry, program, cpsIdentifier, projectNumber } = props;
 
+  const [showModal, setShowModal] = React.useState(false);
+
   // TODO: refactor any custom colours and theming using the theme provider
   return (
     <Box boxShadow={2}>
       <Paper variant="outlined">
         <Box
-          alignItems="left"
-          width={1}
+          display="flex"
+          justifyContent="space-between"
           p={1}
           bgcolor="#D5D5D5"
         >
           <Typography variant="h5">Project Identification</Typography>
+          <IconButton size="small" onClick={() => setShowModal(!showModal)}>
+            <EditIcon />
+          </IconButton>
         </Box>
 
         <Box

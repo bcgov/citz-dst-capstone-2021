@@ -105,7 +105,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
       <Paper variant="outlined">
         <Box maxWidth="560px" p={4}>
           <Box display="flex" justifyContent="center" my={3}>
-            <Typography variant="h5">Create New Objective</Typography>
+            <Typography variant="h5">{ objective ? 'Edit' : 'Create New'} Objective</Typography>
           </Box>
           <form onSubmit={handleSubmit}>
             <Box my={1}>

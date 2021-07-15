@@ -109,7 +109,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
       <Paper variant="outlined">
         <Box maxWidth="560px" p={4}>
           <Box display="flex" justifyContent="center" my={3}>
-            <Typography variant="h5">Create New Milestone</Typography>
+            <Typography variant="h5">{milestone ? 'Edit' : 'Create New'} Milestone</Typography>
           </Box>
           <form onSubmit={handleSubmit}>
             <Box>

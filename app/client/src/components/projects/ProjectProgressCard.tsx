@@ -15,20 +15,28 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper } from '@material-ui/core';
+import { Typography, Box, Paper, IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import Card from './Card';
 import { Project } from '../../types';
 import utils from '../../utils';
 
+
 const ProjectProgressCard: React.FC<Project> = props => {
   const { phase, estimatedEnd, progress } = props;
+
+  const [showModal, setShowModal] = React.useState(false);
 
   return (
     <Box boxShadow={2}>
       <Paper variant="outlined">
-        <Box alignItems="left" width={1} p={1} bgcolor="#D5D5D5">
+        <Box display="flex" justifyContent="space-between" width={1} p={1} bgcolor="#D5D5D5">
           <Typography variant="h5">Project Progress</Typography>
+          <IconButton size="small" onClick={() => setShowModal(!showModal)}>
+            <EditIcon />
+          </IconButton>
         </Box>
+
         <Box
           display="flex"
           alignItems="center"
