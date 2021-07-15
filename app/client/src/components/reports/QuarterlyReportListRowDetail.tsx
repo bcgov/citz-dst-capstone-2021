@@ -32,7 +32,7 @@ interface QuarterlyReportListRowDetailProps {
 
 const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = props => {
   const { report, submitter } = props;
-
+  
   const history = useHistory();
 
   // TODO: (Samara) add additional report details for completed reports
