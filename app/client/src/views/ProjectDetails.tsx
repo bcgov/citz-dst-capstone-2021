@@ -45,6 +45,7 @@ import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
 import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
+import ProjectDetailsInfoStep from "../components/projects/ProjectDetailsInfoStep";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -113,16 +114,6 @@ const ProjectDetails: React.FC = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const renderProjectInfo = () => {
-    return (
-      <>
-        <ProjectProgressCard {...project} />
-        <ProjectIDCard {...project} />
-        <ProjectContactCard {...project} />
-      </>
-    );
-  };
 
   const renderKPIs = () => {
     return (
@@ -199,7 +190,7 @@ const ProjectDetails: React.FC = () => {
           </Tabs>
         </Paper>
         <TabPanel value={value} index={0}>
-          {renderProjectInfo()}
+          <ProjectDetailsInfoStep project={project}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
           {renderKPIs()}
