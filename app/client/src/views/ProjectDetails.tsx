@@ -47,6 +47,7 @@ import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
 import ProjectDetailsKpiStep from '../components/projects/ProjectDetailsKpiStep';
+import ProjectDetailsMilestoneStep from "../components/projects/ProjectDetailsMilestoneStep";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -111,22 +112,6 @@ const ProjectDetails: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderMilestones = () => {
-    return (
-      <>
-        {milestones && milestones.length > 0 ? (
-          milestones.map(milestone => (
-            <Box m={4}>
-              <MilestoneItem milestone={milestone} key={milestone.id} />
-            </Box>
-          ))
-        ) : (
-          <h1>No Milestones to Display</h1>
-        )}
-      </>
-    );
-  };
-
   const renderObjectives = () => {
     return (
       <Container maxWidth="md">
@@ -161,7 +146,7 @@ const ProjectDetails: React.FC = () => {
             <ProjectDetailsKpiStep kpis={kpis} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {renderMilestones()}
+            <ProjectDetailsMilestoneStep milestones={milestones} />
           </TabPanel>
           <TabPanel value={value} index={3}>
             {renderObjectives()}
