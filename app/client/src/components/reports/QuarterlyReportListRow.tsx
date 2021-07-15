@@ -114,7 +114,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
       <TableRow style={{ display: collapse ? 'none' : '' }}>
         <TableCell colSpan={12}>
           <Collapse in={!collapse}>
-            <QuarterlyReportListRowDetail report={row} submitter={submitter}/>
+            <QuarterlyReportListRowDetail report={row} submitter={submitter} />
           </Collapse>
         </TableCell>
       </TableRow>
