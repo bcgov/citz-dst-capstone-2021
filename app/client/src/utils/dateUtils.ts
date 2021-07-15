@@ -40,7 +40,7 @@ export const getReportingPeriodStart = (year: number, quarter: string): Date => 
     case 'Q4':
       return new Date(year, 0, 1);
     default:
-      return new Date(0, 0, 0);
+      return new Date(0, 0, 0); // TODO: (Samara) Better handling of unknown date
   }
 };
 
@@ -56,6 +56,6 @@ export const getReportingPeriodEnd = (year: number, quarter: string): Date => {
     case 'Q4':
       return new Date(year, 2, 31);
     default:
-      return new Date(0, 0, 0);
+      return new Date(0, 0, 0); // TODO: (Samara) Better handling of unknown date
   }
 };

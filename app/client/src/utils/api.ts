@@ -110,7 +110,16 @@ const useApi = () => {
 
     getReports(projectId: string): Promise<Report[]> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.get(`reports`, { params: { projectId } }).then(({ data }) => data);
+      return api.current
+      .get(`reports`, { params: { projectId } })
+      .then(({ data }) => data);
+    },
+    
+    getReport(reportId: string): Promise<Report> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current
+        .get(`reports/${reportId}`, { params: { reportId } })
+        .then(({ data }) => data );
     },
 
     getLastReport(projectId: string): Promise<Report[]> {
