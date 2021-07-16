@@ -41,7 +41,7 @@ const ProjectIDCard: React.FC<Props> = props => {
           bgcolor="#D5D5D5"
         >
           <Typography variant="h5">Project Identification</Typography>
-          <IconButton size="small" onClick={editItem}>
+          <IconButton size="small" onClick={editItem} disabled={!editItem}>
             <EditIcon />
           </IconButton>
         </Box>

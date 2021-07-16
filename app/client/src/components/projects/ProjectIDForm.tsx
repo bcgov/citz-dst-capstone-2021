@@ -26,13 +26,11 @@ import {
   Typography,
   TextField,
   Button,
-  Paper,
 } from '@material-ui/core';
-import _ from 'lodash';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Ministries } from '../../constants';
-import { validateNewProject, validateProjectIdentity } from "../../utils/validationSchema";
+import { validateProjectIdentity } from "../../utils/validationSchema";
 import { Project } from '../../types';
 import emitter from '../../events/Emitter';
 import EventType from '../../events/Events';
@@ -68,14 +66,14 @@ const ProjectIDForm: React.FC<Props> = props => {
     initialValues,
     validationSchema: validateProjectIdentity,
     onSubmit: values => {
-      emitter.emit(EventType.Project.Update, values);
+      emitter.emit(EventType.Project.UpdateIdentity, values);
     },
   });
 
   const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   const cancel = () => {
-    emitter.emit(EventType.Project.Update, null);
+    emitter.emit(EventType.Project.UpdateIdentity, null);
   };
 
   return (

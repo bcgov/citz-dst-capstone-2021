@@ -1,7 +1,8 @@
 const EventType = {
   Project: {
     Reload: 'project.reload',
-    Update: 'project.update',
+    UpdateContact: 'project.update.contact',
+    UpdateIdentity: 'project.update.identity',
   },
 };
 

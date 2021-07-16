@@ -118,7 +118,7 @@ const SubmitReport: React.FC = () => {
           <ProjectIDCard project={project} />
         </Box>
         <Box my={2}>
-        <ProjectContactCard {...project} />
+        <ProjectContactCard project={project} />
         </Box>
 
         <FormControlLabel

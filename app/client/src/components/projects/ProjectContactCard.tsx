@@ -15,34 +15,26 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper, IconButton } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
+import { Typography, Box, Paper, IconButton } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
-import { SimpleContact } from '../../types';
+import { Project, User } from '../../types';
 
-interface IProjectContactCardProps {
-  sponsor?: SimpleContact;
-  manager?: SimpleContact;
-  financialContact?: SimpleContact;
-}
+type Props = {
+  project: Project;
+  editItem?: () => void;
+};
 
-const ProjectContactCard: React.FC<IProjectContactCardProps> = props => {
-  const { sponsor, manager, financialContact } = props;
-
-  const [showModal, setShowModal] = React.useState(false);
+const ProjectContactCard: React.FC<Props> = props => {
+  const { project, editItem } = props;
+  const { sponsor, manager, financialContact } = project;
 
   return (
     <Box boxShadow={2}>
       <Paper variant="outlined">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          width={1}
-          p={1}
-          bgcolor="#D5D5D5"
-        >
+        <Box display="flex" justifyContent="space-between" width={1} p={1} bgcolor="#D5D5D5">
           <Typography variant="h5">Project Contacts</Typography>
-          <IconButton size="small" onClick={() => setShowModal(!showModal)}>
+          <IconButton size="small" onClick={editItem} disabled={!editItem}>
             <EditIcon />
           </IconButton>
         </Box>
