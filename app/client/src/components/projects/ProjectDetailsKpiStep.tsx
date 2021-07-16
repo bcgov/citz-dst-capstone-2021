@@ -42,18 +42,19 @@ const ProjectDetailsKpiStep = (props: Props) => {
   return (
     <>
       {kpis && kpis.length > 0 ? (
-        kpis.map((kpi, index) => (
-          <Box m={4}>
-            <KPIItem kpi={kpi} key={kpi.id} editItem={editItem(index)} />
-          </Box>
-        ))
+        <>
+          {kpis.map((kpi, index) => (
+            <Box m={4}>
+              <KPIItem kpi={kpi} key={kpi.id} editItem={editItem(index)} />
+            </Box>
+          ))}
+          <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+            <NewKPIForm closeModal={updateProject} kpi={kpis[cacheIndex]} />
+          </Modal>
+        </>
       ) : (
         <h1>No Key Performance Indicators to Display</h1>
       )}
-
-      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-        <NewKPIForm closeModal={updateProject} kpi={kpis[cacheIndex]} />
-      </Modal>
     </>
   );
 };
