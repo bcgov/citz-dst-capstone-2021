@@ -240,7 +240,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                disabled={!kpi?.name || !isValid}
+                disabled={!values.name || !isValid}
                 type="submit"
               >
                 {kpi ? 'Update' : 'Add KPI'}

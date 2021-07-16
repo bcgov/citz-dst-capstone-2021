@@ -47,7 +47,7 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-const allyProps = (index: any) => {
+const a11yProps = (index: any) => {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
@@ -125,9 +125,16 @@ const ProjectDetails: React.FC = () => {
     return (
       <>
         <Paper>
-          <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            textColor="primary"
+            indicatorColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
             {projectDetailTabs.map((tab, index) => (
-              <Tab label={tab} {...allyProps(index)} />
+              <Tab label={tab} {...a11yProps(index)} />
             ))}
           </Tabs>
         </Paper>
