@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import React, { PropsWithChildren, useEffect, useState } from "react";
-
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Typography, Box, Container, CircularProgress, Tabs, Tab, Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+
 import { projectDetailTabs } from '../constants';
 import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
@@ -25,8 +25,8 @@ import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoSte
 import ProjectDetailsKpiStep from '../components/projects/ProjectDetailsKpiStep';
 import ProjectDetailsMilestoneStep from '../components/projects/ProjectDetailsMilestoneStep';
 import ProjectDetailsObjectiveStep from '../components/projects/ProjectDetailsObjectiveStep';
-import emitter from "../events/Emitter";
-import EventType from "../events/Events";
+import emitter from '../events/Emitter';
+import EventType from '../events/Events';
 
 interface TabPanelProps extends PropsWithChildren<any> {
   index: any;
@@ -57,9 +57,7 @@ const allyProps = (index: any) => {
 const ProjectDetails: React.FC = () => {
   const [project, setProject] = useState({} as Project);
   const [reports, setReports] = useState([] as Report[]);
-  const [milestones, setMilestones] = useState([] as Milestone[]);
-  const [kpis, setKpis] = useState([] as Kpi[]);
-  const [objectives, setObjectives] = useState([] as Objective[]);
+  const [lastReport, setLastReport] = useState({} as Report);
   const { cps } = useParams<{ cps: string }>();
 
   const [value, setValue] = React.useState(0);
@@ -70,30 +68,56 @@ const ProjectDetails: React.FC = () => {
 
   const api = useApi();
 
-  const loadProject = () => {
-    api.getProjectDetail(cps).then(data => {
-      setProject(data);
-
-      api.getReports(data.id).then(reportsData => {
-        setReports(reportsData);
-      });
-
-      api.getLastReport(data.id).then(reportData => {
-        if (reportData) {
-          setMilestones(reportData[0].milestones);
-          setKpis(reportData[0].kpis);
-          setObjectives(reportData[0].objectives);
-        }
-      });
+  const loadProject = (): Promise<void> => {
+    return api.getProjectDetail(cps).then(data => {
+      return setProject(data);
     });
-  }
+  };
+
+  // data is projectId or Report object
+  const loadReport = (data: string | Report) => {
+    if (data) {
+      if (typeof data === 'string') {
+        // data is projectId
+        api
+          .getReports(data)
+          .then(reportsData => {
+            setReports(reportsData);
+          })
+          .then(() => {
+            return api.getLastReport(project.id).then(reportsData => {
+              if (reportsData[0]) {
+                setLastReport(reportsData[0]);
+              }
+            });
+          });
+      } else {
+        // data is the last report
+        const index = reports.findIndex(r => r.id === data.id);
+        if (index >= 0) {
+          const copyOfReports = [...reports];
+          copyOfReports.splice(index, 1, data);
+          setReports(copyOfReports);
+          setLastReport(data);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadReport(project.id);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     loadProject();
+    // when each step updates the project or report, it updates
     emitter.on(EventType.Project.Reload, loadProject);
+    emitter.on(EventType.Report.Reload, loadReport);
     return () => {
       emitter.off(EventType.Project.Reload);
-    }
+      emitter.off(EventType.Report.Reload);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -112,13 +136,19 @@ const ProjectDetails: React.FC = () => {
             <ProjectDetailsInfoStep project={project} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <ProjectDetailsKpiStep kpis={kpis} />
+            <ProjectDetailsKpiStep kpis={lastReport.kpis} />
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <ProjectDetailsMilestoneStep milestones={milestones} />
+            <ProjectDetailsMilestoneStep
+              milestones={lastReport.milestones}
+              reportId={lastReport.id as string}
+            />
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <ProjectDetailsObjectiveStep objectives={objectives} />
+            <ProjectDetailsObjectiveStep
+              objectives={lastReport.objectives}
+              reportId={lastReport.id as string}
+            />
           </TabPanel>
           <TabPanel value={value} index={4}>
             <QuarterlyReportList reports={reports} />

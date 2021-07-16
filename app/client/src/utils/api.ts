@@ -16,8 +16,9 @@
 
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
+import assert from 'assert';
 
-import { AuthRequest, AuthResponse, NewProject, Project, Report, User } from '../types';
+import { AuthRequest, AuthResponse, Project, Report, User } from '../types';
 import { API } from '../constants';
 import utils from '.';
 
@@ -111,10 +112,24 @@ const useApi = () => {
     },
 
     updateProject(id: string, update: any): Promise<Project> {
-      utils.removeProperties(update, 'createdAt', 'updatedAt');
-      console.log(update);
       if (!api.current) throw new Error('axios not set up');
       return api.current.patch(`projects/${id}`, update).then(({ data }) => data);
+    },
+
+    updateMilestone(reportId: string, milestoneId: string | undefined, update: any) {
+      assert(api.current);
+      utils.removeProperties(update, 'createdAt', 'updatedAt');
+      return api.current
+        .patch(`reports/${reportId}/milestones/${milestoneId}`, update)
+        .then(({ data }) => data);
+    },
+
+    updateObjective(reportId: string, objectiveId: string | undefined, update: any) {
+      assert(api.current);
+      utils.removeProperties(update, 'createdAt', 'updatedAt');
+      return api.current
+        .patch(`reports/${reportId}/objectives/${objectiveId}`, update)
+        .then(({ data }) => data);
     },
   };
 };

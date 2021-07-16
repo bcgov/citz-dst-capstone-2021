@@ -117,7 +117,7 @@ const ReportMilestoneItem = (props: Props) => {
                 value={startDate}
                 onChange={value => {
                   setStartDate(value);
-                  formik.setFieldValue('start', value.toISODate());
+                  formik.setFieldValue('start', value.toLocaleString());
                 }}
                 onBlur={handleBlur}
                 error={touched.start && Boolean(errors.start)}
@@ -139,7 +139,7 @@ const ReportMilestoneItem = (props: Props) => {
                 value={targetCompletionDate}
                 onChange={value => {
                   setTargetCompletionDate(value);
-                  formik.setFieldValue('estimatedEnd', value.toISODate());
+                  formik.setFieldValue('estimatedEnd', value.toLocaleString());
                 }}
                 onBlur={handleBlur}
                 error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}

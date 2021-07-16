@@ -50,21 +50,15 @@ interface NewMilestoneFormProps {
   milestone: Milestone | null;
 }
 
-const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
+const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
   const { closeModal, milestone } = props;
 
   const classes = useStyles();
 
   const defaultStartDate = milestone?.start ? new Date(milestone.start) : null;
-  const [startDate, setStartDate] = React.useState<Date | null>(
-    defaultStartDate
-  );
-  const defaultEndDate = milestone?.estimatedEnd
-    ? new Date(milestone.estimatedEnd)
-    : null;
-  const [estEndDate, setEstEndDate] = React.useState<Date | null>(
-    defaultEndDate
-  );
+  const [startDate, setStartDate] = React.useState<Date | null>(defaultStartDate);
+  const defaultEndDate = milestone?.estimatedEnd ? new Date(milestone.estimatedEnd) : null;
+  const [estEndDate, setEstEndDate] = React.useState<Date | null>(defaultEndDate);
 
   const cancel = () => {
     closeModal(null);
@@ -84,25 +78,12 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
   const formik = useFormik({
     initialValues,
     validationSchema: validateMilestone,
-    onSubmit: (values) => {
+    onSubmit: values => {
       closeModal(values);
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
-
-  // TODO: (nick) FIXME: isValid doesn't work
-  const validate = (): boolean => {
-    return !!(isValid && values.name && values.start && values.estimatedEnd);
-  };
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   return (
     <Container maxWidth="sm">
@@ -138,17 +119,17 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
                   name="start"
                   label="Start"
                   value={startDate}
-                  onChange={(date) => {
+                  onChange={date => {
                     if (date && !date.invalid) {
                       setStartDate(date);
-                      formik.setFieldValue('start', date.toISODate());
+                      formik.setFieldValue('start', date.toLocaleString());
                     } else {
                       setStartDate(null);
                       formik.setFieldValue('start', '');
                     }
                   }}
-                  error={touched.start && Boolean(errors.start)}
-                  helperText={touched.start && errors.start}
+                  error={Boolean(errors.start)}
+                  helperText={errors.start}
                 />
               </Box>
               <Box ml={2}>
@@ -162,17 +143,17 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
                   name="estimatedEnd"
                   label="Planned Finish Date"
                   value={estEndDate}
-                  onChange={(date) => {
+                  onChange={date => {
                     if (date && !date.invalid) {
                       setEstEndDate(date);
-                      formik.setFieldValue('estimatedEnd', date.toISODate());
+                      formik.setFieldValue('estimatedEnd', date.toLocaleString());
                     } else {
                       setStartDate(null);
                       formik.setFieldValue('estimatedEnd', '');
                     }
                   }}
-                  error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
-                  helperText={touched.estimatedEnd && errors.estimatedEnd}
+                  error={Boolean(errors.estimatedEnd)}
+                  helperText={errors.estimatedEnd}
                 />
               </Box>
             </Box>
@@ -244,7 +225,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = (props) => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                disabled={!validate()}
+                disabled={!values.name || !isValid}
                 type="submit"
               >
                 {milestone ? 'Update' : 'Add Milestone'}

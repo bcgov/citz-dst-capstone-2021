@@ -129,7 +129,7 @@ const ReportObjectiveItem = (props: Props) => {
                 value={targetCompletionDate}
                 onChange={value => {
                   setTargetCompletionDate(value);
-                  formik.setFieldValue('estimatedEnd', value.toISODate());
+                  formik.setFieldValue('estimatedEnd', value.toLocaleString());
                 }}
                 onBlur={handleBlur}
                 error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}

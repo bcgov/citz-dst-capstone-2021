@@ -402,7 +402,7 @@ const NewProjectForm: React.FC = () => {
             onChange={date => {
               if (date && !date.invalid) {
                 setStartDate(date);
-                formik.setFieldValue('start', date.toISODate());
+                formik.setFieldValue('start', date.toLocaleString());
               } else {
                 setStartDate(null);
                 formik.setFieldValue('start', '');
@@ -422,7 +422,7 @@ const NewProjectForm: React.FC = () => {
             onChange={date => {
               if (date && !date.invalid) {
                 setEstEndDate(date);
-                formik.setFieldValue('estimatedEnd', date.toISODate());
+                formik.setFieldValue('estimatedEnd', date.toLocaleString());
               } else {
                 setEstEndDate(null);
                 formik.setFieldValue('estimatedEnd', '');

@@ -38,7 +38,7 @@ const QuarterlyReportList: React.FC<QuarterlyReportListProps> = props => {
   const { reports } = props;
 
   return (
-    <Box m={4} boxShadow={2}>
+    <Box m={4} boxShadow={2} borderRadius={4}>
       <Box bgcolor={theme.colors.primary} color="white" p={1}>
         <Typography variant="h5">Quarterly Status Reports</Typography>
       </Box>

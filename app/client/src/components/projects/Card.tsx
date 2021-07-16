@@ -27,9 +27,12 @@ const Card: React.FC<ICardItem> = props => {
   return (
     <Box width={1}>
       <Box display="flex" flexDirection="row" justifyContent="space-between" px={2}>
-        <Typography variant="h6">{label}</Typography>
-
-        <Typography variant="h6">{content}</Typography>
+        <Box mr={5}>
+          <Typography variant="h6">{label}</Typography>
+        </Box>
+        <Box maxWidth="60%">
+          <Typography variant="subtitle1">{content}</Typography>
+        </Box>
       </Box>
     </Box>
   );

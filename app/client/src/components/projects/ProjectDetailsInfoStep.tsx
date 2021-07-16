@@ -36,8 +36,8 @@ const ProjectDetailsInfoStep = (props: Props) => {
 
   const updateProject = (data: NewProject & { id: string }): Promise<boolean> => {
     if (!data) return Promise.resolve(true);
-    return api.updateProject(project.id, data).then(update => {
-      return emitter.emit(EventType.Project.Reload, update);
+    return api.updateProject(project.id, data).then(() => {
+      return emitter.emit(EventType.Project.Reload);
     });
   };
 

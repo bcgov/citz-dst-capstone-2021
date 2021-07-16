@@ -53,69 +53,67 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
   const formattedEstimatedEnd = new Date(estimatedEnd).toLocaleDateString('en-CA');
 
   return (
-    <Box boxShadow={2}>
-      <Paper>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          bgcolor="#D5D5D5"
-        >
-          <Box display="flex" alignItems="center">
-            <Typography variant="h6">{name}</Typography>
-            <Typography variant="subtitle2" style={{ marginLeft: '8px' }}>
-              {description}
-            </Typography>
-          </Box>
-          <Box display="flex">
-            {deleteItem ? (
-              <IconButton size="small" onClick={deleteItem}>
-                <DeleteIcon />
-              </IconButton>
-            ) : (
-              <></>
-            )}
-            {editItem ? (
-              <IconButton size="small" onClick={editItem}>
-                <EditIcon />
-              </IconButton>
-            ) : (
-              <></>
-            )}
-          </Box>
+    <Box boxShadow={2} borderRadius={4}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        p={1}
+        bgcolor="#D5D5D5"
+      >
+        <Box display="flex" alignItems="center">
+          <Typography variant="h6">{name}</Typography>
+          <Typography variant="subtitle2" style={{ marginLeft: '8px' }}>
+            {description}
+          </Typography>
         </Box>
-        <Box>
-          <GridList cols={2} cellHeight={140}>
-            <GridListTile cols={1}>
-              <Box flexDirection="column" p={1} mr={1}>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Status</Typography>
-                  <StatusButton status={status} />
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Target Completion Date</Typography>
-                  <Typography>{formattedEstimatedEnd}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Phase</Typography>
-                  <Typography>{phase}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Asset</Typography>
-                  <Typography>{asset}</Typography>
-                </Box>
-              </Box>
-            </GridListTile>
-            <GridListTile cols={1}>
-              <Box p={1}>
-                <Typography variant="subtitle1">Comments</Typography>
-                <Typography variant="body1">{comments}</Typography>
-              </Box>
-            </GridListTile>
-          </GridList>
+        <Box display="flex">
+          {deleteItem ? (
+            <IconButton size="small" onClick={deleteItem}>
+              <DeleteIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
+          {editItem ? (
+            <IconButton size="small" onClick={editItem}>
+              <EditIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </Box>
-      </Paper>
+      </Box>
+      <Box>
+        <GridList cols={2} cellHeight={140}>
+          <GridListTile cols={1}>
+            <Box flexDirection="column" p={1} mr={1}>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Status</Typography>
+                <StatusButton status={status} />
+              </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Target Completion Date</Typography>
+                <Typography>{formattedEstimatedEnd}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Phase</Typography>
+                <Typography>{phase}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Asset</Typography>
+                <Typography>{asset}</Typography>
+              </Box>
+            </Box>
+          </GridListTile>
+          <GridListTile cols={1}>
+            <Box p={1}>
+              <Typography variant="subtitle1">Comments</Typography>
+              <Typography variant="body1">{comments}</Typography>
+            </Box>
+          </GridListTile>
+        </GridList>
+      </Box>
     </Box>
   );
 };

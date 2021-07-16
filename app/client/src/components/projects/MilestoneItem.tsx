@@ -36,68 +36,66 @@ const MilestoneItem: React.FC<MilestoneItemProps> = props => {
   const formattedStart = new Date(start).toLocaleDateString('en-CA');
 
   return (
-    <Box boxShadow={2}>
-      <Paper>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          p={1}
-          bgcolor="#D5D5D5"
-        >
-          <Typography variant="h6">{name}</Typography>
-          <Box display="flex">
-            {props.deleteItem ? (
-              <IconButton size="small" onClick={deleteItem}>
-                <DeleteIcon />
-              </IconButton>
-            ) : (
-              <></>
-            )}
-            {props.editItem ? (
-              <IconButton size="small" onClick={editItem}>
-                <EditIcon />
-              </IconButton>
-            ) : (
-              <></>
-            )}
-          </Box>
+    <Box boxShadow={2} borderRadius={4}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        p={1}
+        bgcolor="#D5D5D5"
+      >
+        <Typography variant="h6">{name}</Typography>
+        <Box display="flex">
+          {props.deleteItem ? (
+            <IconButton size="small" onClick={deleteItem}>
+              <DeleteIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
+          {props.editItem ? (
+            <IconButton size="small" onClick={editItem}>
+              <EditIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </Box>
-        <Box>
-          <GridList cols={2} cellHeight={140}>
-            <GridListTile cols={1}>
-              <Box flexDirection="column" p={1} mr={2}>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Progress</Typography>
-                  <Typography>{`${progress}%`}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Status</Typography>
-                  <StatusButton status={status} />
-                </Box>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Start Date</Typography>
-                  <Typography>{formattedStart}</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                  <Typography variant="subtitle1">Planned Finish Date</Typography>
-                  <Typography>{formattedEstimatedEnd}</Typography>
-                </Box>
+      </Box>
+      <Box>
+        <GridList cols={2} cellHeight={140}>
+          <GridListTile cols={1}>
+            <Box flexDirection="column" p={1} mr={2}>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Progress</Typography>
+                <Typography>{`${progress}%`}</Typography>
               </Box>
-            </GridListTile>
-            <GridListTile cols={1}>
-              <Box p={1}>
-                <Box display="flex" justifyContent="space-between" mb={1}>
-                  <Typography variant="subtitle1">Comments</Typography>
-                </Box>
-                <Box display="flex" justifyContent="space-between">
-                  <Typography variant="body1">{comments}</Typography>
-                </Box>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Status</Typography>
+                <StatusButton status={status} />
               </Box>
-            </GridListTile>
-          </GridList>
-        </Box>
-      </Paper>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Start Date</Typography>
+                <Typography>{formattedStart}</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Typography variant="subtitle1">Planned Finish Date</Typography>
+                <Typography>{formattedEstimatedEnd}</Typography>
+              </Box>
+            </Box>
+          </GridListTile>
+          <GridListTile cols={1}>
+            <Box p={1}>
+              <Box display="flex" justifyContent="space-between" mb={1}>
+                <Typography variant="subtitle1">Comments</Typography>
+              </Box>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="body1">{comments}</Typography>
+              </Box>
+            </Box>
+          </GridListTile>
+        </GridList>
+      </Box>
     </Box>
   );
 };

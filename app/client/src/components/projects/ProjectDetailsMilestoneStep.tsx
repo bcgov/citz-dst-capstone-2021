@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Milestone } from '../../types';
 import MilestoneItem from './MilestoneItem';
 import NewMilestoneForm from './NewMilestoneForm';
+import EventType from '../../events/Events';
+import emitter from '../../events/Emitter';
+import useApi from '../../utils/api';
 
 const useStyles = makeStyles({
   modal: {
@@ -16,13 +19,15 @@ const useStyles = makeStyles({
 });
 
 type Props = {
+  reportId: string;
   milestones: Milestone[];
 };
 
 const ProjectDetailsMilestoneStep = (props: Props) => {
-  const { milestones } = props;
+  const { reportId, milestones } = props;
 
   const classes = useStyles();
+  const api = useApi();
 
   // prepare modal windows
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -36,8 +41,19 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
     };
   };
 
-  const updateProject = (data: Milestone) => {
-    setModalVisible(false);
+  const updateMilestone = (data: Milestone) => {
+    if (!data || cacheIndex < 0) {
+      setModalVisible(false);
+    } else {
+      api
+        .updateMilestone(reportId, milestones[cacheIndex]?.id, data)
+        .then(report => {
+          emitter.emit(EventType.Report.Reload, report);
+        })
+        .finally(() => {
+          setModalVisible(false);
+        });
+    }
   };
 
   return (
@@ -52,9 +68,13 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
         <h1>No Milestones to Display</h1>
       )}
 
-      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-        <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={updateProject} />
-      </Modal>
+      {cacheIndex >= 0 ? (
+        <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+          <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={updateMilestone} />
+        </Modal>
+      ) : (
+        ''
+      )}
     </>
   );
 };
