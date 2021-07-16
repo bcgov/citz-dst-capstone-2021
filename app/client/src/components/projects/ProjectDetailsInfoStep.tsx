@@ -3,14 +3,15 @@ import * as React from 'react';
 import { Box, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Project } from '../../types';
+import { NewProject, Project } from '../../types';
 import ProjectProgressCard from './ProjectProgressCard';
 import ProjectIDCard from './ProjectIDCard';
 import ProjectContactCard from './ProjectContactCard';
 import ProjectIDForm from './ProjectIDForm';
 import emitter from '../../events/Emitter';
 import EventType from '../../events/Events';
-import ProjectContactsForm from "./ProjectContactsForm";
+import ProjectContactsForm from './ProjectContactsForm';
+import useApi from '../../utils/api';
 
 const useStyles = makeStyles({
   modal: {
@@ -28,22 +29,34 @@ const ProjectDetailsInfoStep = (props: Props) => {
 
   const classes = useStyles();
 
+  const api = useApi();
+
   const [idModalVisible, setIdModalVisible] = React.useState(false);
   const [contactModalVisible, setContactModalVisible] = React.useState(false);
 
+  const updateProject = (data: NewProject & { id: string }): Promise<boolean> => {
+    if (!data) return Promise.resolve(true);
+    return api.updateProject(project.id, data).then(update => {
+      return emitter.emit(EventType.Project.Reload, update);
+    });
+  };
+
   React.useEffect(() => {
     emitter.on(EventType.Project.UpdateIdentity, data => {
-      console.log(data);
-      setIdModalVisible(false);
+      updateProject(data).finally(() => {
+        setIdModalVisible(false);
+      });
     });
     emitter.on(EventType.Project.UpdateContact, data => {
-      console.log(data);
-      setContactModalVisible(false);
+      updateProject(data).finally(() => {
+        setContactModalVisible(false);
+      });
     });
     return () => {
       emitter.off(EventType.Project.UpdateIdentity);
       emitter.off(EventType.Project.UpdateContact);
     };
+    // eslint-disable-next-line
   }, []);
 
   const editProjectIdentity = () => {
@@ -62,7 +75,7 @@ const ProjectDetailsInfoStep = (props: Props) => {
         <ProjectIDCard project={project} editItem={editProjectIdentity} />
       </Box>
       <Box mb={4}>
-        <ProjectContactCard project={project} editItem={editProjectContacts}/>
+        <ProjectContactCard project={project} editItem={editProjectContacts} />
       </Box>
       <Modal disableEnforceFocus open={idModalVisible} className={classes.modal}>
         <ProjectIDForm project={project} />
@@ -70,7 +83,6 @@ const ProjectDetailsInfoStep = (props: Props) => {
       <Modal disableEnforceFocus open={contactModalVisible} className={classes.modal}>
         <ProjectContactsForm project={project} />
       </Modal>
-
     </Box>
   );
 };

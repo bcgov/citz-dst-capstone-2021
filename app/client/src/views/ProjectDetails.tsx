@@ -25,6 +25,8 @@ import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoSte
 import ProjectDetailsKpiStep from '../components/projects/ProjectDetailsKpiStep';
 import ProjectDetailsMilestoneStep from '../components/projects/ProjectDetailsMilestoneStep';
 import ProjectDetailsObjectiveStep from '../components/projects/ProjectDetailsObjectiveStep';
+import emitter from "../events/Emitter";
+import EventType from "../events/Events";
 
 interface TabPanelProps extends PropsWithChildren<any> {
   index: any;
@@ -67,7 +69,8 @@ const ProjectDetails: React.FC = () => {
   };
 
   const api = useApi();
-  useEffect(() => {
+
+  const loadProject = () => {
     api.getProjectDetail(cps).then(data => {
       setProject(data);
 
@@ -83,6 +86,14 @@ const ProjectDetails: React.FC = () => {
         }
       });
     });
+  }
+
+  useEffect(() => {
+    loadProject();
+    emitter.on(EventType.Project.Reload, loadProject);
+    return () => {
+      emitter.off(EventType.Project.Reload);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
