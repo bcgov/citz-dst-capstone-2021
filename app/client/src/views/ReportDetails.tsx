@@ -25,9 +25,12 @@ import {
 } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import useApi from '../utils/api';
-import { Report } from '../types';
+import { Report, Project } from '../types';
 import { reportDetailTabs } from '../constants'
 import { getReportingPeriodStart, getReportingPeriodEnd } from '../utils/dateUtils';
+import ProjectProgressCard from '../components/projects/ProjectProgressCard';
+import ProjectIDCard from '../components/projects/ProjectIDCard';
+import ProjectContactCard from '../components/projects/ProjectContactCard';
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -65,6 +68,7 @@ const allyProps = (index: any) => {
 const ReportDetails: React.FC = () => {
   const [tabValue, setTabValue] = React.useState(0);
   const [report, setReport] = React.useState({} as Report);
+  const [project, setProject] = React.useState({} as Project);
   const { reportId } = useParams<{ reportId: string }>();
   const api = useApi();
 
@@ -73,10 +77,13 @@ const ReportDetails: React.FC = () => {
   }
 
   useEffect(() => {
-    if (!report) {
-      api.getReport(reportId).then((data) => {
-        setReport(data);
+    if (!report.id) {
+      api.getReport(reportId)
+        .then((reportData) => {
+        setReport(reportData);
+        return api.getProject(reportData.projectId);
       })
+        .then(projectData => setProject(projectData));
     }
   });
 
@@ -96,7 +103,11 @@ const ReportDetails: React.FC = () => {
           </Tabs>
         </Paper>
         <TabPanel value={tabValue} index={0}>
-          <h3>TODO: Implement Project Info</h3>
+          <Container maxWidth="lg">
+            <ProjectProgressCard {...project} />
+            <ProjectIDCard {...project} />
+            <ProjectContactCard {...project} />
+          </Container>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           <h3>TODO: Implement Status Summary with KPIs</h3>
