@@ -159,8 +159,8 @@ const ReportDetails: React.FC = () => {
         <TabPanel value={tabValue} index={0}>
           <Container maxWidth="lg">
             <ProjectProgressCard {...project} />
-            <ProjectIDCard {...project} />
-            <ProjectContactCard {...project} />
+            <ProjectIDCard project={project} />
+            <ProjectContactCard project={project} />
           </Container>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
