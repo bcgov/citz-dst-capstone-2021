@@ -85,6 +85,15 @@ export const validateNewProject = yup.object({
   estimatedEnd: date,
 });
 
+export const validateProjectIdentity = yup.object({
+  name,
+  cpsIdentifier,
+  projectNumber,
+  description: textField,
+  ministry,
+  program: name,
+})
+
 export const validateMilestone = yup.object({
   name,
   start: date,

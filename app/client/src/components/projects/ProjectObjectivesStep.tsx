@@ -96,9 +96,11 @@ const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = (props) => {
     <Container maxWidth="md">
       <Box display="flex" width="100%" justifyContent="center">
         <Box minWidth="600px">
-          <Typography variant="h5" align="center">
-            Business Case Objectives
-          </Typography>
+          <Box my={4}>
+            <Typography variant="h5" align="center">
+              Business Case Objectives
+            </Typography>
+          </Box>
           <Box>
             {objectives.map((objective, index) => (
               <ObjectiveItem

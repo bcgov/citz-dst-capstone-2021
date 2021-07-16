@@ -13,42 +13,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import React, { useEffect, useState } from 'react';
-
-import {
-  Typography,
-  Button,
-  Box,
-  Container,
-  CircularProgress,
-  Tabs,
-  Tab,
-  Paper,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { Typography, Box, Container, CircularProgress, Tabs, Tab, Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { projectDetailTabs } from '../constants'
-import ProjectIDCard from '../components/projects/ProjectIDCard';
-import ProjectProgressCard from '../components/projects/ProjectProgressCard';
-import ProjectContactCard from '../components/projects/ProjectContactCard';
-import KPICard from '../components/projects/KPICard';
-import MilestoneItem from '../components/projects/MilestoneItem';
-import KPIItem from '../components/projects/KPIItem';
-import ObjectiveItem from '../components/projects/ObjectiveItem';
+
+import { projectDetailTabs } from '../constants';
 import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
-import theme from '../theme';
 import { Project, Report, Milestone, Kpi, Objective } from '../types';
+import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
+import ProjectDetailsKpiStep from '../components/projects/ProjectDetailsKpiStep';
+import ProjectDetailsMilestoneStep from '../components/projects/ProjectDetailsMilestoneStep';
+import ProjectDetailsObjectiveStep from '../components/projects/ProjectDetailsObjectiveStep';
+import emitter from '../events/Emitter';
+import EventType from '../events/Events';
 
-interface TabPanelProps {
-  // eslint-disable-next-line react/require-default-props
-  children?: React.ReactNode;
+interface TabPanelProps extends PropsWithChildren<any> {
   index: any;
   value: any;
 }
@@ -57,131 +37,89 @@ const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      {...other}
-      >
-        {value === index && (
-          <Box p={3}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-  )
-}
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} {...other}>
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+};
 
-const allyProps = (index: any) => {
+const a11yProps = (index: any) => {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`
-  }
-}
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+};
 
 const ProjectDetails: React.FC = () => {
   const [project, setProject] = useState({} as Project);
   const [reports, setReports] = useState([] as Report[]);
-  const [milestones, setMilestones] = useState([] as Milestone[]);
-  const [kpis, setKpis] = useState([] as Kpi[]);
-  const [objectives, setObjectives] = useState([] as Objective[]);
+  const [lastReport, setLastReport] = useState({} as Report);
   const { cps } = useParams<{ cps: string }>();
 
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.ChangeEvent<{[k: string]: never}>, newValue: number) => {
+  const handleChange = (event: React.ChangeEvent<{ [k: string]: never }>, newValue: number) => {
     setValue(newValue);
-  }
+  };
 
   const api = useApi();
 
-  useEffect(() => {
-    api.getProjectDetail(cps).then((data) => {
-      setProject(data);
-      
-      api.getReports(data.id).then((reportsData) => {
-        setReports(reportsData);
-      });
-
-      api.getLastReport(data.id).then((reportData) => {
-        if (reportData) {
-          setMilestones(reportData[0].milestones);
-          setKpis(reportData[0].kpis);
-          setObjectives(reportData[0].objectives);
-        }
-      });
+  const loadProject = (): Promise<void> => {
+    return api.getProjectDetail(cps).then(data => {
+      return setProject(data);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
+
+  // data is projectId or Report object
+  const loadReport = (data: string | Report) => {
+    if (data) {
+      if (typeof data === 'string') {
+        // data is projectId
+        api
+          .getReports(data)
+          .then(reportsData => {
+            setReports(reportsData);
+          })
+          .then(() => {
+            return api.getLastReport(project.id).then(reportsData => {
+              if (reportsData[0]) {
+                setLastReport(reportsData[0]);
+              }
+            });
+          });
+      } else {
+        // data is the last report
+        const index = reports.findIndex(r => r.id === data.id);
+        if (index >= 0) {
+          const copyOfReports = [...reports];
+          copyOfReports.splice(index, 1, data);
+          setReports(copyOfReports);
+          setLastReport(data);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadReport(project.id);
+    // eslint-disable-next-line
   }, []);
 
-  const renderProjectInfo = () => {
-    return (
-      <>
-        <ProjectProgressCard {...project} />
-        <ProjectIDCard {...project} />
-        <ProjectContactCard {...project} />
-      </>
-    );
-  };
-
-  const renderKPIs = () => {
-    return (
-      <Container maxWidth="md">
-        { kpis && kpis.length > 0 ?
-        kpis.map((kpi) => (
-          <Box m={4}>
-            <KPIItem
-              kpi={kpi}
-              key={kpi.id}
-            />
-          </Box>
-        ))
-        :
-        <h1>No Key Performance Indicators to Display</h1>
-      }
-      </Container>
-    );
-  };
-
-  const renderMilestones = () => {
-
-    return (
-      <>
-        { milestones && milestones.length > 0 ? 
-          milestones.map((milestone) => (
-            <Box m={4}>
-              <MilestoneItem
-                milestone={milestone}
-                key={milestone.id}
-              />
-            </Box>
-          ))
-          :
-          <h1>No Milestones to Display</h1>
-        }
-      
-      </>
-    );
-  };
-
-  const renderObjectives = () => {
-    return (
-      <Container maxWidth="md">
-        { objectives && objectives.length > 0 ?
-          objectives.map((objective) => (
-            <Box m={4}>
-              <ObjectiveItem
-                objective={objective}
-                key={objective.id}
-              />
-            </Box>
-          ))
-          :
-          <h1>No Objectives to Display</h1>
-        }
-      </Container>
-    );
-  };
+  useEffect(() => {
+    loadProject();
+    // when each step updates the project or report, it updates
+    emitter.on(EventType.Project.Reload, loadProject);
+    emitter.on(EventType.Report.Reload, loadReport);
+    return () => {
+      emitter.off(EventType.Project.Reload);
+      emitter.off(EventType.Report.Reload);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderTabs = () => {
     return (
@@ -192,27 +130,37 @@ const ProjectDetails: React.FC = () => {
             onChange={handleChange}
             textColor="primary"
             indicatorColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
           >
             {projectDetailTabs.map((tab, index) => (
-              <Tab label={tab} {...allyProps(index)} />
+              <Tab label={tab} {...a11yProps(index)} />
             ))}
           </Tabs>
         </Paper>
-        <TabPanel value={value} index={0}>
-          {renderProjectInfo()}
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          {renderKPIs()}
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          {renderMilestones()}
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          {renderObjectives()}
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          <QuarterlyReportList reports={reports} />
-        </TabPanel>
+        <Container maxWidth="lg">
+          <TabPanel value={value} index={0}>
+            <ProjectDetailsInfoStep project={project} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <ProjectDetailsKpiStep kpis={lastReport.kpis} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <ProjectDetailsMilestoneStep
+              milestones={lastReport.milestones}
+              reportId={lastReport.id as string}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <ProjectDetailsObjectiveStep
+              objectives={lastReport.objectives}
+              reportId={lastReport.id as string}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={4}>
+            <QuarterlyReportList reports={reports} />
+          </TabPanel>
+        </Container>
       </>
     );
   };
@@ -230,11 +178,11 @@ const ProjectDetails: React.FC = () => {
         flexDirection="row"
         m={4}
       >
-        <Typography variant="h4">{project.name} - {project.cpsIdentifier}</Typography>
+        <Typography variant="h4">
+          {project.name} - {project.cpsIdentifier}
+        </Typography>
       </Box>
-      <Box>
-        {renderContent()}
-      </Box>
+      <Box>{renderContent()}</Box>
     </Container>
   );
 };

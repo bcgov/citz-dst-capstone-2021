@@ -15,74 +15,57 @@
 //
 
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  Button,
-  Box,
-  Container,
-  CircularProgress,
-  Tabs,
-  Tab,
-  Paper,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@material-ui/core';
+import { Typography, Box, Table, TableHead, TableBody, TableCell } from '@material-ui/core';
 import styled from 'styled-components';
 import QuarterlyReportListRow from './QuarterlyReportListRow';
-import useApi from '../../utils/api';
 import theme from '../../theme';
-import { Report, User } from '../../types';
+import { Report } from '../../types';
 
 interface QuarterlyReportListProps {
   reports: Report[];
 }
 
 const StyledTableHead = styled(TableHead)`
-  background-color: ${theme.colors.grey};
+  background-color: #D5D5D5;
+  height: 38px;
 `;
 
 const StyledTableHeadCell = styled(TableCell)`
-  font-weight: bold;
-  padding: 4px !important;
+  padding: 8px !important;
 `;
 
-const QuarterlyReportList: React.FC<QuarterlyReportListProps> = (props) => {
-  const {
-    reports,
-  } = props;
+const QuarterlyReportList: React.FC<QuarterlyReportListProps> = props => {
+  const { reports } = props;
 
   return (
-    <>
+    <Box m={4} boxShadow={2} borderRadius={4}>
       <Box bgcolor={theme.colors.primary} color="white" p={1}>
         <Typography variant="h5">Quarterly Status Reports</Typography>
       </Box>
       <Table aria-label="quarterly report list" size="medium">
         <StyledTableHead>
           <StyledTableHeadCell align="left">
-            Reporting Period
+            <Typography variant="subtitle1">Reporting Period</Typography>
           </StyledTableHeadCell>
           <StyledTableHeadCell align="center">
-              Report Status
+            <Typography variant="subtitle1">Report Status</Typography>
           </StyledTableHeadCell>
           <StyledTableHeadCell align="right">
-            Reporting Period Start
+            <Typography variant="subtitle1">Reporting Period Start</Typography>
           </StyledTableHeadCell>
           <StyledTableHeadCell align="right">
-            Reporting Period End
+            <Typography variant="subtitle1">Reporting Period End</Typography>
           </StyledTableHeadCell>
           <TableCell />
         </StyledTableHead>
         <TableBody>
-          {reports.map((row) => (
+          {reports.map(row => (
             <QuarterlyReportListRow report={row} key={row.id} />
           ))}
         </TableBody>
       </Table>
-    </>
+    </Box>
   );
-}
+};
 
 export default QuarterlyReportList;

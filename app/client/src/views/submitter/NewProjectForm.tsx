@@ -78,9 +78,7 @@ const NewProjectForm: React.FC = () => {
   // set values for Autocomplete and KeyboardDatePicker.
   const [sponsor, setSponsor] = React.useState<User | null>(null);
   const [manager, setManager] = React.useState<User | null>(null);
-  const [financialContact, setFinancialContact] = React.useState<User | null>(
-    null
-  );
+  const [financialContact, setFinancialContact] = React.useState<User | null>(null);
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [estEndDate, setEstEndDate] = React.useState<Date | null>(null);
 
@@ -89,7 +87,7 @@ const NewProjectForm: React.FC = () => {
   const [kpis, setKpis] = React.useState<Kpi[]>([]);
 
   React.useEffect(() => {
-    api.getUsers().then((data) => setUsers(data));
+    api.getUsers().then(data => setUsers(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -108,7 +106,7 @@ const NewProjectForm: React.FC = () => {
       estimatedEnd: '',
     },
     validationSchema: validateNewProject,
-    onSubmit: (values) => {
+    onSubmit: values => {
       const data = { ...values, milestones, objectives, kpis };
       return api.createProject(data).then(() => {
         history.push('/projects');
@@ -116,15 +114,7 @@ const NewProjectForm: React.FC = () => {
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   const handleNext = () => {
     if (activeStep >= steps.length - 1) {
@@ -196,16 +186,9 @@ const NewProjectForm: React.FC = () => {
           'projectNumber',
         ]);
       case 1:
-        return utils.isValidFormInput(values, errors, [
-          'sponsor',
-          'manager',
-          'financialContact',
-        ]);
+        return utils.isValidFormInput(values, errors, ['sponsor', 'manager', 'financialContact']);
       case 2:
-        return utils.isValidFormInput(values, errors, [
-          'start',
-          'estimatedEnd',
-        ]);
+        return utils.isValidFormInput(values, errors, ['start', 'estimatedEnd']);
       default:
         return isValid;
     }
@@ -257,7 +240,7 @@ const NewProjectForm: React.FC = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           >
-            {Ministries.map((ministry) => (
+            {Ministries.map(ministry => (
               <MenuItem value={ministry} key={ministry}>
                 {ministry}
               </MenuItem>
@@ -310,12 +293,14 @@ const NewProjectForm: React.FC = () => {
   const renderStep1 = () => {
     return (
       <Container maxWidth="sm">
-        <Typography variant="h5" align="center">
-          Project Contacts
-        </Typography>
+        <Box my={4}>
+          <Typography variant="h5" align="center">
+            Project Contacts
+          </Typography>
+        </Box>
         <AutoCompleteField<User>
           options={users}
-          getLabel={(user) => `${user.firstName} ${user.lastName}`}
+          getLabel={user => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
             formik.setFieldValue('manager', value?.id);
             setManager(value);
@@ -324,7 +309,7 @@ const NewProjectForm: React.FC = () => {
             return item.id === current.id;
           }}
           value={manager}
-          renderInput={(params) => {
+          renderInput={params => {
             return (
               <TextField
                 {...params}
@@ -340,7 +325,7 @@ const NewProjectForm: React.FC = () => {
         />
         <AutoCompleteField<User>
           options={users}
-          getLabel={(user) => `${user.firstName} ${user.lastName}`}
+          getLabel={user => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
             formik.setFieldValue('sponsor', value?.id);
             setSponsor(value);
@@ -349,7 +334,7 @@ const NewProjectForm: React.FC = () => {
             return item.id === current?.id;
           }}
           value={sponsor}
-          renderInput={(params) => {
+          renderInput={params => {
             return (
               <TextField
                 {...params}
@@ -365,7 +350,7 @@ const NewProjectForm: React.FC = () => {
         />
         <AutoCompleteField<User>
           options={users}
-          getLabel={(user) => `${user.firstName} ${user.lastName}`}
+          getLabel={user => `${user.firstName} ${user.lastName}`}
           onChange={(_, value) => {
             formik.setFieldValue('financialContact', value?.id);
             setFinancialContact(value);
@@ -374,7 +359,7 @@ const NewProjectForm: React.FC = () => {
             return item.id === current?.id;
           }}
           value={financialContact}
-          renderInput={(params) => {
+          renderInput={params => {
             return (
               <TextField
                 {...params}
@@ -382,9 +367,7 @@ const NewProjectForm: React.FC = () => {
                 label="Financial Contact"
                 margin="normal"
                 onBlur={handleBlur}
-                error={
-                  touched.financialContact && Boolean(errors.financialContact)
-                }
+                error={touched.financialContact && Boolean(errors.financialContact)}
                 helperText={touched.financialContact && errors.financialContact}
               />
             );
@@ -397,17 +380,12 @@ const NewProjectForm: React.FC = () => {
   const renderStep2 = () => {
     return (
       <Container maxWidth="sm">
-        <Box mb={4}>
+        <Box my={4}>
           <Typography variant="h5" align="center">
             Project Timeline Information
           </Typography>
         </Box>
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          mb={4}
-        >
+        <Box display="flex" flexDirection="row" justifyContent="space-between" mb={4}>
           {/* TODO: (nick) Fix -> Warning: A component is changing an uncontrolled input to be controlled.
             This is likely caused by the value changing from undefined to a defined value, which should not happen. */}
           {/* TODO: (nick) Fix: it doesn't display errors like https://material-ui-pickers.dev/demo/datepicker */}
@@ -421,10 +399,10 @@ const NewProjectForm: React.FC = () => {
             name="start"
             label="Start Date"
             value={startDate}
-            onChange={(date) => {
+            onChange={date => {
               if (date && !date.invalid) {
                 setStartDate(date);
-                formik.setFieldValue('start', date.toISODate());
+                formik.setFieldValue('start', date.toLocaleString());
               } else {
                 setStartDate(null);
                 formik.setFieldValue('start', '');
@@ -441,10 +419,10 @@ const NewProjectForm: React.FC = () => {
             name="estimatedEnd"
             label="Estimated Completion"
             value={estEndDate}
-            onChange={(date) => {
+            onChange={date => {
               if (date && !date.invalid) {
                 setEstEndDate(date);
-                formik.setFieldValue('estimatedEnd', date.toISODate());
+                formik.setFieldValue('estimatedEnd', date.toLocaleString());
               } else {
                 setEstEndDate(null);
                 formik.setFieldValue('estimatedEnd', '');
@@ -465,12 +443,7 @@ const NewProjectForm: React.FC = () => {
           })}
         </Box>
         <FormControl margin="normal" fullWidth>
-          <Button
-            color="primary"
-            variant="contained"
-            type="button"
-            onClick={openMilestoneModal}
-          >
+          <Button color="primary" variant="contained" type="button" onClick={openMilestoneModal}>
             Add New Milestone
           </Button>
         </FormControl>
@@ -487,12 +460,7 @@ const NewProjectForm: React.FC = () => {
       case 2:
         return renderStep2();
       case 3:
-        return (
-          <ProjectObjectivesStep
-            data={objectives}
-            onChange={handleObjectiveChange}
-          />
-        );
+        return <ProjectObjectivesStep data={objectives} onChange={handleObjectiveChange} />;
       case 4:
         return <ProjectKPIsStep data={kpis} onChange={handleKpiChange} />;
       default:
@@ -503,7 +471,7 @@ const NewProjectForm: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => {
+        {steps.map(label => {
           const stepProps: { completed?: boolean } = {};
           const labelProps: { optional?: React.ReactNode } = {}; // I don't think I need this
           return (
@@ -551,10 +519,7 @@ const NewProjectForm: React.FC = () => {
       {/* TODO: (nick) Fix -> Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
 Check the render method of `Unstable_TrapFocus`. */}
       <Modal disableEnforceFocus open={openMilestone} className={classes.modal}>
-        <NewMilestoneForm
-          milestone={milestones[cacheIndex]}
-          closeModal={handleMilestoneModal}
-        />
+        <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={handleMilestoneModal} />
       </Modal>
     </Container>
   );

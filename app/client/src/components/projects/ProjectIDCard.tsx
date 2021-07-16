@@ -15,37 +15,31 @@
 //
 
 import React from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, Paper, IconButton } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
 import { Project } from '../../types';
 
-const ProjectIDCard: React.FC<Project> = (props) => {
-  const { name, description, ministry, program, cpsIdentifier, projectNumber } =
-    props;
+type Props = {
+  project: Project;
+  editItem?: () => void;
+};
+
+const ProjectIDCard: React.FC<Props> = props => {
+  const { project, editItem } = props;
+  const { name, description, ministry, program, cpsIdentifier, projectNumber } = project;
 
   // TODO: refactor any custom colours and theming using the theme provider
   return (
-    <Box style={{ border: '1px solid black' }} m={4}>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-      >
-        <Box
-          alignItems="left"
-          style={{ borderBottom: '1px solid black' }}
-          width={1}
-          p={2}
-          bgcolor="#D5D5D5"
-        >
-          <Typography variant="h5">
-            <Box fontWeight="fontWeightBold" m={1 / 2}>
-              Project Identification
-            </Box>
-          </Typography>
-        </Box>
+    <Box boxShadow={2} borderRadius={4}>
+      <Box display="flex" justifyContent="space-between" p={1} bgcolor="#D5D5D5">
+        <Typography variant="h5">Project Identification</Typography>
+        <IconButton size="small" onClick={editItem} disabled={!editItem}>
+          <EditIcon />
+        </IconButton>
+      </Box>
 
+      <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" py={2}>
         <Card label="Project Name" content={name} />
         <Card label="Project Description" content={description} />
         <Card label="Ministry" content={ministry} />

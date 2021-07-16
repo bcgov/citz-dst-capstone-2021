@@ -14,25 +14,16 @@
 // limitations under the License.
 //
 import React from 'react';
-import {
-  Box,
-  Button,
-  Grid,
-  Typography
-} from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { Report, User, ReportState } from '../../types';
-
 
 interface QuarterlyReportListRowDetailProps {
   report: Report;
   submitter: User;
 }
 
-const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = (props) => {
-  const {
-    report,
-    submitter
-  } = props;
+const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = props => {
+  const { report, submitter } = props;
 
   // TODO: (Samara) add additional report details for completed reports
   const getDetailsCompleteReport = () => {
@@ -42,11 +33,11 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <strong>Report Submitted</strong>
         </Typography>
         <Typography variant="body2">
-          {report.submittedAt? report.submittedAt : 'Not Submitted'}
+          {report.submittedAt ? report.submittedAt : 'Not Submitted'}
         </Typography>
       </Box>
     );
-  }
+  };
 
   const getDetailsIncompleteReport = () => {
     return (
@@ -60,60 +51,62 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
         </Typography>
       </Box>
     );
-  }
+  };
 
   const getButtonText = (state: ReportState) => {
-    switch(state) {
+    switch (state) {
       case ReportState.Draft:
         return 'Continue Report';
       case ReportState.Submitted:
       case ReportState.Review:
         return 'View Report';
       default:
-        return 'Start Report'
+        return 'Start Report';
     }
   };
 
   const getReportDetails = (state: ReportState) => {
-    switch(state) {
+    switch (state) {
       case ReportState.Draft:
         return getDetailsIncompleteReport();
       case ReportState.Submitted:
       case ReportState.Review:
         return getDetailsCompleteReport();
       default:
-        return 'Start Report'
+        return 'Start Report';
     }
   };
-  
-  return(
-    <>
+
+  return (
+    <Box px={2}>
       <Grid container spacing={3} justify="space-between">
         <Grid item xs={4}>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="body2">
-            <strong>Submitter</strong>
-          </Typography>
-          <Typography variant="body2">
-            {submitter.firstName} {submitter.lastName}
-          </Typography>
-        </Box>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="body2">
+              <strong>Submitter</strong>
+            </Typography>
+            <Typography variant="body2">
+              {submitter.firstName} {submitter.lastName}
+            </Typography>
+          </Box>
         </Grid>
         <Grid item xs={4}>
-        {getReportDetails(report.state)}
+          {getReportDetails(report.state)}
         </Grid>
         <Grid item>
           <Button
             variant="contained"
             color="primary"
-            onClick={() => {alert('TODO: view report')}}
+            onClick={() => {
+              alert('TODO: view report');
+            }}
           >
             {getButtonText(report.state)}
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
-}
+};
 
 export default QuarterlyReportListRowDetail;
