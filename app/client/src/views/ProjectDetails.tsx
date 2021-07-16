@@ -14,19 +14,30 @@
 // limitations under the License.
 //
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { Typography, Box, Container, CircularProgress, Tabs, Tab, Paper } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import {
+  Typography,
+  Box,
+  Container,
+  CircularProgress,
+  Tabs,
+  Tab,
+  Paper,
+  Button,
+} from '@material-ui/core';
+import { useHistory, useParams } from 'react-router-dom';
 
+import DeleteIcon from '@material-ui/icons/Delete';
 import { projectDetailTabs } from '../constants';
 import QuarterlyReportList from '../components/reports/QuarterlyReportList';
 import useApi from '../utils/api';
-import { Project, Report, Milestone, Kpi, Objective } from '../types';
+import { Project, Report } from '../types';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
 import ProjectDetailsKpiStep from '../components/projects/ProjectDetailsKpiStep';
 import ProjectDetailsMilestoneStep from '../components/projects/ProjectDetailsMilestoneStep';
 import ProjectDetailsObjectiveStep from '../components/projects/ProjectDetailsObjectiveStep';
 import emitter from '../events/Emitter';
 import EventType from '../events/Events';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 
 interface TabPanelProps extends PropsWithChildren<any> {
   index: any;
@@ -55,18 +66,20 @@ const a11yProps = (index: any) => {
 };
 
 const ProjectDetails: React.FC = () => {
+  const api = useApi();
+  const history = useHistory();
+
   const [project, setProject] = useState({} as Project);
   const [reports, setReports] = useState([] as Report[]);
   const [lastReport, setLastReport] = useState({} as Report);
   const { cps } = useParams<{ cps: string }>();
 
-  const [value, setValue] = React.useState(0);
+  const [step, setStep] = React.useState(0);
+  const [deleteConfirmVisible, setDeleteConfirmVisible] = React.useState(false);
 
-  const handleChange = (event: React.ChangeEvent<{ [k: string]: never }>, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (event: any, nextStep: number) => {
+    setStep(nextStep);
   };
-
-  const api = useApi();
 
   const loadProject = (): Promise<void> => {
     return api.getProjectDetail(cps).then(data => {
@@ -107,7 +120,7 @@ const ProjectDetails: React.FC = () => {
   useEffect(() => {
     loadReport(project.id);
     // eslint-disable-next-line
-  }, []);
+  }, [project]);
 
   useEffect(() => {
     loadProject();
@@ -121,12 +134,21 @@ const ProjectDetails: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const deleteProject = (answer: boolean) => {
+    if (answer) {
+      api.deleteProject(project.id).then(() => {
+        history.push('/projects');
+      });
+    }
+    setDeleteConfirmVisible(false);
+  };
+
   const renderTabs = () => {
     return (
       <>
         <Paper>
           <Tabs
-            value={value}
+            value={step}
             onChange={handleChange}
             textColor="primary"
             indicatorColor="primary"
@@ -139,25 +161,25 @@ const ProjectDetails: React.FC = () => {
           </Tabs>
         </Paper>
         <Container maxWidth="lg">
-          <TabPanel value={value} index={0}>
+          <TabPanel value={step} index={0}>
             <ProjectDetailsInfoStep project={project} />
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={step} index={1}>
             <ProjectDetailsKpiStep kpis={lastReport.kpis} />
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          <TabPanel value={step} index={2}>
             <ProjectDetailsMilestoneStep
               milestones={lastReport.milestones}
               reportId={lastReport.id as string}
             />
           </TabPanel>
-          <TabPanel value={value} index={3}>
+          <TabPanel value={step} index={3}>
             <ProjectDetailsObjectiveStep
               objectives={lastReport.objectives}
               reportId={lastReport.id as string}
             />
           </TabPanel>
-          <TabPanel value={value} index={4}>
+          <TabPanel value={step} index={4}>
             <QuarterlyReportList reports={reports} />
           </TabPanel>
         </Container>
@@ -181,8 +203,22 @@ const ProjectDetails: React.FC = () => {
         <Typography variant="h4">
           {project.name} - {project.cpsIdentifier}
         </Typography>
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<DeleteIcon />}
+          onClick={() => setDeleteConfirmVisible(true)}
+        >
+          Delete
+        </Button>
       </Box>
       <Box>{renderContent()}</Box>
+      <ConfirmDialog
+        title="Delete Project"
+        message="Do you want to proceed and delete all data of the project?"
+        onClose={deleteProject}
+        open={deleteConfirmVisible}
+      />
     </Container>
   );
 };

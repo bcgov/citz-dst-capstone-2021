@@ -18,6 +18,7 @@ import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import assert from 'assert';
 
+import { useHistory } from 'react-router-dom';
 import { AuthRequest, AuthResponse, Project, Report, User } from '../types';
 import { API } from '../constants';
 import utils from '.';
@@ -130,6 +131,11 @@ const useApi = () => {
       return api.current
         .patch(`reports/${reportId}/objectives/${objectiveId}`, update)
         .then(({ data }) => data);
+    },
+
+    deleteProject(id: string) {
+      assert(api.current);
+      return api.current.delete(`projects/${id}`);
     },
   };
 };
