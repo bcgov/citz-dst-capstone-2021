@@ -17,15 +17,25 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Container,
+  Card,
   Paper,
   Tabs,
   Tab,
   Typography,
   CircularProgress,
 } from '@material-ui/core';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import { useParams } from 'react-router-dom';
 import useApi from '../utils/api';
-import { Report, Project } from '../types';
+import {
+  Report,
+  Project,
+  ReportStatus,
+  StatusType,
+  Trend,
+  Status } from '../types';
 import { reportDetailTabs } from '../constants'
 import { getReportingPeriodStart, getReportingPeriodEnd } from '../utils/dateUtils';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
@@ -81,11 +91,55 @@ const ReportDetails: React.FC = () => {
       api.getReport(reportId)
         .then((reportData) => {
         setReport(reportData);
+        console.log(reportData);
         return api.getProject(reportData.projectId);
       })
         .then(projectData => setProject(projectData));
     }
   });
+
+  const getStatusCard = (status: ReportStatus) => {
+    // TODO: Refactor this to constants file
+    const statusTypeLabels = {
+      [StatusType.Overall]: 'Overall Status',
+      [StatusType.Scope]: 'Scope',
+      [StatusType.Budget]: 'Budget',
+      [StatusType.Schedule]: 'Schedule',
+      [StatusType.Other]: 'Other Issues or Risks',
+    };
+    // status summary trends
+    const trendIcons = [
+      { icon: <ArrowUpwardIcon />, value: Trend.Up },
+      { icon: <ArrowForwardIcon />, value: Trend.Steady },
+      { icon: <ArrowDownwardIcon />, value: Trend.Down },
+    ];
+
+
+    return (
+      <Card variant="outlined" square>
+        <Box display="flex" justifyContent="space-evenly">
+          <Box>
+            <Typography variant="subtitle1">
+              {statusTypeLabels[status.type]}
+            </Typography>
+            {Status[status.status]}
+          </Box>
+          <Box>
+            <Typography variant="subtitle1">
+              Trend
+            </Typography>
+            {trendIcons[status.trend].icon}
+          </Box>
+        </Box>
+        <Typography variant="subtitle1">
+          Comments
+        </Typography>
+        <Typography variant="body1">
+          {status.comments ? status.comments : 'N/A'}
+        </Typography>
+      </Card>
+    );
+  }
 
   const renderTabs = () => {
     return (
@@ -110,7 +164,11 @@ const ReportDetails: React.FC = () => {
           </Container>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <h3>TODO: Implement Status Summary with KPIs</h3>
+          <Box display="flex" justifyContent="space-between">
+            {report.statuses.map((status) => {
+              return getStatusCard(status);
+            })}
+          </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <h3>TODO: Implement Finances</h3>
