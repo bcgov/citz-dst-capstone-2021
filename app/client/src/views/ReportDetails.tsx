@@ -18,15 +18,14 @@ import {
   Box,
   Container,
   Card,
+  Grid,
   Paper,
   Tabs,
   Tab,
   Typography,
   CircularProgress,
 } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
 import { useParams } from 'react-router-dom';
 import useApi from '../utils/api';
 import {
@@ -41,6 +40,13 @@ import { getReportingPeriodStart, getReportingPeriodEnd } from '../utils/dateUti
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectIDCard from '../components/projects/ProjectIDCard';
 import ProjectContactCard from '../components/projects/ProjectContactCard';
+import KPIItem from '../components/projects/KPIItem';
+import ObjectiveItem from '../components/projects/ObjectiveItem';
+import MilestoneItem from '../components/projects/MilestoneItem';
+import StatusSummaryCard from '../components/reports/StatusSummaryCard';
+import CurrentFYFinanceTable from '../components/reports/CurrentFYFinanceTable';
+import OverallProjectFinanceTable from '../components/reports/OverallProjectFinanceTable';
+import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -90,54 +96,35 @@ const ReportDetails: React.FC = () => {
     if (!report.id) {
       api.getReport(reportId)
         .then((reportData) => {
-        setReport(reportData);
-        console.log(reportData);
-        return api.getProject(reportData.projectId);
-      })
+          setReport(reportData);
+          console.log(reportData);
+          return api.getProject(reportData.projectId);
+        })
         .then(projectData => setProject(projectData));
     }
   });
 
-  const getStatusCard = (status: ReportStatus) => {
-    // TODO: Refactor this to constants file
-    const statusTypeLabels = {
-      [StatusType.Overall]: 'Overall Status',
-      [StatusType.Scope]: 'Scope',
-      [StatusType.Budget]: 'Budget',
-      [StatusType.Schedule]: 'Schedule',
-      [StatusType.Other]: 'Other Issues or Risks',
-    };
-    // status summary trends
-    const trendIcons = [
-      { icon: <ArrowUpwardIcon />, value: Trend.Up },
-      { icon: <ArrowForwardIcon />, value: Trend.Steady },
-      { icon: <ArrowDownwardIcon />, value: Trend.Down },
-    ];
-
-
+  // TODO: (Samara) fix margins around headings; currently not enough whitespace
+  const getStatusSummaryStep = () => {
     return (
-      <Card variant="outlined" square>
-        <Box display="flex" justifyContent="space-evenly">
-          <Box>
-            <Typography variant="subtitle1">
-              {statusTypeLabels[status.type]}
-            </Typography>
-            {Status[status.status]}
-          </Box>
-          <Box>
-            <Typography variant="subtitle1">
-              Trend
-            </Typography>
-            {trendIcons[status.trend].icon}
-          </Box>
-        </Box>
-        <Typography variant="subtitle1">
-          Comments
+      <>
+        <Typography variant="h5" gutterBottom>
+          Status Summary
         </Typography>
-        <Typography variant="body1">
-          {status.comments ? status.comments : 'N/A'}
+        <Grid container spacing={2} alignItems="stretch">
+          {report.statuses.map((status) => {
+            return <StatusSummaryCard status={status} />;
+          })}
+        </Grid>
+        <Typography variant="h5" gutterBottom>
+          Key Performance Indicators
         </Typography>
-      </Card>
+        <Grid container spacing={2}>
+          {report.kpis.map((kpi) => {
+            return <KPIItem kpi={kpi} useGrid />;
+          })}
+        </Grid>
+      </>
     );
   }
 
@@ -157,27 +144,32 @@ const ReportDetails: React.FC = () => {
           </Tabs>
         </Paper>
         <TabPanel value={tabValue} index={0}>
-          <Container maxWidth="lg">
-            <ProjectProgressCard {...project} />
-            <ProjectIDCard project={project} />
-            <ProjectContactCard project={project} />
-          </Container>
+          <ProjectDetailsInfoStep project={project} />
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          <Box display="flex" justifyContent="space-between">
-            {report.statuses.map((status) => {
-              return getStatusCard(status);
-            })}
-          </Box>
+          {getStatusSummaryStep()}
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-          <h3>TODO: Implement Finances</h3>
+          <Box mb={4}>
+            <CurrentFYFinanceTable report={report} />
+          </Box>
+          <Box mb={4}>
+            <OverallProjectFinanceTable report={report} />
+          </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={3}>
-          <h3>TODO: Implement Objectives</h3>
+          {report.objectives.map((objective) => (
+            <Box mb={4}>
+              <ObjectiveItem objective={objective} />
+            </Box>
+          ))}
         </TabPanel>
         <TabPanel value={tabValue} index={4}>
-          <h3>TODO: Implement Milestones</h3>
+          {report.milestones.map((milestone) => (
+            <Box mb={4}>
+              <MilestoneItem milestone={milestone} />
+            </Box>
+          ))}
         </TabPanel>
       </>
     );
