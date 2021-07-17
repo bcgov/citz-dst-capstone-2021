@@ -15,10 +15,11 @@
 //
 
 import * as React from 'react';
-import { Box, Modal } from '@material-ui/core';
+import { Box, Button, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
 
-import { Milestone } from '../../types';
+import { Milestone, Report } from '../../types';
 import MilestoneItem from './MilestoneItem';
 import NewMilestoneForm from './NewMilestoneForm';
 import EventType from '../../events/Events';
@@ -56,41 +57,58 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
     };
   };
 
-  const updateMilestone = (data: Milestone) => {
-    if (!data || cacheIndex < 0) {
-      setModalVisible(false);
-    } else {
-      setCacheIndex(-1);
-      api
-        .updateMilestone(reportId, milestones[cacheIndex]?.id, data)
-        .then(report => {
-          emitter.emit(EventType.Report.Reload, report);
-        })
-        .finally(() => {
-          setModalVisible(false);
-        });
+  const createOrUpdateMilestone = (milestone: Milestone): Promise<Report | null> => {
+    if (milestone) {
+      if (cacheIndex < 0) {
+        return api.createMilestnoe(reportId, milestone);
+      }
+      return api.updateMilestone(reportId, milestones[cacheIndex]?.id, milestone);
     }
+    return Promise.resolve(null);
+  };
+
+  const handleUpdate = (milestone: Milestone) => {
+    return createOrUpdateMilestone(milestone)
+      .then(report => {
+        if (report) {
+          emitter.emit(EventType.Report.Reload, report);
+        }
+      })
+      .finally(() => {
+        setCacheIndex(-1);
+        setModalVisible(false);
+      });
   };
 
   return (
     <>
+      <Box display="flex" justifyContent="flex-end" mr={4}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={() => setModalVisible(true)}
+        >
+          New Milestone
+        </Button>
+      </Box>
       {milestones && milestones.length > 0 ? (
-        milestones.map((milestone, index) => (
-          <Box m={4}>
-            <MilestoneItem milestone={milestone} key={milestone.id} editItem={editItem(index)} />
-          </Box>
-        ))
+        <>
+          {milestones.map((milestone, index) => (
+            <Box m={4} key={milestone.id}>
+              <MilestoneItem milestone={milestone} editItem={editItem(index)} />
+            </Box>
+          ))}
+        </>
       ) : (
-        <h1>No Milestones to Display</h1>
+        <Box pt={10} textAlign="center">
+          <h1>No Milestones to Display</h1>
+        </Box>
       )}
-
-      {cacheIndex >= 0 ? (
-        <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-          <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={updateMilestone} />
-        </Modal>
-      ) : (
-        ''
-      )}
+      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+        <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={handleUpdate} />
+      </Modal>
     </>
   );
 };

@@ -160,19 +160,19 @@ const ProjectDetails: React.FC = () => {
           </TabPanel>
           <TabPanel value={step} index={1}>
             <ProjectDetailsKpiStep
-              kpis={lastReport.kpis}
+              kpis={lastReport.kpis || []}
               reportId={lastReport.id as string}
             />
           </TabPanel>
           <TabPanel value={step} index={2}>
             <ProjectDetailsMilestoneStep
-              milestones={lastReport.milestones}
+              milestones={lastReport.milestones || []}
               reportId={lastReport.id as string}
             />
           </TabPanel>
           <TabPanel value={step} index={3}>
             <ProjectDetailsObjectiveStep
-              objectives={lastReport.objectives}
+              objectives={lastReport.objectives || []}
               reportId={lastReport.id as string}
             />
           </TabPanel>

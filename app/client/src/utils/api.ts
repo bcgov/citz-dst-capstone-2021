@@ -19,7 +19,7 @@ import type { AxiosInstance } from 'axios';
 import assert from 'assert';
 
 import { useHistory } from 'react-router-dom';
-import { AuthRequest, AuthResponse, Kpi, Project, Report, User } from '../types';
+import { AuthRequest, AuthResponse, Kpi, Milestone, Objective, Project, Report, User } from "../types";
 import { API } from '../constants';
 import utils from '.';
 
@@ -164,6 +164,17 @@ const useApi = () => {
       return api.current.post(`reports/${reportId}/kpis`, kpi)
         .then(({ data }) => data);;
     },
+
+    createObjective(reportId: string, objective: Objective) {
+      assert(api.current);
+      return api.current.post(`reports/${reportId}/objectives`, objective)
+        .then(({ data }) => data);;
+    },
+    createMilestnoe(reportId: string, milestone: Milestone) {
+      assert(api.current);
+      return api.current.post(`reports/${reportId}/milestones`, milestone)
+        .then(({ data }) => data);;
+    }
   };
 };
 
