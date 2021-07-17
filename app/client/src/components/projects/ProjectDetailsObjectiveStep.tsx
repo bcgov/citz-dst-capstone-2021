@@ -14,11 +14,12 @@
 // limitations under the License.
 //
 
-import { Box, Modal } from '@material-ui/core';
+import { Box, Button, Modal } from '@material-ui/core';
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Milestone, Objective } from '../../types';
+import AddIcon from '@material-ui/icons/Add';
+import { Objective, Report } from '../../types';
 import ObjectiveItem from './ObjectiveItem';
 import NewObjectiveForm from './NewObjectiveForm';
 import useApi from '../../utils/api';
@@ -56,33 +57,52 @@ const ProjectDetailsObjectiveStep = (props: Props) => {
     };
   };
 
-  const updateObjective = (data: Milestone) => {
-    if (!data || cacheIndex < 0) {
-      setModalVisible(false);
-    } else {
-      setCacheIndex(-1);
-      api
-        .updateObjective(reportId, objectives[cacheIndex]?.id, data)
-        .then(report => {
-          emitter.emit(EventType.Report.Reload, report);
-        })
-        .finally(() => {
-          setModalVisible(false);
-        });
+  const createOrUpdateObjective = (objective: Objective): Promise<Report | null> => {
+    if (objective) {
+      if (cacheIndex < 0) {
+        // new objective
+        return api.createObjective(reportId, objective);
+      }
+      return api.updateObjective(reportId, objectives[cacheIndex]?.id, objective);
     }
+    return Promise.resolve(null);
+  };
+
+  const handleUpdate = (objective: Objective) => {
+    return createOrUpdateObjective(objective)
+      .then(report => {
+        if (report) {
+          emitter.emit(EventType.Report.Reload, report);
+        }
+      })
+      .finally(() => {
+        setCacheIndex(-1);
+        setModalVisible(false);
+      });
   };
 
   return (
     <>
+      <Box display="flex" justifyContent="flex-end" mr={4}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={() => setModalVisible(true)}
+        >
+          New Objective
+        </Button>
+      </Box>
       {objectives && objectives.length > 0 ? (
         <>
           {objectives.map((objective, index) => (
-            <Box m={4}>
-              <ObjectiveItem objective={objective} key={objective.id} editItem={editItem(index)} />
+            <Box m={4} key={objective.id} >
+              <ObjectiveItem objective={objective} editItem={editItem(index)} />
             </Box>
           ))}
           <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-            <NewObjectiveForm closeModal={updateObjective} objective={objectives[cacheIndex]} />
+            <NewObjectiveForm closeModal={handleUpdate} objective={objectives[cacheIndex]} />
           </Modal>
         </>
       ) : (

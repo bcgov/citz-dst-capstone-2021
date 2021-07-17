@@ -101,8 +101,8 @@ const ProjectDetailsKpiStep = (props: Props) => {
       {kpis && kpis.length > 0 ? (
         <>
           {kpis.map((kpi, index) => (
-            <Box m={4}>
-              <KPIItem kpi={kpi} key={kpi.id} editItem={editItem(index)} />
+            <Box m={4} key={kpi.id}>
+              <KPIItem kpi={kpi} editItem={editItem(index)} />
             </Box>
           ))}
           <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
