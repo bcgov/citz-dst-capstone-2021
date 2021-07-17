@@ -110,7 +110,7 @@ export const validateObjective = yup.object({
     is: (status: any) => status !== Status.Green,
     then: yup.string().required('You must enter comments when the status is not green'),
   }),
-  start: date,
+  estimatedEnd: date.required(),
 });
 
 export const validateKPI = yup.object({

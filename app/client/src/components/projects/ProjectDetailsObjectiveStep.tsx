@@ -101,13 +101,15 @@ const ProjectDetailsObjectiveStep = (props: Props) => {
               <ObjectiveItem objective={objective} editItem={editItem(index)} />
             </Box>
           ))}
-          <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-            <NewObjectiveForm closeModal={handleUpdate} objective={objectives[cacheIndex]} />
-          </Modal>
         </>
       ) : (
-        <h1>No Objectives to Display</h1>
+        <Box pt={10} textAlign="center">
+          <h1>No Objectives to Display</h1>
+        </Box>
       )}
+      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+        <NewObjectiveForm closeModal={handleUpdate} objective={objectives[cacheIndex]} />
+      </Modal>
     </>
   );
 };

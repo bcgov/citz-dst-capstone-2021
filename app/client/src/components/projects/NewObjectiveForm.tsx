@@ -153,6 +153,8 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
                   name="estimatedEnd"
                   label="Target Completion Date"
                   value={estEndDate}
+                  error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
+                  helperText={touched.estimatedEnd && errors.estimatedEnd}
                   onChange={(date) => {
                     if (date && !date.invalid) {
                       setEstEndDate(date);

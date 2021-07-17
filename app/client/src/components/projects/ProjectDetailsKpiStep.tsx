@@ -105,13 +105,15 @@ const ProjectDetailsKpiStep = (props: Props) => {
               <KPIItem kpi={kpi} editItem={editItem(index)} />
             </Box>
           ))}
-          <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-            <NewKPIForm closeModal={handleUpdate} kpi={kpis[cacheIndex]} />
-          </Modal>
         </>
       ) : (
-        <h1>No Key Performance Indicators to Display</h1>
+        <Box pt={10} textAlign="center">
+          <h1>No Key Performance Indicators to Display</h1>
+        </Box>
       )}
+      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+        <NewKPIForm closeModal={handleUpdate} kpi={kpis[cacheIndex]} />
+      </Modal>
     </>
   );
 };

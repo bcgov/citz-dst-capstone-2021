@@ -100,13 +100,15 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
               <MilestoneItem milestone={milestone} editItem={editItem(index)} />
             </Box>
           ))}
-          <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-            <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={handleUpdate} />
-          </Modal>
         </>
       ) : (
-        <h1>No Milestones to Display</h1>
+        <Box pt={10} textAlign="center">
+          <h1>No Milestones to Display</h1>
+        </Box>
       )}
+      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+        <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={handleUpdate} />
+      </Modal>
     </>
   );
 };
