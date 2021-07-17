@@ -21,6 +21,7 @@ import ReportDTO from '@dtos/ReportDTO';
 import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
+import KpiDTO from '@dtos/KpiDTO';
 
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
@@ -199,6 +200,44 @@ const ReportController = {
       const { id, sid } = req.params;
       const input: ReportStatusDTO = req.body;
       const data = await ReportService.updateStatus(id, sid, input);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+  async getKpis(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const data = await ReportService.getKpis(id);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+  async createKpi(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const input: KpiDTO = req.body;
+      const data = await ReportService.createKpi(id, input);
+      res.status(201).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+  async deleteKpi(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, kid } = req.params;
+      const data = await ReportService.deleteKpi(id, kid);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+  async updateKpi(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, kid } = req.params;
+      const input: KpiDTO = req.body;
+      const data = await ReportService.updateKpi(id, kid, input);
       res.status(200).json(data);
     } catch (e) {
       next(e);

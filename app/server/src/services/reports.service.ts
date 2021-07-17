@@ -23,9 +23,15 @@ import { Project } from '@interfaces/project.interface';
 import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
+import KpiDTO from '@dtos/KpiDTO';
 
 const ReportService = {
-  async findAllReports(projectId: string, year: number, quarter: Quarter, last: boolean): Promise<Report[]> {
+  async findAllReports(
+    projectId: string,
+    year: number,
+    quarter: Quarter,
+    last: boolean,
+  ): Promise<Report[]> {
     const params = { projectId };
     if (year) Object.assign(params, { year });
     if (quarter) Object.assign(params, { quarter });
@@ -203,8 +209,52 @@ const ReportService = {
     if (!data) {
       throw errorWithCode(`Not found`, 404);
     }
-    if (input.type !== undefined && data.type !== input.type) {
-      throw errorWithCode(`Status type is immutable`, 400);
+    Object.assign(data, input);
+    return report.save();
+  },
+
+  async getKpis(id: string) {
+    const report = await ReportModel.findById(id);
+    if (!report) {
+      throw errorWithCode(`Unable to find data`, 404);
+    }
+    return report.kpis;
+  },
+
+  async createKpi(id: string, input: KpiDTO) {
+    const report = await ReportModel.findById(id);
+    if (!report) {
+      throw errorWithCode(`Bad request`, 400);
+    }
+    const reportStatus = report.kpis.find(kpi => kpi.name === input.name);
+    if (reportStatus) {
+      throw errorWithCode(`Status already exists`, 400);
+    }
+    report.kpis.push(input);
+    return report.save();
+  },
+
+  async deleteKpi(id: string, kid: string) {
+    const report = await ReportModel.findById(id);
+    if (!report) {
+      throw errorWithCode(`Bad request`, 400);
+    }
+    const index = report.kpis.findIndex(kpi => kpi.id === kid);
+    if (index < 0) {
+      throw errorWithCode(`Not found`, 404);
+    }
+    report.kpis.splice(index, 1);
+    return report.save();
+  },
+
+  async updateKpi(id: string, kid: string, input: KpiDTO) {
+    const report = await ReportModel.findById(id);
+    if (!report) {
+      throw errorWithCode(`Bad request`, 400);
+    }
+    const data = report.kpis.find(kpi => kpi.id === kid);
+    if (!data) {
+      throw errorWithCode(`Not found`, 404);
     }
     Object.assign(data, input);
     return report.save();

@@ -60,6 +60,7 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
     if (!data || cacheIndex < 0) {
       setModalVisible(false);
     } else {
+      setCacheIndex(-1);
       api
         .updateMilestone(reportId, milestones[cacheIndex]?.id, data)
         .then(report => {
