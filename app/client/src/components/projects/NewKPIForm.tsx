@@ -93,7 +93,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
         <Box maxWidth="560px" p={4}>
           <Box display="flex" justifyContent="center" my={3}>
             <Typography variant="h5">
-              Create Key Performance Indicator
+              { kpi ? 'Edit' : 'Create'} Key Performance Indicator
             </Typography>
           </Box>
           <form onSubmit={handleSubmit}>
@@ -187,7 +187,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 onChange={(date) => {
                   if (date && !date.invalid) {
                     setEndDate(date);
-                    formik.setFieldValue('end', date.toISODate());
+                    formik.setFieldValue('end', date.toLocaleString());
                   } else {
                     setEndDate(null);
                     formik.setFieldValue('end', '');
@@ -240,7 +240,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                disabled={!isValid}
+                disabled={!values.name || !isValid}
                 type="submit"
               >
                 {kpi ? 'Update' : 'Add KPI'}

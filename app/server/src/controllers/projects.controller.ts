@@ -61,8 +61,9 @@ const ProjectController = {
   async deleteProject(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      await ReportModel.deleteMany({ projectId: id });
+      // TODO: (nick) what kind of info do we need to record as a log
       const data: Project = await ProjectService.deleteProject(id);
-      // TODO: (nick) delete all reports in a transaction
       res.status(200).json(data);
     } catch (e) {
       next(e);

@@ -15,49 +15,32 @@
 //
 
 import React from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, Paper, IconButton } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
-import { SimpleContact } from '../../types';
+import { Project, User } from '../../types';
 
-interface IProjectContactCardProps {
-  sponsor?: SimpleContact;
-  manager?: SimpleContact;
-  financialContact?: SimpleContact;
-}
+type Props = {
+  project: Project;
+  editItem?: () => void;
+};
 
-const ProjectContactCard: React.FC<IProjectContactCardProps> = (props) => {
-  const { sponsor, manager, financialContact } = props;
+const ProjectContactCard: React.FC<Props> = props => {
+  const { project, editItem } = props;
+  const { sponsor, manager, financialContact } = project;
 
   return (
-    <Box style={{ border: '1px solid black' }} m={4}>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-      >
-        <Box
-          alignItems="left"
-          style={{ borderBottom: '1px solid black' }}
-          width={1}
-          p={2}
-          bgcolor="#D5D5D5"
-        >
-          <Typography variant="h5">
-            <Box fontWeight="fontWeightBold" m={1 / 2}>
-              Project Contacts
-            </Box>
-          </Typography>
-        </Box>
+    <Box boxShadow={2} borderRadius={4}>
+      <Box display="flex" justifyContent="space-between" width={1} p={1} bgcolor="#D5D5D5">
+        <Typography variant="h5">Project Contacts</Typography>
+        <IconButton size="small" onClick={editItem} disabled={!editItem}>
+          <EditIcon />
+        </IconButton>
+      </Box>
 
-        <Card
-          label="Project Sponsor"
-          content={`${sponsor?.firstName} ${sponsor?.lastName}`}
-        />
-        <Card
-          label="Project Manager"
-          content={`${manager?.firstName} ${manager?.lastName}`}
-        />
+      <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" py={2}>
+        <Card label="Project Sponsor" content={`${sponsor?.firstName} ${sponsor?.lastName}`} />
+        <Card label="Project Manager" content={`${manager?.firstName} ${manager?.lastName}`} />
         <Card
           label="Financial Contact"
           content={`${financialContact?.firstName} ${financialContact?.lastName}`}

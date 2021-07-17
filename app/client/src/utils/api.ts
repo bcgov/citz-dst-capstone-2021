@@ -16,9 +16,12 @@
 
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
+import assert from 'assert';
 
+import { useHistory } from 'react-router-dom';
 import { AuthRequest, AuthResponse, Project, Report, User } from '../types';
 import { API } from '../constants';
+import utils from '.';
 
 const api: { current: AxiosInstance } = {
   current: axios.create({
@@ -44,12 +47,10 @@ const useApi = () => {
   return {
     async login(authReq: AuthRequest): Promise<User> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current
-        .post<AuthResponse>(`login`, authReq)
-        .then(({ data }) => {
-          setApiToken(data.token);
-          return data.user;
-        });
+      return api.current.post<AuthResponse>(`login`, authReq).then(({ data }) => {
+        setApiToken(data.token);
+        return data.user;
+      });
     },
 
     async logout(user: User): Promise<User> {
@@ -96,9 +97,7 @@ const useApi = () => {
 
     getReports(projectId: string): Promise<Report[]> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current
-        .get(`reports`, { params: { projectId } })
-        .then(({ data }) => data);
+      return api.current.get(`reports`, { params: { projectId } }).then(({ data }) => data);
     },
 
     getLastReport(projectId: string): Promise<Report[]> {
@@ -110,9 +109,33 @@ const useApi = () => {
 
     updateReport(report: Report): Promise<Report> {
       if (!api.current) throw new Error('axios not set up');
+      return api.current.patch(`reports/${report.id}`, report).then(({ data }) => data);
+    },
+
+    updateProject(id: string, update: any): Promise<Project> {
+      if (!api.current) throw new Error('axios not set up');
+      return api.current.patch(`projects/${id}`, update).then(({ data }) => data);
+    },
+
+    updateMilestone(reportId: string, milestoneId: string | undefined, update: any) {
+      assert(api.current);
+      utils.removeProperties(update, 'createdAt', 'updatedAt');
       return api.current
-        .patch(`reports/${report.id}`, report)
+        .patch(`reports/${reportId}/milestones/${milestoneId}`, update)
         .then(({ data }) => data);
+    },
+
+    updateObjective(reportId: string, objectiveId: string | undefined, update: any) {
+      assert(api.current);
+      utils.removeProperties(update, 'createdAt', 'updatedAt');
+      return api.current
+        .patch(`reports/${reportId}/objectives/${objectiveId}`, update)
+        .then(({ data }) => data);
+    },
+
+    deleteProject(id: string) {
+      assert(api.current);
+      return api.current.delete(`projects/${id}`);
     },
   };
 };

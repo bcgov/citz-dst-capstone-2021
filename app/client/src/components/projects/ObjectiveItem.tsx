@@ -15,14 +15,7 @@
 //
 
 import React from 'react';
-import {
-  Box,
-  GridList,
-  GridListTile,
-  IconButton,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import { Box, GridList, GridListTile, IconButton, Paper, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -52,52 +45,46 @@ interface ObjectiveItemProps {
   objective: Objective;
 }
 
-const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
+const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
   const { deleteItem, editItem, objective } = props;
   const classes = useStyles();
-  const { 
-    name,
-    description,
-    status,
-    estimatedEnd,
-    comments,
-    phase,
-    asset } = objective;
+  const { name, description, status, estimatedEnd, comments, phase, asset } = objective;
 
-  const formattedEstimatedEnd = (new Date(estimatedEnd)).toLocaleDateString('en-CA');
+  const formattedEstimatedEnd = new Date(estimatedEnd).toLocaleDateString('en-CA');
 
   return (
-    <Paper variant="outlined">
+    <Box boxShadow={2} borderRadius={4}>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        className={classes.header}
+        p={1}
+        bgcolor="#D5D5D5"
       >
         <Box display="flex" alignItems="center">
           <Typography variant="h6">{name}</Typography>
-          <Typography variant="subtitle1" style={{ marginLeft: '8px' }}>
+          <Typography variant="subtitle2" style={{ marginLeft: '8px' }}>
             {description}
           </Typography>
         </Box>
         <Box display="flex">
-          {deleteItem ?
+          {deleteItem ? (
             <IconButton size="small" onClick={deleteItem}>
               <DeleteIcon />
             </IconButton>
-            :
+          ) : (
             <></>
-          }
-          {editItem ?
+          )}
+          {editItem ? (
             <IconButton size="small" onClick={editItem}>
               <EditIcon />
             </IconButton>
-            :
+          ) : (
             <></>
-          }
+          )}
         </Box>
       </Box>
-      <Box className={classes.body}>
+      <Box>
         <GridList cols={2} cellHeight={140}>
           <GridListTile cols={1}>
             <Box flexDirection="column" p={1} mr={1}>
@@ -106,9 +93,7 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
                 <StatusButton status={status} />
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">
-                  Target Completion Date
-                </Typography>
+                <Typography variant="subtitle1">Target Completion Date</Typography>
                 <Typography>{formattedEstimatedEnd}</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
@@ -129,7 +114,7 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = (props) => {
           </GridListTile>
         </GridList>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

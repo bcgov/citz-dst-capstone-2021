@@ -90,22 +90,12 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
     handleBlur,
   } = formik;
 
-  // TODO: (nick) FIXME: formik.isValid doesn't work
-  const validate = (): boolean => {
-    return !!(
-      isValid &&
-      values.name &&
-      values.description &&
-      values.estimatedEnd
-    );
-  };
-
   return (
     <Container maxWidth="sm">
       <Paper variant="outlined">
         <Box maxWidth="560px" p={4}>
           <Box display="flex" justifyContent="center" my={3}>
-            <Typography variant="h5">Create New Objective</Typography>
+            <Typography variant="h5">{ objective ? 'Edit' : 'Create New'} Objective</Typography>
           </Box>
           <form onSubmit={handleSubmit}>
             <Box my={1}>
@@ -166,7 +156,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
                   onChange={(date) => {
                     if (date && !date.invalid) {
                       setEstEndDate(date);
-                      formik.setFieldValue('estimatedEnd', date.toISODate());
+                      formik.setFieldValue('estimatedEnd', date.toLocaleString());
                     } else {
                       setEstEndDate(null);
                       formik.setFieldValue('estimatedEnd', '');
@@ -238,7 +228,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                disabled={!validate()}
+                disabled={!values.name || !isValid}
                 type="submit"
               >
                 {objective ? 'Update' : 'Add Objective'}

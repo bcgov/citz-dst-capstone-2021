@@ -24,7 +24,7 @@ import { Report, ReportState, User } from '../../types';
 import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail'
 
 const StyledTableCell = styled(TableCell)`
-  padding: 4px !important;
+  padding: 4px 8px !important;
 `;
 
 interface QuarterlyReportListRowProps {
@@ -105,7 +105,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
         <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodEnd(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
-        <StyledTableCell>
+        <StyledTableCell  align="right">
           <IconButton onClick={() => setCollapse(!collapse)}>
             {collapse ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
           </IconButton>

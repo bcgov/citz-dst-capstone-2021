@@ -35,99 +35,80 @@ interface KPIItemProps {
   kpi: Kpi;
 }
 
-const KPIItem: React.FC<KPIItemProps> = (props) => {
+const KPIItem: React.FC<KPIItemProps> = props => {
   const { deleteItem, editItem, kpi } = props;
   const classes = useStyles();
-  const {
-    name,
-    description,
-    unit,
-    baseline,
-    target,
-    value,
-    end,
-    outcome,
-    output,
-  } = kpi;
+  const { name, description, unit, baseline, target, value, end, outcome, output } = kpi;
 
   // format dates to yyyy-mm-dd
-  const formattedTargetDate = (new Date(end)).toLocaleDateString('en-CA');
+  const formattedTargetDate = new Date(end).toLocaleDateString('en-CA');
 
   return (
-    <Paper variant="outlined">
-      <Box minWidth="520px" className={classes.bold} p={2}>
-        <Box display="flex" justifyContent="space-between">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h6" className={classes.bold}>
-              {name}
-            </Typography>
-            <Box ml={4} display={outcome ? 'inline' : 'none'}>
-              <RoundLabel text="Outcome" />
-            </Box>
-            <Box mx={1} display={output ? 'inline' : 'none'}>
-              <RoundLabel text="Output" />
-            </Box>
+    <Box minWidth="520px" className={classes.bold} p={2} boxShadow={3}>
+      <Box display="flex" justifyContent="space-between">
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h6" className={classes.bold}>
+            {name}
+          </Typography>
+          <Box ml={4} display={outcome ? 'inline' : 'none'}>
+            <RoundLabel text="Outcome" />
           </Box>
-          <Box display="flex">
-            {deleteItem ?
-              <IconButton size="small" onClick={deleteItem}>
-                <DeleteIcon />
-              </IconButton>
-            :
-              <></>
-            }
-            {editItem ?
-              <IconButton size="small" onClick={editItem}>
-                <EditIcon />
-              </IconButton>
-            :
-              <></>
-            }
-
+          <Box mx={1} display={output ? 'inline' : 'none'}>
+            <RoundLabel text="Output" />
           </Box>
         </Box>
         <Box display="flex">
-          <Box mr={2}>
-            <Typography className={classes.bold}>
-              Target Completion Date
-            </Typography>
-          </Box>
-          <Box>
-            <Typography>{formattedTargetDate}</Typography>
-          </Box>
+          {deleteItem ? (
+            <IconButton size="small" onClick={deleteItem}>
+              <DeleteIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
+          {editItem ? (
+            <IconButton size="small" onClick={editItem}>
+              <EditIcon />
+            </IconButton>
+          ) : (
+            <></>
+          )}
+        </Box>
+      </Box>
+      <Box display="flex">
+        <Box mr={2}>
+          <Typography className={classes.bold}>Target Completion Date</Typography>
         </Box>
         <Box>
-          <Typography variant="body2">{description}</Typography>
+          <Typography>{formattedTargetDate}</Typography>
         </Box>
-        <Box display="flex" justifyContent="center" mt={2}>
-          <Typography className={classes.bold}>Current Progress</Typography>
-          <Box ml={2}>
-            <Typography>{`${value} ${unit}`}</Typography>
+      </Box>
+      <Box>
+        <Typography variant="body2">{description}</Typography>
+      </Box>
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Typography className={classes.bold}>Current Progress</Typography>
+        <Box ml={2}>
+          <Typography>{`${value} ${unit}`}</Typography>
+        </Box>
+      </Box>
+      <Box>
+        <KPIProgress value={(value * 100) / target} />
+      </Box>
+      <Box display="flex" justifyContent="space-between">
+        <Box display="flex">
+          <Typography className={classes.bold}>Baseline</Typography>
+          <Box ml={1}>
+            <Typography>{`${baseline} ${unit}`}</Typography>
           </Box>
         </Box>
-        <Box>
-          <KPIProgress value={(value * 100) / target} />
-        </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Box display="flex">
-            <Typography className={classes.bold}>Baseline</Typography>
-            <Box ml={1}>
-              <Typography>{`${baseline} ${unit}`}</Typography>
-            </Box>
-          </Box>
-          <Box display="flex">
-            <Typography className={classes.bold}>Target</Typography>
-            <Box mx={1}>
-              <Typography>{`${target} ${unit}`}</Typography>
-            </Box>
+        <Box display="flex">
+          <Typography className={classes.bold}>Target</Typography>
+          <Box mx={1}>
+            <Typography>{`${target} ${unit}`}</Typography>
           </Box>
         </Box>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

@@ -72,11 +72,11 @@ export interface StoreState {
 }
 
 // TODO: (nick) users should be mapped to the exact User type
-export interface SimpleContact {
-  firstName: string;
-  lastName: string;
-  id: string;
-}
+// export interface SimpleContact {
+//   firstName: string;
+//   lastName: string;
+//   id: string;
+// }
 
 export enum Status {
   Green,
@@ -113,18 +113,30 @@ export interface NewProject {
   description: string;
   ministry: string;
   program: string;
-  sponsor: SimpleContact;
-  manager: SimpleContact;
-  financialContact: SimpleContact;
+  sponsor: string;
+  manager: string;
+  financialContact: string;
   start: string;
   estimatedEnd: string;
   end: string;
 }
 
-export interface Project extends NewProject {
+export interface Project {
   id: string;
+  name: string;
+  cpsIdentifier: string;
+  projectNumber: string;
+  description: string;
+  ministry: string;
+  program: string;
   progress: number;
   phase: string;
+  sponsor: User;
+  manager: User;
+  financialContact: User;
+  start: string;
+  estimatedEnd: string;
+  end: string;
 }
 
 export interface NewMilestone {

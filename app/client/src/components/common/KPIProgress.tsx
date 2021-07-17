@@ -35,7 +35,7 @@ const KPIProgress: React.FC<KPIProgressProps> = (props) => {
       <Box width="100%" mr={1}>
         <BorderLinearProgress variant="determinate" {...props} />
       </Box>
-      <Box minWidth={35}>
+      <Box minWidth={50}>
         <Typography variant="body2" color="textSecondary">
           {`${Math.round(value)}%`}
         </Typography>

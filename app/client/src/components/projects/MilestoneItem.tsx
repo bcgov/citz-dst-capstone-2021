@@ -15,36 +15,11 @@
 //
 
 import React from 'react';
-import {
-  Box,
-  GridList,
-  GridListTile,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Box, GridList, GridListTile, IconButton, Paper, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { makeStyles } from '@material-ui/core/styles';
-import theme from '../../theme';
 import { Milestone } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
-
-const useStyles = makeStyles({
-  header: {
-    border: 1,
-    borderStyle: 'solid',
-    backgroundColor: 'lightgrey',
-    height: 36,
-    padding: '8px',
-  },
-
-  body: {
-    border: 1,
-    borderTop: 0,
-    borderStyle: 'solid',
-    padding: '8px',
-  },
-});
 
 interface MilestoneItemProps {
   deleteItem?: () => void;
@@ -52,43 +27,42 @@ interface MilestoneItemProps {
   milestone: Milestone;
 }
 
-const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
+const MilestoneItem: React.FC<MilestoneItemProps> = props => {
   const { milestone, deleteItem, editItem } = props;
   const { name, status, start, estimatedEnd, progress, comments } = milestone;
-  const classes = useStyles();
 
   // formats dates to yyyy-mm-dd format
-  const formattedEstimatedEnd = (new Date(estimatedEnd)).toLocaleDateString('en-CA');
-  const formattedStart = (new Date(start).toLocaleDateString('en-CA'));
+  const formattedEstimatedEnd = new Date(estimatedEnd).toLocaleDateString('en-CA');
+  const formattedStart = new Date(start).toLocaleDateString('en-CA');
 
   return (
-    <Box>
+    <Box boxShadow={2} borderRadius={4}>
       <Box
         display="flex"
-        bgcolor={theme.colors.grey}
         justifyContent="space-between"
         alignItems="center"
-        className={classes.header}
+        p={1}
+        bgcolor="#D5D5D5"
       >
         <Typography variant="h6">{name}</Typography>
         <Box display="flex">
-          {props.deleteItem ? 
+          {props.deleteItem ? (
             <IconButton size="small" onClick={deleteItem}>
               <DeleteIcon />
             </IconButton>
-          :
+          ) : (
             <></>
-          }
-          {props.editItem ?
+          )}
+          {props.editItem ? (
             <IconButton size="small" onClick={editItem}>
               <EditIcon />
             </IconButton>
-          :
+          ) : (
             <></>
-          }
+          )}
         </Box>
       </Box>
-      <Box className={classes.body}>
+      <Box>
         <GridList cols={2} cellHeight={140}>
           <GridListTile cols={1}>
             <Box flexDirection="column" p={1} mr={2}>
@@ -104,11 +78,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = (props) => {
                 <Typography variant="subtitle1">Start Date</Typography>
                 <Typography>{formattedStart}</Typography>
               </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
+              <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="subtitle1">Planned Finish Date</Typography>
                 <Typography>{formattedEstimatedEnd}</Typography>
               </Box>
