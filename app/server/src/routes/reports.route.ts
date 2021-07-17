@@ -23,6 +23,7 @@ import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
 import ReportQueryDTO from '@dtos/ReportQueryDTO';
+import KpiDTO from '@dtos/KpiDTO';
 
 class ReportsRoute implements Route {
   resource = 'reports';
@@ -83,7 +84,17 @@ class ReportsRoute implements Route {
       .delete(ReportController.deleteStatus)
       .patch(validationMiddleware(ReportStatusDTO, 'body', true), ReportController.updateStatus);
 
-    // TODO: (nick) API: do we need APIs for Kpi?
+    // Report kpi routes
+    this.router.route('/:id/kpis').get(ReportController.getKpis);
+
+    this.router
+      .route('/:id/kpis')
+      .post(validationMiddleware(KpiDTO, 'body'), ReportController.createKpi);
+
+    this.router
+      .route('/:id/kpis/:kid')
+      .delete(ReportController.deleteKpi)
+      .patch(validationMiddleware(KpiDTO, 'body', true), ReportController.updateKpi);
 
     // TODO: (nick) API: do we need APIs for the financial data of a report?
   }

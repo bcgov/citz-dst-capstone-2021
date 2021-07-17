@@ -19,7 +19,7 @@ import type { AxiosInstance } from 'axios';
 import assert from 'assert';
 
 import { useHistory } from 'react-router-dom';
-import { AuthRequest, AuthResponse, Project, Report, User } from '../types';
+import { AuthRequest, AuthResponse, Kpi, Project, Report, User } from '../types';
 import { API } from '../constants';
 import utils from '.';
 
@@ -41,6 +41,19 @@ export const setApiToken = (token: string): void => {
   } else {
     api.current = axios.create({ baseURL: API.BASE_URL() });
   }
+  // api.current.interceptors.response.use(
+  //   response => {
+  //     console.log(response);
+  //     if (response.status === 401) {
+  //       history.push('/');
+  //     }
+  //     return response;
+  //   },
+  //   error => {
+  //     console.log(error);
+  //     history.push('/');
+  //   },
+  // );
 };
 
 const useApi = () => {
@@ -133,9 +146,23 @@ const useApi = () => {
         .then(({ data }) => data);
     },
 
+    updateKpi(reportId: string, kpiId: string | undefined, update: any) {
+      assert(api.current);
+      utils.removeProperties(update, 'createdAt', 'updatedAt');
+      return api.current
+        .patch(`reports/${reportId}/kpis/${kpiId}`, update)
+        .then(({ data }) => data);
+    },
+
     deleteProject(id: string) {
       assert(api.current);
-      return api.current.delete(`projects/${id}`);
+      return api.current.delete(`projects/${id}`).then(({ data }) => data);
+    },
+
+    createKpi(reportId: string, kpi: Kpi) {
+      assert(api.current);
+      return api.current.post(`reports/${reportId}/kpis`, kpi)
+        .then(({ data }) => data);;
     },
   };
 };

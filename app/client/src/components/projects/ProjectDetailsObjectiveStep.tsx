@@ -60,6 +60,7 @@ const ProjectDetailsObjectiveStep = (props: Props) => {
     if (!data || cacheIndex < 0) {
       setModalVisible(false);
     } else {
+      setCacheIndex(-1);
       api
         .updateObjective(reportId, objectives[cacheIndex]?.id, data)
         .then(report => {
