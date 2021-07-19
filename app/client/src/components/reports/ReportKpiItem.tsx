@@ -47,7 +47,6 @@ const ReportKpiItem = (props: Props) => {
   const { errors, touched, values, isValid, handleChange, handleBlur, setTouched, validateForm } = formik;
 
   useEffect(() => {
-    console.log('valid => ', isValid);
     onValidation(isValid);
     // eslint-disable-next-line
   }, [isValid]);
@@ -68,7 +67,6 @@ const ReportKpiItem = (props: Props) => {
       onValidation(true);
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.log(e);
       onValidation(false);
     }
   };
