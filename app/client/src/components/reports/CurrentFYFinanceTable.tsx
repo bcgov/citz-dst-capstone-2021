@@ -35,6 +35,10 @@ const StyledTableCellHead = styled(TableCell)`
   color: white;
 `;
 
+const StyledTableCell = styled(TableCell) `
+  padding: 1rem !important;
+`;
+
 const StyledTypography = styled(Typography)`
   font-weight: bold;
 `;
@@ -75,7 +79,7 @@ const CurrentFYFinanceTable: React.FC<CurrentFYFinanceTableProps> = props => {
           <TableBody>
             {currentFYActuals.map(row => (
               <TableRow>
-              <TableCell style={{padding: '0 1rem 0 1rem'}}>
+              <StyledTableCell>
                 {row.bold ?
                 <StyledTypography variant="body2">
                   {row.label}
@@ -85,16 +89,16 @@ const CurrentFYFinanceTable: React.FC<CurrentFYFinanceTableProps> = props => {
                   {row.label}
                 </Typography>
                 }
-              </TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="right">
                 {row.value}
-              </TableCell>
+              </StyledTableCell>
             </TableRow>
             ))}
             <TableRow><TableCell /><TableCell /></TableRow>
             {currentFYVariance.map(row => (
               <TableRow>
-              <TableCell style={{padding: '0 1rem 0 1rem'}}>
+              <StyledTableCell>
                 {row.bold ?
                 <StyledTypography variant="body2">
                   {row.label}
@@ -104,10 +108,10 @@ const CurrentFYFinanceTable: React.FC<CurrentFYFinanceTableProps> = props => {
                   {row.label}
                 </Typography>
                 }
-              </TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="right">
                 {row.value}
-              </TableCell>
+              </StyledTableCell>
             </TableRow>
             ))}
           </TableBody>
