@@ -60,10 +60,10 @@ const TabPanel = (props: TabPanelProps) => {
 
 const a11yProps = (index: any) => {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-};
+    id: `project-details-tab-${index}`,
+    'aria-controls': `project-details-tabpanel-${index}`
+  }
+}
 
 const ProjectDetails: React.FC = () => {
   const api = useApi();

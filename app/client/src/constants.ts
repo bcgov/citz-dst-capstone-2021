@@ -52,4 +52,12 @@ export const projectDetailTabs = [
   'Quarterly Status Reports'
 ];
 
+export const reportDetailTabs = [
+  'Project Information',
+  'Status Summary',
+  'Financial Information',
+  'Business Case Objectives',
+  'Key Milestones'
+];
+
 export default Constants;

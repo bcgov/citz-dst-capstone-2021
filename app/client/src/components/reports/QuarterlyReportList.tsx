@@ -34,8 +34,10 @@ const StyledTableHeadCell = styled(TableCell)`
   padding: 8px !important;
 `;
 
-const QuarterlyReportList: React.FC<QuarterlyReportListProps> = props => {
-  const { reports } = props;
+const QuarterlyReportList: React.FC<QuarterlyReportListProps> = (props) => {
+  const {
+    reports
+  } = props;
 
   return (
     <Box m={4} boxShadow={2} borderRadius={4}>

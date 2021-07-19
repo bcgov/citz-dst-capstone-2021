@@ -48,7 +48,7 @@ type Props = {
   onValidation: (valid: boolean) => void;
 };
 
-// array of labels to use here based on StatusType defined in types.ts
+// labels to use here based on StatusType defined in types.ts
 const statusTypeLabels = {
   [StatusType.Overall]: 'Overall Status',
   [StatusType.Scope]: 'Scope',
