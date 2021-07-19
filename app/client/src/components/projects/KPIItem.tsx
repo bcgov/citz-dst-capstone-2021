@@ -92,7 +92,7 @@ const KPIItem: React.FC<KPIItemProps> = props => {
         </Box>
       </Box>
       <Box>
-        <KPIProgress value={(value * 100) / target} />
+        <KPIProgress value={(value - baseline) * 100 / (target - baseline)} />
       </Box>
       <Box display="flex" justifyContent="space-between">
         <Box display="flex">
