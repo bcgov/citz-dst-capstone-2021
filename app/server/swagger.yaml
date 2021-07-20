@@ -308,14 +308,35 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: projectId
-          in: query
-          required: true
-        - name: year
-          in: query
-        - name: quarter
-          in: query
-          enum: [Q1, Q2, Q3a, Q3b, Q4]
+        - in: query
+          name: submitter
+          schema:
+            type: string
+        - in: query
+          name: projectId
+          schema:
+            type: string
+        - in: query
+          name: state
+          schema:
+            type: number
+            enum:
+              - 0 # Draft
+              - 1 # Review
+              - 2 # Submitted
+        - in: query
+          name: year
+          schema:
+            type: integer
+        - in: query
+          name: quarter
+          schema:
+            type: string
+            enum: [Q1, Q2, Q3a, Q3b, Q4]
+        - in: query
+          name: phase
+          schema:
+            type: string
         - name: last
           in: query
           schema:
@@ -1062,7 +1083,7 @@ components:
         - financialContact
         - start
         - phase
-    ReportRequest:
+    ReportBase:
       type: object
       properties:
         submitter:
@@ -1089,21 +1110,32 @@ components:
         estimatedEnd:
           type: string
           format: date
-        milestones:
-          type: array
-          items:
-            $ref: '#/components/schemas/MilestoneRequest'
-        objectives:
-          type: array
-          items:
-            $ref: '#/components/schemas/ObjectiveRequest'
-        kpis:
-          type: array
-          items:
-            $ref: '#/components/schemas/KpiRequest'
-        finance:
-          type: object
-          $ref: '#/components/schemas/FinancialStatus'
+      required:
+        - submitter
+        - projectId
+        - year
+        - quarter
+        - estimatedEnd
+    ReportRequest:
+      allOf:
+        - $ref: '#/components/schemas/ReportBase'
+        - type: object
+          properties:
+            milestones:
+              type: array
+              items:
+                $ref: '#/components/schemas/MilestoneRequest'
+            objectives:
+              type: array
+              items:
+                $ref: '#/components/schemas/ObjectiveRequest'
+            kpis:
+              type: array
+              items:
+                $ref: '#/components/schemas/KpiRequest'
+            finance:
+              type: object
+              $ref: '#/components/schemas/FinancialStatus'
       required:
         - submitter
         - projectId

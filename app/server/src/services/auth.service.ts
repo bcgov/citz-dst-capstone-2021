@@ -63,6 +63,10 @@ export default {
       });
   },
 
+  /**
+   * @param user
+   * @param expiresIn milliseconds
+   */
   createToken(user: User, expiresIn: number): TokenData {
     const dataStoredInToken: DataStoredInToken = { id: user.id };
     const secret: string = config.get('secretKey');

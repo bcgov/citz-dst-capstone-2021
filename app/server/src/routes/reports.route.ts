@@ -39,7 +39,7 @@ class ReportsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(validationMiddleware(ReportQueryDTO, 'query'), ReportController.getReports)
+      .get(validationMiddleware(ReportQueryDTO, 'query', true), ReportController.getReports)
       .post(validationMiddleware(ReportDTO, 'body'), ReportController.createReport);
 
     this.router
