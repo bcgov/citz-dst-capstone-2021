@@ -15,14 +15,7 @@
 //
 
 import React from 'react';
-import {
-  Container,
-  FormControl,
-  Typography,
-  Button,
-  Modal,
-  Box,
-} from '@material-ui/core';
+import { Container, FormControl, Typography, Button, Modal, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import NewObjectiveForm from './NewObjectiveForm';
@@ -42,7 +35,7 @@ interface ProjectObjectStepProps {
   data: Objective[];
 }
 
-const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = (props) => {
+const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = props => {
   const { onChange, data: existingObjectives } = props;
 
   const classes = useStyles();
@@ -52,9 +45,7 @@ const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = (props) => {
     setOpenObjective(true);
   };
 
-  const [objectives, setObjectives] = React.useState<Objective[]>(
-    existingObjectives || []
-  );
+  const [objectives, setObjectives] = React.useState<Objective[]>(existingObjectives || []);
 
   const [cacheIndex, setCacheIndex] = React.useState(-1);
 
@@ -112,22 +103,14 @@ const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = (props) => {
             ))}
           </Box>
           <FormControl margin="normal" fullWidth>
-            <Button
-              color="primary"
-              variant="contained"
-              type="button"
-              onClick={openObjectiveModal}
-            >
+            <Button color="primary" variant="contained" type="button" onClick={openObjectiveModal}>
               Add New Objective
             </Button>
           </FormControl>
         </Box>
       </Box>
       <Modal disableEnforceFocus open={openObjective} className={classes.modal}>
-        <NewObjectiveForm
-          objective={objectives[cacheIndex]}
-          closeModal={handleObjectiveModal}
-        />
+        <NewObjectiveForm objective={objectives[cacheIndex]} closeModal={handleObjectiveModal} />
       </Modal>
     </Container>
   );

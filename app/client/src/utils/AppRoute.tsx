@@ -28,19 +28,15 @@ interface IAppRouteProps extends RouteProps {
   user?: User;
 }
 
-const AppRoute: React.FC<IAppRouteProps> = (props) => {
+const AppRoute: React.FC<IAppRouteProps> = props => {
   const { requireAuth, component: Component, user, ...rest } = props;
 
   return (
     <Route
       {...rest}
-      render={(routeProps) => (
+      render={routeProps => (
         <Layout>
-          {requireAuth && !user?.email ? (
-            <LoginForm />
-          ) : (
-            <Component {...routeProps} />
-          )}
+          {requireAuth && !user?.email ? <LoginForm /> : <Component {...routeProps} />}
         </Layout>
       )}
     />

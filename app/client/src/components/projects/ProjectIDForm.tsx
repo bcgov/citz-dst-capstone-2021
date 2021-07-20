@@ -30,7 +30,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Ministries } from '../../constants';
-import { validateProjectIdentity } from "../../utils/validationSchema";
+import { validateProjectIdentity } from '../../utils/validationSchema';
 import { Project } from '../../types';
 import emitter from '../../events/Emitter';
 import EventType from '../../events/Events';

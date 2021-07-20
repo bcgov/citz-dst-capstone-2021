@@ -94,8 +94,7 @@ const schema = {
     format: {
       pattern: '[A-Za-z0-9-_]+',
       flags: 'i',
-      message:
-        'Must only contain alphanumeric characters, hyphens or underscores',
+      message: 'Must only contain alphanumeric characters, hyphens or underscores',
     },
   },
 };
@@ -117,9 +116,7 @@ export default {
     const errors = validate({ profileDescription: value }, schema, {
       fullMessages: false,
     });
-    return errors && errors.profileDescription
-      ? errors.profileDescription[0]
-      : '';
+    return errors && errors.profileDescription ? errors.profileDescription[0] : '';
   },
 
   mustBeValidName(value: any) {

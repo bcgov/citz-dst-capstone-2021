@@ -19,10 +19,11 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent, DialogContentText,
+  DialogContent,
+  DialogContentText,
   DialogProps,
-  DialogTitle
-} from "@material-ui/core";
+  DialogTitle,
+} from '@material-ui/core';
 
 interface ConfirmDialogProps extends DialogProps {
   title: string;

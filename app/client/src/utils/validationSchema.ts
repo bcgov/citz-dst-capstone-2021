@@ -45,7 +45,7 @@ const textField = yup.string().max(400, 'Too Long!');
 
 const ministry = yup.string().required();
 
-const parseDateString = (value: any, originalValue: any): Date|undefined => {
+const parseDateString = (value: any, originalValue: any): Date | undefined => {
   if (!originalValue) return undefined;
   if (isDate(originalValue)) {
     return originalValue;

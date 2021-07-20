@@ -47,16 +47,12 @@ interface NewObjectiveFormProps {
   objective: Objective | null;
 }
 
-const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
+const NewObjectiveForm: React.FC<NewObjectiveFormProps> = props => {
   const { closeModal, objective } = props;
   const classes = useStyles();
 
-  const defaultEndData = objective?.estimatedEnd
-    ? new Date(objective.estimatedEnd)
-    : null;
-  const [estEndDate, setEstEndDate] = React.useState<Date | null>(
-    defaultEndData
-  );
+  const defaultEndData = objective?.estimatedEnd ? new Date(objective.estimatedEnd) : null;
+  const [estEndDate, setEstEndDate] = React.useState<Date | null>(defaultEndData);
 
   const cancel = () => closeModal(null);
 
@@ -75,27 +71,19 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
   const formik = useFormik({
     initialValues,
     validationSchema: validateObjective,
-    onSubmit: (values) => {
+    onSubmit: values => {
       closeModal(values);
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   return (
     <Container maxWidth="sm">
       <Paper variant="outlined">
         <Box maxWidth="560px" p={4}>
           <Box display="flex" justifyContent="center" my={3}>
-            <Typography variant="h5">{ objective ? 'Edit' : 'Create New'} Objective</Typography>
+            <Typography variant="h5">{objective ? 'Edit' : 'Create New'} Objective</Typography>
           </Box>
           <form onSubmit={handleSubmit}>
             <Box my={1}>
@@ -155,7 +143,7 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = (props) => {
                   value={estEndDate}
                   error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
                   helperText={touched.estimatedEnd && errors.estimatedEnd}
-                  onChange={(date) => {
+                  onChange={date => {
                     if (date && !date.invalid) {
                       setEstEndDate(date);
                       formik.setFieldValue('estimatedEnd', date.toLocaleString());

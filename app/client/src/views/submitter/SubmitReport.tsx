@@ -38,7 +38,6 @@ import ReportFinancialStep from '../../components/reports/ReportFinancialStep';
 import ReportObjectiveStep from '../../components/reports/ReportObjectiveStep';
 import ReportMilestoneStep from '../../components/reports/ReportMilestoneStep';
 import ReportKpiStep from '../../components/reports/ReportKpiStep';
-import utils from '../../utils';
 
 const SubmitReport: React.FC = () => {
   const history = useHistory();

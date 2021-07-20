@@ -26,7 +26,7 @@ interface QuarterlyReportListProps {
 }
 
 const StyledTableHead = styled(TableHead)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
   height: 38px;
 `;
 
@@ -34,10 +34,8 @@ const StyledTableHeadCell = styled(TableCell)`
   padding: 8px !important;
 `;
 
-const QuarterlyReportList: React.FC<QuarterlyReportListProps> = (props) => {
-  const {
-    reports
-  } = props;
+const QuarterlyReportList: React.FC<QuarterlyReportListProps> = props => {
+  const { reports } = props;
 
   return (
     <Box m={4} boxShadow={2} borderRadius={4}>

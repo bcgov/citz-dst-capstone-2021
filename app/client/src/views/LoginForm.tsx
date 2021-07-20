@@ -28,7 +28,7 @@ interface LoginProps {
   login: any;
 }
 
-const LoginForm: React.FC<LoginProps> = (props) => {
+const LoginForm: React.FC<LoginProps> = props => {
   const history = useHistory();
 
   const formik = useFormik({
@@ -37,22 +37,14 @@ const LoginForm: React.FC<LoginProps> = (props) => {
       password: '',
     },
     validationSchema: validateLogin,
-    onSubmit: (values) => {
+    onSubmit: values => {
       props.login(values).then(() => {
         history.push('/');
       });
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   return (
     <Container maxWidth="sm">

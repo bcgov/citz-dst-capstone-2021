@@ -44,7 +44,8 @@ const ReportKpiItem = (props: Props) => {
     },
   });
 
-  const { errors, touched, values, isValid, handleChange, handleBlur, setTouched, validateForm } = formik;
+  const { errors, touched, values, isValid, handleChange, handleBlur, setTouched, validateForm } =
+    formik;
 
   useEffect(() => {
     onValidation(isValid);

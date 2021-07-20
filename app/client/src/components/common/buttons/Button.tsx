@@ -35,7 +35,7 @@ export interface IButtonProps {
   onClick?: (e: any) => void;
 }
 
-const Button: React.FC<IButtonProps> = (props) => {
+const Button: React.FC<IButtonProps> = props => {
   const { onClick, children } = props;
   return <StyledButton onClick={onClick}>{children}</StyledButton>;
 };

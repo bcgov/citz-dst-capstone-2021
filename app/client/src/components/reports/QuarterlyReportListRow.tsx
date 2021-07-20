@@ -20,9 +20,13 @@ import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
 import useApi from '../../utils/api';
-import { getFiscalYearString, getReportingPeriodStart, getReportingPeriodEnd } from '../../utils/dateUtils';
+import {
+  getFiscalYearString,
+  getReportingPeriodStart,
+  getReportingPeriodEnd,
+} from '../../utils/dateUtils';
 import { Report, ReportState, User } from '../../types';
-import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail'
+import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail';
 
 const StyledTableCell = styled(TableCell)`
   padding: 4px 8px !important;
@@ -52,7 +56,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
         <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodEnd(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
-        <StyledTableCell  align="right">
+        <StyledTableCell align="right">
           <IconButton onClick={() => setCollapse(!collapse)}>
             {collapse ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
           </IconButton>

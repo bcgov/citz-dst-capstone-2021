@@ -14,26 +14,18 @@
 // limitations under the License.
 //
 import React from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import {
-  ReportStatus,
-  StatusType,
-  Trend,
-} from '../../types';
-  import StatusButton from '../common/buttons/StatusButton';
+import { ReportStatus, StatusType, Trend } from '../../types';
+import StatusButton from '../common/buttons/StatusButton';
 
 interface StatusSummaryCardProps {
   status: ReportStatus;
 }
 
-const StatusSummaryCard: React.FC<StatusSummaryCardProps> = (props) => {
+const StatusSummaryCard: React.FC<StatusSummaryCardProps> = props => {
   const { status } = props;
   const statusTypeLabels = {
     [StatusType.Overall]: 'Overall Status',
@@ -63,13 +55,13 @@ const StatusSummaryCard: React.FC<StatusSummaryCardProps> = (props) => {
           </Box>
           <Box display="grid">
             <Typography variant="overline">
-            <strong>Trend</strong>
+              <strong>Trend</strong>
             </Typography>
             {trendIcons[status.trend].icon}
           </Box>
         </Box>
         <Typography variant="caption">
-        <strong>Comments</strong>
+          <strong>Comments</strong>
         </Typography>
         <Box overflow="auto" height="100px">
           <Typography variant="body1" display="block">
@@ -79,6 +71,6 @@ const StatusSummaryCard: React.FC<StatusSummaryCardProps> = (props) => {
       </Box>
     </Grid>
   );
-}
+};
 
 export default StatusSummaryCard;

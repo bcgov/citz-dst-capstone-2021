@@ -30,7 +30,7 @@ interface ProjectListRowProps {
   project: Project;
 }
 
-const ProjectListRow: React.FC<ProjectListRowProps> = (props) => {
+const ProjectListRow: React.FC<ProjectListRowProps> = props => {
   const { project: row } = props;
 
   const [collapse, setCollapse] = useState(true);
