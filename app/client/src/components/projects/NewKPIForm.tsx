@@ -73,7 +73,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = props => {
     initialValues,
     validationSchema: validateKPI,
     onSubmit: values => {
-      closeModal({ ...values, value: values.baseline });
+      closeModal({ ...values });
     },
   });
 
@@ -142,8 +142,9 @@ const NewKPIForm: React.FC<NewKPIFormProps> = props => {
                 label="Baseline Value"
                 type="number"
                 value={values.baseline}
-                onChange={e => {
-                  handleChange(e);
+                onChange={handleChange}
+                onBlur={e => {
+                  handleBlur(e);
                   const value = +e.target.value;
                   if (
                     (value < values.target &&
@@ -154,7 +155,6 @@ const NewKPIForm: React.FC<NewKPIFormProps> = props => {
                     formik.setFieldValue('value', value);
                   }
                 }}
-                onBlur={handleBlur}
                 error={touched.baseline && Boolean(errors.baseline)}
                 helperText={touched.baseline && errors.baseline}
               />
@@ -165,19 +165,20 @@ const NewKPIForm: React.FC<NewKPIFormProps> = props => {
                 label="Target Value"
                 type="number"
                 value={values.target}
-                onChange={e => {
-                  handleChange(e);
+                onChange={handleChange}
+                onBlur={e => {
+                  handleBlur(e);
                   const value = +e.target.value;
                   if (
                     (value < values.baseline &&
-                      (values.baseline < values.value || values.value < value)) ||
+                      (values.baseline < values.value || values.value < value)) || // decreasing target
                     (value > values.baseline &&
-                      (values.baseline > values.value || values.value > value))
+                      (values.baseline > values.value || values.value > value)) // increasing target
                   ) {
                     formik.setFieldValue('value', values.baseline);
+                    console.log('value => ', values.baseline);
                   }
                 }}
-                onBlur={handleBlur}
                 error={touched.target && Boolean(errors.target)}
                 helperText={touched.target && errors.target}
               />

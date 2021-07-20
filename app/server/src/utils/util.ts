@@ -37,3 +37,13 @@ export const sleep = (timeout: number): Promise<void> => {
     setTimeout(() => resolve(), timeout);
   });
 };
+
+export const removeProperties = (obj: Record<string, any>, ...fields: any[]) => {
+  // eslint-disable-next-line no-param-reassign
+  fields.forEach(key => delete obj[key]);
+  Object.values(obj).forEach(value => {
+    if (typeof value === 'object') {
+      removeProperties(value, ...fields);
+    }
+  });
+};

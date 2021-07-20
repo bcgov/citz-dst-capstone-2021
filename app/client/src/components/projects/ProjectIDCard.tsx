@@ -15,7 +15,7 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper, IconButton } from '@material-ui/core';
+import { Typography, Box, Paper, IconButton, Link } from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
 import { Project } from '../../types';
@@ -44,7 +44,9 @@ const ProjectIDCard: React.FC<Props> = props => {
         <Card label="Project Description" content={description} />
         <Card label="Ministry" content={ministry} />
         <Card label="Program Name" content={program} />
-        <Card label="CPS Identifier" content={cpsIdentifier} />
+        <Card label="CPS Identifier" content={cpsIdentifier}>
+          <Link href={`#/projects/${project.cpsIdentifier}`}>{cpsIdentifier}</Link>
+        </Card>
         <Card label="Ministry Project Number" content={projectNumber} />
       </Box>
     </Box>
