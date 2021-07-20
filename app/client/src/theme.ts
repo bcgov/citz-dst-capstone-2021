@@ -28,7 +28,7 @@ const theme = {
     black: '#000000',
   } as Record<string, string>,
   spacingIncrements: ['30px', '60px', '120px'],
-  zIndices: [0, 1, 10, 100, 1000],
+  zIndices: [0, 1, 10, 100, 1000, 2000],
   icons: {
     defaultWidth: 1,
     defaultHeight: 1,

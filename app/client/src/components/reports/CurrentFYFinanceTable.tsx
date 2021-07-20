@@ -35,7 +35,7 @@ const StyledTableCellHead = styled(TableCell)`
   color: white;
 `;
 
-const StyledTableCell = styled(TableCell) `
+const StyledTableCell = styled(TableCell)`
   padding: 1rem !important;
 `;
 
@@ -45,21 +45,33 @@ const StyledTypography = styled(Typography)`
 
 interface CurrentFYFinanceTableProps {
   report: Report;
-};
+}
 
 const CurrentFYFinanceTable: React.FC<CurrentFYFinanceTableProps> = props => {
   const { report } = props;
 
   const currentFYActuals = [
-    {label: "Sitting In Ministry", value: report.finance?.fySitting, bold: false},
-    {label: "JV'd to OCIO", value: report.finance?.jvToOcio, bold: false},
-    {label: "Current FY Actuals", value: (report.finance ? +report.finance.fySitting + +report.finance.jvToOcio : 0), bold: true},
+    { label: 'Sitting In Ministry', value: report.finance?.fySitting, bold: false },
+    { label: "JV'd to OCIO", value: report.finance?.jvToOcio, bold: false },
+    {
+      label: 'Current FY Actuals',
+      value: report.finance ? +report.finance.fySitting + +report.finance.jvToOcio : 0,
+      bold: true,
+    },
   ];
 
   const currentFYVariance = [
-    {label: "Current FY Approved Funding", value: report.finance?.fyApproved, bold: false},
-    {label: "Current FY Full Year Forecasted Spend", value: report.finance?.fyForecast, bold: false},
-    {label: "Variance to Budget", value: (report.finance ? +report.finance.fyApproved - +report.finance.fyForecast : 0), bold: true},
+    { label: 'Current FY Approved Funding', value: report.finance?.fyApproved, bold: false },
+    {
+      label: 'Current FY Full Year Forecasted Spend',
+      value: report.finance?.fyForecast,
+      bold: false,
+    },
+    {
+      label: 'Variance to Budget',
+      value: report.finance ? +report.finance.fyApproved - +report.finance.fyForecast : 0,
+      bold: true,
+    },
   ];
 
   return (
@@ -79,46 +91,37 @@ const CurrentFYFinanceTable: React.FC<CurrentFYFinanceTableProps> = props => {
           <TableBody>
             {currentFYActuals.map(row => (
               <TableRow>
-              <StyledTableCell>
-                {row.bold ?
-                <StyledTypography variant="body2">
-                  {row.label}
-                </StyledTypography>
-                :
-                <Typography variant="body2">
-                  {row.label}
-                </Typography>
-                }
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.value}
-              </StyledTableCell>
-            </TableRow>
+                <StyledTableCell>
+                  {row.bold ? (
+                    <StyledTypography variant="body2">{row.label}</StyledTypography>
+                  ) : (
+                    <Typography variant="body2">{row.label}</Typography>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.value}</StyledTableCell>
+              </TableRow>
             ))}
-            <TableRow><TableCell /><TableCell /></TableRow>
+            <TableRow>
+              <TableCell />
+              <TableCell />
+            </TableRow>
             {currentFYVariance.map(row => (
               <TableRow>
-              <StyledTableCell>
-                {row.bold ?
-                <StyledTypography variant="body2">
-                  {row.label}
-                </StyledTypography>
-                :
-                <Typography variant="body2">
-                  {row.label}
-                </Typography>
-                }
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.value}
-              </StyledTableCell>
-            </TableRow>
+                <StyledTableCell>
+                  {row.bold ? (
+                    <StyledTypography variant="body2">{row.label}</StyledTypography>
+                  ) : (
+                    <Typography variant="body2">{row.label}</Typography>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.value}</StyledTableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </Container>
   );
-}
+};
 
 export default CurrentFYFinanceTable;

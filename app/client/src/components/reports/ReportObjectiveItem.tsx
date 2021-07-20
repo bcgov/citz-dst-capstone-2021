@@ -13,7 +13,15 @@
 //
 
 import * as React from 'react';
-import { Box, FormControl, InputLabel, makeStyles, MenuItem, Select, Typography } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import TextField from '@material-ui/core/TextField';
@@ -64,7 +72,8 @@ const ReportObjectiveItem = (props: Props) => {
     },
   });
 
-  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur, setTouched } = formik;
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur, setTouched } =
+    formik;
 
   const defaultEndDate = estimatedEnd ? new Date(estimatedEnd) : null;
   const [targetCompletionDate, setTargetCompletionDate] = React.useState(defaultEndDate);

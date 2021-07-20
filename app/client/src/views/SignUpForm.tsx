@@ -50,7 +50,7 @@ const SigUpForm: React.FC = () => {
       ministry: '',
     },
     validationSchema: validateSignUp,
-    onSubmit: (values) => {
+    onSubmit: values => {
       const { passwordConfirm, ...user } = values;
       return api.signup(user).then(() => {
         history.push('/login');
@@ -58,15 +58,7 @@ const SigUpForm: React.FC = () => {
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
+  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   return (
     <Container maxWidth="sm">
@@ -163,7 +155,7 @@ const SigUpForm: React.FC = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           >
-            {Object.keys(Role).map((role) => (
+            {Object.keys(Role).map(role => (
               <MenuItem value={role} key={role}>
                 {role}
               </MenuItem>
@@ -181,7 +173,7 @@ const SigUpForm: React.FC = () => {
             onChange={handleChange}
             onBlur={handleBlur}
           >
-            {Ministries.map((ministry) => (
+            {Ministries.map(ministry => (
               <MenuItem value={ministry} key={ministry}>
                 {ministry}
               </MenuItem>

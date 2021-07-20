@@ -17,13 +17,7 @@
 import { Dispatch } from 'redux';
 
 import useApi from '../utils/api';
-import {
-  LoginAction,
-  ProjectAction,
-  AuthRequest,
-  ActionTypes,
-  User,
-} from '../types';
+import { LoginAction, ProjectAction, AuthRequest, ActionTypes, User } from '../types';
 
 export const login = (loginReq: AuthRequest) => {
   return async (dispatch: Dispatch) => {

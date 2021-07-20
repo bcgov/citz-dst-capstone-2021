@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-const StatusButton: React.FC<StatusButtonProps> = (props) => {
+const StatusButton: React.FC<StatusButtonProps> = props => {
   const { status } = props;
   const classes = useStyles();
 

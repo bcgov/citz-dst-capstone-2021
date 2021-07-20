@@ -19,7 +19,16 @@ import type { AxiosInstance } from 'axios';
 import assert from 'assert';
 
 import { useHistory } from 'react-router-dom';
-import { AuthRequest, AuthResponse, Kpi, Milestone, Objective, Project, Report, User } from "../types";
+import {
+  AuthRequest,
+  AuthResponse,
+  Kpi,
+  Milestone,
+  Objective,
+  Project,
+  Report,
+  User,
+} from '../types';
 import { API } from '../constants';
 import utils from '.';
 
@@ -115,16 +124,14 @@ const useApi = () => {
 
     getReports(projectId: string): Promise<Report[]> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current
-      .get(`reports`, { params: { projectId } })
-      .then(({ data }) => data);
+      return api.current.get(`reports`, { params: { projectId } }).then(({ data }) => data);
     },
-    
+
     getReport(reportId: string): Promise<Report> {
       if (!api.current) throw new Error('axios not set up');
       return api.current
         .get(`reports/${reportId}`, { params: { reportId } })
-        .then(({ data }) => data );
+        .then(({ data }) => data);
     },
 
     getLastReport(projectId: string): Promise<Report[]> {
@@ -175,20 +182,17 @@ const useApi = () => {
 
     createKpi(reportId: string, kpi: Kpi) {
       assert(api.current);
-      return api.current.post(`reports/${reportId}/kpis`, kpi)
-        .then(({ data }) => data);;
+      return api.current.post(`reports/${reportId}/kpis`, kpi).then(({ data }) => data);
     },
 
     createObjective(reportId: string, objective: Objective) {
       assert(api.current);
-      return api.current.post(`reports/${reportId}/objectives`, objective)
-        .then(({ data }) => data);;
+      return api.current.post(`reports/${reportId}/objectives`, objective).then(({ data }) => data);
     },
     createMilestnoe(reportId: string, milestone: Milestone) {
       assert(api.current);
-      return api.current.post(`reports/${reportId}/milestones`, milestone)
-        .then(({ data }) => data);;
-    }
+      return api.current.post(`reports/${reportId}/milestones`, milestone).then(({ data }) => data);
+    },
   };
 };
 

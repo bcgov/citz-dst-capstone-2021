@@ -28,14 +28,8 @@ import {
 
 import { useParams } from 'react-router-dom';
 import useApi from '../utils/api';
-import {
-  Report,
-  Project,
-  ReportStatus,
-  StatusType,
-  Trend,
-  Status } from '../types';
-import { reportDetailTabs } from '../constants'
+import { Report, Project, ReportStatus, StatusType, Trend, Status } from '../types';
+import { reportDetailTabs } from '../constants';
 import { getReportingPeriodStart, getReportingPeriodEnd } from '../utils/dateUtils';
 import ProjectProgressCard from '../components/projects/ProjectProgressCard';
 import ProjectIDCard from '../components/projects/ProjectIDCard';
@@ -59,26 +53,21 @@ const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      {...other}
-      >
-        {value === index && (
-          <Box p={3}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-  )
+    <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} {...other}>
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 };
 
 const allyProps = (index: any) => {
   return {
     id: `report-details-tab-${index}`,
-    'aria-controls': `report-details-tabpanel-${index}`
-  }
+    'aria-controls': `report-details-tabpanel-${index}`,
+  };
 };
 
 const ReportDetails: React.FC = () => {
@@ -88,14 +77,15 @@ const ReportDetails: React.FC = () => {
   const { reportId } = useParams<{ reportId: string }>();
   const api = useApi();
 
-  const handleChange = (event: React.ChangeEvent<{[k: string]: never}>, newValue: number) => {
+  const handleChange = (event: React.ChangeEvent<{ [k: string]: never }>, newValue: number) => {
     setTabValue(newValue);
-  }
+  };
 
   useEffect(() => {
     if (!report.id) {
-      api.getReport(reportId)
-        .then((reportData) => {
+      api
+        .getReport(reportId)
+        .then(reportData => {
           setReport(reportData);
           console.log(reportData);
           return api.getProject(reportData.projectId);
@@ -112,7 +102,7 @@ const ReportDetails: React.FC = () => {
           Status Summary
         </Typography>
         <Grid container spacing={2} alignItems="stretch">
-          {report.statuses.map((status) => {
+          {report.statuses.map(status => {
             return <StatusSummaryCard status={status} />;
           })}
         </Grid>
@@ -120,13 +110,13 @@ const ReportDetails: React.FC = () => {
           Key Performance Indicators
         </Typography>
         <Grid container spacing={2}>
-          {report.kpis.map((kpi) => {
+          {report.kpis.map(kpi => {
             return <KPIItem kpi={kpi} useGrid />;
           })}
         </Grid>
       </>
     );
-  }
+  };
 
   const renderTabs = () => {
     return (
@@ -158,14 +148,14 @@ const ReportDetails: React.FC = () => {
           </Box>
         </TabPanel>
         <TabPanel value={tabValue} index={3}>
-          {report.objectives.map((objective) => (
+          {report.objectives.map(objective => (
             <Box mb={4}>
               <ObjectiveItem objective={objective} />
             </Box>
           ))}
         </TabPanel>
         <TabPanel value={tabValue} index={4}>
-          {report.milestones.map((milestone) => (
+          {report.milestones.map(milestone => (
             <Box mb={4}>
               <MilestoneItem milestone={milestone} />
             </Box>
@@ -188,13 +178,15 @@ const ReportDetails: React.FC = () => {
         flexDirection="row"
         m={4}
       >
-        <Typography variant="h5">Reporting Period From {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} - {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}</Typography>
+        <Typography variant="h5">
+          Reporting Period From{' '}
+          {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} -{' '}
+          {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}
+        </Typography>
       </Box>
-      <Box>
-        {renderContent()}
-      </Box>
+      <Box>{renderContent()}</Box>
     </Container>
   );
-}
+};
 
 export default ReportDetails;

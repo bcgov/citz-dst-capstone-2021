@@ -18,8 +18,7 @@ import React from 'react';
 
 import { Autocomplete, AutocompleteProps } from '@material-ui/lab/index';
 
-interface AutoCompleteFieldProps<T>
-  extends AutocompleteProps<any, any, any, any> {
+interface AutoCompleteFieldProps<T> extends AutocompleteProps<any, any, any, any> {
   getLabel: (option: T) => string;
   options: T[];
 }
@@ -30,14 +29,7 @@ const AutoCompleteField = <T extends {}>({
   options,
   ...props
 }: AutoCompleteFieldProps<T>): React.ReactElement => {
-  return (
-    <Autocomplete<T>
-      {...props}
-      options={options}
-      fullWidth
-      getOptionLabel={getLabel}
-    />
-  );
+  return <Autocomplete<T> {...props} options={options} fullWidth getOptionLabel={getLabel} />;
 };
 
 export default AutoCompleteField;

@@ -20,9 +20,13 @@ import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
 import useApi from '../../utils/api';
-import { getFiscalYearString, getReportingPeriodStart, getReportingPeriodEnd } from '../../utils/dateUtils';
+import {
+  getFiscalYearString,
+  getReportingPeriodStart,
+  getReportingPeriodEnd,
+} from '../../utils/dateUtils';
 import { Report, ReportState, User } from '../../types';
-import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail'
+import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail';
 
 const StyledTableCell = styled(TableCell)`
   padding: 4px 8px !important;
@@ -32,14 +36,14 @@ interface QuarterlyReportListRowProps {
   report: Report;
 }
 
-const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) => {
-  const { report : row } = props;
+const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = props => {
+  const { report: row } = props;
   const [collapse, setCollapse] = useState(true);
-  const [submitter, setSubmitter] = useState({} as User)
+  const [submitter, setSubmitter] = useState({} as User);
   const api = useApi();
 
   useEffect(() => {
-    api.getUser(String(row.submitter)).then((data) => {
+    api.getUser(String(row.submitter)).then(data => {
       setSubmitter(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +56,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
           {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="center">
-          {row.state ? String(ReportState[row.state]) : "N/A"}
+          {row.state ? String(ReportState[row.state]) : 'N/A'}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodStart(row.year, row.quarter).toLocaleDateString('en-CA')}
@@ -60,7 +64,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
         <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodEnd(row.year, row.quarter).toLocaleDateString('en-CA')}
         </StyledTableCell>
-        <StyledTableCell  align="right">
+        <StyledTableCell align="right">
           <IconButton onClick={() => setCollapse(!collapse)}>
             {collapse ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
           </IconButton>

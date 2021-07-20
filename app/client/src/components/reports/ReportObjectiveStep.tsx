@@ -57,7 +57,11 @@ const ReportObjectiveStep = (props: Props) => {
       </Box>
       {objectives.map((obj, index) => (
         <Box key={obj.id} boxShadow={1} p={1} my={2}>
-          <ReportObjectiveItem objective={obj} onChange={handleChange(index)} onValidation={handleValidation(index)} />
+          <ReportObjectiveItem
+            objective={obj}
+            onChange={handleChange(index)}
+            onValidation={handleValidation(index)}
+          />
         </Box>
       ))}
     </Container>

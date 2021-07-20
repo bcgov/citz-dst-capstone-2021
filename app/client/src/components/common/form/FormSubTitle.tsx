@@ -31,7 +31,7 @@ interface ISubFormProps {
   children: React.ReactNode;
 }
 
-const FormSubtitle: React.FC<ISubFormProps> = (props) => {
+const FormSubtitle: React.FC<ISubFormProps> = props => {
   const { children } = props;
   return <StyledSubtitle>{children}</StyledSubtitle>;
 };
