@@ -97,7 +97,7 @@ const ProjectDetailsObjectiveStep = (props: Props) => {
       {objectives && objectives.length > 0 ? (
         <>
           {objectives.map((objective, index) => (
-            <Box m={4} key={objective.id} >
+            <Box m={4} key={objective.id}>
               <ObjectiveItem objective={objective} editItem={editItem(index)} />
             </Box>
           ))}

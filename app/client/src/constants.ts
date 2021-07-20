@@ -49,7 +49,7 @@ export const projectDetailTabs = [
   'Key Performance Indicators',
   'Key Milestones',
   'Business Case Objectives',
-  'Quarterly Status Reports'
+  'Quarterly Status Reports',
 ];
 
 export const reportDetailTabs = [
@@ -57,7 +57,7 @@ export const reportDetailTabs = [
   'Status Summary',
   'Financial Information',
   'Business Case Objectives',
-  'Key Milestones'
+  'Key Milestones',
 ];
 
 export default Constants;

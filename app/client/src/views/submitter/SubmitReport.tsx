@@ -15,7 +15,16 @@
 //
 
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Container, Typography, Stepper, Step, StepButton, FormControlLabel } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Stepper,
+  Step,
+  StepButton,
+  FormControlLabel,
+} from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -118,7 +127,7 @@ const SubmitReport: React.FC = () => {
           <ProjectIDCard project={project} />
         </Box>
         <Box my={2}>
-        <ProjectContactCard project={project} />
+          <ProjectContactCard project={project} />
         </Box>
 
         <FormControlLabel
@@ -249,7 +258,11 @@ const SubmitReport: React.FC = () => {
         {steps.map((label, index) => {
           return (
             <Step key={label}>
-              <StepButton onClick={handleStep(index)} completed={stepCompleted(index)} disabled={!valid0}>
+              <StepButton
+                onClick={handleStep(index)}
+                completed={stepCompleted(index)}
+                disabled={!valid0}
+              >
                 {label}
               </StepButton>
             </Step>

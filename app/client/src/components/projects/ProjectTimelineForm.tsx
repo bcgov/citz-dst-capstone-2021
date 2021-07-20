@@ -39,7 +39,7 @@ import { validateNewProject } from '../../utils/validationSchema';
 
 const ProjectTimelineForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date('2014-08-18T21:11:54')
+    new Date('2014-08-18T21:11:54'),
   );
 
   const handleDateChange = (date: Date | null) => {
@@ -71,12 +71,7 @@ const ProjectTimelineForm: React.FC = () => {
         }}
       />
       <FormControl margin="normal" fullWidth>
-        <Button
-          color="primary"
-          variant="contained"
-          type="button"
-          onClick={handleNewMilestone}
-        >
+        <Button color="primary" variant="contained" type="button" onClick={handleNewMilestone}>
           Add New Milestone
         </Button>
       </FormControl>

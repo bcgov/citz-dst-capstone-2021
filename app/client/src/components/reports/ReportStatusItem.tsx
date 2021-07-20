@@ -15,7 +15,15 @@
 //
 
 import * as React from 'react';
-import { Box, FormControl, InputLabel, makeStyles, MenuItem, Select, Typography } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -85,7 +93,8 @@ const ReportStatusItem = (props: Props) => {
     },
   });
 
-  const { errors, touched, values, isValid, handleChange, handleSubmit, handleBlur, setTouched } = formik;
+  const { errors, touched, values, isValid, handleChange, handleSubmit, handleBlur, setTouched } =
+    formik;
 
   useEffect(() => {
     onValidation(isValid);

@@ -67,18 +67,18 @@ interface HeaderProps {
   logout: any;
 }
 
-const Header: React.FC<HeaderProps> = (props) => {
+const Header: React.FC<HeaderProps> = props => {
   const history = useHistory();
   const { email } = props.user;
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const headerMenuOptions = [
-    {label: 'Notifications', icon:'NotificationsIcon'},
-    {label: 'Account', icon:'AccountCircleIcon'},
-    {label: 'Settings', icon:'SettingsIcon'},
-    {label: 'Email', icon:'EmailIcon'},
-    {label: 'Calendar', icon:'CalendarTodayIcon'},
-    {label: 'About', icon:'InfoIcon'},
+    { label: 'Notifications', icon: 'NotificationsIcon', key: 0 },
+    { label: 'Account', icon: 'AccountCircleIcon', key: 1 },
+    { label: 'Settings', icon: 'SettingsIcon', key: 2 },
+    { label: 'Email', icon: 'EmailIcon', key: 3 },
+    { label: 'Calendar', icon: 'CalendarTodayIcon', key: 4 },
+    { label: 'About', icon: 'InfoIcon', key: 5 },
   ];
 
   const redirectLogin = () => {
@@ -103,15 +103,16 @@ const Header: React.FC<HeaderProps> = (props) => {
       <StyledHeader>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <StyledBanner>
-            {email ? 
-              <IconButton
-                onClick={handleMenuToggle}
-              >
-                <MenuIcon fontSize="large" style={{'color': (menuOpen ? theme.colors.bcorange : theme.colors.contrast)}}/>
+            {email ? (
+              <IconButton onClick={handleMenuToggle}>
+                <MenuIcon
+                  fontSize="large"
+                  style={{ color: menuOpen ? theme.colors.bcorange : theme.colors.contrast }}
+                />
               </IconButton>
-            : 
-            <></>
-            }
+            ) : (
+              <></>
+            )}
             <Link
               style={{
                 display: 'flex',
@@ -123,31 +124,25 @@ const Header: React.FC<HeaderProps> = (props) => {
               <Box pl={email ? 0 : theme.spacingIncrements[0]}>
                 <GovLogo />
               </Box>
-              <StyledTypography>
-                Reporting and Dashboard Service Improvement
-              </StyledTypography>
+              <StyledTypography>Reporting and Dashboard Service Improvement</StyledTypography>
             </Link>
             <Box mx="auto" />
             <Button onClick={redirectLogin}>{email ? 'Logout' : 'Login'}</Button>
           </StyledBanner>
         </Box>
       </StyledHeader>
-      {email ? 
-      <Box>
-        <Drawer
-          variant="persistent"
-          anchor="left"
-          open={menuOpen}
-        >
-          <Box height={theme.navBar.desktopFixedHeight} />
-          {headerMenuOptions.map((option) => (
-            <MenuOption event={handleMenuItem} text={option.label} icon={option.icon} />
-          ))}
-        </Drawer>
-      </Box>
-      :
-      <></>
-      }
+      {email ? (
+        <Box>
+          <Drawer variant="persistent" anchor="left" open={menuOpen}>
+            <Box height={theme.navBar.desktopFixedHeight} />
+            {headerMenuOptions.map(option => (
+              <MenuOption key={option.key} event={handleMenuItem} text={option.label} icon={option.icon} />
+            ))}
+          </Drawer>
+        </Box>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

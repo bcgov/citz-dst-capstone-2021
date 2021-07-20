@@ -28,7 +28,7 @@ interface KPIProgressProps {
   value: number;
 }
 
-const KPIProgress: React.FC<KPIProgressProps> = (props) => {
+const KPIProgress: React.FC<KPIProgressProps> = props => {
   const { value } = props;
   return (
     <Box display="flex" alignItems="center">

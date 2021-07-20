@@ -15,12 +15,7 @@
 //
 
 import React from 'react';
-import {
-  Box,
-  Button,
-  Grid,
-  Typography
-} from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { Report, User, ReportState } from '../../types';
 import theme from '../../theme';
@@ -32,7 +27,7 @@ interface QuarterlyReportListRowDetailProps {
 
 const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = props => {
   const { report, submitter } = props;
-  
+
   const history = useHistory();
 
   // TODO: (Samara) add additional report details for completed reports
@@ -64,7 +59,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
   };
 
   const getButton = (state: ReportState) => {
-    switch(state) {
+    switch (state) {
       case ReportState.Draft:
         /* 
         return (
@@ -77,8 +72,8 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           </Button>
         );
         */
-      // case ReportState.Submitted:
-      // case ReportState.Review:
+        // case ReportState.Submitted:
+        // case ReportState.Review:
         return (
           <Button
             variant="contained"
@@ -129,9 +124,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
         <Grid item xs={4}>
           {getReportDetails(report.state)}
         </Grid>
-        <Grid item>
-          {getButton(report.state)}
-        </Grid>
+        <Grid item>{getButton(report.state)}</Grid>
       </Grid>
     </Box>
   );

@@ -39,7 +39,7 @@ interface MenuOptionProps {
 
 // getter for icons
 const getIcon = (iconName: string) => {
-  switch(iconName) {
+  switch (iconName) {
     case 'NotificationsIcon':
       return <NotificationsIcon fontSize="large" />;
     case 'AccountCircleIcon':
@@ -55,22 +55,17 @@ const getIcon = (iconName: string) => {
     default:
       return <></>;
   }
-}
+};
 
-const MenuOption: React.FC<MenuOptionProps> = (props) => {
+const MenuOption: React.FC<MenuOptionProps> = props => {
   const { event, text, icon } = props;
 
-  return(
+  return (
     <Box width="300px">
-      <StyledButton
-        color="inherit"
-        onClick={event}
-      >
+      <StyledButton color="inherit" onClick={event}>
         {getIcon(icon)}
-        <Typography variant="subtitle1">
-          {text}
-        </Typography>
-        <ArrowForwardIosIcon fontSize="small"/>
+        <Typography variant="subtitle1">{text}</Typography>
+        <ArrowForwardIosIcon fontSize="small" />
       </StyledButton>
       <Divider />
     </Box>

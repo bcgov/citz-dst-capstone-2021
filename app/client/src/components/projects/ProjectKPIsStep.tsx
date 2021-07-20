@@ -15,14 +15,7 @@
 //
 
 import React from 'react';
-import {
-  Container,
-  FormControl,
-  Typography,
-  Button,
-  Box,
-  Modal,
-} from '@material-ui/core';
+import { Container, FormControl, Typography, Button, Box, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Kpi } from '../../types';
 import KPIItem from './KPIItem';
@@ -41,7 +34,7 @@ interface ProjectKPIsStepProps {
   data: Kpi[];
 }
 
-const ProjectKPIsStep: React.FC<ProjectKPIsStepProps> = (props) => {
+const ProjectKPIsStep: React.FC<ProjectKPIsStepProps> = props => {
   const { onChange, data: existingKpis } = props;
 
   const classes = useStyles();
@@ -109,12 +102,7 @@ const ProjectKPIsStep: React.FC<ProjectKPIsStepProps> = (props) => {
             ))}
           </Box>
           <FormControl margin="normal" fullWidth>
-            <Button
-              color="primary"
-              variant="contained"
-              type="button"
-              onClick={showModal}
-            >
+            <Button color="primary" variant="contained" type="button" onClick={showModal}>
               Add New KPI
             </Button>
           </FormControl>

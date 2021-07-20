@@ -35,12 +35,7 @@ const AppRouter: React.FC = () => {
       <AppRoute requireAuth path="/projects/:cps" component={ProjectDetails} />
       <AppRoute requireAuth exact path="/projects" component={ProjectList} />
       <AppRoute requireAuth path="/view-report/:reportId" component={ReportDetails} />
-      <AppRoute
-        requireAuth
-        exact
-        path="/create-project"
-        component={NewProjectForm}
-      />
+      <AppRoute requireAuth exact path="/create-project" component={NewProjectForm} />
       <AppRoute requireAuth path="/submit-report/:projectId" component={SubmitReport} />
       <Redirect to="/" />
     </HashRouter>

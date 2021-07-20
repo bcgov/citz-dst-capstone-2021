@@ -35,7 +35,7 @@ const StyledTableCellHead = styled(TableCell)`
   color: white;
 `;
 
-const StyledTableCell = styled(TableCell) `
+const StyledTableCell = styled(TableCell)`
   padding: 1rem !important;
 `;
 
@@ -45,21 +45,33 @@ const StyledTypography = styled(Typography)`
 
 interface OverallProjectFinanceTableProps {
   report: Report;
-};
+}
 
 const OverallProjectFinanceTable: React.FC<OverallProjectFinanceTableProps> = props => {
   const { report } = props;
 
   const overallProjectFinancialData = [
-    {label: "Project Spend to End of Previous FY", value: report.finance?.spendToEndOfPreFy, bold: true},
-    {label: "Current FY Full Year Forecasted Spend", value: report.finance?.fyForecast, bold: true},
-    {label: "Projected Funding for Remaining FYs", value: report.finance?.remaining, bold: true},
+    {
+      label: 'Project Spend to End of Previous FY',
+      value: report.finance?.spendToEndOfPreFy,
+      bold: true,
+    },
+    {
+      label: 'Current FY Full Year Forecasted Spend',
+      value: report.finance?.fyForecast,
+      bold: true,
+    },
+    { label: 'Projected Funding for Remaining FYs', value: report.finance?.remaining, bold: true },
   ];
 
   const overallProjectVariance = [
-    {label: "Total Project Budget", value: report.finance?.budget, bold: false},
-    {label: "Estimated Total Cost", value: report.finance?.estimatedTotalCost, bold: false},
-    {label: "Variance to Budget", value: (report.finance ? +report.finance.budget - + report.finance.estimatedTotalCost : 0), bold: true},
+    { label: 'Total Project Budget', value: report.finance?.budget, bold: false },
+    { label: 'Estimated Total Cost', value: report.finance?.estimatedTotalCost, bold: false },
+    {
+      label: 'Variance to Budget',
+      value: report.finance ? +report.finance.budget - +report.finance.estimatedTotalCost : 0,
+      bold: true,
+    },
   ];
 
   return (
@@ -69,9 +81,7 @@ const OverallProjectFinanceTable: React.FC<OverallProjectFinanceTableProps> = pr
           <TableHead>
             <TableRow>
               <StyledTableCellHead>
-                <Typography variant="h5">
-                  &nbsp;Overall Project Financial Information
-                </Typography>
+                <Typography variant="h5">&nbsp;Overall Project Financial Information</Typography>
               </StyledTableCellHead>
               <StyledTableCellHead />
             </TableRow>
@@ -79,46 +89,37 @@ const OverallProjectFinanceTable: React.FC<OverallProjectFinanceTableProps> = pr
           <TableBody>
             {overallProjectFinancialData.map(row => (
               <TableRow>
-              <StyledTableCell>
-                {row.bold ?
-                <StyledTypography variant="body2">
-                  {row.label}
-                </StyledTypography>
-                :
-                <Typography variant="body2">
-                  {row.label}
-                </Typography>
-                }
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.value}
-              </StyledTableCell>
-            </TableRow>
+                <StyledTableCell>
+                  {row.bold ? (
+                    <StyledTypography variant="body2">{row.label}</StyledTypography>
+                  ) : (
+                    <Typography variant="body2">{row.label}</Typography>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.value}</StyledTableCell>
+              </TableRow>
             ))}
-            <TableRow><TableCell /><TableCell /></TableRow>
+            <TableRow>
+              <TableCell />
+              <TableCell />
+            </TableRow>
             {overallProjectVariance.map(row => (
               <TableRow>
-              <StyledTableCell>
-                {row.bold ?
-                <StyledTypography variant="body2">
-                  {row.label}
-                </StyledTypography>
-                :
-                <Typography variant="body2">
-                  {row.label}
-                </Typography>
-                }
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                {row.value}
-              </StyledTableCell>
-            </TableRow>
+                <StyledTableCell>
+                  {row.bold ? (
+                    <StyledTypography variant="body2">{row.label}</StyledTypography>
+                  ) : (
+                    <Typography variant="body2">{row.label}</Typography>
+                  )}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.value}</StyledTableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </Container>
   );
-}
+};
 
 export default OverallProjectFinanceTable;

@@ -38,7 +38,7 @@ const StyledMain = styled.main`
   }
 `;
 
-const Layout: React.FC = (props) => {
+const Layout: React.FC = props => {
   const { children } = props;
 
   return (
