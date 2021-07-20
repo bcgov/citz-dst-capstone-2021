@@ -25,21 +25,13 @@ interface ProjectListRowDetailProps {
   project: Project;
 }
 
-const ProjectListRowDetail: React.FC<
-  ProjectListRowDetailProps & TransitionProps
-> = (props) => {
+const ProjectListRowDetail: React.FC<ProjectListRowDetailProps & TransitionProps> = props => {
   const { project } = props;
 
   const history = useHistory();
 
   return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      spacing={1}
-    >
+    <Grid container direction="row" justify="center" alignItems="center" spacing={1}>
       <Grid item xs={4}>
         <Box ml={1}>
           <Typography variant="subtitle1">Project Description</Typography>
@@ -54,9 +46,7 @@ const ProjectListRowDetail: React.FC<
           TODO - Due Date
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="subtitle1">
-            Estimated Date of Project Completion
-          </Typography>
+          <Typography variant="subtitle1">Estimated Date of Project Completion</Typography>
         </Grid>
         <Grid item xs={6}>
           {utils.getISODateString(project.estimatedEnd)}

@@ -15,12 +15,16 @@
 //
 
 import * as React from 'react';
-import { Box, Modal } from '@material-ui/core';
+import { Box, Button, Modal } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Kpi, Milestone } from '../../types';
+import { Kpi, Milestone, Report } from '../../types';
 import KPIItem from './KPIItem';
 import NewKPIForm from './NewKPIForm';
+import emitter from '../../events/Emitter';
+import EventType from '../../events/Events';
+import useApi from '../../utils/api';
 
 const useStyles = makeStyles({
   modal: {
@@ -31,12 +35,14 @@ const useStyles = makeStyles({
 });
 
 type Props = {
+  reportId: string;
   kpis: Kpi[];
 };
 const ProjectDetailsKpiStep = (props: Props) => {
-  const { kpis } = props;
+  const { kpis, reportId } = props;
 
   const classes = useStyles();
+  const api = useApi();
 
   // prepare modal windows
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -50,26 +56,64 @@ const ProjectDetailsKpiStep = (props: Props) => {
     };
   };
 
-  const updateProject = (data: Milestone) => {
-    setModalVisible(false);
+  const createOrUpdateKpi = (kpi: Kpi): Promise<Report | null> => {
+    if (kpi) {
+      if (cacheIndex < 0) {
+        // new kpi
+        return api.createKpi(reportId, kpi);
+      }
+      // update kpi
+      return api.updateKpi(reportId, kpis[cacheIndex]?.id, kpi);
+    }
+    return Promise.resolve(null);
+  };
+
+  const handleUpdate = (kpi: Kpi) => {
+    return createOrUpdateKpi(kpi)
+      .then(report => {
+        if (report) {
+          emitter.emit(EventType.Report.Reload, report);
+        }
+      })
+      .finally(() => {
+        setCacheIndex(-1);
+        setModalVisible(false);
+      });
+  };
+
+  const openNewKpiDialog = () => {
+    setModalVisible(true);
   };
 
   return (
     <>
+      <Box display="flex" justifyContent="flex-end" mr={4}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          startIcon={<AddIcon />}
+          onClick={openNewKpiDialog}
+        >
+          New KPI
+        </Button>
+      </Box>
       {kpis && kpis.length > 0 ? (
         <>
           {kpis.map((kpi, index) => (
-            <Box m={4}>
-              <KPIItem kpi={kpi} key={kpi.id} editItem={editItem(index)} />
+            <Box m={4} key={kpi.id}>
+              <KPIItem kpi={kpi} editItem={editItem(index)} />
             </Box>
           ))}
-          <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-            <NewKPIForm closeModal={updateProject} kpi={kpis[cacheIndex]} />
-          </Modal>
         </>
       ) : (
-        <h1>No Key Performance Indicators to Display</h1>
+        <Box pt={10} textAlign="center">
+          <h1>No Key Performance Indicators to Display</h1>
+        </Box>
       )}
+      <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
+        <NewKPIForm closeModal={handleUpdate} kpi={kpis[cacheIndex]} />
+      </Modal>
     </>
   );
 };

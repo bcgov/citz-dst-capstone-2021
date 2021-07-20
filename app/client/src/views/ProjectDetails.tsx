@@ -60,8 +60,8 @@ const TabPanel = (props: TabPanelProps) => {
 
 const a11yProps = (index: any) => {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `project-details-tab-${index}`,
+    'aria-controls': `project-details-tabpanel-${index}`,
   };
 };
 
@@ -105,14 +105,8 @@ const ProjectDetails: React.FC = () => {
             });
           });
       } else {
-        // data is the last report
-        const index = reports.findIndex(r => r.id === data.id);
-        if (index >= 0) {
-          const copyOfReports = [...reports];
-          copyOfReports.splice(index, 1, data);
-          setReports(copyOfReports);
-          setLastReport(data);
-        }
+        // data should be the last report
+        setLastReport(data);
       }
     }
   };
@@ -165,17 +159,20 @@ const ProjectDetails: React.FC = () => {
             <ProjectDetailsInfoStep project={project} />
           </TabPanel>
           <TabPanel value={step} index={1}>
-            <ProjectDetailsKpiStep kpis={lastReport.kpis} />
+            <ProjectDetailsKpiStep
+              kpis={lastReport.kpis || []}
+              reportId={lastReport.id as string}
+            />
           </TabPanel>
           <TabPanel value={step} index={2}>
             <ProjectDetailsMilestoneStep
-              milestones={lastReport.milestones}
+              milestones={lastReport.milestones || []}
               reportId={lastReport.id as string}
             />
           </TabPanel>
           <TabPanel value={step} index={3}>
             <ProjectDetailsObjectiveStep
-              objectives={lastReport.objectives}
+              objectives={lastReport.objectives || []}
               reportId={lastReport.id as string}
             />
           </TabPanel>

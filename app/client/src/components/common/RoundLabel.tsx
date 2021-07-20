@@ -32,7 +32,7 @@ interface RoundLabelProps {
   text: string;
 }
 
-const RoundLabel: React.FC<RoundLabelProps> = (props) => {
+const RoundLabel: React.FC<RoundLabelProps> = props => {
   const classes = useStyles();
   const { text } = props;
   return <div className={classes.root}>{text}</div>;

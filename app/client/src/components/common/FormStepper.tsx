@@ -15,22 +15,14 @@
 //
 
 import React from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Typography,
-  Stepper,
-  Step,
-  StepLabel,
-} from '@material-ui/core';
+import { Box, Button, Container, Typography, Stepper, Step, StepLabel } from '@material-ui/core';
 
 interface IFormStepper {
   steps?: string[];
   stepContent?: any[]; // this is temporary and will be factored out when implementing the form
 }
 
-const FormStepper: React.FC<IFormStepper> = (props) => {
+const FormStepper: React.FC<IFormStepper> = props => {
   const [activeStep, setActiveStep] = React.useState(0);
   // const steps = getSteps();
 
@@ -38,12 +30,12 @@ const FormStepper: React.FC<IFormStepper> = (props) => {
 
   const handleNext = () => {
     // TODO: Bounds checking
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   const handleBack = () => {
     // TODO: Bounds checking
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   // not required for current functionality but added since a reset is a reasonable feature to have.
@@ -54,7 +46,7 @@ const FormStepper: React.FC<IFormStepper> = (props) => {
   return (
     <Container maxWidth="lg">
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label) => {
+        {steps.map(label => {
           const stepProps: { completed?: boolean } = {};
           const labelProps: { optional?: React.ReactNode } = {}; // I don't think I need this
           return (
@@ -77,26 +69,11 @@ const FormStepper: React.FC<IFormStepper> = (props) => {
               {/* TODO: Better handling of step content passed into component */}
               {stepContent[activeStep]}
             </div>
-            <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="space-between"
-              fontWeight={800}
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                type="button"
-                onClick={handleBack}
-              >
+            <Box display="flex" flexDirection="row" justifyContent="space-between" fontWeight={800}>
+              <Button color="primary" variant="contained" type="button" onClick={handleBack}>
                 Back
               </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                type="button"
-                onClick={handleNext}
-              >
+              <Button color="primary" variant="contained" type="button" onClick={handleNext}>
                 Next
               </Button>
             </Box>

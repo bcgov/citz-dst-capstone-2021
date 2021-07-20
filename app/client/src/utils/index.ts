@@ -24,7 +24,11 @@ export default {
     }
   },
 
-  isValidFormInput(values: Record<string, any>, errors: Record<string, string>, keys: string[]): boolean {
+  isValidFormInput(
+    values: Record<string, any>,
+    errors: Record<string, string>,
+    keys: string[],
+  ): boolean {
     return keys.every(key => !!values[key] && !errors[key]);
   },
 

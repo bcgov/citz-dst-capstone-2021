@@ -15,7 +15,15 @@
 //
 
 import * as React from 'react';
-import { Box, FormControl, InputLabel, makeStyles, MenuItem, Select, Typography } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
 import _ from 'lodash';
@@ -73,8 +81,17 @@ const ReportMilestoneItem = (props: Props) => {
     },
   });
 
-  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur, setFieldValue, setTouched } =
-    formik;
+  const {
+    errors,
+    touched,
+    isValid,
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+    setTouched,
+  } = formik;
 
   const defaultStartDate = start || null;
   const [startDate, setStartDate] = React.useState(defaultStartDate);

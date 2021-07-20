@@ -69,9 +69,7 @@ const Footer = () => (
         </StyledLink>
       </StyledLi>
       <StyledLi>
-        <StyledLink href="https://www2.gov.bc.ca/gov/content/home/privacy">
-          Privacy
-        </StyledLink>
+        <StyledLink href="https://www2.gov.bc.ca/gov/content/home/privacy">Privacy</StyledLink>
       </StyledLi>
       <StyledLi>
         <StyledLink href="https://www2.gov.bc.ca/gov/content/home/accessibility">
@@ -79,9 +77,7 @@ const Footer = () => (
         </StyledLink>
       </StyledLi>
       <StyledLi>
-        <StyledLink href="https://www2.gov.bc.ca/gov/content/home/copyright">
-          Copyright
-        </StyledLink>
+        <StyledLink href="https://www2.gov.bc.ca/gov/content/home/copyright">Copyright</StyledLink>
       </StyledLi>
       <StyledLi>
         <StyledLink href="https://github.com/bcgov/citz-dst-capstone-2021/issues">

@@ -46,7 +46,7 @@ interface NewKPIFormProps {
   kpi: Kpi | null;
 }
 
-const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
+const NewKPIForm: React.FC<NewKPIFormProps> = props => {
   const { closeModal, kpi } = props;
   const classes = useStyles();
 
@@ -62,7 +62,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
         description: '',
         unit: '',
         baseline: 0,
-        target: 0,
+        target: 100,
         value: 0,
         end: null,
         outcome: false,
@@ -72,20 +72,13 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
   const formik = useFormik({
     initialValues,
     validationSchema: validateKPI,
-    onSubmit: (values) => {
+    onSubmit: values => {
       closeModal({ ...values, value: values.baseline });
     },
   });
 
-  const {
-    errors,
-    touched,
-    isValid,
-    values,
-    handleSubmit,
-    handleChange,
-    handleBlur,
-  } = formik;
+  const { errors, touched, isValid, values, setTouched, handleSubmit, handleChange, handleBlur } =
+    formik;
 
   return (
     <Container maxWidth="sm">
@@ -93,7 +86,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
         <Box maxWidth="560px" p={4}>
           <Box display="flex" justifyContent="center" my={3}>
             <Typography variant="h5">
-              { kpi ? 'Edit' : 'Create'} Key Performance Indicator
+              {kpi ? 'Edit' : 'Create'} Key Performance Indicator
             </Typography>
           </Box>
           <form onSubmit={handleSubmit}>
@@ -149,7 +142,18 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 label="Baseline Value"
                 type="number"
                 value={values.baseline}
-                onChange={handleChange}
+                onChange={e => {
+                  handleChange(e);
+                  const value = +e.target.value;
+                  if (
+                    (value < values.target &&
+                      (value > values.value || values.value > values.target)) || // baseline = 10 target = 100 value = 0 or 1000, value => baseline)
+                    (value > values.target &&
+                      (value < values.value || values.value < values.target)) // baseline = 100 target = 10 value = 1000 or 0, value => baseline
+                  ) {
+                    formik.setFieldValue('value', value);
+                  }
+                }}
                 onBlur={handleBlur}
                 error={touched.baseline && Boolean(errors.baseline)}
                 helperText={touched.baseline && errors.baseline}
@@ -161,7 +165,18 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 label="Target Value"
                 type="number"
                 value={values.target}
-                onChange={handleChange}
+                onChange={e => {
+                  handleChange(e);
+                  const value = +e.target.value;
+                  if (
+                    (value < values.baseline &&
+                      (values.baseline < values.value || values.value < value)) ||
+                    (value > values.baseline &&
+                      (values.baseline > values.value || values.value > value))
+                  ) {
+                    formik.setFieldValue('value', values.baseline);
+                  }
+                }}
                 onBlur={handleBlur}
                 error={touched.target && Boolean(errors.target)}
                 helperText={touched.target && errors.target}
@@ -173,6 +188,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
               justifyContent="space-between"
               alignItems="center"
               my={3}
+              maxWidth="500px"
             >
               <KeyboardDatePicker
                 autoOk
@@ -184,7 +200,11 @@ const NewKPIForm: React.FC<NewKPIFormProps> = (props) => {
                 name="end"
                 label="Target Completion Date"
                 value={endDate}
-                onChange={(date) => {
+                error={touched.end && Boolean(errors.end)}
+                helperText={touched.end && errors.end}
+                onBlur={handleBlur}
+                onChange={date => {
+                  setTouched({ end: true });
                   if (date && !date.invalid) {
                     setEndDate(date);
                     formik.setFieldValue('end', date.toLocaleString());

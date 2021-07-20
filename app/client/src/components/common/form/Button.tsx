@@ -46,9 +46,7 @@ export const StyledFormButton: React.FC<IButtonProps> = (props: any) => {
   );
 };
 
-export const StyledFormDisabledButton: React.FC<IButtonProps> = (
-  props: any
-) => {
+export const StyledFormDisabledButton: React.FC<IButtonProps> = (props: any) => {
   const { children, ...rest } = props;
   return (
     <StyledDisabledButton disabled {...rest}>
@@ -74,7 +72,7 @@ const styles = {
   margin: 10,
 };
 
-export const Button: React.FC<IButtonProps> = (props) => (
+export const Button: React.FC<IButtonProps> = props => (
   <button onClick={props.onClick} style={styles} type="button">
     {props.children}
   </button>

@@ -54,7 +54,11 @@ const ReportKpiStep = (props: Props) => {
       </Typography>
       {kpis.map((kpi, index) => (
         <Box key={kpi.id} boxShadow={1} p={1} my={2}>
-          <ReportKpiItem kpi={kpi} onChange={handleChange(index)} onValidation={handleValidation(index)} />
+          <ReportKpiItem
+            kpi={kpi}
+            onChange={handleChange(index)}
+            onValidation={handleValidation(index)}
+          />
         </Box>
       ))}
     </Container>

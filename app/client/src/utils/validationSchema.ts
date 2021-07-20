@@ -28,9 +28,15 @@ const password = yup
 
 const name = yup.string().min(5, 'Too Short!').max(50, 'Too Long!').required('Required');
 
-const progress = yup.number().min(0, 'Progress cannot be less than 0').max(100, 'Progress cannot be greater than 100');
+const progress = yup
+  .number()
+  .min(0, 'Progress cannot be less than 0')
+  .max(100, 'Progress cannot be greater than 100');
 
-const cpsIdentifier = yup.string().length(11, 'CPS Identifier must be 11 Characters Long!').required('Required');
+const cpsIdentifier = yup
+  .string()
+  .length(11, 'CPS Identifier must be 11 Characters Long!')
+  .required('Required');
 
 const projectNumber = yup.string().min(2).max(10);
 // .length(10, 'Project Number Must Be 10 Characters Long!');
@@ -39,7 +45,8 @@ const textField = yup.string().max(400, 'Too Long!');
 
 const ministry = yup.string().required();
 
-const parseDateString = (value: any, originalValue: any): Date => {
+const parseDateString = (value: any, originalValue: any): Date | undefined => {
+  if (!originalValue) return undefined;
   if (isDate(originalValue)) {
     return originalValue;
   }
@@ -92,7 +99,7 @@ export const validateProjectIdentity = yup.object({
   description: textField,
   ministry,
   program: name,
-})
+});
 
 export const validateMilestone = yup.object({
   name,
@@ -110,7 +117,7 @@ export const validateObjective = yup.object({
     is: (status: any) => status !== Status.Green,
     then: yup.string().required('You must enter comments when the status is not green'),
   }),
-  start: date,
+  estimatedEnd: date.required(),
 });
 
 export const validateKPI = yup.object({
@@ -119,10 +126,19 @@ export const validateKPI = yup.object({
   comments: textField,
   start: date,
   unit: yup.string().required(),
-  value: yup.number().max(yup.ref('target')),
-  end: date,
-  target: yup.number().min(yup.ref('value')),
-  baseline: yup.number().max(yup.ref('target')),
+  value: yup.number().when(['baseline', 'target'], {
+    is: (baseline: number, target: number) => target > baseline,
+    then: yup.number().max(yup.ref('target')).min(yup.ref('baseline')),
+    otherwise: yup.number().max(yup.ref('baseline')).min(yup.ref('target')),
+  }),
+  end: date.required(),
+  target: yup
+    .number()
+    .test('not equal', 'baseline and target must not be equal', (value, context) => {
+      return value !== context.parent.baseline;
+    })
+    .required(),
+  baseline: yup.number().required(),
 });
 
 export const validateReport = yup.object({

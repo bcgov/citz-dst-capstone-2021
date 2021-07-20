@@ -20,6 +20,7 @@ import AppRoute from './utils/AppRoute';
 import LoginForm from './views/LoginForm';
 import SignUpForm from './views/SignUpForm';
 import ProjectDetails from './views/ProjectDetails';
+import ReportDetails from './views/ReportDetails';
 import ProjectList from './views/submitter/ProjectList';
 import NewProjectForm from './views/submitter/NewProjectForm';
 import SubmitReport from './views/submitter/SubmitReport';
@@ -33,13 +34,9 @@ const AppRouter: React.FC = () => {
       <AppRoute path="/signup" component={SignUpForm} />
       <AppRoute requireAuth path="/projects/:cps" component={ProjectDetails} />
       <AppRoute requireAuth exact path="/projects" component={ProjectList} />
-      <AppRoute
-        requireAuth
-        exact
-        path="/create-project"
-        component={NewProjectForm}
-      />
-      <AppRoute path="/submit-report/:projectId" component={SubmitReport} />
+      <AppRoute requireAuth path="/view-report/:reportId" component={ReportDetails} />
+      <AppRoute requireAuth exact path="/create-project" component={NewProjectForm} />
+      <AppRoute requireAuth path="/submit-report/:projectId" component={SubmitReport} />
       <Redirect to="/" />
     </HashRouter>
   );
