@@ -17,11 +17,8 @@
 import { useHistory, Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
-
 import { Box, Drawer, IconButton } from '@material-ui/core';
-
 import MenuIcon from '@material-ui/icons/Menu';
-
 import React from 'react';
 import typography from '../typography';
 import GovLogo from './common/GovLogo';
