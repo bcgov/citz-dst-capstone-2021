@@ -15,12 +15,16 @@
 //
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const DashboardFinanceAnalyst: React.FC = () => {
   return (
     <>
       <h1>TODO: Finance Analyst Dashboard and Report List</h1>
+      <h3>
+        <Link to="/review-reports"> Reports to review list</Link>
+      </h3>
     </>
   );
 }

@@ -25,6 +25,7 @@ import ProjectList from './views/submitter/ProjectList';
 import NewProjectForm from './views/submitter/NewProjectForm';
 import SubmitReport from './views/submitter/SubmitReport';
 import DashboardFinanceAnalyst from './views/financeAnalyst/DashboardFinanceAnalyst';
+import ReportsToReview from './views/financeAnalyst/ReportsToReview';
 import Home from './components/Home';
 
 const AppRouter: React.FC = () => {
@@ -39,6 +40,7 @@ const AppRouter: React.FC = () => {
       <AppRoute requireAuth exact path="/create-project" component={NewProjectForm} />
       <AppRoute requireAuth path="/submit-report/:projectId" component={SubmitReport} />
       <AppRoute requireAuth path="/finance-analyst-dashboard" component={DashboardFinanceAnalyst} />
+      <AppRoute requireAuth path="/review-reports" component={ReportsToReview} />
       <Redirect to="/" />
     </HashRouter>
   );
