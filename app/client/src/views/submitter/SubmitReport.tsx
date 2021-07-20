@@ -19,11 +19,10 @@ import {
   Box,
   Button,
   Container,
-  Typography,
-  Stepper,
+  FormControlLabel,
   Step,
   StepButton,
-  FormControlLabel,
+  Stepper,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory, useParams } from 'react-router-dom';
@@ -32,14 +31,13 @@ import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
 import { SubmitReportSteps } from '../../constants';
-import { Kpi, Milestone, Objective, Project, Report, ReportStatus } from '../../types';
+import {Kpi, Milestone, Objective, Project, Report, ReportState, ReportStatus, User} from '../../types';
 import useApi from '../../utils/api';
 import ReportStatusStep from '../../components/reports/ReportStatusStep';
 import ReportFinancialStep from '../../components/reports/ReportFinancialStep';
 import ReportObjectiveStep from '../../components/reports/ReportObjectiveStep';
 import ReportMilestoneStep from '../../components/reports/ReportMilestoneStep';
 import ReportKpiStep from '../../components/reports/ReportKpiStep';
-import utils from '../../utils';
 
 const SubmitReport: React.FC = () => {
   const history = useHistory();
@@ -200,9 +198,16 @@ const SubmitReport: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    utils.removeProperties(report, 'updatedAt', 'createdAt');
-    api.updateReport(report).then(() => {
-      history.push(`/projects/${project.cpsIdentifier}`);
+    const update = {
+      ...report,
+      state: ReportState.Review,
+    };
+    if (report.submitter) {
+      const submitter = (report.submitter as User).id;
+      if (submitter) update.submitter = submitter;
+    }
+    api.updateReport(update).then(() => {
+      history.push(`/view-report/${report.id}`);
     });
   };
 
@@ -298,7 +303,7 @@ const SubmitReport: React.FC = () => {
               disabled={!isNextValid()}
               onClick={handleNext}
             >
-              {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Save' : 'Next'}
             </Button>
           </Box>
         </Container>

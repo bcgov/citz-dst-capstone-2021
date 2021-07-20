@@ -22,6 +22,7 @@ import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
 import KpiDTO from '@dtos/KpiDTO';
+import { getNextReport } from '@utils/reportUtils';
 
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
@@ -72,7 +73,11 @@ const ReportController = {
     try {
       const { id } = req.params;
       const input: ReportDTO = req.body;
+      // TODO: use transaction
       const data = await ReportService.updateReport(id, input);
+      if (data.submittedAt) {
+        await ReportService.createReport(getNextReport(data));
+      }
       res.status(200).json(data);
     } catch (e) {
       next(e);

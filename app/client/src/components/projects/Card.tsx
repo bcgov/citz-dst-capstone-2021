@@ -14,15 +14,15 @@
 // limitations under the License.
 //
 
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Typography, Box } from '@material-ui/core';
 
-interface ICardItem {
+interface ICardItem extends PropsWithChildren<any> {
   label?: string;
   content?: string;
 }
 const Card: React.FC<ICardItem> = props => {
-  const { label = '', content = '' } = props;
+  const { label = '', content = '', children } = props;
 
   return (
     <Box width={1}>
@@ -30,9 +30,11 @@ const Card: React.FC<ICardItem> = props => {
         <Box mr={5}>
           <Typography variant="h6">{label}</Typography>
         </Box>
-        <Box maxWidth="60%">
-          <Typography variant="subtitle1">{content}</Typography>
-        </Box>
+        {children || (
+          <Box maxWidth="60%">
+            <Typography variant="subtitle1">{content}</Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   );

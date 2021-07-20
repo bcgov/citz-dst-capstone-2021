@@ -198,7 +198,7 @@ export interface FinancialStatus {
 
 export interface Report {
   id?: string;
-  submitter?: string;
+  submitter?: string | User;
   submittedAt?: Date;
   year: number;
   quarter: Quarter;

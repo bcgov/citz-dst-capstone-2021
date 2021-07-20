@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import _ from 'lodash';
 import { Project } from '@interfaces/project.interface';
 import {
   Kpi,
@@ -27,8 +28,37 @@ import {
 } from '@interfaces/report.interface';
 import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
+import { removeProperties } from '@utils/util';
+import ReportDTO from '@dtos/ReportDTO';
 
-// eslint-disable-next-line import/prefer-default-export
+export function getNextReport(report: Report): ReportDTO {
+  // TODO: exception when the project has been completed
+  const newReport = _.omit(report, '_id', 'submitter', 'submittedAt', 'createdAt', 'updatedAt');
+  removeProperties(newReport);
+  const { quarter } = newReport;
+  switch (quarter) {
+    case Quarter.Q1:
+      newReport.quarter = Quarter.Q2;
+      break;
+    case Quarter.Q2:
+      newReport.quarter = Quarter.Q3a;
+      break;
+    case Quarter.Q3a:
+      newReport.quarter = Quarter.Q3b;
+      break;
+    case Quarter.Q3b:
+      newReport.quarter = Quarter.Q4;
+      break;
+    default:
+      // Q4
+      newReport.quarter = Quarter.Q1;
+      newReport.year += 1;
+      break;
+  }
+  newReport.state = ReportState.Draft;
+  return newReport;
+}
+
 export const getInitialReport = (
   project: Project,
   milestones: MilestoneDTO[],

@@ -15,7 +15,7 @@
 //
 
 import React, { useEffect, useState } from 'react';
-import { Collapse, IconButton, TableCell, TableRow } from '@material-ui/core';
+import { Box, Collapse, IconButton, TableCell, TableRow } from "@material-ui/core";
 import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
@@ -36,18 +36,10 @@ interface QuarterlyReportListRowProps {
   report: Report;
 }
 
-const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = props => {
+const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) => {
   const { report: row } = props;
+  const submitter = row.submitter as User | undefined;
   const [collapse, setCollapse] = useState(true);
-  const [submitter, setSubmitter] = useState({} as User);
-  const api = useApi();
-
-  useEffect(() => {
-    api.getUser(String(row.submitter)).then(data => {
-      setSubmitter(data);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
@@ -56,7 +48,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = props => {
           {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="center">
-          {row.state ? String(ReportState[row.state]) : 'N/A'}
+          {row.state !== undefined ? String(ReportState[row.state]) : "N/A"}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodStart(row.year, row.quarter).toLocaleDateString('en-CA')}
@@ -73,7 +65,9 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = props => {
       <TableRow style={{ display: collapse ? 'none' : '' }}>
         <TableCell colSpan={12}>
           <Collapse in={!collapse}>
-            <QuarterlyReportListRowDetail report={row} submitter={submitter} />
+            <Box my={1}>
+              <QuarterlyReportListRowDetail report={row} submitter={submitter} />
+            </Box>
           </Collapse>
         </TableCell>
       </TableRow>
