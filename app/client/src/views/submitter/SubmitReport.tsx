@@ -31,7 +31,7 @@ import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
 import { SubmitReportSteps } from '../../constants';
-import { Kpi, Milestone, Objective, Project, Report, ReportState, ReportStatus } from '../../types';
+import {Kpi, Milestone, Objective, Project, Report, ReportState, ReportStatus, User} from '../../types';
 import useApi from '../../utils/api';
 import ReportStatusStep from '../../components/reports/ReportStatusStep';
 import ReportFinancialStep from '../../components/reports/ReportFinancialStep';
@@ -198,7 +198,15 @@ const SubmitReport: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    api.updateReport({ ...report, state: ReportState.Review }).then(() => {
+    const update = {
+      ...report,
+      state: ReportState.Review,
+    };
+    if (report.submitter) {
+      const submitter = (report.submitter as User).id;
+      if (submitter) update.submitter = submitter;
+    }
+    api.updateReport(update).then(() => {
       history.push(`/view-report/${report.id}`);
     });
   };
