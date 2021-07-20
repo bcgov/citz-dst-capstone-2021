@@ -134,8 +134,9 @@ const useApi = () => {
         .then(({ data }) => data);
     },
 
-    updateReport(report: Report): Promise<Report> {
+    updateReport(report: any): Promise<Report> {
       if (!api.current) throw new Error('axios not set up');
+      utils.removeProperties(report, 'createdAt', 'updatedAt');
       return api.current.patch(`reports/${report.id}`, report).then(({ data }) => data);
     },
 

@@ -15,30 +15,24 @@
 //
 
 import React from 'react';
-import {
-  Box,
-  Button,
-  Grid,
-  Typography
-} from '@material-ui/core';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { Report, User, ReportState } from '../../types';
-import theme from '../../theme';
+import { Report, ReportState, User } from '../../types';
 
 interface QuarterlyReportListRowDetailProps {
   report: Report;
-  submitter: User;
+  submitter: User | undefined;
 }
 
 const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = props => {
   const { report, submitter } = props;
-  
+
   const history = useHistory();
 
   // TODO: (Samara) add additional report details for completed reports
   const getDetailsCompleteReport = () => {
     return (
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body2">
           <strong>Report Submitted</strong>
         </Typography>
@@ -64,41 +58,21 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
   };
 
   const getButton = (state: ReportState) => {
-    switch(state) {
-      case ReportState.Draft:
-        /* 
-        return (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`/submit-report/${report.projectId}`)}
-          >
-            Continue Report
-          </Button>
-        );
-        */
-      // case ReportState.Submitted:
-      // case ReportState.Review:
-        return (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`/view-report/${report.id}`)}
-          >
-            View Report
-          </Button>
-        );
-      default:
-        return (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => history.push(`/submit-report/${report.projectId}`)}
-          >
-            Start Report
-          </Button>
-        );
-    }
+    return (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          if (state !== ReportState.Draft) {
+            history.push(`/view-report/${report.id}`);
+          } else {
+            history.push(`/submit-report/${report.projectId}`);
+          }
+        }}
+      >
+        {state !== ReportState.Draft ? 'View Report' : 'Start Report'}
+      </Button>
+    );
   };
 
   const getReportDetails = (state: ReportState) => {
@@ -115,23 +89,21 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
 
   return (
     <Box px={2}>
-      <Grid container spacing={3} justify="space-between">
+      <Grid container spacing={3} justify="space-between" alignItems="center">
         <Grid item xs={4}>
           <Box display="flex" justifyContent="space-between">
             <Typography variant="body2">
               <strong>Submitter</strong>
             </Typography>
             <Typography variant="body2">
-              {submitter.firstName} {submitter.lastName}
+              {submitter?.firstName} {submitter?.lastName}
             </Typography>
           </Box>
         </Grid>
         <Grid item xs={4}>
           {getReportDetails(report.state)}
         </Grid>
-        <Grid item>
-          {getButton(report.state)}
-        </Grid>
+        <Grid item>{getButton(report.state)}</Grid>
       </Grid>
     </Box>
   );

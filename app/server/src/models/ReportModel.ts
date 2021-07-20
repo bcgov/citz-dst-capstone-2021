@@ -62,7 +62,6 @@ const ReportModel: Schema<Report> = new Schema(
     submitter: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
     },
     _schema: {
       type: Number,

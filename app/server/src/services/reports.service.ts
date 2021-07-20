@@ -35,7 +35,7 @@ const ReportService = {
     const params = { projectId };
     if (year) Object.assign(params, { year });
     if (quarter) Object.assign(params, { quarter });
-    let query = ReportModel.find(params);
+    let query = ReportModel.find(params).populate({ path: 'submitter' });
     if (last) {
       query = query.sort({ createdAt: -1 }).limit(1);
     }
@@ -72,7 +72,7 @@ const ReportService = {
   },
 
   async updateReport(id: string, input: ReportDTO): Promise<Report> {
-    const report = await ReportModel.findByIdAndUpdate(id, input, { new: true });
+    const report = await ReportModel.findByIdAndUpdate(id, input, { new: true }).lean();
     if (!report) {
       throw errorWithCode(`Unable to update report`, 500);
     }

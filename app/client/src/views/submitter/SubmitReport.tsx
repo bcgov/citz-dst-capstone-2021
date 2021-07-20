@@ -15,7 +15,15 @@
 //
 
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Container, Typography, Stepper, Step, StepButton, FormControlLabel } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  FormControlLabel,
+  Step,
+  StepButton,
+  Stepper,
+} from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -23,7 +31,7 @@ import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
 import { SubmitReportSteps } from '../../constants';
-import { Kpi, Milestone, Objective, Project, Report, ReportStatus } from '../../types';
+import { Kpi, Milestone, Objective, Project, Report, ReportState, ReportStatus } from '../../types';
 import useApi from '../../utils/api';
 import ReportStatusStep from '../../components/reports/ReportStatusStep';
 import ReportFinancialStep from '../../components/reports/ReportFinancialStep';
@@ -118,7 +126,7 @@ const SubmitReport: React.FC = () => {
           <ProjectIDCard project={project} />
         </Box>
         <Box my={2}>
-        <ProjectContactCard project={project} />
+          <ProjectContactCard project={project} />
         </Box>
 
         <FormControlLabel
@@ -191,9 +199,8 @@ const SubmitReport: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    utils.removeProperties(report, 'updatedAt', 'createdAt');
-    api.updateReport(report).then(() => {
-      history.push(`/projects/${project.cpsIdentifier}`);
+    api.updateReport({ ...report, state: ReportState.Review }).then(() => {
+      history.push(`/view-report/${report.id}`);
     });
   };
 
@@ -249,7 +256,11 @@ const SubmitReport: React.FC = () => {
         {steps.map((label, index) => {
           return (
             <Step key={label}>
-              <StepButton onClick={handleStep(index)} completed={stepCompleted(index)} disabled={!valid0}>
+              <StepButton
+                onClick={handleStep(index)}
+                completed={stepCompleted(index)}
+                disabled={!valid0}
+              >
                 {label}
               </StepButton>
             </Step>
@@ -285,7 +296,7 @@ const SubmitReport: React.FC = () => {
               disabled={!isNextValid()}
               onClick={handleNext}
             >
-              {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Save' : 'Next'}
             </Button>
           </Box>
         </Container>
