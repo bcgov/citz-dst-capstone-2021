@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from '@emotion/styled';
 import {
   Box,
@@ -30,8 +30,12 @@ import {
 } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { ReportState } from '../../types'
+import { connect } from 'react-redux';
+import { Report, ReportState, StoreState, User } from '../../types';
 import theme from '../../theme';
+import useApi from '../../utils/api';
+import emitter from '../../events/Emitter';
+import EventType from '../../events/Events';
 
 const StyledIconButton = styled(IconButton)`
   color: white !important;
@@ -43,39 +47,57 @@ const StyledIconButtonWrapper = styled(Box)`
   right: ${theme.spacingIncrements[0]};
 `;
 
-const ReviewerPanel: React.FC = () => {
+type Props = {
+  report: Report;
+  user: User;
+};
+
+const ReviewerPanel: React.FC<Props> = props => {
+  const { report, user } = props;
+  const { state: preState, financialNotes: preNotes } = report;
+
   const [panelOpen, setPanelOpen] = React.useState(false);
+  const [state, setState] = React.useState(preState);
+  const [notes, setNotes] = React.useState(preNotes);
+
+  const hasChanged = (): boolean => {
+    return state !== report.state || notes !== (preNotes || '');
+  };
+
+  const api = useApi();
+  const submitReview = () => {
+    const update = {
+      id: report.id,
+      state,
+      financialNotes: notes,
+      financialAnalyst: user.id,
+    };
+    api.updateReport(update).then(data => {
+      emitter.emit(EventType.Report.Reload, data);
+    });
+  };
 
   const togglePanel = () => {
     setPanelOpen(!panelOpen);
-  }
+  };
+
   return (
     <>
       {/* TODO: (Samara) improve drawer button so that it appears as a tab that the user pulls out instead of the drawer opening over the comment icon button */}
       <StyledIconButtonWrapper>
-        <StyledIconButton
-          color="primary"
-          aria-label="reviewer panel"
-          onClick={togglePanel}
-        >
+        <StyledIconButton color="primary" aria-label="reviewer panel" onClick={togglePanel}>
           <CommentIcon />
         </StyledIconButton>
       </StyledIconButtonWrapper>
       <Drawer variant="persistent" anchor="right" open={panelOpen}>
         <Box height={theme.navBar.desktopFixedHeight} />
         <Box width="100%" alignItems="left">
-          <IconButton
-            color="inherit"
-            aria-label="reviewer panel"
-            onClick={togglePanel}
-          >
+          <IconButton color="inherit" aria-label="reviewer panel" onClick={togglePanel}>
             <ArrowForwardIosIcon />
           </IconButton>
         </Box>
         <Box width="100%" textAlign="center">
-          <Typography variant="subtitle1">
-            Review Quarterly Report
-          </Typography>
+          <Typography variant="subtitle1">Review Quarterly Report</Typography>
         </Box>
         <FormControl margin="normal" fullWidth>
           <Box width={theme.reviewerPanel.width} m={3}>
@@ -87,15 +109,19 @@ const ReviewerPanel: React.FC = () => {
                     labelId="reportState"
                     id="reportState"
                     name="reportState"
+                    value={state}
+                    onChange={e => setState(e.target.value as ReportState)}
                   >
                     {Object.entries(ReportState)
-                      .filter(([, value]) => typeof value === 'string')
+                      .filter(
+                        ([key, value]) =>
+                          typeof value === 'string' && +key >= ReportState.Submitted,
+                      )
                       .map(([key, value]) => (
                         <MenuItem value={+key} key={key}>
                           {value}
                         </MenuItem>
-                      ))
-                      }
+                      ))}
                   </Select>
                 </FormControl>
               </Box>
@@ -104,17 +130,21 @@ const ReviewerPanel: React.FC = () => {
                   color="primary"
                   variant="contained"
                   type="button"
+                  onClick={submitReview}
+                  disabled={!hasChanged()}
                 >
                   Submit Review
                 </Button>
               </Box>
             </Box>
-            <TextField 
+            <TextField
               label="QR Notes"
               variant="outlined"
               multiline
               fullWidth
               rows={6}
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
             />
           </Box>
         </FormControl>
@@ -124,4 +154,8 @@ const ReviewerPanel: React.FC = () => {
   );
 };
 
-export default ReviewerPanel;
+const mapState = ({ user }: StoreState) => {
+  return { user };
+};
+
+export default connect(mapState)(ReviewerPanel);

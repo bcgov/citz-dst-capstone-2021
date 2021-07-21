@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {User} from "../../../client/src/types";
+
 export enum Quarter {
   Q1 = 'Q1',
   Q2 = 'Q2',
@@ -24,8 +26,10 @@ export enum Quarter {
 
 export enum ReportState {
   Draft,
-  Review,
+  ReadyToSubmit,
   Submitted,
+  FollowUpRequired,
+  Approved,
 }
 
 export interface Report {
@@ -44,6 +48,9 @@ export interface Report {
   statuses: ReportStatus[];
   finance?: FinancialStatus;
   kpis: Kpi[];
+  financialAnalyst?: string | User;
+  financialNotes?: string;
+  approvedAt?: Date;
 }
 
 export enum Status {

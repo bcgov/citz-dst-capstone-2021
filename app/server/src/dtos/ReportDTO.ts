@@ -15,8 +15,18 @@
  */
 
 // eslint-disable-next-line max-classes-per-file
-import { IsDate, IsEnum, IsMongoId, IsNumber, IsOptional, IsString, Max, Min, ValidateNested } from 'class-validator';
-import { Quarter, Report, ReportState, Kpi, FinancialStatus } from '@interfaces/report.interface';
+import {
+  IsDate,
+  IsEnum,
+  IsMongoId,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+  ValidateNested,
+} from 'class-validator';
+import { Quarter, Report, ReportState } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
 import MilestoneDTO from '@dtos/MilestoneDTO';
@@ -92,6 +102,19 @@ class ReportDTO implements Report {
   @IsOptional()
   @Type(() => FinancialStatusDTO)
   finance: FinancialStatusDTO;
+
+  @IsOptional()
+  @IsMongoId()
+  financialAnalyst: string;
+
+  @IsOptional()
+  @IsString()
+  financialNotes: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  approvedAt: Date;
 }
 
 export default ReportDTO;

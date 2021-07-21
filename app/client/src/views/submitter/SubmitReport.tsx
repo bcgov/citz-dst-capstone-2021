@@ -200,7 +200,7 @@ const SubmitReport: React.FC = () => {
   const handleSubmit = () => {
     const update = {
       ...report,
-      state: ReportState.Review,
+      state: ReportState.ReadyToSubmit,
     };
     if (report.submitter) {
       const submitter = (report.submitter as User).id;

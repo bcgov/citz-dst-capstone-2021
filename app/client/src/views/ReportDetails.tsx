@@ -39,7 +39,9 @@ import StatusSummaryCard from '../components/reports/StatusSummaryCard';
 import CurrentFYFinanceTable from '../components/reports/CurrentFYFinanceTable';
 import OverallProjectFinanceTable from '../components/reports/OverallProjectFinanceTable';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
-import ReviewerPanel from '../components/reports/ReviewerPanel'
+import ReviewerPanel from '../components/reports/ReviewerPanel';
+import emitter from "../events/Emitter";
+import EventType from "../events/Events";
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -73,7 +75,7 @@ const allyProps = (index: any) => {
   };
 };
 
-const ReportDetails: React.FC<ReportDetailsProps> = (props) => {
+const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const { user } = props;
   const [tabValue, setTabValue] = React.useState(0);
   const [report, setReport] = React.useState({} as Report);
@@ -86,17 +88,27 @@ const ReportDetails: React.FC<ReportDetailsProps> = (props) => {
     setTabValue(newValue);
   };
 
+  const loadReport = () => {
+    return api
+      .getReport(reportId)
+      .then(reportData => {
+        setReport(reportData);
+        return api.getProject(reportData.projectId);
+      })
+      .then(projectData => setProject(projectData));;
+  };
+
   useEffect(() => {
     if (!report.id) {
-      api
-        .getReport(reportId)
-        .then(reportData => {
-          setReport(reportData);
-          return api.getProject(reportData.projectId);
-        })
-        .then(projectData => setProject(projectData));
+      loadReport().then(() => {
+        emitter.on(EventType.Report.Reload, loadReport);
+      });
     }
-  });
+    return () => {
+      emitter.off(EventType.Report.Reload);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // TODO: (Samara) fix margins around headings; currently not enough whitespace
   const getStatusSummaryStep = () => {
@@ -182,16 +194,15 @@ const ReportDetails: React.FC<ReportDetailsProps> = (props) => {
         id: report.id,
         state: ReportState.Submitted,
         submitter: user.id,
-        submittedAt: new Date(),
       };
-      api.updateReport(update).then(setReport);
+      api.submitReport(update).then(setReport);
     } else {
       history.push('/login');
     }
   };
 
   const handleClick = () => {
-    if (report.state === ReportState.Review) {
+    if (report.state === ReportState.ReadyToSubmit) {
       submit();
     } else {
       history.push(`/submit-report/${report.projectId}`);
@@ -203,15 +214,22 @@ const ReportDetails: React.FC<ReportDetailsProps> = (props) => {
     return (
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Typography variant="subtitle2">Submitted by </Typography>
-        <Box px={1}><Typography variant="subtitle1">{firstName} {lastName}</Typography></Box>
-        <Typography variant="subtitle2">at {report.submittedAt ? new Date(report.submittedAt).toLocaleDateString('en-CA') : ''}</Typography>
+        <Box px={1}>
+          <Typography variant="subtitle1">
+            {firstName} {lastName}
+          </Typography>
+        </Box>
+        <Typography variant="subtitle2">
+          at {report.submittedAt ? new Date(report.submittedAt).toLocaleDateString('en-CA') : ''}
+        </Typography>
       </Box>
-    )
+    );
   };
 
   return (
     <Container maxWidth="lg">
-      {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>}
+      {/* {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>} */}
+      <ReviewerPanel report={report} />
       <Box
         display="flex"
         alignItems="center"

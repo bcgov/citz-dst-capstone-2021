@@ -15,7 +15,7 @@
  */
 
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
-import { Milestone, Report, Quarter } from '@interfaces/report.interface';
+import { Milestone, Report } from '@interfaces/report.interface';
 import ReportModel from '@models/ReportModel';
 import ProjectModel from '@models/ProjectModel';
 import ReportDTO from '@dtos/ReportDTO';
@@ -27,9 +27,7 @@ import KpiDTO from '@dtos/KpiDTO';
 
 const ReportService = {
   async findAllReports(last: boolean, params?: Record<string, any>): Promise<Report[]> {
-    let query = ReportModel.find(params)
-      .populate({ path: 'submitter' })
-      .populate('project');
+    let query = ReportModel.find(params).populate({ path: 'submitter' }).populate('project');
     if (last) {
       query = query.sort({ createdAt: -1 }).limit(1);
     }
@@ -38,7 +36,10 @@ const ReportService = {
   },
 
   async findReport(id: string): Promise<Report> {
-    const report: Report = await ReportModel.findById(id).populate({ path: 'submitter' });
+    const report: Report = await ReportModel.findById(id)
+      .populate({ path: 'submitter' })
+      .populate({ path: 'financialAnalyst' })
+      .populate('project');
     return report;
   },
 
@@ -51,7 +52,7 @@ const ReportService = {
     const { year, quarter } = input;
     const report: Report = await ReportModel.findOne({ projectId, year, quarter });
     if (report) {
-      throw errorWithCode(`The report exits`, 409);
+      throw errorWithCode(`The report exists`, 409);
     }
 
     return ReportModel.create(input);
@@ -66,7 +67,9 @@ const ReportService = {
   },
 
   async updateReport(id: string, input: ReportDTO): Promise<Report> {
-    const report = await ReportModel.findByIdAndUpdate(id, input, { new: true }).lean();
+    const report = await ReportModel
+      .findByIdAndUpdate(id, input, { new: true })
+      .populate('project');
     if (!report) {
       throw errorWithCode(`Unable to update report`, 500);
     }

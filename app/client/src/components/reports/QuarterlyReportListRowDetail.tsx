@@ -15,9 +15,9 @@
 //
 
 import React from 'react';
-import { Box, Button, Grid, Typography } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { Report, ReportState, User } from '../../types';
+import {Box, Button, Grid, Typography} from '@material-ui/core';
+import {useHistory} from 'react-router-dom';
+import {Report, ReportState, User} from '../../types';
 
 interface QuarterlyReportListRowDetailProps {
   report: Report;
@@ -69,8 +69,10 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
             Continue Report
           </Button>
         );
-        case ReportState.Submitted:
-        case ReportState.Review:
+      case ReportState.Submitted:
+      case ReportState.ReadyToSubmit:
+      case ReportState.Approved:
+      case ReportState.FollowUpRequired:
         return (
           <Button
             variant="contained"
@@ -98,7 +100,9 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
       case ReportState.Draft:
         return getDetailsIncompleteReport();
       case ReportState.Submitted:
-      case ReportState.Review:
+      case ReportState.ReadyToSubmit:
+      case ReportState.Approved:
+      case ReportState.FollowUpRequired:
         return getDetailsCompleteReport();
       default:
         return 'Start Report';
