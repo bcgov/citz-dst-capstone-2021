@@ -143,7 +143,9 @@ const NewObjectiveForm: React.FC<NewObjectiveFormProps> = props => {
                   value={estEndDate}
                   error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
                   helperText={touched.estimatedEnd && errors.estimatedEnd}
+                  onBlur={handleBlur}
                   onChange={date => {
+                    formik.setTouched({ estimatedEnd: true });
                     if (date && !date.invalid) {
                       setEstEndDate(date);
                       formik.setFieldValue('estimatedEnd', date.toLocaleString());

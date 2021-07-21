@@ -109,9 +109,11 @@ const ReportDetails: React.FC<Props> = (props) => {
             return <StatusSummaryCard status={status} />;
           })}
         </Grid>
-        <Typography variant="h5" gutterBottom>
-          Key Performance Indicators
-        </Typography>
+        <Box my={3}>
+          <Typography variant="h5" gutterBottom>
+            Key Performance Indicators
+          </Typography>
+        </Box>
         <Grid container spacing={2}>
           {report.kpis.map(kpi => {
             return <KPIItem kpi={kpi} useGrid />;

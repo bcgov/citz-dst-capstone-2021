@@ -15,9 +15,10 @@
 //
 
 import React from 'react';
-import { Box, GridList, GridListTile, IconButton, Paper, Typography } from '@material-ui/core';
+import { Box, GridList, GridListTile, IconButton, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+
 import { Milestone } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
@@ -86,11 +87,11 @@ const MilestoneItem: React.FC<MilestoneItemProps> = props => {
           </GridListTile>
           <GridListTile cols={1}>
             <Box p={1}>
-              <Box display="flex" justifyContent="space-between" mb={1}>
-                <Typography variant="subtitle1">Comments</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="body1">{comments}</Typography>
+              <Typography variant="subtitle1">Comments</Typography>
+              <Box overflow="auto" height="100px">
+                <Typography variant="body1" display="block">
+                  {comments}
+                </Typography>
               </Box>
             </Box>
           </GridListTile>

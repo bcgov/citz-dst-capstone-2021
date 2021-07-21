@@ -107,7 +107,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                 helperText={touched.name && errors.name}
               />
             </Box>
-            <Box display="flex" justifyContent="space-between" mt={3}>
+            <Box display="flex" justifyContent="space-between" mt={3} alignItems="center" minHeight="80px">
               <Box mr={2}>
                 <KeyboardDatePicker
                   autoOk
@@ -119,7 +119,11 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                   name="start"
                   label="Start"
                   value={startDate}
+                  error={touched.start && Boolean(errors.start)}
+                  helperText={touched.start && errors.start}
+                  onBlur={handleBlur}
                   onChange={date => {
+                    formik.setTouched({ start: true });
                     if (date && !date.invalid) {
                       setStartDate(date);
                       formik.setFieldValue('start', date.toLocaleString());
@@ -128,8 +132,6 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                       formik.setFieldValue('start', '');
                     }
                   }}
-                  error={Boolean(errors.start)}
-                  helperText={errors.start}
                 />
               </Box>
               <Box ml={2}>
@@ -143,7 +145,11 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                   name="estimatedEnd"
                   label="Planned Finish Date"
                   value={estEndDate}
+                  error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
+                  helperText={touched.estimatedEnd && errors.estimatedEnd}
+                  onBlur={handleBlur}
                   onChange={date => {
+                    formik.setTouched({ estimatedEnd: true });
                     if (date && !date.invalid) {
                       setEstEndDate(date);
                       formik.setFieldValue('estimatedEnd', date.toLocaleString());
@@ -152,14 +158,13 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                       formik.setFieldValue('estimatedEnd', '');
                     }
                   }}
-                  error={Boolean(errors.estimatedEnd)}
-                  helperText={errors.estimatedEnd}
                 />
               </Box>
             </Box>
             <Box mt={2}>
               <TextField
                 fullWidth
+                multiline
                 id="comments"
                 name="comments"
                 label="Comments"
@@ -180,6 +185,7 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                     name="progress"
                     label="Progress"
                     type="number"
+                    inputProps={{ min: 0, max: 100 }}
                     value={values.progress}
                     onChange={handleChange}
                     onBlur={handleBlur}
