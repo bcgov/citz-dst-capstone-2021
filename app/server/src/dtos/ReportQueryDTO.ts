@@ -1,18 +1,7 @@
 import { IsBooleanString, IsEnum, IsMongoId, IsNumberString, IsOptional } from 'class-validator';
-import { Quarter } from '@interfaces/report.interface';
+import ReportDTO from '@dtos/ReportDTO';
 
-class ReportQueryDTO {
-  @IsMongoId()
-  projectId: string;
-
-  @IsOptional()
-  @IsNumberString()
-  year: number;
-
-  @IsOptional()
-  @IsEnum(Quarter)
-  quarter: Quarter;
-
+class ReportQueryDTO extends ReportDTO {
   @IsOptional()
   @IsBooleanString()
   last: boolean;

@@ -37,21 +37,13 @@ class ProjectsRoute implements Route {
     this.router
       .route('/')
       .get(ProjectsController.getProjects)
-      .post(
-        passport.authenticate('jwt', { session: false }),
-        validationMiddleware(ProjectCreateDTO, 'body'),
-        ProjectsController.createProject,
-      );
+      .post(validationMiddleware(ProjectCreateDTO, 'body'), ProjectsController.createProject);
 
     this.router
       .route('/:id')
       .get(ProjectsController.getProjectDetail)
       .delete(ProjectsController.deleteProject)
-      .patch(
-        passport.authenticate('jwt', { session: false }),
-        validationMiddleware(ProjectDTO, 'body', true),
-        ProjectsController.updateProject,
-      );
+      .patch(validationMiddleware(ProjectDTO, 'body', true), ProjectsController.updateProject);
   }
 }
 

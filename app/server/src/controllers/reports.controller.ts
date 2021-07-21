@@ -27,19 +27,10 @@ import { getNextReport } from '@utils/reportUtils';
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
     try {
-      const { projectId, year, quarter, last } = req.query;
-      if (!projectId) {
-        res.status(400).send('Bad request');
-      } else {
-        const data: Report[] = await ReportService.findAllReports(
-          projectId as string,
-          +year,
-          quarter as Quarter,
-          !!last,
-        );
-        res.status(200).json(data);
-      }
-      next();
+      const { last, ...params } = req.query;
+
+      const data: Report[] = await ReportService.findAllReports(!!last, params);
+      res.status(200).json(data);
     } catch (e) {
       next(e);
     }
