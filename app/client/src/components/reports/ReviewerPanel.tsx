@@ -79,7 +79,7 @@ const ReviewerPanel: React.FC = () => {
         </Box>
         <FormControl margin="normal" fullWidth>
           <Box width={theme.reviewerPanel.width} m={3}>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box mb={2} display="flex" justifyContent="space-between" alignItems="center">
               <Box width="45%" justifyContent="center">
                 <FormControl margin="normal" fullWidth>
                   <InputLabel>Set Status</InputLabel>
@@ -99,7 +99,7 @@ const ReviewerPanel: React.FC = () => {
                   </Select>
                 </FormControl>
               </Box>
-              <Box m="16px auto 0px auto" width="50%" justifyContent="center">
+              <Box mt={2} width="50%" justifyContent="center">
                 <Button
                   color="primary"
                   variant="contained"
