@@ -61,7 +61,7 @@ const StatusButton: React.FC<StatusButtonProps> = props => {
     <Button
       variant="contained"
       size="small"
-      style={{ borderRadius: '16px' }}
+      style={{ borderRadius: '16px', padding: '0px 15px' }}
       className={statusStyle}
     >
       {text}

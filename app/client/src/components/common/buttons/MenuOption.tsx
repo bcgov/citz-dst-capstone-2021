@@ -21,8 +21,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
-import EmailIcon from '@material-ui/icons/Email';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 import InfoIcon from '@material-ui/icons/Info';
 
 const StyledButton = styled(Button)`
@@ -46,10 +45,8 @@ const getIcon = (iconName: string) => {
       return <AccountCircleIcon fontSize="large" />;
     case 'SettingsIcon':
       return <SettingsIcon fontSize="large" />;
-    case 'EmailIcon':
-      return <EmailIcon fontSize="large" />;
-    case 'CalendarTodayIcon':
-      return <CalendarTodayIcon fontSize="large" />;
+    case 'EventNoteIcon':
+      return <EventNoteIcon fontSize="large" />;
     case 'InfoIcon':
       return <InfoIcon fontSize="large" />;
     default:

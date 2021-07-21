@@ -214,6 +214,10 @@ export interface Report {
   kpis: Kpi[];
 }
 
+export interface SubmittedReport extends Report {
+  project: Project;
+}
+
 export interface Kpi {
   id?: string;
   name: string;
