@@ -102,6 +102,9 @@ const theme = {
       margin: 'auto',
     },
   },
+  reviewerPanel: {
+    width: '300px'
+  }
 };
 
 export default theme;
