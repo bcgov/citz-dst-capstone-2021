@@ -109,7 +109,11 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
           <GridListTile cols={1}>
             <Box p={1}>
               <Typography variant="subtitle1">Comments</Typography>
-              <Typography variant="body1">{comments}</Typography>
+              <Box overflow="auto" height="100px">
+                <Typography variant="body1" display="block">
+                  {comments}
+                </Typography>
+              </Box>
             </Box>
           </GridListTile>
         </GridList>
