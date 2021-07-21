@@ -118,4 +118,11 @@ const ReportModel: Schema<Report> = new Schema(
   },
 );
 
+ReportModel.virtual('project', {
+  ref: 'Project',
+  localField: 'projectId',
+  foreignField: '_id',
+  justOne: true,
+});
+
 export default model<Report & Document>('Report', ReportModel);
