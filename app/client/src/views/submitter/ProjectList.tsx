@@ -56,9 +56,12 @@ const ProjectList: React.FC<ProjectListProps> = () => {
 
   useEffect(() => {
     // TODO: (nick) user should be passed to fetch projects owned by the user
-    api.getProjects().then(data => {
-      setProjects(data);
-    });
+    api
+      .getProjects()
+      .then(data => {
+        setProjects(data);
+      })
+      .catch(console.log);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

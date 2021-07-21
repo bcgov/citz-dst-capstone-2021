@@ -44,7 +44,7 @@ export default {
       if (!user) throw errorWithCode(`user not found`, 409);
       return user.verifyPassword(userData.password).then(result => {
         if (result) {
-          const tokenData = this.createToken(user, 10 * 60 * 1000);
+          const tokenData = this.createToken(user, config.get('auth_timeout') || 600); // 10 minutes
           return { user, ...tokenData };
         }
         throw errorWithCode(`user not found`, 409);
@@ -65,7 +65,7 @@ export default {
 
   /**
    * @param user
-   * @param expiresIn milliseconds
+   * @param expiresIn seconds
    */
   createToken(user: User, expiresIn: number): TokenData {
     const dataStoredInToken: DataStoredInToken = { id: user.id };
