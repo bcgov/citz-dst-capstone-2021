@@ -13,7 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import {
   Box,
   Button,
@@ -27,9 +28,8 @@ import {
 } from '@material-ui/core';
 
 import { useHistory, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 import useApi from '../utils/api';
-import { Project, Report, ReportState, StoreState, User } from '../types';
+import { Report, Project, StoreState, User, Role, ReportState } from '../types';
 import { reportDetailTabs } from '../constants';
 import { getReportingPeriodEnd, getReportingPeriodStart } from '../utils/dateUtils';
 import KPIItem from '../components/projects/KPIItem';
@@ -39,12 +39,17 @@ import StatusSummaryCard from '../components/reports/StatusSummaryCard';
 import CurrentFYFinanceTable from '../components/reports/CurrentFYFinanceTable';
 import OverallProjectFinanceTable from '../components/reports/OverallProjectFinanceTable';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
+import ReviewerPanel from '../components/reports/ReviewerPanel'
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
   children?: React.ReactNode;
   index: any;
   value: any;
+}
+
+interface ReportDetailsProps {
+  user: User;
 }
 
 const TabPanel = (props: TabPanelProps) => {
@@ -68,11 +73,7 @@ const allyProps = (index: any) => {
   };
 };
 
-type Props = {
-  user: User;
-};
-
-const ReportDetails: React.FC<Props> = (props) => {
+const ReportDetails: React.FC<ReportDetailsProps> = (props) => {
   const { user } = props;
   const [tabValue, setTabValue] = React.useState(0);
   const [report, setReport] = React.useState({} as Report);
@@ -208,6 +209,7 @@ const ReportDetails: React.FC<Props> = (props) => {
 
   return (
     <Container maxWidth="lg">
+      {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>}
       <Box
         display="flex"
         alignItems="center"

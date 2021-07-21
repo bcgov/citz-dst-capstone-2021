@@ -48,7 +48,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
           {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="center">
-          {row.state !== undefined ? String(ReportState[row.state]) : "N/A"}
+          {row.state || row.state === ReportState.Draft ? String(ReportState[row.state]) : 'N/A'}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="right">
           {getReportingPeriodStart(row.year, row.quarter).toLocaleDateString('en-CA')}
