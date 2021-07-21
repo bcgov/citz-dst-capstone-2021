@@ -84,7 +84,7 @@ const ProjectDetails: React.FC = () => {
   const loadProject = (): Promise<void> => {
     return api.getProjectDetail(cps).then(data => {
       return setProject(data);
-    });
+    }).catch(console.log);
   };
 
   // data is projectId or Report object
@@ -103,7 +103,8 @@ const ProjectDetails: React.FC = () => {
                 setLastReport(reportsData[0]);
               }
             });
-          });
+          })
+          .catch(console.log);
       } else {
         // data should be the last report
         setLastReport(data);

@@ -6,5 +6,6 @@
       "port": 27017
   },
   "apiUrl": "*",
-  "secretKey": "secretKey"
+  "secretKey": "secretKey",
+  "auth_timeout": 600
 }

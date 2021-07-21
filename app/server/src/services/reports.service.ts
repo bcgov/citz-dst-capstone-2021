@@ -27,7 +27,9 @@ import KpiDTO from '@dtos/KpiDTO';
 
 const ReportService = {
   async findAllReports(last: boolean, params?: Record<string, any>): Promise<Report[]> {
-    let query = ReportModel.find(params).populate({ path: 'submitter' });
+    let query = ReportModel.find(params)
+      .populate({ path: 'submitter' })
+      .populate('project');
     if (last) {
       query = query.sort({ createdAt: -1 }).limit(1);
     }
