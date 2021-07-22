@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   Box,
@@ -26,12 +26,13 @@ import {
   Tabs,
   Typography,
 } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import { useHistory, useParams } from 'react-router-dom';
 import useApi from '../utils/api';
 import { Report, Project, StoreState, User, Role, ReportState } from '../types';
 import { reportDetailTabs } from '../constants';
-import { getReportingPeriodEnd, getReportingPeriodStart } from '../utils/dateUtils';
+import { getReportingPeriodEnd, getReportingPeriodStart, getFiscalYearString } from '../utils/dateUtils';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
 import MilestoneItem from '../components/projects/MilestoneItem';
@@ -110,7 +111,6 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO: (Samara) fix margins around headings; currently not enough whitespace
   const getStatusSummaryStep = () => {
     return (
       <>
@@ -230,6 +230,11 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
 
   return (
     <Container maxWidth="lg">
+      <Box display="flex" justifyContent="flex-end">
+        <Button variant="outlined" color="primary" onClick={() => {alert('TODO: implement CSV export')}}>
+          <GetAppIcon /> Download CSV
+        </Button>
+      </Box>
       <Box
         display="flex"
         alignItems="center"
@@ -238,11 +243,16 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         m={4}
         pr={4}
       >
-        <Typography variant="h5">
-          Reporting Period From{' '}
-          {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} -{' '}
-          {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}
-        </Typography>
+        <Box>
+          <Typography variant="h5">
+            {report.quarter} FY {getFiscalYearString(report.year, report.quarter)} Status Report - {project.name}
+          </Typography>
+          <Typography variant="subtitle2">
+            Reporting Period From{' '}
+            {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} to{' '}
+            {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}
+          </Typography>
+        </Box>
         {report.state >= ReportState.Submitted ? (
           getSubmissionInfo()
         ) : (
