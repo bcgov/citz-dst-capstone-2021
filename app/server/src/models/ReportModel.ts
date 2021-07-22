@@ -15,12 +15,11 @@
  */
 
 import { Document, model, Schema } from 'mongoose';
-import { FinancialStatus, Quarter, Report, ReportState } from '@interfaces/report.interface';
+import { Quarter, Report, ReportState } from '@interfaces/report.interface';
 import { KpiSchema } from '@models/KpiModel';
 import { MilestoneSchema } from '@models/MilestoneModel';
 import { ObjectiveSchema } from '@models/ObjectiveModel';
 import { ReportStatusSchema } from '@models/ReportStatusModel';
-import FinancialStatusDTO from '@dtos/FinancialStatusDTO';
 
 const Finance = {
   budget: {
@@ -98,6 +97,16 @@ const ReportModel: Schema<Report> = new Schema(
     finance: {
       type: Finance,
     },
+    financialAnalyst: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    financialNotes: {
+      type: String,
+    },
+    approvedAt: {
+      type: Date,
+    },
     milestones: [MilestoneSchema],
     objectives: [ObjectiveSchema],
     statuses: [ReportStatusSchema],
@@ -117,5 +126,12 @@ const ReportModel: Schema<Report> = new Schema(
     toObject: { virtuals: true },
   },
 );
+
+ReportModel.virtual('project', {
+  ref: 'Project',
+  localField: 'projectId',
+  foreignField: '_id',
+  justOne: true,
+});
 
 export default model<Report & Document>('Report', ReportModel);

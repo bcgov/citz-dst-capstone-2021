@@ -97,7 +97,7 @@ export const getInitialReport = (
     year,
     milestones,
     objectives,
-    kpis,
+    kpis
   };
   return report;
 };

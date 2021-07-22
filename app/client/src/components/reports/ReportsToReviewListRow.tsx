@@ -19,24 +19,21 @@ import { Box, Collapse, IconButton, TableCell, TableRow } from "@material-ui/cor
 import { Link } from 'react-router-dom';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
-import useApi from '../../utils/api';
 import {
   getFiscalYearString,
-  getReportingPeriodStart,
-  getReportingPeriodEnd,
 } from '../../utils/dateUtils';
-import { Report, ReportState, User } from '../../types';
-import QuarterlyReportListRowDetail from './QuarterlyReportListRowDetail';
+import {Report, User} from '../../types';
+import ReportsToReviewListRowDetail from './ReportsToReviewListRowDetail';
 
 const StyledTableCell = styled(TableCell)`
   padding: 4px 8px !important;
 `;
 
-interface QuarterlyReportListRowProps {
+interface ReportsToReviewListRowProps {
   report: Report;
 }
 
-const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) => {
+const ReportsToReviewListRow: React.FC<ReportsToReviewListRowProps> = (props) => {
   const { report: row } = props;
   const submitter = row.submitter as User | undefined;
   const [collapse, setCollapse] = useState(true);
@@ -45,16 +42,20 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
     <>
       <TableRow key={row.id}>
         <StyledTableCell component="th" scope="row">
+          {row.project?.name} {row.quarter} {row.year}
+        </StyledTableCell>
+        <StyledTableCell component="th" scope="row" align="left">
+          {row.project?.cpsIdentifier}
+        </StyledTableCell>
+        <StyledTableCell component="th" scope="row" align="left">
           {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="center">
-          {row.state || row.state === ReportState.Draft ? String(ReportState[row.state]) : 'N/A'}
+          {/* TODO: display flagged issues when implementing issue tracking system */}
+          0
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="right">
-          {getReportingPeriodStart(row.year, row.quarter).toLocaleDateString('en-CA')}
-        </StyledTableCell>
-        <StyledTableCell component="th" scope="row" align="right">
-          {getReportingPeriodEnd(row.year, row.quarter).toLocaleDateString('en-CA')}
+          {row.submittedAt ? new Date(row.submittedAt).toLocaleDateString('en-CA') : '-'}
         </StyledTableCell>
         <StyledTableCell align="right">
           <IconButton onClick={() => setCollapse(!collapse)}>
@@ -66,7 +67,7 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
         <TableCell colSpan={12}>
           <Collapse in={!collapse}>
             <Box my={1}>
-              <QuarterlyReportListRowDetail report={row} submitter={submitter} />
+              <ReportsToReviewListRowDetail report={row} submitter={submitter} />
             </Box>
           </Collapse>
         </TableCell>
@@ -75,4 +76,4 @@ const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) =>
   );
 };
 
-export default QuarterlyReportListRow;
+export default ReportsToReviewListRow;

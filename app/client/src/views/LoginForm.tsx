@@ -21,15 +21,18 @@ import { connect } from 'react-redux';
 import { Box, Button, Container, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import TextField from '@material-ui/core/TextField';
-import { login } from '../actions';
+import { login, logout } from '../actions';
 import { validateLogin } from '../utils/validationSchema';
+import useApi from '../utils/api';
 
 interface LoginProps {
   login: any;
+  logout: any;
 }
 
 const LoginForm: React.FC<LoginProps> = props => {
   const history = useHistory();
+  const api = useApi();
 
   const formik = useFormik({
     initialValues: {
@@ -39,6 +42,24 @@ const LoginForm: React.FC<LoginProps> = props => {
     validationSchema: validateLogin,
     onSubmit: values => {
       props.login(values).then(() => {
+        api.hookError(
+          response => {
+            if (response.status === 401) {
+              props.logout().finally(() => {
+                history.push('/login');
+              });
+            }
+            return response;
+          },
+          error => {
+            console.error(error);
+            if (error?.response?.status === 401) {
+              props.logout().finally(() => {
+                history.push('/login');
+              });
+            }
+          },
+        );
         history.push('/');
       });
     },
@@ -99,4 +120,4 @@ const LoginForm: React.FC<LoginProps> = props => {
   );
 };
 
-export default connect(null, { login })(LoginForm);
+export default connect(null, { login, logout })(LoginForm);

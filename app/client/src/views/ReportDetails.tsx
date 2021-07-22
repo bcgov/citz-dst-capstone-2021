@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   Box,
   Button,
@@ -25,13 +26,13 @@ import {
   Tabs,
   Typography,
 } from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import { useHistory, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 import useApi from '../utils/api';
-import { Project, Report, ReportState, StoreState, User } from '../types';
+import { Report, Project, StoreState, User, Role, ReportState } from '../types';
 import { reportDetailTabs } from '../constants';
-import { getReportingPeriodEnd, getReportingPeriodStart } from '../utils/dateUtils';
+import { getReportingPeriodEnd, getReportingPeriodStart, getFiscalYearString } from '../utils/dateUtils';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
 import MilestoneItem from '../components/projects/MilestoneItem';
@@ -39,12 +40,19 @@ import StatusSummaryCard from '../components/reports/StatusSummaryCard';
 import CurrentFYFinanceTable from '../components/reports/CurrentFYFinanceTable';
 import OverallProjectFinanceTable from '../components/reports/OverallProjectFinanceTable';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
+import ReviewerPanel from '../components/reports/ReviewerPanel';
+import emitter from '../events/Emitter';
+import EventType from '../events/Events';
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
   children?: React.ReactNode;
   index: any;
   value: any;
+}
+
+interface ReportDetailsProps {
+  user: User;
 }
 
 const TabPanel = (props: TabPanelProps) => {
@@ -68,11 +76,7 @@ const allyProps = (index: any) => {
   };
 };
 
-type Props = {
-  user: User;
-};
-
-const ReportDetails: React.FC<Props> = (props) => {
+const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const { user } = props;
   const [tabValue, setTabValue] = React.useState(0);
   const [report, setReport] = React.useState({} as Report);
@@ -85,19 +89,28 @@ const ReportDetails: React.FC<Props> = (props) => {
     setTabValue(newValue);
   };
 
+  const loadReport = () => {
+    return api
+      .getReport(reportId)
+      .then(reportData => {
+        setReport(reportData);
+        return api.getProject(reportData.projectId);
+      })
+      .then(projectData => setProject(projectData));
+  };
+
   useEffect(() => {
     if (!report.id) {
-      api
-        .getReport(reportId)
-        .then(reportData => {
-          setReport(reportData);
-          return api.getProject(reportData.projectId);
-        })
-        .then(projectData => setProject(projectData));
+      loadReport().then(() => {
+        emitter.on(EventType.Report.Reload, loadReport);
+      });
     }
-  });
+    return () => {
+      emitter.off(EventType.Report.Reload);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // TODO: (Samara) fix margins around headings; currently not enough whitespace
   const getStatusSummaryStep = () => {
     return (
       <>
@@ -109,9 +122,11 @@ const ReportDetails: React.FC<Props> = (props) => {
             return <StatusSummaryCard status={status} />;
           })}
         </Grid>
-        <Typography variant="h5" gutterBottom>
-          Key Performance Indicators
-        </Typography>
+        <Box my={3}>
+          <Typography variant="h5" gutterBottom>
+            Key Performance Indicators
+          </Typography>
+        </Box>
         <Grid container spacing={2}>
           {report.kpis.map(kpi => {
             return <KPIItem kpi={kpi} useGrid />;
@@ -124,6 +139,8 @@ const ReportDetails: React.FC<Props> = (props) => {
   const renderTabs = () => {
     return (
       <>
+        {/* {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>} */}
+        <ReviewerPanel report={report} />
         <Paper>
           <Tabs
             value={tabValue}
@@ -179,16 +196,15 @@ const ReportDetails: React.FC<Props> = (props) => {
         id: report.id,
         state: ReportState.Submitted,
         submitter: user.id,
-        submittedAt: new Date(),
       };
-      api.updateReport(update).then(setReport);
+      api.submitReport(update).then(setReport);
     } else {
       history.push('/login');
     }
   };
 
   const handleClick = () => {
-    if (report.state === ReportState.Review) {
+    if (report.state === ReportState.ReadyToSubmit) {
       submit();
     } else {
       history.push(`/submit-report/${report.projectId}`);
@@ -200,14 +216,25 @@ const ReportDetails: React.FC<Props> = (props) => {
     return (
       <Box display="flex" justifyContent="flex-end" alignItems="center">
         <Typography variant="subtitle2">Submitted by </Typography>
-        <Box px={1}><Typography variant="subtitle1">{firstName} {lastName}</Typography></Box>
-        <Typography variant="subtitle2">at {report.submittedAt ? new Date(report.submittedAt).toLocaleDateString('en-CA') : ''}</Typography>
+        <Box px={1}>
+          <Typography variant="subtitle1">
+            {firstName} {lastName}
+          </Typography>
+        </Box>
+        <Typography variant="subtitle2">
+          at {report.submittedAt ? new Date(report.submittedAt).toLocaleDateString('en-CA') : ''}
+        </Typography>
       </Box>
-    )
+    );
   };
 
   return (
     <Container maxWidth="lg">
+      <Box display="flex" justifyContent="flex-end">
+        <Button variant="outlined" color="primary" onClick={() => {alert('TODO: implement CSV export')}}>
+          <GetAppIcon /> Download CSV
+        </Button>
+      </Box>
       <Box
         display="flex"
         alignItems="center"
@@ -216,12 +243,17 @@ const ReportDetails: React.FC<Props> = (props) => {
         m={4}
         pr={4}
       >
-        <Typography variant="h5">
-          Reporting Period From{' '}
-          {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} -{' '}
-          {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}
-        </Typography>
-        {report.state === ReportState.Submitted ? (
+        <Box>
+          <Typography variant="h5">
+            {report.quarter} FY {getFiscalYearString(report.year, report.quarter)} Status Report - {project.name}
+          </Typography>
+          <Typography variant="subtitle2">
+            Reporting Period From{' '}
+            {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} to{' '}
+            {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}
+          </Typography>
+        </Box>
+        {report.state >= ReportState.Submitted ? (
           getSubmissionInfo()
         ) : (
           <Button variant="contained" color="primary" onClick={handleClick}>

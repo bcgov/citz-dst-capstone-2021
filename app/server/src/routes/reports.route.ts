@@ -39,7 +39,7 @@ class ReportsRoute implements Route {
   private initializeRoutes() {
     this.router
       .route('/')
-      .get(validationMiddleware(ReportQueryDTO, 'query'), ReportController.getReports)
+      .get(validationMiddleware(ReportQueryDTO, 'query', true), ReportController.getReports)
       .post(validationMiddleware(ReportDTO, 'body'), ReportController.createReport);
 
     this.router
@@ -59,6 +59,9 @@ class ReportsRoute implements Route {
       .route('/:id/milestones/:mid')
       .delete(ReportController.deleteMilestone)
       .patch(validationMiddleware(MilestoneDTO, 'body', true), ReportController.updateMilestone);
+
+    // Actions for report
+    this.router.route('/:id/submit').patch(ReportController.submitReport);
 
     // Objective routes
     this.router.route('/:id/objectives').get(ReportController.getObjectives);

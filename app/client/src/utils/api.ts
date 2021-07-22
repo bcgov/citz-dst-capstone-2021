@@ -18,7 +18,6 @@ import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import assert from 'assert';
 
-import { useHistory } from 'react-router-dom';
 import {
   AuthRequest,
   AuthResponse,
@@ -50,23 +49,13 @@ export const setApiToken = (token: string): void => {
   } else {
     api.current = axios.create({ baseURL: API.BASE_URL() });
   }
-  // api.current.interceptors.response.use(
-  //   response => {
-  //     console.log(response);
-  //     if (response.status === 401) {
-  //       history.push('/');
-  //     }
-  //     return response;
-  //   },
-  //   error => {
-  //     console.log(error);
-  //     history.push('/');
-  //   },
-  // );
 };
 
 const useApi = () => {
   return {
+    hookError(responseCallback: (response: any) => any, errorCallback: (error: any) => void) {
+      api.current.interceptors.response.use(responseCallback, errorCallback);
+    },
     async login(authReq: AuthRequest): Promise<User> {
       if (!api.current) throw new Error('axios not set up');
       return api.current.post<AuthResponse>(`login`, authReq).then(({ data }) => {
@@ -122,9 +111,11 @@ const useApi = () => {
       return api.current.post(`projects`, project).then(({ data }) => data);
     },
 
-    getReports(projectId: string): Promise<Report[]> {
+    getReports(projectId?: string, options?: Record<string, any>): Promise<Report[]> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.get(`reports`, { params: { projectId } }).then(({ data }) => data);
+      const params = projectId ? { projectId } : {};
+      if (options) Object.assign(params, options);
+      return api.current.get(`reports`, { params }).then(({ data }) => data);
     },
 
     getReport(reportId: string): Promise<Report> {
@@ -143,7 +134,7 @@ const useApi = () => {
 
     updateReport(report: any): Promise<Report> {
       if (!api.current) throw new Error('axios not set up');
-      utils.removeProperties(report, 'createdAt', 'updatedAt');
+      utils.removeProperties(report, 'createdAt', 'updatedAt', 'project');
       return api.current.patch(`reports/${report.id}`, report).then(({ data }) => data);
     },
 
@@ -181,18 +172,24 @@ const useApi = () => {
       return api.current.delete(`projects/${id}`).then(({ data }) => data);
     },
 
-    createKpi(reportId: string, kpi: Kpi) {
+    createKpi(reportId: string, kpi: Kpi): Promise<Report> {
       assert(api.current);
       return api.current.post(`reports/${reportId}/kpis`, kpi).then(({ data }) => data);
     },
 
-    createObjective(reportId: string, objective: Objective) {
+    createObjective(reportId: string, objective: Objective): Promise<Report> {
       assert(api.current);
       return api.current.post(`reports/${reportId}/objectives`, objective).then(({ data }) => data);
     },
-    createMilestnoe(reportId: string, milestone: Milestone) {
+
+    createMilestone(reportId: string, milestone: Milestone): Promise<Report> {
       assert(api.current);
       return api.current.post(`reports/${reportId}/milestones`, milestone).then(({ data }) => data);
+    },
+
+    submitReport(report: any): Promise<Report> {
+      assert(api.current);
+      return api.current.patch(`reports/${report.id}/submit`, report).then(({ data }) => data);
     },
   };
 };

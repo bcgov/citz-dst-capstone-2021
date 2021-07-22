@@ -73,9 +73,8 @@ const Header: React.FC<HeaderProps> = props => {
     { label: 'Notifications', icon: 'NotificationsIcon', key: 0 },
     { label: 'Account', icon: 'AccountCircleIcon', key: 1 },
     { label: 'Settings', icon: 'SettingsIcon', key: 2 },
-    { label: 'Email', icon: 'EmailIcon', key: 3 },
-    { label: 'Calendar', icon: 'CalendarTodayIcon', key: 4 },
-    { label: 'About', icon: 'InfoIcon', key: 5 },
+    { label: 'Notice Board', icon: 'EventNoteIcon', key: 3 },
+    { label: 'About', icon: 'InfoIcon', key: 4 },
   ];
 
   const redirectLogin = () => {

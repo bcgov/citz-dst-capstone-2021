@@ -103,17 +103,17 @@ export const validateProjectIdentity = yup.object({
 
 export const validateMilestone = yup.object({
   name,
-  start: date,
-  estimatedEnd: date.min(yup.ref('start'), 'End date must be later than start'),
+  start: date.required(),
+  estimatedEnd: date.min(yup.ref('start'), 'End date must be later than start').required(),
   progress,
-  comments: textField,
+  comments: yup.string(),
 });
 
 export const validateObjective = yup.object({
   name,
   description: textField,
   status: yup.number(),
-  comments: textField.when('status', {
+  comments: yup.string().when('status', {
     is: (status: any) => status !== Status.Green,
     then: yup.string().required('You must enter comments when the status is not green'),
   }),
@@ -123,8 +123,7 @@ export const validateObjective = yup.object({
 export const validateKPI = yup.object({
   name,
   description: textField,
-  comments: textField,
-  start: date,
+  comments: yup.string(),
   unit: yup.string().required(),
   value: yup.number().when(['baseline', 'target'], {
     is: (baseline: number, target: number) => target > baseline,

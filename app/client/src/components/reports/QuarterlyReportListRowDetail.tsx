@@ -15,9 +15,9 @@
 //
 
 import React from 'react';
-import { Box, Button, Grid, Typography } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import { Report, ReportState, User } from '../../types';
+import {Box, Button, Grid, Typography} from '@material-ui/core';
+import {useHistory} from 'react-router-dom';
+import {Report, ReportState, User} from '../../types';
 
 interface QuarterlyReportListRowDetailProps {
   report: Report;
@@ -37,7 +37,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <strong>Report Submitted</strong>
         </Typography>
         <Typography variant="body2">
-          {report.submittedAt ? report.submittedAt : 'Not Submitted'}
+          {report.submittedAt ? new Date(report.submittedAt).toLocaleDateString('en-CA') : 'Not Submitted'}
         </Typography>
       </Box>
     );
@@ -58,21 +58,41 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
   };
 
   const getButton = (state: ReportState) => {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          if (state !== ReportState.Draft) {
-            history.push(`/view-report/${report.id}`);
-          } else {
-            history.push(`/submit-report/${report.projectId}`);
-          }
-        }}
-      >
-        {state !== ReportState.Draft ? 'View Report' : 'Start Report'}
-      </Button>
-    );
+    switch (state) {
+      case ReportState.Draft:
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push(`/submit-report/${report.projectId}`)}
+          >
+            Continue Report
+          </Button>
+        );
+      case ReportState.Submitted:
+      case ReportState.ReadyToSubmit:
+      case ReportState.Approved:
+      case ReportState.FollowUpRequired:
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push(`/view-report/${report.id}`)}
+          >
+            View Report
+          </Button>
+        );
+      default:
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => history.push(`/submit-report/${report.projectId}`)}
+          >
+            Start Report
+          </Button>
+        );
+    }
   };
 
   const getReportDetails = (state: ReportState) => {
@@ -80,7 +100,9 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
       case ReportState.Draft:
         return getDetailsIncompleteReport();
       case ReportState.Submitted:
-      case ReportState.Review:
+      case ReportState.ReadyToSubmit:
+      case ReportState.Approved:
+      case ReportState.FollowUpRequired:
         return getDetailsCompleteReport();
       default:
         return 'Start Report';
