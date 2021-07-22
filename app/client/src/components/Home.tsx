@@ -15,9 +15,39 @@
 //
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { StoreState, User, Role } from '../types';
 
-const Home = () => {
+interface HomeProps {
+  user: User;
+}
+
+const Home: React.FC<HomeProps> = props => {
+  const { user } = props;
+  const history = useHistory();
+  
+  // TODO: (Samara) replace this temporary redirect with a better solution
+  const RedirectUser = () => {
+    switch (user.role) {
+      case Role.FA:
+        history.push("/finance-analyst-dashboard");
+        break;
+      case Role.Submitter:
+      case Role.Executive:
+      case Role.Admin:
+      case Role.User:
+        history.push("/projects");
+        break;
+      default:
+        break;
+    }
+  }
+
+  if (user) {
+    RedirectUser();
+  }
+
   return (
     <div>
       <h1>Capstone2021 – RDSI Prototype</h1>
@@ -36,16 +66,12 @@ const Home = () => {
       <li> OCIO executive have access to key trend reports</li>
       <li>Users must login to gain access</li>
       <br />
-      <div>
-        <h3>
-          <Link to="/projects"> Submitter&apos;s Project List</Link>
-        </h3>
-        <h3>
-          <Link to="/finance-analyst-dashboard"> Finance Analyst&apos;s Dashboard</Link>
-        </h3>
-      </div>
     </div>
   );
 };
 
-export default Home;
+const mapState = ({ user }: StoreState): { user: User } => {
+  return { user };
+};
+
+export default connect(mapState)(Home);

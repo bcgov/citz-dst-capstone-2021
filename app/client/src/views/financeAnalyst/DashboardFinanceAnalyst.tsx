@@ -50,7 +50,7 @@ const DashboardFinanceAnalyst: React.FC = () => {
   }, []);
 
   return (
-    <Grid container spacing={2} md={12} justify="center">
+    <Grid container spacing={2} justify="center">
       <Grid item>
       <Typography variant="h3">Finance Analyst Dashboard</Typography>
       </Grid>
