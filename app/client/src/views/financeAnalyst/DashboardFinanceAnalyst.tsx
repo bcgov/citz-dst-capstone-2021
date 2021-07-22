@@ -21,6 +21,9 @@ import { connect } from 'react-redux';
 import { ReportState, Report } from '../../types';
 import useApi from '../../utils/api';
 
+/**
+ * Basic view to function as a dashboard to allow finance analyst to navigate application views
+ */
 const DashboardFinanceAnalyst: React.FC = () => {
   const history = useHistory();
   const api = useApi();
@@ -44,7 +47,8 @@ const DashboardFinanceAnalyst: React.FC = () => {
       setReportsApproved(data.length);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
+
   return (
     <Grid container spacing={2} md={12} justify="center">
       <Grid item>
@@ -77,7 +81,7 @@ const DashboardFinanceAnalyst: React.FC = () => {
               style={{margin: '4px'}}
               onClick={()=> alert('TODO: implement quarterly report summary view for current reporting period')}
             >
-              Q2 FY 20/21 Summary
+              Q1 FY 21/22 Summary
             </Button>
             <Button
               color="primary"
@@ -87,6 +91,15 @@ const DashboardFinanceAnalyst: React.FC = () => {
               onClick={()=> history.push("/review-reports")}
             >
               Review Reports
+            </Button>
+            <Button
+              color="primary"
+              variant="outlined"
+              type="button"
+              style={{margin: '4px'}}
+              onClick={()=> history.push("/projects")}
+            >
+              View All Projects
             </Button>
           </Grid>
         </Box>
