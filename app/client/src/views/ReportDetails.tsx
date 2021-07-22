@@ -139,6 +139,8 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const renderTabs = () => {
     return (
       <>
+        {/* {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>} */}
+        <ReviewerPanel report={report} />
         <Paper>
           <Tabs
             value={tabValue}
@@ -228,8 +230,6 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
 
   return (
     <Container maxWidth="lg">
-      {/* {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>} */}
-      <ReviewerPanel report={report} />
       <Box
         display="flex"
         alignItems="center"
@@ -243,7 +243,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
           {getReportingPeriodStart(report.year, report.quarter).toLocaleDateString('en-CA')} -{' '}
           {getReportingPeriodEnd(report.year, report.quarter).toLocaleDateString('en-CA')}
         </Typography>
-        {report.state === ReportState.Submitted ? (
+        {report.state >= ReportState.Submitted ? (
           getSubmissionInfo()
         ) : (
           <Button variant="contained" color="primary" onClick={handleClick}>
