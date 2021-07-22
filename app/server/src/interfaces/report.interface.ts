@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {User} from "../../../client/src/types";
+import {User} from "@interfaces/users.interface";
 
 export enum Quarter {
   Q1 = 'Q1',

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import {
   Box,
