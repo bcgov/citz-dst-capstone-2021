@@ -21,10 +21,8 @@ import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
 import {
   getFiscalYearString,
-  getReportingPeriodStart,
-  getReportingPeriodEnd,
 } from '../../utils/dateUtils';
-import { Project, SubmittedReport, ReportState, User } from '../../types';
+import {Report, User} from '../../types';
 import ReportsToReviewListRowDetail from './ReportsToReviewListRowDetail';
 
 const StyledTableCell = styled(TableCell)`
@@ -32,7 +30,7 @@ const StyledTableCell = styled(TableCell)`
 `;
 
 interface ReportsToReviewListRowProps {
-  report: SubmittedReport;
+  report: Report;
 }
 
 const ReportsToReviewListRow: React.FC<ReportsToReviewListRowProps> = (props) => {

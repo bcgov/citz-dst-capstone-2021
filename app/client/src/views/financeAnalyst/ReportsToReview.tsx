@@ -17,29 +17,26 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Container } from '@material-ui/core';
 import useApi from '../../utils/api';
-import { ReportState, SubmittedReport } from '../../types'
+import { ReportState, Report } from '../../types';
 import ReportsToReviewList from '../../components/reports/ReportsToReviewList';
 
 const ReportsToReview: React.FC = () => {
   const api = useApi();
-  const queryOptions = {state: ReportState.Submitted};
-  const [reports, setReports] = useState([] as SubmittedReport[]);
+  const queryOptions = { state: ReportState.Submitted };
+  const [reports, setReports] = useState([] as Report[]);
 
   useEffect(() => {
-    api
-      .getReports('', queryOptions)
-      .then(data => {
-        console.log(data);
-        setReports(data as SubmittedReport[]);
-      });
+    api.getReports('', queryOptions).then(data => {
+      setReports(data as Report[]);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <Container maxWidth="lg">
-      { reports.length > 0 ? <ReportsToReviewList reports={reports}/> : <CircularProgress /> }
+      {reports.length > 0 ? <ReportsToReviewList reports={reports} /> : <CircularProgress />}
     </Container>
   );
-}
+};
 
 export default ReportsToReview;

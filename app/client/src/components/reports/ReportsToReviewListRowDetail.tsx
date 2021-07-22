@@ -17,11 +17,11 @@
 import React from 'react';
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { SubmittedReport, User, Status } from '../../types';
+import {Report, User} from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
 interface ReportsToReviewListRowProps {
-  report: SubmittedReport;
+  report: Report;
   submitter: User | undefined;
 }
 

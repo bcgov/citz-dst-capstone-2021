@@ -40,8 +40,8 @@ import CurrentFYFinanceTable from '../components/reports/CurrentFYFinanceTable';
 import OverallProjectFinanceTable from '../components/reports/OverallProjectFinanceTable';
 import ProjectDetailsInfoStep from '../components/projects/ProjectDetailsInfoStep';
 import ReviewerPanel from '../components/reports/ReviewerPanel';
-import emitter from "../events/Emitter";
-import EventType from "../events/Events";
+import emitter from '../events/Emitter';
+import EventType from '../events/Events';
 
 interface TabPanelProps {
   // eslint-disable-next-line react/require-default-props
@@ -95,7 +95,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         setReport(reportData);
         return api.getProject(reportData.projectId);
       })
-      .then(projectData => setProject(projectData));;
+      .then(projectData => setProject(projectData));
   };
 
   useEffect(() => {
