@@ -15,23 +15,31 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper, IconButton } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
+import styled from '@emotion/styled';
+import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
 import { Project } from '../../types';
 import utils from '../../utils';
+
+const StyledHeader = styled(Box)`
+  background-color: #D5D5D5;
+  justify-content: space-between;
+  display: flex;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
 
 const ProjectProgressCard: React.FC<Project> = props => {
   const { phase, estimatedEnd, progress } = props;
 
   return (
     <Box boxShadow={2} borderRadius={4}>
-      <Box display="flex" justifyContent="space-between" width={1} p={1} bgcolor="#D5D5D5">
+      <StyledHeader>
         <Typography variant="h5">Project Progress</Typography>
-      </Box>
+      </StyledHeader>
 
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" py={2}>
-        <Card label="Project Phase" content={phase} />
+        <Card label="Project Phase" content={phase || 'N/A'} />
         <Card
           label="Estimated Date of Project Completion"
           content={utils.getISODateString(new Date(estimatedEnd))}

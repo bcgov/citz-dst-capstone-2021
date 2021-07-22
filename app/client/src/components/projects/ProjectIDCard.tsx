@@ -15,10 +15,19 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper, IconButton, Link } from "@material-ui/core";
+import styled from '@emotion/styled';
+import { Typography, Box, IconButton, Link } from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
 import { Project } from '../../types';
+
+const StyledHeader = styled(Box)`
+  background-color: #D5D5D5;
+  justify-content: space-between;
+  display: flex;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
 
 type Props = {
   project: Project;
@@ -32,12 +41,12 @@ const ProjectIDCard: React.FC<Props> = props => {
   // TODO: refactor any custom colours and theming using the theme provider
   return (
     <Box boxShadow={2} borderRadius={4}>
-      <Box display="flex" justifyContent="space-between" p={1} bgcolor="#D5D5D5">
+      <StyledHeader>
         <Typography variant="h5">Project Identification</Typography>
         <IconButton size="small" onClick={editItem} disabled={!editItem}>
           <EditIcon />
         </IconButton>
-      </Box>
+      </StyledHeader>
 
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" py={2}>
         <Card label="Project Name" content={name} />

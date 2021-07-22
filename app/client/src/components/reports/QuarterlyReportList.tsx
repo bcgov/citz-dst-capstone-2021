@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import styled from '@emotion/styled';
 import { Typography, Box, Table, TableHead, TableBody, TableCell } from '@material-ui/core';
-import styled from 'styled-components';
 import QuarterlyReportListRow from './QuarterlyReportListRow';
 import theme from '../../theme';
 import { Report } from '../../types';
@@ -24,6 +24,14 @@ import { Report } from '../../types';
 interface QuarterlyReportListProps {
   reports: Report[];
 }
+
+// TODO: replace with material ui styles
+const StyledHeader = styled(Box)`
+  background-color: ${theme.colors.primary};
+  color: white;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
 
 const StyledTableHead = styled(TableHead)`
   background-color: #d5d5d5;
@@ -39,9 +47,9 @@ const QuarterlyReportList: React.FC<QuarterlyReportListProps> = props => {
 
   return (
     <Box m={4} boxShadow={2} borderRadius={4}>
-      <Box bgcolor={theme.colors.primary} color="white" p={1}>
+      <StyledHeader>
         <Typography variant="h5">Quarterly Status Reports</Typography>
-      </Box>
+      </StyledHeader>
       <Table aria-label="quarterly report list" size="medium">
         <StyledTableHead>
           <StyledTableHeadCell align="left">
