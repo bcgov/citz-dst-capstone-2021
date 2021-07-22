@@ -16,13 +16,14 @@
 
 import { NextFunction, Request, Response } from 'express';
 import ReportService from '@services/reports.service';
-import { Report, Quarter } from '@interfaces/report.interface';
+import { Report } from '@interfaces/report.interface';
 import ReportDTO from '@dtos/ReportDTO';
 import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
 import KpiDTO from '@dtos/KpiDTO';
 import { getNextReport } from '@utils/reportUtils';
+import assert from 'assert';
 
 const ReportController = {
   async getReports(req: Request, res: Response, next: NextFunction) {
@@ -64,11 +65,7 @@ const ReportController = {
     try {
       const { id } = req.params;
       const input: ReportDTO = req.body;
-      // TODO: use transaction
       const data = await ReportService.updateReport(id, input);
-      if (data.submittedAt) {
-        await ReportService.createReport(getNextReport(data));
-      }
       res.status(200).json(data);
     } catch (e) {
       next(e);
@@ -115,6 +112,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async updateMilestone(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, mid } = req.params;
@@ -125,6 +123,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async getObjectives(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -134,6 +133,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async createObjective(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -144,6 +144,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async deleteObjective(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, oid } = req.params;
@@ -153,6 +154,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async updateObjective(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, oid } = req.params;
@@ -163,6 +165,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async getStatuses(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -172,6 +175,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async createStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -182,6 +186,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async deleteStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, sid } = req.params;
@@ -191,6 +196,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async updateStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, sid } = req.params;
@@ -201,6 +207,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async getKpis(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -210,6 +217,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async createKpi(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -220,6 +228,7 @@ const ReportController = {
       next(e);
     }
   },
+
   async deleteKpi(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, kid } = req.params;
@@ -229,11 +238,27 @@ const ReportController = {
       next(e);
     }
   },
+
   async updateKpi(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, kid } = req.params;
       const input: KpiDTO = req.body;
       const data = await ReportService.updateKpi(id, kid, input);
+      res.status(200).json(data);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async submitReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const input: ReportDTO = req.body;
+      // TODO: use transaction
+      assert(input.submitter);
+      input.submittedAt = new Date(); // TODO: should it be determined on the client side?
+      const data = await ReportService.updateReport(id, input);
+      await ReportService.createReport(getNextReport(data));
       res.status(200).json(data);
     } catch (e) {
       next(e);

@@ -18,7 +18,6 @@ import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import assert from 'assert';
 
-import { useHistory } from 'react-router-dom';
 import {
   AuthRequest,
   AuthResponse,
@@ -135,7 +134,7 @@ const useApi = () => {
 
     updateReport(report: any): Promise<Report> {
       if (!api.current) throw new Error('axios not set up');
-      utils.removeProperties(report, 'createdAt', 'updatedAt');
+      utils.removeProperties(report, 'createdAt', 'updatedAt', 'project');
       return api.current.patch(`reports/${report.id}`, report).then(({ data }) => data);
     },
 
@@ -173,18 +172,24 @@ const useApi = () => {
       return api.current.delete(`projects/${id}`).then(({ data }) => data);
     },
 
-    createKpi(reportId: string, kpi: Kpi) {
+    createKpi(reportId: string, kpi: Kpi): Promise<Report> {
       assert(api.current);
       return api.current.post(`reports/${reportId}/kpis`, kpi).then(({ data }) => data);
     },
 
-    createObjective(reportId: string, objective: Objective) {
+    createObjective(reportId: string, objective: Objective): Promise<Report> {
       assert(api.current);
       return api.current.post(`reports/${reportId}/objectives`, objective).then(({ data }) => data);
     },
-    createMilestnoe(reportId: string, milestone: Milestone) {
+
+    createMilestone(reportId: string, milestone: Milestone): Promise<Report> {
       assert(api.current);
       return api.current.post(`reports/${reportId}/milestones`, milestone).then(({ data }) => data);
+    },
+
+    submitReport(report: any): Promise<Report> {
+      assert(api.current);
+      return api.current.patch(`reports/${report.id}/submit`, report).then(({ data }) => data);
     },
   };
 };

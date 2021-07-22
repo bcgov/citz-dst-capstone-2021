@@ -19,11 +19,10 @@ import { Typography, Box, Table, TableHead, TableBody, TableCell } from '@materi
 import styled from 'styled-components';
 import ReportsToReviewListRow from './ReportsToReviewListRow';
 import theme from '../../theme';
-import { SubmittedReport } from '../../types';
-import { getFiscalYearString } from '../../utils/dateUtils';
+import { Report } from '../../types';
 
 interface ReportsToReviewListProps {
-  reports: SubmittedReport[];
+  reports: Report[];
 }
 
 const StyledTableTitle = styled(Box)`
@@ -77,6 +76,6 @@ const ReportsToReviewList: React.FC<ReportsToReviewListProps> = props => {
       </Table>
     </Box>
   );
-}
+};
 
 export default ReportsToReviewList;

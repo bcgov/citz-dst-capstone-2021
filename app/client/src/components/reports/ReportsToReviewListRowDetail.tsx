@@ -17,11 +17,11 @@
 import React from 'react';
 import { Box, Button, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { SubmittedReport, User, Status } from '../../types';
+import { Report, User } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
 interface ReportsToReviewListRowProps {
-  report: SubmittedReport;
+  report: Report;
   submitter: User | undefined;
 }
 
@@ -34,7 +34,6 @@ const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = prop
     <Box px={2}>
       <Grid container spacing={3} justify="space-between" alignItems="center">
         <Grid container item xs={12} sm={9} spacing={3}>
-
           <Grid item sm={12} md={6}>
             <Box display="flex" justifyContent="space-between">
               <Typography variant="body2">
@@ -48,9 +47,7 @@ const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = prop
               <Typography variant="body2">
                 <strong>Ministry</strong>
               </Typography>
-              <Typography variant="body2">
-                {report.project?.ministry}
-              </Typography>
+              <Typography variant="body2">{report.project?.ministry}</Typography>
             </Box>
           </Grid>
 
@@ -67,9 +64,7 @@ const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = prop
               <Typography variant="body2">
                 <strong>Project Phase</strong>
               </Typography>
-              <Typography variant="body2">
-                {report.phase ? report.phase : 'N/A'}
-              </Typography>
+              <Typography variant="body2">{report.phase ? report.phase : 'N/A'}</Typography>
             </Box>
           </Grid>
 
@@ -87,9 +82,10 @@ const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = prop
                 <strong>Current FY Actuals</strong>
               </Typography>
               <Typography variant="body2">
-                {report.finance ? 
-                  (Number.isNaN(+report.finance.fySitting) ? 0 : +report.finance.fySitting) + 
-                  (Number.isNaN(+report.finance.jvToOcio) ? 0 : +report.finance.jvToOcio) : '-'}
+                {report.finance
+                  ? (Number.isNaN(+report.finance.fySitting) ? 0 : +report.finance.fySitting) +
+                    (Number.isNaN(+report.finance.jvToOcio) ? 0 : +report.finance.jvToOcio)
+                  : '-'}
               </Typography>
             </Box>
             <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -105,9 +101,10 @@ const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = prop
                 <strong>Current FY Variance</strong>
               </Typography>
               <Typography variant="body2">
-              {report.finance ? 
-                  (Number.isNaN(+report.finance.fyApproved) ? 0 : +report.finance.fyApproved) - 
-                  (Number.isNaN(+report.finance.fyForecast) ? 0 : +report.finance.fyForecast) : '-'}
+                {report.finance
+                  ? (Number.isNaN(+report.finance.fyApproved) ? 0 : +report.finance.fyApproved) -
+                    (Number.isNaN(+report.finance.fyForecast) ? 0 : +report.finance.fyForecast)
+                  : '-'}
               </Typography>
             </Box>
           </Grid>
@@ -142,9 +139,12 @@ const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = prop
                 <strong>Overall Project Variance</strong>
               </Typography>
               <Typography variant="body2">
-              {report.finance ? 
-                  (Number.isNaN(+report.finance.budget) ? 0 : +report.finance.budget) - 
-                  (Number.isNaN(+report.finance.estimatedTotalCost) ? 0 : +report.finance.estimatedTotalCost) : '-'}
+                {report.finance
+                  ? (Number.isNaN(+report.finance.budget) ? 0 : +report.finance.budget) -
+                    (Number.isNaN(+report.finance.estimatedTotalCost)
+                      ? 0
+                      : +report.finance.estimatedTotalCost)
+                  : '-'}
               </Typography>
             </Box>
           </Grid>

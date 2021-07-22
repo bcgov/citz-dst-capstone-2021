@@ -173,8 +173,10 @@ export enum Quarter {
 
 export enum ReportState {
   Draft,
-  Review,
+  ReadyToSubmit,
   Submitted,
+  FollowUpRequired,
+  Approved,
 }
 
 export interface ReportStatus {
@@ -203,6 +205,7 @@ export interface Report {
   year: number;
   quarter: Quarter;
   projectId: string;
+  project: Project;
   state: ReportState;
   phase: string;
   progress: number;
@@ -212,10 +215,9 @@ export interface Report {
   statuses: ReportStatus[];
   finance?: FinancialStatus;
   kpis: Kpi[];
-}
-
-export interface SubmittedReport extends Report {
-  project: Project;
+  financialAnalyst?: string | User;
+  financialNotes?: string;
+  approvedAt?: Date;
 }
 
 export interface Kpi {

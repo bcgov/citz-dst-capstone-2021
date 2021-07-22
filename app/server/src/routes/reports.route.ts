@@ -60,6 +60,9 @@ class ReportsRoute implements Route {
       .delete(ReportController.deleteMilestone)
       .patch(validationMiddleware(MilestoneDTO, 'body', true), ReportController.updateMilestone);
 
+    // Actions for report
+    this.router.route('/:id/submit').patch(ReportController.submitReport);
+
     // Objective routes
     this.router.route('/:id/objectives').get(ReportController.getObjectives);
 

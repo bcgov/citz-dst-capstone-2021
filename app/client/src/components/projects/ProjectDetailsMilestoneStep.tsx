@@ -60,7 +60,7 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
   const createOrUpdateMilestone = (milestone: Milestone): Promise<Report | null> => {
     if (milestone) {
       if (cacheIndex < 0) {
-        return api.createMilestnoe(reportId, milestone);
+        return api.createMilestone(reportId, milestone);
       }
       return api.updateMilestone(reportId, milestones[cacheIndex]?.id, milestone);
     }
