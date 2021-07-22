@@ -15,12 +15,21 @@
 //
 
 import React from 'react';
+import styled from '@emotion/styled';
 import { Box, GridList, GridListTile, IconButton, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-
 import { Milestone } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
+
+// TODO: replace with material ui styles
+const StyledHeader = styled(Box)`
+  background-color: #D5D5D5;
+  justify-content: space-between;
+  display: flex;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
 
 interface MilestoneItemProps {
   deleteItem?: () => void;
@@ -38,13 +47,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = props => {
 
   return (
     <Box boxShadow={2} borderRadius={4}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        p={1}
-        bgcolor="#D5D5D5"
-      >
+      <StyledHeader>
         <Typography variant="h6">{name}</Typography>
         <Box display="flex">
           {props.deleteItem ? (
@@ -62,7 +65,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = props => {
             <></>
           )}
         </Box>
-      </Box>
+      </StyledHeader>
       <Box>
         <GridList cols={2} cellHeight={140}>
           <GridListTile cols={1}>
@@ -90,7 +93,7 @@ const MilestoneItem: React.FC<MilestoneItemProps> = props => {
               <Typography variant="subtitle1">Comments</Typography>
               <Box overflow="auto" height="100px">
                 <Typography variant="body1" display="block">
-                  {comments}
+                  {comments || 'N/A'}
                 </Typography>
               </Box>
             </Box>

@@ -35,8 +35,16 @@ import theme from '../../theme';
 import useApi from '../../utils/api';
 import ProjectListRow from '../../components/projects/ProjectListRow';
 
+// TODO: replace with material ui styles
+const StyledHeader = styled(Box)`
+  background-color: ${theme.colors.primary};
+  color: white;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
+
 const StyledTableHead = styled(TableHead)`
-  background-color: ${theme.colors.grey};
+  background-color: #D5D5D5;
 `;
 
 const StyledTableHeadCell = styled(TableCell)`
@@ -82,9 +90,9 @@ const ProjectList: React.FC<ProjectListProps> = () => {
               Create New Project
             </Button>
           </Box>
-          <Box bgcolor={theme.colors.primary} color="white" p={1}>
+          <StyledHeader>
             <Typography variant="h5">Projects</Typography>
-          </Box>
+          </StyledHeader>
           <Table aria-label="project list" size="medium">
             <StyledTableHead>
               <TableRow>
