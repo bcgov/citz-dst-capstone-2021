@@ -24,11 +24,11 @@ const BorderLinearProgress = withStyles({
   },
 })(LinearProgress);
 
-interface KPIProgressProps {
+type Props = {
   value: number;
 }
 
-const KPIProgress: React.FC<KPIProgressProps> = props => {
+const ProgressBar: React.FC<Props> = props => {
   const { value } = props;
   return (
     <Box display="flex" alignItems="center">
@@ -44,4 +44,4 @@ const KPIProgress: React.FC<KPIProgressProps> = props => {
   );
 };
 
-export default KPIProgress;
+export default ProgressBar;
