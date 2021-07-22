@@ -24,18 +24,19 @@ const BorderLinearProgress = withStyles({
   },
 })(LinearProgress);
 
-interface KPIProgressProps {
+type Props = {
   value: number;
+  hidePercent?: boolean
 }
 
-const KPIProgress: React.FC<KPIProgressProps> = props => {
-  const { value } = props;
+const ProgressBar: React.FC<Props> = props => {
+  const { value, hidePercent } = props;
   return (
     <Box display="flex" alignItems="center">
       <Box width="100%" mr={1}>
         <BorderLinearProgress variant="determinate" {...props} />
       </Box>
-      <Box minWidth={50}>
+      <Box minWidth={30} display={hidePercent ? "none" : ''} textAlign="right">
         <Typography variant="body2" color="textSecondary">
           {`${Math.round(value)}%`}
         </Typography>
@@ -44,4 +45,4 @@ const KPIProgress: React.FC<KPIProgressProps> = props => {
   );
 };
 
-export default KPIProgress;
+export default ProgressBar;

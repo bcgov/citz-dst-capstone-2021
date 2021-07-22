@@ -21,7 +21,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import { Kpi } from '../../types';
 import RoundLabel from '../common/RoundLabel';
-import KPIProgress from '../common/KPIProgress';
+import ProgressBar from '../common/ProgressBar';
 
 const useStyles = makeStyles({
   bold: {
@@ -94,7 +94,7 @@ const KPIItem: React.FC<KPIItemProps> = props => {
           </Box>
         </Box>
         <Box>
-          <KPIProgress value={((value - baseline) * 100) / (target - baseline)} />
+          <ProgressBar value={((value - baseline) * 100) / (target - baseline)} />
         </Box>
         <Box display="flex" justifyContent="space-between">
           <Box display="flex">

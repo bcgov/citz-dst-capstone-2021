@@ -20,6 +20,8 @@ import { KpiSchema } from '@models/KpiModel';
 import { MilestoneSchema } from '@models/MilestoneModel';
 import { ObjectiveSchema } from '@models/ObjectiveModel';
 import { ReportStatusSchema } from '@models/ReportStatusModel';
+import ProjectModel from '@models/ProjectModel';
+import { Project } from '@interfaces/project.interface';
 
 const Finance = {
   budget: {
@@ -132,6 +134,29 @@ ReportModel.virtual('project', {
   localField: 'projectId',
   foreignField: '_id',
   justOne: true,
+});
+
+ReportModel.post<Report & Document>('save', async doc => {
+  const project = await ProjectModel.findById(doc.projectId);
+
+  // find project period
+  const { start, end, estimatedEnd } = project;
+  const endTime = end ? end.getTime() : estimatedEnd.getTime();
+  const projectPeriod = endTime - start.getTime();
+
+  // get each milestone's progress and period
+  const progresses = doc.milestones.map(m => {
+    const period = m.estimatedEnd.getTime() - m.start.getTime();
+    let progress = (m.progress * period) / projectPeriod;
+    progress = progress > 100 ? 100 : progress;
+    return { progress, period };
+  });
+
+  // get weighted average of progresses by period
+  const denominator = progresses.reduce((a, c) => a + c.period * c.progress, 0);
+  const nominator = progresses.reduce((a, c) => a + c.period, 0);
+  project.progress = Math.round(denominator / nominator);
+  project.save();
 });
 
 export default model<Report & Document>('Report', ReportModel);
