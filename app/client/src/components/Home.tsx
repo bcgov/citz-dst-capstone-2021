@@ -41,7 +41,7 @@ const Home = () => {
           <Link to="/projects"> Submitter&apos;s Project List</Link>
         </h3>
         <h3>
-          <Link to="/create-project">Submitter&apos;s New Project Form (WIP)</Link>
+          <Link to="/finance-analyst-dashboard"> Finance Analyst&apos;s Dashboard</Link>
         </h3>
       </div>
     </div>
