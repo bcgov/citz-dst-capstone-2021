@@ -15,10 +15,20 @@
 //
 
 import React from 'react';
-import { Typography, Box, Paper, IconButton } from '@material-ui/core';
+import styled from '@emotion/styled';
+import { Typography, Box, IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
-import { Project, User } from '../../types';
+import { Project } from '../../types';
+
+// TODO: replace with material ui styles
+const StyledHeader = styled(Box)`
+  background-color: #D5D5D5;
+  justify-content: space-between;
+  display: flex;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
 
 type Props = {
   project: Project;
@@ -31,12 +41,12 @@ const ProjectContactCard: React.FC<Props> = props => {
 
   return (
     <Box boxShadow={2} borderRadius={4}>
-      <Box display="flex" justifyContent="space-between" width={1} p={1} bgcolor="#D5D5D5">
+      <StyledHeader>
         <Typography variant="h5">Project Contacts</Typography>
         <IconButton size="small" onClick={editItem} disabled={!editItem}>
           <EditIcon />
         </IconButton>
-      </Box>
+      </StyledHeader>
 
       <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" py={2}>
         <Card label="Project Sponsor" content={`${sponsor?.firstName} ${sponsor?.lastName}`} />

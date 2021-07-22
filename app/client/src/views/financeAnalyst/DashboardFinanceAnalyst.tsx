@@ -15,10 +15,10 @@
 //
 
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Typography, Box, Grid, Button } from "@material-ui/core";
 import { connect } from 'react-redux';
-import { ReportState, Report } from '../../types';
+import { ReportState } from '../../types';
 import useApi from '../../utils/api';
 
 /**

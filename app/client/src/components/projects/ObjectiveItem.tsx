@@ -15,13 +15,22 @@
 //
 
 import React from 'react';
+import styled from '@emotion/styled';
 import { Box, GridList, GridListTile, IconButton, Paper, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Objective } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
+
+// TODO: replace with material ui styles
+const StyledHeader = styled(Box)`
+  background-color: #D5D5D5;
+  justify-content: space-between;
+  display: flex;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+`;
 
 const useStyles = makeStyles({
   header: {
@@ -54,13 +63,7 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
 
   return (
     <Box boxShadow={2} borderRadius={4}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        p={1}
-        bgcolor="#D5D5D5"
-      >
+      <StyledHeader>
         <Box display="flex" alignItems="center">
           <Typography variant="h6">{name}</Typography>
           <Typography variant="subtitle2" style={{ marginLeft: '8px' }}>
@@ -83,7 +86,7 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
             <></>
           )}
         </Box>
-      </Box>
+      </StyledHeader>
       <Box>
         <GridList cols={2} cellHeight={140}>
           <GridListTile cols={1}>
@@ -98,11 +101,11 @@ const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Phase</Typography>
-                <Typography>{phase}</Typography>
+                <Typography>{phase || 'N/A'}</Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" mb={1}>
                 <Typography variant="subtitle1">Asset</Typography>
-                <Typography>{asset}</Typography>
+                <Typography>{asset || 'N/A'}</Typography>
               </Box>
             </Box>
           </GridListTile>
