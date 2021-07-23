@@ -20,9 +20,10 @@ import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
 import { Project } from '../../types';
 import utils from '../../utils';
+import ProgressBar from '../common/ProgressBar';
 
 const StyledHeader = styled(Box)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
   justify-content: space-between;
   display: flex;
   padding: 8px;
@@ -45,7 +46,9 @@ const ProjectProgressCard: React.FC<Project> = props => {
           content={utils.getISODateString(new Date(estimatedEnd))}
         />
         <Card label="Percent Complete" content={`${progress}%`} />
-        {/* TODO: a progress bar to display % complete should go here */}
+        <Box width="100%" px={2}>
+          <ProgressBar value={progress} hidePercent />
+        </Box>
       </Box>
     </Box>
   );

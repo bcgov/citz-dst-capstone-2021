@@ -67,9 +67,9 @@ const ReportService = {
   },
 
   async updateReport(id: string, input: ReportDTO): Promise<Report> {
-    const report = await ReportModel
-      .findByIdAndUpdate(id, input, { new: true })
-      .populate('project');
+    const report = await ReportModel.findByIdAndUpdate(id, input, { new: true })
+      .populate('project')
+      .lean();
     if (!report) {
       throw errorWithCode(`Unable to update report`, 500);
     }
