@@ -54,12 +54,9 @@ const ProjectProgressCard: React.FC<Props> = props => {
           content={utils.getISODateString(new Date(estimatedEnd))}
         />
         <Card label="Percent Complete" content={`${report?.progress || 0}%`} />
-        {report?.progress ? (
-          <Box width="100%" px={2}>
-            <ProgressBar value={report.progress} hidePercent />
-          </Box>
-        ) : ''
-        }
+        <Box width="100%" px={2}>
+          <ProgressBar value={report?.progress || 0} hidePercent />
+        </Box>
       </Box>
     </Box>
   );
