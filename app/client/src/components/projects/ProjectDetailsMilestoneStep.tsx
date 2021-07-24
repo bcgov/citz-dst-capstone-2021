@@ -19,7 +19,7 @@ import { Box, Button, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
-import { Milestone, Report } from '../../types';
+import {Milestone, Project, Report} from '../../types';
 import MilestoneItem from './MilestoneItem';
 import NewMilestoneForm from './NewMilestoneForm';
 import EventType from '../../events/Events';
@@ -37,10 +37,12 @@ const useStyles = makeStyles({
 type Props = {
   reportId: string;
   milestones: Milestone[];
+  project: Project;
 };
 
 const ProjectDetailsMilestoneStep = (props: Props) => {
-  const { reportId, milestones } = props;
+  const { reportId, milestones, project } = props;
+  const { start, estimatedEnd } = project;
 
   const classes = useStyles();
   const api = useApi();
@@ -72,6 +74,7 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
       .then(report => {
         if (report) {
           emitter.emit(EventType.Report.Reload, report);
+          emitter.emit(EventType.Project.Reload);
         }
       })
       .finally(() => {
@@ -107,7 +110,11 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
         </Box>
       )}
       <Modal disableEnforceFocus open={modalVisible} className={classes.modal}>
-        <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={handleUpdate} />
+        <NewMilestoneForm
+          milestone={milestones[cacheIndex]}
+          start={new Date(start)}
+          end={new Date(estimatedEnd)}
+          closeModal={handleUpdate} />
       </Modal>
     </>
   );

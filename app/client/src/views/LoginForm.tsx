@@ -68,55 +68,63 @@ const LoginForm: React.FC<LoginProps> = props => {
   const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
 
   return (
-    <Container maxWidth="sm">
-      <form onSubmit={handleSubmit}>
-        <Box m={4}>
-          <Typography variant="h5" align="center">
-            Sign In
-          </Typography>
-        </Box>
-        <Box p={4}>
-          <TextField
-            fullWidth
-            id="email"
-            name="email"
-            label="Email"
-            margin="normal"
-            autoComplete="off"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.email && Boolean(errors.email)}
-            helperText={touched.email && errors.email}
-          />
-          <TextField
-            fullWidth
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            margin="normal"
-            value={values.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={touched.password && Boolean(errors.password)}
-            helperText={touched.password && errors.password}
-          />
-          <Box my={4}>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              type="submit"
-              disabled={!isValid || !values.email}
-            >
-              Submit
-            </Button>
+    <Box display="flex" height="70vh" alignItems="center" justifyContent="center">
+      <Box width="360px">
+        <form onSubmit={handleSubmit}>
+          <Box m={4}>
+            <Typography variant="h5" align="center">
+              Sign In
+            </Typography>
           </Box>
-          <Link to="/signup">Sign Up</Link>
-        </Box>
-      </form>
-    </Container>
+          <Box>
+            <Box my={3}>
+              <TextField
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                margin="normal"
+                autoComplete="off"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+            </Box>
+            <Box my={3}>
+              <TextField
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                margin="normal"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+              />
+            </Box>
+            <Box mt={6}>
+              <Button
+                color="primary"
+                variant="contained"
+                fullWidth
+                type="submit"
+                disabled={!isValid || !values.email}
+              >
+                Submit
+              </Button>
+            </Box>
+            <Box mt={4}>
+              <Link to="/signup">Sign Up</Link>
+            </Box>
+          </Box>
+        </form>
+      </Box>
+    </Box>
   );
 };
 

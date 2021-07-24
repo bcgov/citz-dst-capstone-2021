@@ -60,7 +60,7 @@ const ProjectListRowDetail: React.FC<ProjectListRowDetailProps & TransitionProps
             style={{ textTransform: 'none' }}
             onClick={() => {
               // eslint-disable-next-line no-alert
-              history.push(`/submit-report/${project.cpsIdentifier}`);
+              history.push(`/edit-report/${project.cpsIdentifier}`);
             }}
           >
             Start Report

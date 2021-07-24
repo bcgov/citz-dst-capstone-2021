@@ -399,7 +399,11 @@ const NewProjectForm: React.FC = () => {
             name="start"
             label="Start Date"
             value={startDate}
+            error={touched.start && Boolean(errors.start)}
+            helperText={touched.start && errors.start}
+            onBlur={handleBlur}
             onChange={date => {
+              formik.setTouched({ start: true });
               if (date && !date.invalid) {
                 setStartDate(date);
                 formik.setFieldValue('start', date.toLocaleString());
@@ -419,7 +423,11 @@ const NewProjectForm: React.FC = () => {
             name="estimatedEnd"
             label="Estimated Completion"
             value={estEndDate}
+            error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
+            helperText={touched.estimatedEnd && errors.estimatedEnd}
+            onBlur={handleBlur}
             onChange={date => {
+              formik.setTouched({ estimatedEnd: true });
               if (date && !date.invalid) {
                 setEstEndDate(date);
                 formik.setFieldValue('estimatedEnd', date.toLocaleString());
@@ -443,7 +451,13 @@ const NewProjectForm: React.FC = () => {
           })}
         </Box>
         <FormControl margin="normal" fullWidth>
-          <Button color="primary" variant="contained" type="button" onClick={openMilestoneModal}>
+          <Button
+            color="primary"
+            variant="contained"
+            type="button"
+            onClick={openMilestoneModal}
+            disabled={!values.start || !values.estimatedEnd}
+          >
             Add New Milestone
           </Button>
         </FormControl>
@@ -519,7 +533,11 @@ const NewProjectForm: React.FC = () => {
       {/* TODO: (nick) Fix -> Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
 Check the render method of `Unstable_TrapFocus`. */}
       <Modal disableEnforceFocus open={openMilestone} className={classes.modal}>
-        <NewMilestoneForm milestone={milestones[cacheIndex]} closeModal={handleMilestoneModal} />
+        <NewMilestoneForm
+          milestone={milestones[cacheIndex]}
+          start={startDate}
+          end={estEndDate}
+          closeModal={handleMilestoneModal}/>
       </Modal>
     </Container>
   );

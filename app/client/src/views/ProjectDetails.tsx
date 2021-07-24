@@ -157,7 +157,7 @@ const ProjectDetails: React.FC = () => {
         </Paper>
         <Container maxWidth="lg">
           <TabPanel value={step} index={0}>
-            <ProjectDetailsInfoStep project={project} />
+            <ProjectDetailsInfoStep project={project} report={lastReport}/>
           </TabPanel>
           <TabPanel value={step} index={1}>
             <ProjectDetailsKpiStep
@@ -167,6 +167,7 @@ const ProjectDetails: React.FC = () => {
           </TabPanel>
           <TabPanel value={step} index={2}>
             <ProjectDetailsMilestoneStep
+              project={project}
               milestones={lastReport.milestones || []}
               reportId={lastReport.id as string}
             />
@@ -185,40 +186,39 @@ const ProjectDetails: React.FC = () => {
     );
   };
 
-  const renderContent = () => {
-    return project.id ? renderTabs() : <CircularProgress />;
-  };
-
-  return (
-    <Container maxWidth="lg">
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        flexDirection="row"
-        m={4}
-      >
-        <Typography variant="h4">
-          {project.name} - {project.cpsIdentifier}
-        </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          startIcon={<DeleteIcon />}
-          onClick={() => setDeleteConfirmVisible(true)}
+  const render = () => {
+    return (
+      <Container maxWidth="lg">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexDirection="row"
+          m={4}
         >
-          Delete
-        </Button>
-      </Box>
-      <Box>{renderContent()}</Box>
-      <ConfirmDialog
-        title="Delete Project"
-        message="Do you want to proceed and delete all data of the project?"
-        onClose={deleteProject}
-        open={deleteConfirmVisible}
-      />
-    </Container>
-  );
+          <Typography variant="h4">
+            {project.name} - {project.cpsIdentifier}
+          </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={() => setDeleteConfirmVisible(true)}
+          >
+            Delete
+          </Button>
+        </Box>
+        <Box>{renderTabs()}</Box>
+        <ConfirmDialog
+          title="Delete Project"
+          message="Do you want to proceed and delete all data of the project?"
+          onClose={deleteProject}
+          open={deleteConfirmVisible}
+        />
+      </Container>
+    );
+  };
+  return project?.id ? render() : <CircularProgress />;
 };
 
 export default ProjectDetails;
