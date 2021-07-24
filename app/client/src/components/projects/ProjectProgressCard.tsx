@@ -18,7 +18,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Typography, Box } from '@material-ui/core';
 import Card from './Card';
-import { Project } from '../../types';
+import { Project, Report } from '../../types';
 import utils from '../../utils';
 import ProgressBar from '../common/ProgressBar';
 
@@ -30,8 +30,16 @@ const StyledHeader = styled(Box)`
   border-radius: 4px 4px 0 0;
 `;
 
-const ProjectProgressCard: React.FC<Project> = props => {
-  const { phase, estimatedEnd, progress } = props;
+type Props = {
+  project: Project;
+  report?: Report;
+};
+
+const ProjectProgressCard: React.FC<Props> = props => {
+  const {
+    project: { phase, estimatedEnd },
+    report,
+  } = props;
 
   return (
     <Box boxShadow={2} borderRadius={4}>
@@ -45,9 +53,9 @@ const ProjectProgressCard: React.FC<Project> = props => {
           label="Estimated Date of Project Completion"
           content={utils.getISODateString(new Date(estimatedEnd))}
         />
-        <Card label="Percent Complete" content={`${progress}%`} />
+        <Card label="Percent Complete" content={`${report?.progress || 0}%`} />
         <Box width="100%" px={2}>
-          <ProgressBar value={progress} hidePercent />
+          <ProgressBar value={report?.progress || 0} hidePercent />
         </Box>
       </Box>
     </Box>

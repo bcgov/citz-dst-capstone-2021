@@ -26,7 +26,7 @@ const password = yup
     'Password must contain at least 8 characters, one uppercase, one number and one special case character',
   );
 
-const name = yup.string().min(5, 'Too Short!').max(50, 'Too Long!').required('Required');
+const name = yup.string().min(1, 'Too Short!').max(50, 'Too Long!').required('Required');
 
 const progress = yup
   .number()
@@ -59,7 +59,7 @@ const date = yup.date().transform(parseDateString);
 // TODO: (Samara) update for valid budget dollars; ask if budget is measured in whole dollars
 const dollars = yup.number();
 
-export const validateLogin = yup.object({ email, password });
+export const validateLogin = yup.object({ email });
 
 export const validateSignUp = yup.object({
   lastName: name,

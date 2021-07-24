@@ -64,7 +64,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <Button
             variant="contained"
             color="primary"
-            onClick={() => history.push(`/submit-report/${report.projectId}`)}
+            onClick={() => history.push(`/edit-report/${report.projectId}`)}
           >
             Continue Report
           </Button>
@@ -87,7 +87,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <Button
             variant="contained"
             color="primary"
-            onClick={() => history.push(`/submit-report/${report.projectId}`)}
+            onClick={() => history.push(`/edit-report/${report.projectId}`)}
           >
             Start Report
           </Button>

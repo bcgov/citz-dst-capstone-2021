@@ -30,8 +30,8 @@ import {
 } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { connect } from 'react-redux';
-import { Report, ReportState, StoreState, User } from '../../types';
+import {connect} from 'react-redux';
+import {Report, ReportState, StoreState, User} from '../../types';
 import theme from '../../theme';
 import useApi from '../../utils/api';
 import emitter from '../../events/Emitter';
@@ -109,7 +109,7 @@ const ReviewerPanel: React.FC<Props> = props => {
                     labelId="reportState"
                     id="reportState"
                     name="reportState"
-                    value={state}
+                    value={state < ReportState.Submitted ? ReportState.Submitted : state}
                     onChange={e => setState(e.target.value as ReportState)}
                   >
                     {Object.entries(ReportState)

@@ -254,10 +254,12 @@ const ReportController = {
     try {
       const { id } = req.params;
       const input: ReportDTO = req.body;
-      // TODO: use transaction
+      // TODO: (nick) use transaction
       assert(input.submitter);
-      input.submittedAt = new Date(); // TODO: should it be determined on the client side?
+
+      input.submittedAt = new Date();
       const data = await ReportService.updateReport(id, input);
+
       await ReportService.createReport(getNextReport(data));
       res.status(200).json(data);
     } catch (e) {
