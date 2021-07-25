@@ -80,7 +80,7 @@ const content = {
   },
 
   conclusionSection: {
-    heading: 'Gratitude',
+    heading: 'Our Gratitude',
     paragraphs: [
       'This project has been a challenging yet wonderful experience that we are proud to have participated in. Team RDSI would like to thank our sponsors Shashank Shekhar, Poornima Sivanand, and Robert Kobenter, as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors.',
     ],
