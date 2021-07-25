@@ -117,7 +117,7 @@ const Header: React.FC<HeaderProps> = props => {
               }}
               to="/"
             >
-              <Box pl={email ? 0 : theme.spacingIncrements[0]}>
+              <Box pl={email ? 0 : theme.spacingIncrements[1]}>
                 <GovLogo />
               </Box>
               <StyledTypography>Reporting and Dashboard Service Improvement</StyledTypography>
