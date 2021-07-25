@@ -205,7 +205,7 @@ const About: React.FC = () => {
 
   return (
     <Container>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} justify="center">
         <Grid item xs={10}>
           <Card>
             {sectionHeading('Capstone 2021')}
