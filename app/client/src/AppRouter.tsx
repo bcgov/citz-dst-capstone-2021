@@ -26,6 +26,7 @@ import NewProjectForm from './views/submitter/NewProjectForm';
 import EditReport from './views/submitter/EditReport';
 import DashboardFinanceAnalyst from './views/financeAnalyst/DashboardFinanceAnalyst';
 import ReportsToReview from './views/financeAnalyst/ReportsToReview';
+import About from './views/About';
 import Home from './components/Home';
 
 const AppRouter: React.FC = () => {
@@ -34,6 +35,7 @@ const AppRouter: React.FC = () => {
       <AppRoute path="/" exact component={Home} />
       <AppRoute path="/login" component={LoginForm} />
       <AppRoute path="/signup" component={SignUpForm} />
+      <AppRoute path="/about" component={About} />
       <AppRoute requireAuth path="/projects/:cps" component={ProjectDetails} />
       <AppRoute requireAuth exact path="/projects" component={ProjectList} />
       <AppRoute requireAuth path="/view-report/:reportId" component={ReportDetails} />
