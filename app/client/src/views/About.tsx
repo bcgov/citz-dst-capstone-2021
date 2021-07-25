@@ -20,6 +20,9 @@ import { Typography, Box, Grid, Container, Card } from "@material-ui/core";
 import theme from '../theme';
 import samaraBioImage from '../assets\\images/about/samara_bio_portrait.jpg';
 import nickBioImage from '../assets\\images/about/nick_bio_portrait.jpg';
+import journey1Image from '../assets\\images/about/journey_1_new_project.jpg';
+import journey2Image from '../assets\\images/about/journey_2_submit_report.jpg';
+import journey3Image from '../assets\\images/about/journey_3_review_report.jpg';
 
 interface BioObject {
   name: string;
@@ -58,7 +61,11 @@ const content = {
   
   `},
 
-  introSection: { heading: "Reporting and Dashboard Service Improvement Project", paragraphs: ["The Digital Investment Office (DIO) sponsored this project to design a solution that improves the current quarterly status reporting process through the use of a web application. Team RDSI, comprising of Sunghwan Park and Samara Flueck, designed a solution and developed this web application as a proof-of-concept prototype."]
+  introSection: { heading: "Reporting and Dashboard Service Improvement Project", paragraphs: ["The Digital Investment Office (DIO) operates under the Office of the Chief Information Officer (OCIO) and manages funding for capital investment projects designed to improve digital services for British Columbians. Projects that are approved for funding must report their performance quarterly to the DIO. Team RDSI worked with the DIO and stakeholders on the Reporting and Dashboard Service Improvement (RDSI) project to design a web application that streamlines the reporting and assessment processes on approved projects. This web application was developed as a proof-of-concept prototype to demonstrate our solution."]
+  },
+
+  conclusionSection: { heading: "Thank You to Our Sponsors", paragraphs: [
+    "This project has been a challenging but wonderful experience that we are proud to have participated in. Team RDSI would like to thank our sponsors Shashank Shekhar, Poornima Sivanand, and Robert Kobenter, as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors."]
   },
 
   problemSection: { heading: "The Business Problem", paragraphs: [
@@ -67,7 +74,7 @@ const content = {
   },
 
   hypothesisSection: { heading: "Hypothesis", paragraphs: ["Developing a web application to support stakeholders in the quarterly reporting process will assist in improving workflows and data quality.",
-  "Utilizing a digital form and validation to capture data from ministry submitters will improve quality of data as it is entered. Manual effort can be reduced through the use of pre-filled fields in forms and automation of existing processes.",
+  "Using purpose built submission forms and validation to capture data from ministry submitters will improve quality of data as it is entered while improving workflows. Manual effort can be further reduced through the use of pre-filled fields in forms and automation of calculated values",
   "Opportunities for automating data aggregation can be acted upon using a database to store reporting data. Furthermore, stored data can then be surfaced into a dashboard system to help ensure decision makers and other stakeholders have access to the information they need when they need it."]
   },
 
@@ -82,20 +89,21 @@ const content = {
   ] }
   },
 
-  solutionSection: { heading: "Our Solution", paragraphs: ["Our web application is designed to be hosted in the BC Dev Exchange’s OpenShift container environment. It consists of a frontend for users to interface with, a MongoDB database to store project and reporting data, and an API to allow the frontend to request data from the database.",
+  solutionSection: { heading: "Our Solution", paragraphs: ["Our web application is designed to be hosted in the BC Dev Exchange’s OpenShift container environment. It consists of a React frontend for users to interface with, a MongoDB database to store project and reporting data, and an API to allow the frontend to request data from the database.",
   "We identified five key groups that would interact with our application:",
-  "With our key groups identified, we then conducted interviews with stakeholders so that we could identify our personas and improve their journeys in the quarterly status reporting process. Our prototype demonstrates three key user journeys in our design:"],
-  list: [[
+  "With our key groups identified, we then conducted interviews with stakeholders so that we could identify our personas and improve their journeys in the quarterly status reporting process. For our prototype we focused on a few of the core journeys of the Ministry Submitters and Finance Analysts shown below:"],
+  list: [
     "Ministry Submitters",
     "Finance Analysts",
     "Data Analysts",
     "Government Executives",
     "System Administrator"
-  ],[
-    "A Submitter enters a new project into the system.",
-    "A Submitter completes and submits a quarterly status report.",
-    "A Finance Analyst reviews a submitted quarterly status report."
-  ]]
+  ],
+  images: [
+    {image: journey1Image, altText: "Diagram showing user journey for ministry submitters to create a new project.", figureText: "Figure 1 - Submitter Enters a New Project Into the System"},
+    {image: journey2Image, altText: "Diagram showing user journey for ministry submitters completing a quarterly status report.", figureText: "Figure 2 - Submitter Completes and Submits a Quarterly Status Report to the DIO"},
+    {image: journey3Image, altText: "Diagram showing user journey for finance analysts to review a single quarterly report.", figureText: "Figure 3 - Finance Analyst Reviews Quarterly Report"},
+  ],
   },
 };
 
@@ -262,7 +270,7 @@ const About: React.FC = () => {
             </Box>
             <Box m={4}>
               <ul>
-                {content.solutionSection.list[0].map((item) =>(
+                {content.solutionSection.list.map((item) =>(
                   <li>
                     <Typography variant="body1">
                       {item}
@@ -277,15 +285,14 @@ const About: React.FC = () => {
               </Typography>
             </Box>
             <Box m={4}>
-              <ul>
-                {content.solutionSection.list[1].map((item) =>(
-                  <li>
-                    <Typography variant="body1">
-                      {item}
+                {content.solutionSection.images.map((image) =>(
+                  <Box textAlign="center" mb={4}>
+                    <img src={image.image} alt={image.altText} />
+                    <Typography variant="caption">
+                      {image.figureText}
                     </Typography>
-                  </li>
+                  </Box>
                 ))}
-              </ul>
             </Box>
           </Card>
         </Grid>
@@ -299,6 +306,19 @@ const About: React.FC = () => {
             </Box>
           </Card>
         </Grid>
+
+        
+        <Grid item xs={10}>
+          <Card>
+            {sectionHeading(content.conclusionSection.heading)}
+            <Box m={4}>
+              <Typography variant="body1">
+                {content.conclusionSection.paragraphs[0]}
+              </Typography>
+            </Box>
+          </Card>
+        </Grid>
+
       </Grid>
     </Container>
   );
