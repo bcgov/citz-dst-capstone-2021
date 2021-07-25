@@ -64,8 +64,8 @@ const content = {
   introSection: { heading: "Reporting and Dashboard Service Improvement Project", paragraphs: ["The Digital Investment Office (DIO) operates under the Office of the Chief Information Officer (OCIO) and manages funding for capital investment projects designed to improve digital services for British Columbians. Projects that are approved for funding must report their performance quarterly to the DIO. Team RDSI worked with the DIO and stakeholders on the Reporting and Dashboard Service Improvement (RDSI) project to design a web application that streamlines the reporting and assessment processes on approved projects. This web application was developed as a proof-of-concept prototype to demonstrate our solution."]
   },
 
-  conclusionSection: { heading: "Thank You to Our Sponsors", paragraphs: [
-    "This project has been a challenging but wonderful experience that we are proud to have participated in. Team RDSI would like to thank our sponsors Shashank Shekhar, Poornima Sivanand, and Robert Kobenter, as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors."]
+  conclusionSection: { heading: "Gratitude", paragraphs: [
+    "This project has been a challenging yet wonderful experience that we are proud to have participated in. Team RDSI would like to thank our sponsors Shashank Shekhar, Poornima Sivanand, and Robert Kobenter, as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors."]
   },
 
   problemSection: { heading: "The Business Problem", paragraphs: [
@@ -91,7 +91,7 @@ const content = {
 
   solutionSection: { heading: "Our Solution", paragraphs: ["Our web application is designed to be hosted in the BC Dev Exchange’s OpenShift container environment. It consists of a React frontend for users to interface with, a MongoDB database to store project and reporting data, and an API to allow the frontend to request data from the database.",
   "We identified five key groups that would interact with our application:",
-  "With our key groups identified, we then conducted interviews with stakeholders so that we could identify our personas and improve their journeys in the quarterly status reporting process. For our prototype we focused on a few of the core journeys of the Ministry Submitters and Finance Analysts shown below:"],
+  "With our key groups identified, we then conducted interviews with stakeholders so that we could identify our personas and improve their journeys in the quarterly status reporting process. For our prototype we focused on implementing a few of the core journeys of the Ministry Submitters and Finance Analysts.",],
   list: [
     "Ministry Submitters",
     "Finance Analysts",
@@ -100,9 +100,17 @@ const content = {
     "System Administrator"
   ],
   images: [
-    {image: journey1Image, altText: "Diagram showing user journey for ministry submitters to create a new project.", figureText: "Figure 1 - Submitter Enters a New Project Into the System"},
-    {image: journey2Image, altText: "Diagram showing user journey for ministry submitters completing a quarterly status report.", figureText: "Figure 2 - Submitter Completes and Submits a Quarterly Status Report to the DIO"},
-    {image: journey3Image, altText: "Diagram showing user journey for finance analysts to review a single quarterly report.", figureText: "Figure 3 - Finance Analyst Reviews Quarterly Report"},
+    {image: journey1Image, altText: "Diagram showing user journey for ministry submitters to create a new project.", figureText: "Figure 1 - Submitter Enters a New Project Into the System", desc: ["Christina is a project manager and Luke is a project lead and they are our Submitter personas. Before a project can be created the appropriate approvals and information must be in place. Once Christina receives confirmation that her project has been approved from the DIO, she then contacts relevant project contacts that need to be registered in the system. Luke receives an email that the project has been approved so his next step is to register with the application.",
+    "Christina can then log into the application to begin entering the project details into a form. She assigns Luke as a project contact after he registers with the application. Then she enters the milestones, objectives, and key performance indicators (KPIs) that were approved by the DIO into the project form. Once she confirms project information is accurate she submits the form to create her new project in the system."
+  ]},
+    {image: journey2Image, altText: "Diagram showing user journey for ministry submitters completing a quarterly status report.", figureText: "Figure 2 - Submitter Completes and Submits a Quarterly Status Report to the DIO", desc: ["Once a project exists in the system, Submitters can then enter status reports quarterly. When it comes time to submit a report Christina reaches out to relevant stakeholders and the project team to obtain the information necessary to complete the status report for that quarter. Christina and Luke work with stakeholders to ensure data is accurate and up to date.",
+    "Christina can then log into the application and select the option to start a report for her project and is redirected to the most recent reporting form. She then steps through each section of the form and uses validation to ensure the data being entered adheres to the correct formats.",
+    "Once the data is entered it can be reviewed with stakeholders and the project team before it is submitted to the DIO."
+  ]},
+    {image: journey3Image, altText: "Diagram showing user journey for finance analysts to review a single quarterly report.", figureText: "Figure 3 - Finance Analyst Reviews Quarterly Report", desc: ["Jason is our Finance Analyst and his primary role in our system is to review quarterly status reports after they have been submitted to the DIO. He begins this process by logging into the application where he has the option to view a list of submitted reports. He selects a report to review from the list and is redirected to the report details.",
+    "Jason skims the project information for any obvious issues and confirms that project percent complete is within expectations for that project. He then reviews the status summary and KPIs to see if the project is performing as expected. Then he assesses the financials in the report to see if there are any issues and if the variance is within an acceptable range. He also reviews milestones and objectives to assess their statuses, dates, and progress.",
+    "Once the report has been reviewed and Jason has entered his quarterly report notes he can approve it or flag it for follow up. An approved report then alerts the system that it is ready to be aggregated with other reports for that quarter. A report that requires follow up can later be approved, such as when the issue that caused tje report to be flagged is addressed.",
+  ]},
   ],
   },
 };
@@ -291,6 +299,15 @@ const About: React.FC = () => {
                     <Typography variant="caption">
                       {image.figureText}
                     </Typography>
+                    <Box textAlign="left">
+                      {image.desc.map((item) => (
+                        <Box mb={4} mt={4}>
+                          <Typography variant="body1">
+                            {item}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Box>
                   </Box>
                 ))}
             </Box>
