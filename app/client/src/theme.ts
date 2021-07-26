@@ -35,6 +35,7 @@ const theme = {
   },
   navBar: {
     desktopFixedHeight: '65px',
+    desktopSpaceForIcon: '59px',
   },
   heading: {
     margin: '14px 0 5px 0',

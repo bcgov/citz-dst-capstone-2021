@@ -17,7 +17,7 @@
 import { useHistory, Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
-import { Box, Drawer, IconButton } from '@material-ui/core';
+import { Box, Divider, Drawer, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
 import typography from '../typography';
@@ -66,15 +66,15 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = props => {
   const history = useHistory();
-  const { email } = props.user;
+  const { email, firstName, lastName } = props.user;
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const headerMenuOptions = [
-    { label: 'Notifications', icon: 'NotificationsIcon', key: 0 },
-    { label: 'Account', icon: 'AccountCircleIcon', key: 1 },
-    { label: 'Settings', icon: 'SettingsIcon', key: 2 },
-    { label: 'Notice Board', icon: 'EventNoteIcon', key: 3 },
-    { label: 'About', icon: 'InfoIcon', key: 4 },
+    { label: 'Notifications', icon: 'NotificationsIcon', action: ()=> alert('TODO: Implement Notifications'), key: 0 },
+    { label: 'Account', icon: 'AccountCircleIcon', action: ()=> alert('TODO: Implement Account Options'), key: 1 },
+    { label: 'Settings', icon: 'SettingsIcon', action: ()=> alert('TODO: Implement Settings'), key: 2 },
+    { label: 'Notice Board', icon: 'EventNoteIcon', action: ()=> alert('TODO: Implement DIO Noticeboard'), key: 3 },
+    { label: 'About', icon: 'InfoIcon', action: ()=> history.push('/about'), key: 4 },
   ];
 
   const redirectLogin = () => {
@@ -88,10 +88,6 @@ const Header: React.FC<HeaderProps> = props => {
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
-  };
-
-  const handleMenuItem = () => {
-    alert('TODO: Implement Menu Item');
   };
 
   return (
@@ -117,7 +113,7 @@ const Header: React.FC<HeaderProps> = props => {
               }}
               to="/"
             >
-              <Box pl={email ? 0 : theme.spacingIncrements[1]}>
+              <Box pl={email ? 0 : theme.navBar.desktopSpaceForIcon}>
                 <GovLogo />
               </Box>
               <StyledTypography>Reporting and Dashboard Service Improvement</StyledTypography>
@@ -131,8 +127,14 @@ const Header: React.FC<HeaderProps> = props => {
         <Box>
           <Drawer variant="persistent" anchor="left" open={menuOpen}>
             <Box height={theme.navBar.desktopFixedHeight} />
+            <Box p={2} style={{backgroundColor: "#D5D5D5", textAlign: 'center'}}>
+              <Typography variant="subtitle1">
+                Welcome, {firstName} {lastName}
+              </Typography>
+            </Box>
+            <Divider />
             {headerMenuOptions.map(option => (
-              <MenuOption key={option.key} event={handleMenuItem} text={option.label} icon={option.icon} />
+              <MenuOption key={option.key} event={option.action} text={option.label} icon={option.icon} />
             ))}
           </Drawer>
         </Box>
