@@ -266,27 +266,6 @@ const About: React.FC = () => {
 
         <Grid item xs={10}>
           <Card>
-            {sectionHeading(content.goalsSection.heading)}
-            <Box m={4}>
-              <Typography variant="body1">{content.goalsSection.paragraphs[0]}</Typography>
-            </Box>
-            <Box m={4}>
-              <Typography variant="h6">{content.goalsSection.list.heading}</Typography>
-            </Box>
-            <Box m={4}>
-              <ul>
-                {content.goalsSection.list.items.map(item => (
-                  <li>
-                    <Typography variant="body1">{item}</Typography>
-                  </li>
-                ))}
-              </ul>
-            </Box>
-          </Card>
-        </Grid>
-
-        <Grid item xs={10}>
-          <Card>
             {sectionHeading(content.solutionSection.heading)}
             <Box m={4}>
               <Typography variant="body1">{content.solutionSection.paragraphs[0]}</Typography>
