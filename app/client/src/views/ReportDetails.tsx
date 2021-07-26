@@ -27,12 +27,18 @@ import {
   Typography,
 } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import PublishIcon from '@material-ui/icons/Publish';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 
 import { useHistory, useParams } from 'react-router-dom';
 import useApi from '../utils/api';
 import { Report, Project, StoreState, User, Role, ReportState } from '../types';
 import { reportDetailTabs } from '../constants';
-import { getReportingPeriodEnd, getReportingPeriodStart, getFiscalYearString } from '../utils/dateUtils';
+import {
+  getReportingPeriodEnd,
+  getReportingPeriodStart,
+  getFiscalYearString,
+} from '../utils/dateUtils';
 import KPIItem from '../components/projects/KPIItem';
 import ObjectiveItem from '../components/projects/ObjectiveItem';
 import MilestoneItem from '../components/projects/MilestoneItem';
@@ -69,7 +75,7 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-const allyProps = (index: any) => {
+const a11yProps = (index: any) => {
   return {
     id: `report-details-tab-${index}`,
     'aria-controls': `report-details-tabpanel-${index}`,
@@ -119,7 +125,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         </Typography>
         <Grid container spacing={2} alignItems="stretch">
           {report.statuses.map(status => {
-            return <StatusSummaryCard status={status} />;
+            return <StatusSummaryCard status={status} key={status.type} />;
           })}
         </Grid>
         <Box my={3}>
@@ -129,7 +135,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         </Box>
         <Grid container spacing={2}>
           {report.kpis.map(kpi => {
-            return <KPIItem kpi={kpi} useGrid />;
+            return <KPIItem kpi={kpi} useGrid key={kpi.id}/>;
           })}
         </Grid>
       </>
@@ -149,12 +155,12 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
             indicatorColor="primary"
           >
             {reportDetailTabs.map((tab, index) => (
-              <Tab label={tab} {...allyProps(index)} />
+              <Tab label={tab} {...a11yProps(index)} key={tab}/>
             ))}
           </Tabs>
         </Paper>
         <TabPanel value={tabValue} index={0}>
-          <ProjectDetailsInfoStep project={project} />
+          <ProjectDetailsInfoStep project={project} report={report} />
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
           {getStatusSummaryStep()}
@@ -169,14 +175,14 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         </TabPanel>
         <TabPanel value={tabValue} index={3}>
           {report.objectives.map(objective => (
-            <Box mb={4}>
+            <Box mb={4} key={objective.id}>
               <ObjectiveItem objective={objective} />
             </Box>
           ))}
         </TabPanel>
         <TabPanel value={tabValue} index={4}>
           {report.milestones.map(milestone => (
-            <Box mb={4}>
+            <Box mb={4} key={milestone.id}>
               <MilestoneItem milestone={milestone} />
             </Box>
           ))}
@@ -186,7 +192,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   };
 
   const renderContent = () => {
-    return report.id ? renderTabs() : <CircularProgress />;
+    return report?.id && project?.id ? renderTabs() : <CircularProgress />;
   };
 
   const submit = () => {
@@ -203,12 +209,8 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
     }
   };
 
-  const handleClick = () => {
-    if (report.state === ReportState.ReadyToSubmit) {
-      submit();
-    } else {
-      history.push(`/submit-report/${report.projectId}`);
-    }
+  const handleEdit = () => {
+    history.push(`/edit-report/${report.projectId}`);
   };
 
   const getSubmissionInfo = () => {
@@ -231,7 +233,13 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   return (
     <Container maxWidth="lg">
       <Box display="flex" justifyContent="flex-end">
-        <Button variant="outlined" color="primary" onClick={() => {alert('TODO: implement CSV export')}}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            alert('TODO: implement CSV export');
+          }}
+        >
           <GetAppIcon /> Download CSV
         </Button>
       </Box>
@@ -245,7 +253,8 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
       >
         <Box>
           <Typography variant="h5">
-            {report.quarter} FY {getFiscalYearString(report.year, report.quarter)} Status Report - {project.name}
+            {report.quarter} FY {getFiscalYearString(report.year, report.quarter)} Status Report -{' '}
+            {project.name}
           </Typography>
           <Typography variant="subtitle2">
             Reporting Period From{' '}
@@ -256,9 +265,20 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         {report.state >= ReportState.Submitted ? (
           getSubmissionInfo()
         ) : (
-          <Button variant="contained" color="primary" onClick={handleClick}>
-            {report.state === ReportState.Draft ? 'Continue Report' : 'Submit'}
-          </Button>
+          <Box display="flex" justifyContent="end">
+            <Box mr={2}>
+              <Button variant="outlined" color="primary" onClick={handleEdit}>
+                <EditOutlinedIcon fontSize="small" style={{marginRight: "8px"}}/>Edit
+              </Button>
+            </Box>
+            {report.state === ReportState.ReadyToSubmit ? (
+              <Button variant="contained" color="primary" onClick={submit}>
+                <PublishIcon fontSize="small" style={{marginRight: "8px"}}/> Submit
+              </Button>
+            ) : (
+              ''
+            )}
+          </Box>
         )}
       </Box>
       <Box>{renderContent()}</Box>

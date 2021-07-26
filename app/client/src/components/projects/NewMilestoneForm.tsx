@@ -48,10 +48,12 @@ const useStyles = makeStyles({
 interface NewMilestoneFormProps {
   closeModal: (data: any) => void;
   milestone: Milestone | null;
+  start: Date | null;
+  end: Date | null;
 }
 
 const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
-  const { closeModal, milestone } = props;
+  const { closeModal, milestone, start, end } = props;
 
   const classes = useStyles();
 
@@ -119,6 +121,8 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                   name="start"
                   label="Start"
                   value={startDate}
+                  minDate={start}
+                  minDateMessage="The start date should be later than project's start data"
                   error={touched.start && Boolean(errors.start)}
                   helperText={touched.start && errors.start}
                   onBlur={handleBlur}
@@ -145,6 +149,8 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                   name="estimatedEnd"
                   label="Planned Finish Date"
                   value={estEndDate}
+                  maxDate={end}
+                  maxDateMessage="Please, extend project's end date."
                   error={touched.estimatedEnd && Boolean(errors.estimatedEnd)}
                   helperText={touched.estimatedEnd && errors.estimatedEnd}
                   onBlur={handleBlur}

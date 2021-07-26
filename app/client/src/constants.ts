@@ -35,7 +35,7 @@ export const Ministries = [
   'Transportation and Infrastructure',
 ];
 
-export const SubmitReportSteps = [
+export const EditReportSteps = [
   'Project Information',
   'Status Summary',
   'Financial Information',

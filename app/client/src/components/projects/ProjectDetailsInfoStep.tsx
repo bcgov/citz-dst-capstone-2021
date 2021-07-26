@@ -15,10 +15,10 @@
 //
 
 import * as React from 'react';
-import { Box, Modal } from '@material-ui/core';
+import {Box, CircularProgress, Modal} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { NewProject, Project } from '../../types';
+import {NewProject, Project, Report} from '../../types';
 import ProjectProgressCard from './ProjectProgressCard';
 import ProjectIDCard from './ProjectIDCard';
 import ProjectContactCard from './ProjectContactCard';
@@ -38,9 +38,11 @@ const useStyles = makeStyles({
 
 type Props = {
   project: Project;
+  report?: Report;
 };
-const ProjectDetailsInfoStep = (props: Props) => {
-  const { project } = props;
+
+const ProjectDetailsInfoStep: React.FC<Props> = props => {
+  const { project, report } = props;
 
   const classes = useStyles();
 
@@ -81,10 +83,10 @@ const ProjectDetailsInfoStep = (props: Props) => {
     setContactModalVisible(true);
   };
 
-  return (
+  const renderContent = () => (
     <Box m={4}>
       <Box mb={4}>
-        <ProjectProgressCard {...project} />
+        <ProjectProgressCard project={project} report={report}/>
       </Box>
       <Box mb={4}>
         <ProjectIDCard project={project} editItem={editProjectIdentity} />
@@ -100,6 +102,8 @@ const ProjectDetailsInfoStep = (props: Props) => {
       </Modal>
     </Box>
   );
+
+  return project?.id ? renderContent() : <CircularProgress />;
 };
 
 export default ProjectDetailsInfoStep;

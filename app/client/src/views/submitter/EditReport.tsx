@@ -18,11 +18,12 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   FormControlLabel,
   Step,
   StepButton,
-  Stepper,
+  Stepper, Typography,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory, useParams } from 'react-router-dom';
@@ -30,22 +31,33 @@ import { useHistory, useParams } from 'react-router-dom';
 import ProjectIDCard from '../../components/projects/ProjectIDCard';
 import ProjectProgressCard from '../../components/projects/ProjectProgressCard';
 import ProjectContactCard from '../../components/projects/ProjectContactCard';
-import { SubmitReportSteps } from '../../constants';
-import {Kpi, Milestone, Objective, Project, Report, ReportState, ReportStatus, User} from '../../types';
+import { EditReportSteps } from '../../constants';
+import {
+  Kpi,
+  Milestone,
+  Objective,
+  Project,
+  Report,
+  ReportState,
+  ReportStatus,
+  User,
+} from '../../types';
 import useApi from '../../utils/api';
 import ReportStatusStep from '../../components/reports/ReportStatusStep';
 import ReportFinancialStep from '../../components/reports/ReportFinancialStep';
 import ReportObjectiveStep from '../../components/reports/ReportObjectiveStep';
 import ReportMilestoneStep from '../../components/reports/ReportMilestoneStep';
 import ReportKpiStep from '../../components/reports/ReportKpiStep';
+import { getProjectProgress } from '../../utils/reportUtils';
+import {getFiscalYearString} from "../../utils/dateUtils";
 
-const SubmitReport: React.FC = () => {
+const EditReport: React.FC = () => {
   const history = useHistory();
   const api = useApi();
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [projectInfoConfirmed, setProjectInfoConfirmed] = React.useState(false);
-  const steps = SubmitReportSteps;
+  const steps = EditReportSteps;
   const [project, setProject] = useState<Project>({} as Project);
   const [report, setReport] = useState<Report>({} as Report);
   const { projectId } = useParams<{ projectId: string }>();
@@ -71,6 +83,12 @@ const SubmitReport: React.FC = () => {
   };
   const handleMilestoneChange = (data: Milestone, index: number) => {
     report.milestones.splice(index, 1, data);
+    const { start, estimatedEnd } = project;
+    report.progress = getProjectProgress(
+      new Date(start),
+      new Date(estimatedEnd),
+      report.milestones,
+    );
     setReport(report);
   };
   const handleKpiChange = (data: Kpi, index: number) => {
@@ -119,7 +137,7 @@ const SubmitReport: React.FC = () => {
     return (
       <>
         <Box my={2}>
-          <ProjectProgressCard {...project} />
+          <ProjectProgressCard project={project} report={report} />
         </Box>
         <Box my={2}>
           <ProjectIDCard project={project} />
@@ -257,8 +275,14 @@ const SubmitReport: React.FC = () => {
     }
   };
 
-  return (
+  const render = () => (
     <Container maxWidth="lg">
+      <Box textAlign="center" my={2}>
+        <Typography variant="h5">
+          {report.quarter} FY {getFiscalYearString(report.year, report.quarter)} Status Report -{' '}
+          {project.name}
+        </Typography>
+      </Box>
       <Stepper nonLinear activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           return (
@@ -310,6 +334,8 @@ const SubmitReport: React.FC = () => {
       </div>
     </Container>
   );
+
+  return project?.id ? render() : <CircularProgress />;
 };
 
-export default SubmitReport;
+export default EditReport;
