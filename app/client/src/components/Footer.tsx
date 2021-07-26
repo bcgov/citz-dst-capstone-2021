@@ -19,7 +19,7 @@ import React from 'react';
 import theme from '../theme';
 
 const StyledFooter = styled.footer`
-  z-index: ${theme.zIndices[1]};
+  z-index: ${theme.zIndices[5]};
   background-color: #036;
   border-top: 2px solid #fcba19;
   color: #fff;
