@@ -145,8 +145,8 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const renderTabs = () => {
     return (
       <>
-        {/* {user.role === Role.FA && report.state === ReportState.Submitted ? <ReviewerPanel /> : <></>} */}
-        <ReviewerPanel report={report} />
+        {user.role === Role.FA && report.state >= ReportState.Submitted ? <ReviewerPanel report={report} /> : <></>}
+        {/* <ReviewerPanel report={report} /> */}
         <Paper>
           <Tabs
             value={tabValue}

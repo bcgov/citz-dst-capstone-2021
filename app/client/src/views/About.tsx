@@ -16,7 +16,7 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { Typography, Box, Grid, Container, Card } from '@material-ui/core';
+import { Typography, Box, Grid, Container, Card, Link } from '@material-ui/core';
 import theme from '../theme';
 import samaraBioImage from '../assets/images/about/samara_bio_portrait.jpg';
 import nickBioImage from '../assets/images/about/nick_bio_portrait.jpg';
@@ -82,8 +82,14 @@ const content = {
   conclusionSection: {
     heading: 'Our Gratitude',
     paragraphs: [
-      'This project has been a challenging yet wonderful experience that we are proud to have participated in. Team RDSI would like to thank our sponsors Shashank Shekhar, Poornima Sivanand, and Robert Kobenter, as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors.',
+      `This project has been a challenging yet wonderful experience that we are proud to have participated in. Team RDSI would like to thank our sponsors `,
+      ` as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors.`,
     ],
+    sponsors: [
+      {name: 'Shashank Shekhar', email: 'Shashank.Shekhar@gov.bc.ca'},
+      {name: 'Poornima Sivanand', email: 'Poornima.Sivanand@gov.bc.ca'},
+      {name: 'Robert Kobenter', email: 'Robert.W.Kobenter@gov.bc.ca'},
+    ]
   },
 
   problemSection: {
@@ -165,7 +171,7 @@ const content = {
         desc: [
           'Jason is our Finance Analyst and his primary role in our system is to review quarterly status reports after they have been submitted to the DIO. He begins this process by logging into the application where he has the option to view a list of submitted reports. He selects a report to review from the list and is redirected to the report details.',
           'Jason skims the project information for any obvious issues and confirms that project percent complete is within expectations for that project. He then reviews the status summary and KPIs to see if the project is performing as expected. Then he assesses the financials in the report to see if there are any issues and if the variance is within an acceptable range. He also reviews milestones and objectives to assess their statuses, dates, and progress.',
-          'Once the report has been reviewed and Jason has entered his quarterly report notes he can approve it or flag it for follow up. An approved report then alerts the system that it is ready to be aggregated with other reports for that quarter. A report that requires follow up can later be approved, such as when the issue that caused tje report to be flagged is addressed.',
+          'Once the report has been reviewed and Jason has entered his quarterly report notes he can approve it or flag it for follow up. An approved report then alerts the system that it is ready to be aggregated with other reports for that quarter. A report that requires follow up can later be approved, such as when the issue that caused the report to be flagged is addressed.',
         ],
       },
     ],
@@ -185,10 +191,9 @@ const About: React.FC = () => {
           </Grid>
           <Grid item sm={12} md={8}>
             <Typography variant="body1">{bio.content}</Typography>
-            <Typography variant="subtitle2">
-              <strong>Contact: </strong>
-              {bio.email}
-            </Typography>
+              <Link href={`mailto: ${bio.email}`} variant="body2">
+                {bio.email}
+              </Link>
           </Grid>
         </Grid>
       </Grid>
@@ -317,7 +322,16 @@ const About: React.FC = () => {
           <Card>
             {sectionHeading(content.conclusionSection.heading)}
             <Box m={4}>
-              <Typography variant="body1">{content.conclusionSection.paragraphs[0]}</Typography>
+              <Typography variant="body1">
+                {content.conclusionSection.paragraphs[0]} {content.conclusionSection.sponsors.map((sponsor) =>(
+                  <>
+                    <Link href={`mailto: ${sponsor.email}`} variant="body1">
+                      {sponsor.name}
+                    </Link>{sponsor.name === "Poornima Sivanand" ? ', and ' : ', '}
+                  </>
+                ))}
+                {content.conclusionSection.paragraphs[1]}
+              </Typography>
             </Box>
           </Card>
         </Grid>

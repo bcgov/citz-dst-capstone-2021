@@ -176,7 +176,7 @@ const NewKPIForm: React.FC<NewKPIFormProps> = props => {
                       (values.baseline > values.value || values.value > value)) // increasing target
                   ) {
                     formik.setFieldValue('value', values.baseline);
-                    console.log('value => ', values.baseline);
+                    // console.log('value => ', values.baseline);
                   }
                 }}
                 error={touched.target && Boolean(errors.target)}
