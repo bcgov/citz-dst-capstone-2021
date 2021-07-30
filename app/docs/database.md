@@ -2,7 +2,7 @@
 
 ## Deploy MongoDB Pod
 
-If the database pod has not been deployed yet, refer to [Deploy MongoDB](./deployment.md#Deploy MongoDB)
+If the database pod has not been deployed yet, refer to [Deploy MongoDB](./deployment.md#Deploy_MongoDB)
 
 ## Data Models
 
@@ -96,9 +96,9 @@ sh-4.2$ ls dump/
 rdsi
 ```
 
-#### Restore data from a backup file
+#### Restore data from backup files
 
-If the database already exists, then `mongorestore` command without `--drop` option might fail.
+If the database already exists and `mongorestore` command is executed without `--drop` option, then it might fail with duplicated key errors.
 
 ```
 sh-4.2$ mongorestore -h $MONGODB_SERVICE_HOST:$MONGODB_SERVICE_PORT -d rdsi -u $MONGODB_USER -p $MONGODB_PASSWORD dump/rdsi --drop
@@ -107,7 +107,7 @@ sh-4.2$ mongorestore -h $MONGODB_SERVICE_HOST:$MONGODB_SERVICE_PORT -d rdsi -u $
 2021-07-30T05:00:07.996+0000	done
 ```
 
-If you created the backup file using `admin` user and want to restore `admin` database too, then use the following command.
+If you created the backup files using `admin` user and want to restore `admin` database too, then use the following command.
 
 `mongorestore -h $MONGODB_SERVICE_HOST:$MONGODB_SERVICE_PORT -u admin -p $MONGODB_ADMIN_PASSWORD --drop dump`
 
