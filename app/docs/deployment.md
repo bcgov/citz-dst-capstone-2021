@@ -74,7 +74,7 @@ The GitHub Actions are defined as workflows. A workflow is triggered by a pull r
 
 You can see three workflows defined at [GitHub Actions](https://github.com/bcgov/citz-dst-capstone-2021/actions)
 
-![GitHub Workflows](./images/github-actions.png)
+![GitHub Workflows](./images/github-actions.png | width=200)
 
 #### [CI](../../.github/workflows/app-CI.yml) workflow
 
