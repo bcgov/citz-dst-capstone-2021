@@ -23,12 +23,13 @@ You can deploy a MongoDB pod using the [sample MongoDB template](https://github.
    - **Enter `rdsi` into `MongoDB Database Name` input box**
    - You can adjust `Memory Limit` and `Volume Capacity` according to your resource requirements.
    - You can leave other input fields as the defaults
-   ![MongoDB Template Form](./images/mongodb-template-form.png)
+   <img src="https://github.com/bcgov/citz-dst-capstone-2021/blob/docs/deployment/app/docs/images/mongodb-template-form.png" width="600">
+
 9. Click `Create`
 
 The Topology view will load with the new application.
 
-![Topology View MongoDB](./images/topology-mongodb.png)
+<img src="https://github.com/bcgov/citz-dst-capstone-2021/blob/docs/deployment/app/docs/images/topology-mongodb.png" width="200">
 
 ## Build and Deployment Configuration
 
@@ -74,7 +75,7 @@ The GitHub Actions are defined as workflows. A workflow is triggered by a pull r
 
 You can see three workflows defined at [GitHub Actions](https://github.com/bcgov/citz-dst-capstone-2021/actions)
 
-![GitHub Workflows](./images/github-actions.png | width=200)
+<img src="https://github.com/bcgov/citz-dst-capstone-2021/blob/docs/deployment/app/docs/images/github-actions.png" width="300">
 
 #### [CI](../../.github/workflows/app-CI.yml) workflow
 
@@ -85,7 +86,7 @@ You can see three workflows defined at [GitHub Actions](https://github.com/bcgov
 
 - Triggered on pull requests on `main` branch
 - Runs step 2 - 7
-![CI-CD Workflow](./images/ci-cd-workflow.png)
+<img src="https://github.com/bcgov/citz-dst-capstone-2021/blob/docs/deployment/app/docs/images/ci-cd-workflow.png" width="800">
 
 #### [Clean](../../.github/workflows/clean.yml) workflow
 
