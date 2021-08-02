@@ -436,6 +436,49 @@ Select the **Submit** button once report information has been reviewed and verif
 
 ## Review a Quarterly Report
 
-**Who:** Finance Analyst
-**When:** A Submitter completes and submits a quarterly status report to the DIO.
+> **Who:** Finance Analyst
+> **When:** A Submitter completes and submits a quarterly status report to the DIO.
+> **Assumptions:**
+> - Finance Analyst understands business rules and what to review a project for.
 
+Submitted quarterly reports must be reviewed by a Finance Analyst. Our application is designed to assist the Finance Analyst in this process by surfacing relevant information for quick access while allowing the Finance Analyst to drill down into the details.
+
+While logged in as a Finance Analyst, the user should see a dashboard that shows a breakdown of the quarterly report states for the current reporting period.
+
+![Finance Analyst Dashboard](./images/screen-fa-dashboard.png)
+
+> :warning: reports are not separated by reporting period in this POC prototype. Future iterations will only display reports for the current reporting period in the summary.
+
+Select the **Review Reports** button to navigate to a list of submitted reports to review.
+
+![Reports to Review List](./images/screen-review-reports.png)
+
+Select the downward arrow of a report you wish to review to expand financial details.
+
+> The expanded details provide a summary of the submitter, the ministry responsible, overall project status, project phase, and financial data.
+
+Select the **Review Report** button to navigate to the report details and begin the review process.
+
+![Review Report 1a](./images/screen-review-report-1a.png)
+
+> The review report view is the same for the Finance Analyst as the report details view for all users, except that it has a panel for the reviewer to add notes and mark a report as approved or flag it for follow up.
+
+Select the round comment icon on the right hand side of the screen to open the reviewer panel.
+
+![Review Report 1b](./images/screen-review-report-1b.png)
+
+Enter any notes about the report in the **QR Notes** field.
+
+> The *QR Notes* field is a free form text field that is designed to allow the analyst to take note of any issues or important comments found in the review process.
+
+Select a section from the tabs to view and assess the report information for that section:
+
+> **Project Information** contains project progress information, project identification information, and contacts assigned to that project.
+> **Status Summary** contains cards for each project status reported. This is also where the state of the project's KPIs are displayed for a report.
+> **Financial Information** contains the financial information reported.
+> **Business Case Objectives** contains the state of the project's business case objectives for that report.
+> **Key Milestones** contains the state of the project's milestones for that report.
+
+Once the review is complete, select either *Approved* or *Follow Up Required* from the **Set Status** dropdown.
+
+Select the **Submit Review** button to update the report state and submit the review to the system.
