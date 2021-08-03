@@ -30,8 +30,8 @@ import {
 } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import {connect} from 'react-redux';
-import {Report, ReportState, StoreState, User} from '../../types';
+import { connect } from 'react-redux';
+import { Report, ReportState, StoreState, User } from '../../types';
 import theme from '../../theme';
 import useApi from '../../utils/api';
 import emitter from '../../events/Emitter';

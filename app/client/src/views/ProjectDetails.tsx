@@ -82,9 +82,12 @@ const ProjectDetails: React.FC = () => {
   };
 
   const loadProject = (): Promise<void> => {
-    return api.getProjectDetail(cps).then(data => {
-      return setProject(data);
-    }).catch(console.log);
+    return api
+      .getProjectDetail(cps)
+      .then(data => {
+        return setProject(data);
+      })
+      .catch(console.log);
   };
 
   // data is projectId or Report object
@@ -157,7 +160,7 @@ const ProjectDetails: React.FC = () => {
         </Paper>
         <Container maxWidth="lg">
           <TabPanel value={step} index={0}>
-            <ProjectDetailsInfoStep project={project} report={lastReport}/>
+            <ProjectDetailsInfoStep project={project} report={lastReport} />
           </TabPanel>
           <TabPanel value={step} index={1}>
             <ProjectDetailsKpiStep

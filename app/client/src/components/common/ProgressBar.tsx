@@ -26,8 +26,8 @@ const BorderLinearProgress = withStyles({
 
 type Props = {
   value: number;
-  hidePercent?: boolean
-}
+  hidePercent?: boolean;
+};
 
 const ProgressBar: React.FC<Props> = props => {
   const { value, hidePercent } = props;
@@ -36,7 +36,7 @@ const ProgressBar: React.FC<Props> = props => {
       <Box width="100%" mr={1}>
         <BorderLinearProgress variant="determinate" {...props} />
       </Box>
-      <Box minWidth={30} display={hidePercent ? "none" : ''} textAlign="right">
+      <Box minWidth={30} display={hidePercent ? 'none' : ''} textAlign="right">
         <Typography variant="body2" color="textSecondary">
           {`${Math.round(value)}%`}
         </Typography>

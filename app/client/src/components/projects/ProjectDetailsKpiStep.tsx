@@ -19,7 +19,7 @@ import { Box, Button, Modal } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Kpi, Milestone, Report } from '../../types';
+import { Kpi, Report } from '../../types';
 import KPIItem from './KPIItem';
 import NewKPIForm from './NewKPIForm';
 import emitter from '../../events/Emitter';

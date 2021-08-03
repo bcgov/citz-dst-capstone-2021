@@ -537,7 +537,8 @@ Check the render method of `Unstable_TrapFocus`. */}
           milestone={milestones[cacheIndex]}
           start={startDate}
           end={estEndDate}
-          closeModal={handleMilestoneModal}/>
+          closeModal={handleMilestoneModal}
+        />
       </Modal>
     </Container>
   );

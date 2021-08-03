@@ -19,7 +19,7 @@ import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { useFormik } from 'formik';
 import _ from 'lodash';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { validateFinance } from '../../utils/validationSchema';
 import { FinancialStatus } from '../../types';
 

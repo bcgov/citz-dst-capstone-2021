@@ -66,7 +66,7 @@ const ProjectContactsForm: React.FC<Props> = props => {
     },
   });
 
-  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
+  const { errors, touched, isValid, handleSubmit, handleBlur } = formik;
 
   const cancel = () => {
     emitter.emit(EventType.Project.UpdateContact, null);
