@@ -90,7 +90,7 @@ const ReportKpiItem = (props: Props) => {
             </Typography>
             <Typography variant="subtitle1">
               <strong>Target - </strong>
-              {/* {TODO: (nick) how to decide unit is prepending or appending */}
+              {/* {TODO: (Nick) how to decide unit is prepending or appending */}
               {unit === '$' ? unit + target : target + unit}
             </Typography>
           </Box>

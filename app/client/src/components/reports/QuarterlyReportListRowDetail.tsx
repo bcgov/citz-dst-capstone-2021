@@ -52,7 +52,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <strong>Report Due</strong>
         </Typography>
         <Typography variant="body2">
-          {/* TODO: Implement due dates for quarterly reports; once implemented display due date here */}
+          {/* TODO: (Samara) Implement due dates for quarterly reports; once implemented display due date here */}
           yyyy-mm-dd
         </Typography>
       </Box>

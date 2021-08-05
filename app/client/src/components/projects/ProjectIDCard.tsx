@@ -38,7 +38,6 @@ const ProjectIDCard: React.FC<Props> = props => {
   const { project, editItem } = props;
   const { name, description, ministry, program, cpsIdentifier, projectNumber } = project;
 
-  // TODO: refactor any custom colours and theming using the theme provider
   return (
     <Box boxShadow={2} borderRadius={4}>
       <StyledHeader>

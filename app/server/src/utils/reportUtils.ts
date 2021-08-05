@@ -32,7 +32,7 @@ import { removeProperties } from '@utils/util';
 import ReportDTO from '@dtos/ReportDTO';
 
 export function getNextReport(report: Report): ReportDTO {
-  // TODO: exception when the project has been completed
+  // TODO: (Nick) exception when the project has been completed
   const newReport = _.omit(report, '_id', 'submitter', 'submittedAt', 'createdAt', 'updatedAt');
   removeProperties(newReport);
   const { quarter } = newReport;
@@ -97,7 +97,7 @@ export const getInitialReport = (
     year,
     milestones,
     objectives,
-    kpis
+    kpis,
   };
   return report;
 };

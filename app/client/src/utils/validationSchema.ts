@@ -167,7 +167,7 @@ export const validateReportStatus = yup.object({
 });
 
 export const validateFinance = yup.object({
-  // TODO: (nick) Which restrictions can we apply?
+  // TODO: (Nick) Which restrictions can we apply?
   budget: yup.number().min(1).required(),
   estimatedTotalCost: yup.number().min(1),
 });

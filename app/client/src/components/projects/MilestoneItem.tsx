@@ -22,7 +22,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import { Milestone } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
-// TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
   background-color: #d5d5d5;
   justify-content: space-between;

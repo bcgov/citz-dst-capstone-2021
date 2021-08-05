@@ -200,7 +200,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   };
 
   const submit = () => {
-    // TODO: Limit the period of time that a user can submit?
+    // TODO: (Nick) restrict submission period
     if (user) {
       const update = {
         id: report.id,

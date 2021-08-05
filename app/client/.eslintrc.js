@@ -41,7 +41,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/destructuring-assignment': 'off',
     'max-len': 'off',
-    'no-console': 'off', // TODO: (nick) turn on 'no-console' and 'no-alert' rules
+    'no-console': 'off', // TODO: (Nick) turn on 'no-console' and 'no-alert' rules
     'no-alert': 'off',
   },
 };

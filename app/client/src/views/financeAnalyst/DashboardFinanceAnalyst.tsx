@@ -26,7 +26,8 @@ import useApi from '../../utils/api';
 const DashboardFinanceAnalyst: React.FC = () => {
   const history = useHistory();
   const api = useApi();
-  // TODO: better way to only grab required data from api instead of entire reports
+  // TODO: (Samara) pagination, filter, search:
+  // better way to only grab required data from api instead of entire reports
   const [reportsInProgress, setReportsInProgress] = React.useState(0);
   const [reportsSubmitted, setReportsSubmitted] = React.useState(0);
   const [reportsToFollowup, setReportsToFollowup] = React.useState(0);

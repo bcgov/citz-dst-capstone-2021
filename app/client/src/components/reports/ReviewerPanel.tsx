@@ -148,7 +148,7 @@ const ReviewerPanel: React.FC<Props> = props => {
             />
           </Box>
         </FormControl>
-        {/* TODO: Display issues below QR notes if implementing issue tracking system for reviewer */}
+        {/* TODO: (Samara) Display issues below QR notes if implementing issue tracking system for reviewer */}
       </Drawer>
     </>
   );

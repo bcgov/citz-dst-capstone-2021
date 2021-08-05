@@ -28,7 +28,6 @@ const Home: React.FC<HomeProps> = props => {
   const { user } = props;
   const history = useHistory();
 
-  // TODO: (Samara) replace this temporary redirect with a better solution
   const RedirectUser = () => {
     switch (user.role) {
       case Role.FA:

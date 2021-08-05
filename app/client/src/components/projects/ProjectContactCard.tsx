@@ -21,7 +21,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
 import { Project } from '../../types';
 
-// TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
   background-color: #d5d5d5;
   justify-content: space-between;

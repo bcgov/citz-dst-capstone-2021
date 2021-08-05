@@ -112,3 +112,6 @@ If you created the backup files using the `admin` user and want to also restore 
 `mongorestore -h $MONGODB_SERVICE_HOST:$MONGODB_SERVICE_PORT -u admin -p $MONGODB_ADMIN_PASSWORD --drop dump`
 
 ## Limitations & Considerations
+
+- [Relation of user and project](./limitation-recommendation.md#relation-of-user-and-project)
+- [Ministry list](./limitation-recommendation.md#ministry-list)

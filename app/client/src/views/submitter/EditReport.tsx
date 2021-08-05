@@ -97,7 +97,7 @@ const EditReport: React.FC = () => {
     setReport(report);
   };
 
-  // TODO: (nick) how to use array instead of followings?
+  // TODO: (Nick) how to use array instead of followings?
   // each step interferes with each other during simultaneous updates
   const [valid0, setValid0] = React.useState(false);
   const [valid1, setValid1] = React.useState(false);
@@ -301,10 +301,7 @@ const EditReport: React.FC = () => {
       </Stepper>
 
       <div>
-        <div>
-          {/* TODO: Better handling of step content passed into component */}
-          {getStepContent(activeStep)}
-        </div>
+        <div>{getStepContent(activeStep)}</div>
         <Container maxWidth="sm">
           <Box
             display="flex"

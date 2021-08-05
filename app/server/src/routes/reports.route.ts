@@ -99,7 +99,7 @@ class ReportsRoute implements Route {
       .delete(ReportController.deleteKpi)
       .patch(validationMiddleware(KpiDTO, 'body', true), ReportController.updateKpi);
 
-    // TODO: (nick) API: do we need APIs for the financial data of a report?
+    // TODO: (Nick) API: do we need APIs for the financial data of a report?
   }
 }
 

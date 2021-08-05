@@ -46,7 +46,6 @@ import utils from '../../utils';
 import NewMilestoneForm from '../../components/projects/NewMilestoneForm';
 import MilestoneItem from '../../components/projects/MilestoneItem';
 
-// TODO: Move to constants file
 const steps = [
   'Project Identification',
   'Contacts',
@@ -227,8 +226,6 @@ const NewProjectForm: React.FC = () => {
           error={touched.description && Boolean(errors.description)}
           helperText={touched.description && errors.description}
         />
-        {/* TODO: (nick) resolve 'Warning: findDOMNode is deprecated in StrictMode'
-        https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode */}
         <FormControl margin="normal" fullWidth>
           <InputLabel>Ministry</InputLabel>
           <Select
@@ -386,9 +383,6 @@ const NewProjectForm: React.FC = () => {
           </Typography>
         </Box>
         <Box display="flex" flexDirection="row" justifyContent="space-between" mb={4}>
-          {/* TODO: (nick) Fix -> Warning: A component is changing an uncontrolled input to be controlled.
-            This is likely caused by the value changing from undefined to a defined value, which should not happen. */}
-          {/* TODO: (nick) Fix: it doesn't display errors like https://material-ui-pickers.dev/demo/datepicker */}
           <KeyboardDatePicker
             autoOk
             size="small"
@@ -497,10 +491,7 @@ const NewProjectForm: React.FC = () => {
       </Stepper>
       <div>
         <form onSubmit={handleSubmit}>
-          <div>
-            {/* TODO: Better handling of step content passed into component */}
-            {getStepContent(activeStep)}
-          </div>
+          <div>{getStepContent(activeStep)}</div>
           <Container style={{ maxWidth: '800px' }}>
             <Box
               display="flex"
@@ -530,8 +521,9 @@ const NewProjectForm: React.FC = () => {
           </Container>
         </form>
       </div>
-      {/* TODO: (nick) Fix -> Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
-Check the render method of `Unstable_TrapFocus`. */}
+      {/* TODO: (Nick) Fix -> Warning: Function components cannot be given refs.
+       Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+       Check the render method of `Unstable_TrapFocus`. */}
       <Modal disableEnforceFocus open={openMilestone} className={classes.modal}>
         <NewMilestoneForm
           milestone={milestones[cacheIndex]}

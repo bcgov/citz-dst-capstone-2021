@@ -254,7 +254,7 @@ const ReportController = {
     try {
       const { id } = req.params;
       const input: ReportDTO = req.body;
-      // TODO: (nick) use transaction
+      // TODO: (Nick) use transaction
       assert(input.submitter);
 
       input.submittedAt = new Date();

@@ -71,13 +71,6 @@ export interface StoreState {
   user: User;
 }
 
-// TODO: (nick) users should be mapped to the exact User type
-// export interface SimpleContact {
-//   firstName: string;
-//   lastName: string;
-//   id: string;
-// }
-
 export enum Status {
   Green,
   Yellow,

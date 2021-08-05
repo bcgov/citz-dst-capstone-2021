@@ -93,6 +93,10 @@ You can see three workflows defined at [GitHub Actions](https://github.com/bcgov
 - Triggered merge events on `main` and `release` branches
 - Runs step 9 - 10
 
+## Limitations & Considerations
+
+- [MongoDB deployment](./limitation-recommendation.md#mongodb-deployment)
+
 ## Conclusion
 
 If you look into the workflow definitions and build/deployment configurations, you will find they are quite complex processes and have many parameters.

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'reflect-metadata';
 import UserService from '@services/users.service';
 import UserDTO from '@dtos/UserDTO';
 import AuthService from '@services/auth.service';
