@@ -23,7 +23,7 @@ import { Project } from '../../types';
 
 // TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
   justify-content: space-between;
   display: flex;
   padding: 8px;

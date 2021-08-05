@@ -23,7 +23,8 @@ import {
   FormControlLabel,
   Step,
   StepButton,
-  Stepper, Typography,
+  Stepper,
+  Typography,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory, useParams } from 'react-router-dom';
@@ -49,7 +50,7 @@ import ReportObjectiveStep from '../../components/reports/ReportObjectiveStep';
 import ReportMilestoneStep from '../../components/reports/ReportMilestoneStep';
 import ReportKpiStep from '../../components/reports/ReportKpiStep';
 import { getProjectProgress } from '../../utils/reportUtils';
-import {getFiscalYearString} from "../../utils/dateUtils";
+import { getFiscalYearString } from '../../utils/dateUtils';
 
 const EditReport: React.FC = () => {
   const history = useHistory();

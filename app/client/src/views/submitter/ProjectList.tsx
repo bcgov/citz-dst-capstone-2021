@@ -44,7 +44,7 @@ const StyledHeader = styled(Box)`
 `;
 
 const StyledTableHead = styled(TableHead)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
 `;
 
 const StyledTableHeadCell = styled(TableCell)`

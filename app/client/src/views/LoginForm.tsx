@@ -18,7 +18,7 @@ import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Box, Button, Container, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import { login, logout } from '../actions';

@@ -19,7 +19,7 @@ import { Box, Button, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
-import {Milestone, Project, Report} from '../../types';
+import { Milestone, Project, Report } from '../../types';
 import MilestoneItem from './MilestoneItem';
 import NewMilestoneForm from './NewMilestoneForm';
 import EventType from '../../events/Events';
@@ -114,7 +114,8 @@ const ProjectDetailsMilestoneStep = (props: Props) => {
           milestone={milestones[cacheIndex]}
           start={new Date(start)}
           end={new Date(estimatedEnd)}
-          closeModal={handleUpdate} />
+          closeModal={handleUpdate}
+        />
       </Modal>
     </>
   );

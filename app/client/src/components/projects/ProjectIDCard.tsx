@@ -16,13 +16,13 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { Typography, Box, IconButton, Link } from "@material-ui/core";
+import { Typography, Box, IconButton, Link } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import Card from './Card';
 import { Project } from '../../types';
 
 const StyledHeader = styled(Box)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
   justify-content: space-between;
   display: flex;
   padding: 8px;
