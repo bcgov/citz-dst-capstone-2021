@@ -408,6 +408,7 @@ These warnings and errors are printed on the browser's console view, although th
   - No unit tests on the frontend
   - No e2e tests
   - APIs test coverage
+
     ![API Test Coverage](./images/api-test-coverage.png)
 
 - TO-BE

@@ -23,6 +23,7 @@ You can deploy a MongoDB pod using the [sample MongoDB template](https://github.
    - **Enter `rdsi` into `MongoDB Database Name` input box**
    - You can adjust `Memory Limit` and `Volume Capacity` according to your resource requirements.
    - You can leave other input fields as the defaults
+   
    ![MongoDB Template Form](./images/mongodb-template-form.png)
 
 9. Click `Create`
@@ -86,7 +87,8 @@ You can see three workflows defined at [GitHub Actions](https://github.com/bcgov
 
 - Triggered on pull requests on `main` branch
 - Runs step 2 - 7
-![CI/CD Workflow](./images/ci-cd-workflow.png)
+
+   ![CI/CD Workflow](./images/ci-cd-workflow.png)
 
 #### [Clean](../../.github/workflows/clean.yml) workflow
 
