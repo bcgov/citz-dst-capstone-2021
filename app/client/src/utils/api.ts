@@ -66,7 +66,7 @@ const useApi = () => {
 
     async logout(user: User): Promise<User> {
       if (!api.current) throw new Error('axios not set up');
-      return api.current.post('logout').then(() => {
+      return api.current.post('logout', user).then(() => {
         setApiToken('');
         return user;
       });
@@ -79,7 +79,7 @@ const useApi = () => {
       });
     },
 
-    // TODO: (nick) pass user to limit result for the user
+    // TODO: (Nick) pagination: pass user to limit result for the user
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getProjects(user?: User): Promise<Project[]> {
       if (!api.current) throw new Error('axios not set up');

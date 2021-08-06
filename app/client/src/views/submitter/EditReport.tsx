@@ -23,7 +23,8 @@ import {
   FormControlLabel,
   Step,
   StepButton,
-  Stepper, Typography,
+  Stepper,
+  Typography,
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useHistory, useParams } from 'react-router-dom';
@@ -49,7 +50,7 @@ import ReportObjectiveStep from '../../components/reports/ReportObjectiveStep';
 import ReportMilestoneStep from '../../components/reports/ReportMilestoneStep';
 import ReportKpiStep from '../../components/reports/ReportKpiStep';
 import { getProjectProgress } from '../../utils/reportUtils';
-import {getFiscalYearString} from "../../utils/dateUtils";
+import { getFiscalYearString } from '../../utils/dateUtils';
 
 const EditReport: React.FC = () => {
   const history = useHistory();
@@ -96,7 +97,7 @@ const EditReport: React.FC = () => {
     setReport(report);
   };
 
-  // TODO: (nick) how to use array instead of followings?
+  // TODO: (Nick) how to use array instead of followings?
   // each step interferes with each other during simultaneous updates
   const [valid0, setValid0] = React.useState(false);
   const [valid1, setValid1] = React.useState(false);
@@ -300,10 +301,7 @@ const EditReport: React.FC = () => {
       </Stepper>
 
       <div>
-        <div>
-          {/* TODO: Better handling of step content passed into component */}
-          {getStepContent(activeStep)}
-        </div>
+        <div>{getStepContent(activeStep)}</div>
         <Container maxWidth="sm">
           <Box
             display="flex"

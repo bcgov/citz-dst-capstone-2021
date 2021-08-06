@@ -27,23 +27,22 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = props => {
   const { user } = props;
   const history = useHistory();
-  
-  // TODO: (Samara) replace this temporary redirect with a better solution
+
   const RedirectUser = () => {
     switch (user.role) {
       case Role.FA:
-        history.push("/finance-analyst-dashboard");
+        history.push('/finance-analyst-dashboard');
         break;
       case Role.Submitter:
       case Role.Executive:
       case Role.Admin:
       case Role.User:
-        history.push("/projects");
+        history.push('/projects');
         break;
       default:
         break;
     }
-  }
+  };
 
   if (user) {
     RedirectUser();
@@ -68,7 +67,7 @@ const Home: React.FC<HomeProps> = props => {
         <li> OCIO executive have access to key trend reports</li>
         <li>Users must login to gain access</li>
         <br />
-        <Link to='/about'>
+        <Link to="/about">
           <h2>About</h2>
         </Link>
       </Grid>

@@ -15,7 +15,7 @@
 //
 
 import React from 'react';
-import { Box, Button, Container, Typography, Stepper, Step, StepLabel } from '@material-ui/core';
+import { Box, Button, Container, Stepper, Step, StepLabel } from '@material-ui/core';
 
 interface IFormStepper {
   steps?: string[];
@@ -29,12 +29,10 @@ const FormStepper: React.FC<IFormStepper> = props => {
   const { steps = [''], stepContent = [<p>Something went wrong.</p>] } = props;
 
   const handleNext = () => {
-    // TODO: Bounds checking
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    // TODO: Bounds checking
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
@@ -57,28 +55,17 @@ const FormStepper: React.FC<IFormStepper> = props => {
         })}
       </Stepper>
       <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography variant="h1">
-              All steps complete! TODO: proper form conclusion layout
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <div>
-              {/* TODO: Better handling of step content passed into component */}
-              {stepContent[activeStep]}
-            </div>
-            <Box display="flex" flexDirection="row" justifyContent="space-between" fontWeight={800}>
-              <Button color="primary" variant="contained" type="button" onClick={handleBack}>
-                Back
-              </Button>
-              <Button color="primary" variant="contained" type="button" onClick={handleNext}>
-                Next
-              </Button>
-            </Box>
-          </div>
-        )}
+        <div>
+          {stepContent[activeStep]}
+        </div>
+        <Box display="flex" flexDirection="row" justifyContent="space-between" fontWeight={800}>
+          <Button color="primary" variant="contained" type="button" onClick={handleBack}>
+            Back
+          </Button>
+          <Button color="primary" variant="contained" type="button" onClick={handleNext}>
+            Next
+          </Button>
+        </Box>
       </div>
     </Container>
   );

@@ -25,7 +25,6 @@ interface QuarterlyReportListProps {
   reports: Report[];
 }
 
-// TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
   background-color: ${theme.colors.primary};
   color: white;

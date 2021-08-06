@@ -44,7 +44,7 @@ afterAll(async () => {
   await app.stop();
 });
 
-// TODO: (nick) Reports test cases
+// TODO: (Nick) Reports test cases
 describe.skip('Testing reports', () => {
   describe('Testing report general info', () => {
     it('[GET] /reports', () => {});

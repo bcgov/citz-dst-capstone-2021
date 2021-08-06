@@ -43,7 +43,7 @@ const ProjectController = {
     }
   },
 
-  // TODO: (nick) need to use transaction that is supported from mongodb v4
+  // TODO: (Nick) need to use transaction that is supported from mongodb v4
   async createProject(req: Request, res: Response, next: NextFunction) {
     try {
       const input: ProjectCreateDTO = req.body;
@@ -62,7 +62,7 @@ const ProjectController = {
     try {
       const { id } = req.params;
       await ReportModel.deleteMany({ projectId: id });
-      // TODO: (nick) what kind of info do we need to record as a log
+      // TODO: (Nick) what kind of info do we need to record as a log
       const data: Project = await ProjectService.deleteProject(id);
       res.status(200).json(data);
     } catch (e) {

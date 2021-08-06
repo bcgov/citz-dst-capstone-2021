@@ -35,7 +35,6 @@ import theme from '../../theme';
 import useApi from '../../utils/api';
 import ProjectListRow from '../../components/projects/ProjectListRow';
 
-// TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
   background-color: ${theme.colors.primary};
   color: white;
@@ -44,7 +43,7 @@ const StyledHeader = styled(Box)`
 `;
 
 const StyledTableHead = styled(TableHead)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
 `;
 
 const StyledTableHeadCell = styled(TableCell)`
@@ -63,7 +62,7 @@ const ProjectList: React.FC<ProjectListProps> = () => {
   const api = useApi();
 
   useEffect(() => {
-    // TODO: (nick) user should be passed to fetch projects owned by the user
+    // TODO: (Nick) filter by the login user
     api
       .getProjects()
       .then(data => {

@@ -70,7 +70,6 @@ const ProjectService = {
   },
 
   async getProjectDetail(id: string) {
-    // TODO: (nick) change so that result includes other info...
     return this.findProjectById(id);
   },
 };

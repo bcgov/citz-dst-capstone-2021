@@ -109,7 +109,13 @@ const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
                 helperText={touched.name && errors.name}
               />
             </Box>
-            <Box display="flex" justifyContent="space-between" mt={3} alignItems="center" minHeight="80px">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              mt={3}
+              alignItems="center"
+              minHeight="80px"
+            >
               <Box mr={2}>
                 <KeyboardDatePicker
                   autoOk

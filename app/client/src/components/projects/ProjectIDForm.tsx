@@ -112,7 +112,7 @@ const ProjectIDForm: React.FC<Props> = props => {
             error={touched.description && Boolean(errors.description)}
             helperText={touched.description && errors.description}
           />
-          {/* TODO: (nick) resolve 'Warning: findDOMNode is deprecated in StrictMode'
+          {/* TODO: (Nick) resolve 'Warning: findDOMNode is deprecated in StrictMode'
         https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode */}
           <FormControl margin="normal" fullWidth>
             <InputLabel>Ministry</InputLabel>

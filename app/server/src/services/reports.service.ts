@@ -73,7 +73,7 @@ const ReportService = {
     if (!report) {
       throw errorWithCode(`Unable to update report`, 500);
     }
-    // TODO: (nick) mongoose Document.lean() doesn't transform _id to id
+    // mongoose Document.lean() doesn't transform _id to id
     // eslint-disable-next-line no-underscore-dangle
     (report as Report).id = (report as any)._id;
     return report;
@@ -118,7 +118,6 @@ const ReportService = {
     if (!data) {
       throw errorWithCode(`Not found`, 404);
     }
-    // report.milestones.id(mid).set(milestone); TODO: (nick) don't know why sub-document api is not available
     Object.assign(data, milestone);
     return report.save();
   },

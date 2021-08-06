@@ -10,7 +10,7 @@ const Constants = {
 };
 
 /**
- * TODO: (nick) move to database
+ * TODO: (Nick) move to database
  */
 export const Ministries = [
   'Advanced Education and Skills Training',

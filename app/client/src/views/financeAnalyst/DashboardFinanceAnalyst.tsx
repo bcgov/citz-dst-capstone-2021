@@ -16,8 +16,7 @@
 
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Typography, Box, Grid, Button } from "@material-ui/core";
-import { connect } from 'react-redux';
+import { Typography, Box, Grid, Button } from '@material-ui/core';
 import { ReportState } from '../../types';
 import useApi from '../../utils/api';
 
@@ -27,23 +26,24 @@ import useApi from '../../utils/api';
 const DashboardFinanceAnalyst: React.FC = () => {
   const history = useHistory();
   const api = useApi();
-  // TODO: better way to only grab required data from api instead of entire reports
+  // TODO: (Samara) pagination, filter, search:
+  // better way to only grab required data from api instead of entire reports
   const [reportsInProgress, setReportsInProgress] = React.useState(0);
   const [reportsSubmitted, setReportsSubmitted] = React.useState(0);
   const [reportsToFollowup, setReportsToFollowup] = React.useState(0);
   const [reportsApproved, setReportsApproved] = React.useState(0);
 
-  useEffect(()=> {
-    api.getReports('',{ state: ReportState.Draft }).then(data => {
+  useEffect(() => {
+    api.getReports('', { state: ReportState.Draft }).then(data => {
       setReportsInProgress(data.length);
     });
-    api.getReports('',{ state: ReportState.Submitted }).then(data => {
+    api.getReports('', { state: ReportState.Submitted }).then(data => {
       setReportsSubmitted(data.length);
     });
-    api.getReports('',{ state: ReportState.FollowUpRequired }).then(data => {
+    api.getReports('', { state: ReportState.FollowUpRequired }).then(data => {
       setReportsToFollowup(data.length);
     });
-    api.getReports('',{ state: ReportState.Approved }).then(data => {
+    api.getReports('', { state: ReportState.Approved }).then(data => {
       setReportsApproved(data.length);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,34 +52,30 @@ const DashboardFinanceAnalyst: React.FC = () => {
   return (
     <Grid container spacing={2} justify="center" alignItems="center">
       <Grid item md={8}>
-      <Typography variant="h3">Finance Analyst Dashboard</Typography>
+        <Typography variant="h3">Finance Analyst Dashboard</Typography>
       </Grid>
       <Grid item md={8}>
         <Box p={4} boxShadow={2} borderRadius={4} justifyContent="space-between" display="flex">
           <Grid item>
-            <Typography variant="h4">
-              Quarterly Report States
-            </Typography>
-            <Typography variant="subtitle1">
-              Reports In Progress: {reportsInProgress}
-            </Typography>
+            <Typography variant="h4">Quarterly Report States</Typography>
+            <Typography variant="subtitle1">Reports In Progress: {reportsInProgress}</Typography>
             <Typography variant="subtitle1">
               Reports Submitted to DIO: {reportsSubmitted}
             </Typography>
             <Typography variant="subtitle1">
               Reports That Require Follow Up: {reportsToFollowup}
             </Typography>
-            <Typography variant="subtitle1">
-              Reports Approved: {reportsApproved}
-            </Typography>
+            <Typography variant="subtitle1">Reports Approved: {reportsApproved}</Typography>
           </Grid>
           <Grid item md={4} container direction="column-reverse">
             <Button
               color="primary"
               variant="outlined"
               type="button"
-              style={{margin: '4px'}}
-              onClick={()=> alert('TODO: implement quarterly report summary view for current reporting period')}
+              style={{ margin: '4px' }}
+              onClick={() =>
+                alert('TODO: implement quarterly report summary view for current reporting period')
+              }
             >
               Q1 FY 21/22 Summary
             </Button>
@@ -87,8 +83,8 @@ const DashboardFinanceAnalyst: React.FC = () => {
               color="primary"
               variant="outlined"
               type="button"
-              style={{margin: '4px'}}
-              onClick={()=> history.push("/review-reports")}
+              style={{ margin: '4px' }}
+              onClick={() => history.push('/review-reports')}
             >
               Review Reports
             </Button>
@@ -96,8 +92,8 @@ const DashboardFinanceAnalyst: React.FC = () => {
               color="primary"
               variant="outlined"
               type="button"
-              style={{margin: '4px'}}
-              onClick={()=> history.push("/projects")}
+              style={{ margin: '4px' }}
+              onClick={() => history.push('/projects')}
             >
               View All Projects
             </Button>
@@ -106,6 +102,6 @@ const DashboardFinanceAnalyst: React.FC = () => {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default DashboardFinanceAnalyst;

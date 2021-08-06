@@ -14,15 +14,12 @@
 // limitations under the License.
 //
 
-import React, { useEffect, useState } from 'react';
-import { Box, Collapse, IconButton, TableCell, TableRow } from "@material-ui/core";
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Box, Collapse, IconButton, TableCell, TableRow } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
-import {
-  getFiscalYearString,
-} from '../../utils/dateUtils';
-import {Report, User} from '../../types';
+import { getFiscalYearString } from '../../utils/dateUtils';
+import { Report, User } from '../../types';
 import ReportsToReviewListRowDetail from './ReportsToReviewListRowDetail';
 
 const StyledTableCell = styled(TableCell)`
@@ -33,7 +30,7 @@ interface ReportsToReviewListRowProps {
   report: Report;
 }
 
-const ReportsToReviewListRow: React.FC<ReportsToReviewListRowProps> = (props) => {
+const ReportsToReviewListRow: React.FC<ReportsToReviewListRowProps> = props => {
   const { report: row } = props;
   const submitter = row.submitter as User | undefined;
   const [collapse, setCollapse] = useState(true);
@@ -51,8 +48,7 @@ const ReportsToReviewListRow: React.FC<ReportsToReviewListRowProps> = (props) =>
           {row.quarter} FY {getFiscalYearString(row.year, row.quarter)}
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="center">
-          {/* TODO: display flagged issues when implementing issue tracking system */}
-          0
+          {/* TODO: display flagged issues when implementing issue tracking system */}0
         </StyledTableCell>
         <StyledTableCell component="th" scope="row" align="right">
           {row.submittedAt ? new Date(row.submittedAt).toLocaleDateString('en-CA') : '-'}

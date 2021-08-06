@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import 'reflect-metadata';
 import { connect, disconnect } from 'mongoose';
 import faker from 'faker';
 import ProjectService from '@services/projects.service';
@@ -58,7 +59,7 @@ describe('loading test data', () => {
   it('loading sample projects', () => {
     return Promise.all(
       testData.projects.map((prjData: any) => {
-        const prj = plainToClass(ProjectCreateDTO, prjData);
+        const prj = plainToClass(ProjectCreateDTO, prjData) as ProjectCreateDTO;
         return ProjectService.getProjectDetail(prj.cpsIdentifier).then(data => {
           return data || ProjectService.createProject(prj);
         });

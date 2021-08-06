@@ -15,9 +15,9 @@
 //
 
 import React from 'react';
-import {Box, Button, Grid, Typography} from '@material-ui/core';
-import {useHistory} from 'react-router-dom';
-import {Report, ReportState, User} from '../../types';
+import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Report, ReportState, User } from '../../types';
 
 interface QuarterlyReportListRowDetailProps {
   report: Report;
@@ -37,7 +37,9 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <strong>Report Submitted</strong>
         </Typography>
         <Typography variant="body2">
-          {report.submittedAt ? new Date(report.submittedAt).toLocaleDateString('en-CA') : 'Not Submitted'}
+          {report.submittedAt
+            ? new Date(report.submittedAt).toLocaleDateString('en-CA')
+            : 'Not Submitted'}
         </Typography>
       </Box>
     );
@@ -50,7 +52,7 @@ const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> 
           <strong>Report Due</strong>
         </Typography>
         <Typography variant="body2">
-          {/* TODO: Implement due dates for quarterly reports; once implemented display due date here */}
+          {/* TODO: (Samara) Implement due dates for quarterly reports; once implemented display due date here */}
           yyyy-mm-dd
         </Typography>
       </Box>

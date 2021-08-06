@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-// TODO: (nick) to be migrated to material-ui theme.
+// TODO: (Nick) deprecated: migrate to material-ui theme instead.
 
 const theme = {
   breakpoints: ['40em', '52em', '64em'],
@@ -104,8 +104,8 @@ const theme = {
     },
   },
   reviewerPanel: {
-    width: '300px'
-  }
+    width: '300px',
+  },
 };
 
 export default theme;

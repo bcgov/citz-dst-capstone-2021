@@ -40,7 +40,7 @@ export default {
   },
 
   async logout(req: RequestWithUser, res: Response, next: NextFunction) {
-    const { user } = req;
+    const user = req.body;
     return AuthService.logout(user)
       .then(() => {
         res.cookie('token', '');

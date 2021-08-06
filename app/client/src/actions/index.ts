@@ -45,7 +45,7 @@ export const logout = (user: User) => {
 };
 
 /**
- * TODO: (nick) query projects that the user has permission
+ * TODO: (Nick) query projects that the user has permission
  * @param user User
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
