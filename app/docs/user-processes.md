@@ -2,12 +2,41 @@
 
 This document describes the processes or use cases that users engage in when interacting with our POC prototype application.
 
-### Login Process
+## Table of Contents
+- [Login Process](#login-process)
+- [Register New User](#register-new-user)
+- [Create a New Project](#create-a-new-project)
+  * [Step 1: Project Identification](#step-1-project-identification)
+  * [Step 2: Project Contacts](#step-2-project-contacts)
+  * [Step 3: Project Timeline Information](#step-3-project-timeline-information)
+      - [Add a Milestone](#add-a-milestone)
+      - [Edit a Milestone](#edit-a-milestone)
+      - [Delete a Milestone](#delete-a-milestone)
+  * [Step 4: Business Case Objectives](#step-4-business-case-objectives)
+      - [Add a Business Case Objective](#add-a-business-case-objective)
+      - [Edit a Business Case Objective](#edit-a-business-case-objective)
+      - [Delete a Business Case Objective](#delete-a-business-case-objective)
+  * [Step 5: Key Performance Indicators](#step-5-key-performance-indicators)
+      - [Add a New Key Performance Indicator](#add-a-new-key-performance-indicator)
+      - [Edit a Key Performance Indicator](#edit-a-key-performance-indicator)
+      - [Delete a Key Performance Indicator](#delete-a-key-performance-indicator)
+- [Complete a Quarterly Report](#complete-a-quarterly-report)
+  * [Step 1: Project Information](#step-1-project-information)
+  * [Step 2: Status Summary](#step-2-status-summary)
+  * [Step 3: Financial Information](#step-3-financial-information)
+  * [Step 4: Business Case Objective Tracking](#step-4-business-case-objective-tracking)
+  * [Step 5: Key Milestone Status](#step-5-key-milestone-status)
+  * [Step 6: Key Performance Indicators](#step-6-key-performance-indicators)
+  * [DIO Submission](#dio-submission)
+- [Review a Quarterly Report](#review-a-quarterly-report)
+
+
+## Login Process
 
 > :warning: The login solution presented in this POC prototype is temporary and will be replaced with an existing authentication system such as KeyCloak.
 
-> **Who:** All User Personas
-> **When:** A registered user is not currently logged into the application.
+**Who:** All User Personas
+**When:** A registered user is not currently logged into the application.
 
 When a user first comes to the application they are presented with a landing page that describes the project goals, application roles, and a link to an about view describing the project further.
 
@@ -78,12 +107,12 @@ The first step involves the project identification information such as the name 
 
 Fill out the project information at this step.
 
-> All fields must be validated before the user can continue:
-> - **Project Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
-> - **Project Description** must be text and not exceed 400 characters in length.
-> - **Ministry** is required and user must select from a list of BC Government ministries.
-> - **CPS Identifier** is required, must be alphanumeric, and must be between 1 and, and must be 11 characters long.
-> - **Ministry Project Number** is required, must be alphanumeric, and must be between 2 and 10 characters in length.
+All fields must be validated before the user can continue:
+- **Project Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
+- **Project Description** must be text and not exceed 400 characters in length.
+- **Ministry** is required and user must select from a list of BC Government ministries.
+- **CPS Identifier** is required, must be alphanumeric, and must be between 1 and, and must be 11 characters long.
+- **Ministry Project Number** is required, must be alphanumeric, and must be between 2 and 10 characters in length.
 
 Select the **Next** button once all fields are filled out and validated.
 

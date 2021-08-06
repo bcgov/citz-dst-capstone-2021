@@ -173,7 +173,7 @@ export const API = {
 
 Go to [http://localhost:3000](http://localhost:3000)
 
-You may want to read [User Manual](./manual.md) to learn how to sign up, login, create a project, and submit a report.
+You may want to read [User Processes](./user-processes.md) to learn how to sign up, login, create a project, and submit a report.
 
 ## Conclusion
 
