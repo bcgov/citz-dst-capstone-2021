@@ -4,8 +4,10 @@ This document describes the processes or use cases that users engage in when int
 
 ### Login Process
 
-**Who:** All User Personas
-**When:** A registered user is not currently logged into the application.
+> :warning: The login solution presented in this POC prototype is temporary and will be replaced with an existing authentication system such as KeyCloak.
+
+> **Who:** All User Personas
+> **When:** A registered user is not currently logged into the application.
 
 When a user first comes to the application they are presented with a landing page that describes the project goals, application roles, and a link to an about view describing the project further.
 
@@ -93,10 +95,10 @@ The second step involves selecting the contacts for the project. Smaller project
 
 Enter the project contacts here.
 
-> All fields must be filled out before the user continues and duplicate contacts are allowed:
-> - **Project Manager** is the primary Submitter for the project and must be an existing user.
-> - **Project Sponsor** must be an existing user.
-> - **Project Manager** must be an existing user.
+All fields must be filled out before the user continues and duplicate contacts are allowed:
+- **Project Manager** is the primary Submitter for the project and must be an existing user.
+- **Project Sponsor** must be an existing user.
+- **Project Manager** must be an existing user.
 
 Select the **Next** button once all fields are filled out and validated.
 
@@ -120,13 +122,13 @@ First, select the **Add New Milestone** button to bring up the **Create New Mile
 
 Fill out the form with milestone information.
 
-> Not all fields must be filled out, but all fields must be validated before a new milestone can be added to the project:
-> - **Milestone Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
-> - **Start** is required and must be a valid date. A date picker element is used to enforce this.
-> - **Planned Finish Date** is required and must be a valid date. A date picker element is used to enforce this.
-> - **Comments** is only required if the status is *Yellow* or *Red*, must be text, and must not exceed 400 characters in length.
-> - **Progress** is required and must be a number between 0 and 100; the default is 0.
-> - **Status** is required and the user must select one of the options from the status dropdown; default is *Green*.
+Not all fields must be filled out, but all fields must be validated before a new milestone can be added to the project:
+- **Milestone Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
+- **Start** is required and must be a valid date. A date picker element is used to enforce this.
+- **Planned Finish Date** is required and must be a valid date. A date picker element is used to enforce this.
+- **Comments** is only required if the status is *Yellow* or *Red*, must be text, and must not exceed 400 characters in length.
+- **Progress** is required and must be a number between 0 and 100; the default is 0.
+- **Status** is required and the user must select one of the options from the status dropdown; default is *Green*.
 
 Select the **Add Milestone** button when it becomes enabled after all fields are validated to add a milestone to the project.
 
@@ -174,14 +176,14 @@ First, select the **Add New Objective** button to bring up the **Create New Obje
 
 Fill out the form with the objective information.
 
-> Not all fields must be filled out, but all fields must be validated before a new objective can be added to the project:
-> - **Objective Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
-> - **Objective Description** is optional, but must be text and not exceed 400 characters in length.
-> - **Comments** is required if the status is *Yellow* or *Red*, must be text, and must not exceed 400 characters in length.
-> - **Target Completion Date** is required and must be a valid date. A date picker element is used to enforce this.
-> - **Status** is required and the user must select one of the options from the status dropdown; default is *Green*.
-> - **Objective Phase** is optional, but must be alphanumeric, and must be between 1 and 50 characters in length.
-> - **Objective Asset** is optional, but must be alphanumeric, and must be between 1 and 50 characters in length.
+Not all fields must be filled out, but all fields must be validated before a new objective can be added to the project:
+- **Objective Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
+- **Objective Description** is optional, but must be text and not exceed 400 characters in length.
+- **Comments** is required if the status is *Yellow* or *Red*, must be text, and must not exceed 400 characters in length.
+- **Target Completion Date** is required and must be a valid date. A date picker element is used to enforce this.
+- **Status** is required and the user must select one of the options from the status dropdown; default is *Green*.
+- **Objective Phase** is optional, but must be alphanumeric, and must be between 1 and 50 characters in length.
+- **Objective Asset** is optional, but must be alphanumeric, and must be between 1 and 50 characters in length.
 
 Select the **Add Objective** button when it becomes enabled after all fields are validated to add a objective to the project.
 
@@ -229,14 +231,14 @@ First, select the **Add New KPI** button to bring up the **Create Key Performanc
 
 Fill out the form with the KPI information.
 
-> Not all fields must be filled out, but all fields must be validated before a new objective can be added to the project:
-> - **KPI Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
-> - **KPI Description** is optional, but must be text and not exceed 400 characters in length.
-> - **KPI Unit** is required and must be alphanumeric.
-> - **Baseline Value** is required and must be a number.
-> - **Target Value** is required and must be a number.
-> - **Target Completion Date** is required and must be a valid date. A date picker element is used to enforce this.
-> - **KPI Classification** is not required, but either **Output**, **Outcome** or both should be selected depending on the KPI type.
+Not all fields must be filled out, but all fields must be validated before a new objective can be added to the project:
+- **KPI Name** is required, must be alphanumeric, and must be between 1 and 50 characters in length.
+- **KPI Description** is optional, but must be text and not exceed 400 characters in length.
+- **KPI Unit** is required and must be alphanumeric.
+- **Baseline Value** is required and must be a number.
+- **Target Value** is required and must be a number.
+- **Target Completion Date** is required and must be a valid date. A date picker element is used to enforce this.
+- **KPI Classification** is not required, but either **Output**, **Outcome** or both should be selected depending on the KPI type.
 
 Select the **Add KPI** button when it becomes enabled after all fields are validated to add a KPI to the project.
 
@@ -315,27 +317,27 @@ The status summary provides an overview of a project's health based on the Submi
 
 Update the statuses based on your project's performance using the following definitions:
 
-> **Scope**
-> - Green: No projected material changes to scope baseline.
-> - Yellow: Minor changes to scope which will impact benefits OR budget OR extend the scheduled project delivery.
-> - Red: Changes in project are significant - greater than 20% of scope (change in solution, change in scope of solution, change in benefits from solution). 
+**Scope**
+- Green: No projected material changes to scope baseline.
+- Yellow: Minor changes to scope which will impact benefits OR budget OR extend the scheduled project delivery.
+- Red: Changes in project are significant - greater than 20% of scope (change in solution, change in scope of solution, change in benefits from solution). 
 
-> **Budget**
-> - Green: No projected material changes to budget baseline.
-> - Yellow: Project cannot be delivered as planned without an increase of 5-15% (please specify cause of increase); OR project cannot spend current year budget (i.e. delays - please specify cause of delays).
-> - Red: Project cannot be delivered as planned without an increase of more than 15%. 
+**Budget**
+- Green: No projected material changes to budget baseline.
+- Yellow: Project cannot be delivered as planned without an increase of 5-15% (please specify cause of increase); OR project cannot spend current year budget (i.e. delays - please specify cause of delays).
+- Red: Project cannot be delivered as planned without an increase of more than 15%. 
 
-> **Time**
-> - Green: No projected material changes to schedule.
-> - Yellow: Project schedule will be extended/delayed to include one (or more)  fiscal year/s and impacts capital budget - request to re-profile.
-> - Red: Project schedule will be extended/delayed to include one or more fiscal years, AND impact government commitments.
+**Time**
+- Green: No projected material changes to schedule.
+- Yellow: Project schedule will be extended/delayed to include one (or more)  fiscal year/s and impacts capital budget - request to re-profile.
+- Red: Project schedule will be extended/delayed to include one or more fiscal years, AND impact government commitments.
 
-> **Risk**
-> - Green: No projected  risks which will impact scope, benefits, budget, or timeline.
-> - Yellow: Significant projected risks (resources, political factors, external or internal impacts, etc.) which may impact scope, benefits, budget, and/or timeline.
-> - Red: Sector governance in place to re-structure and prioritize strategic benefit of project.
+**Risk**
+- Green: No projected  risks which will impact scope, benefits, budget, or timeline.
+- Yellow: Significant projected risks (resources, political factors, external or internal impacts, etc.) which may impact scope, benefits, budget, and/or timeline.
+- Red: Sector governance in place to re-structure and prioritize strategic benefit of project.
 
-> **Overall Status** should be representative of the project as a whole and not conflict with the information entered in the other statuses.
+**Overall Status** should be representative of the project as a whole and not conflict with the information entered in the other statuses.
 
 Select the **Next** button once all statuses have been updated to advance to the next step.
 
@@ -347,23 +349,23 @@ The financial information for a project is entered at this step. Submitters repo
 
 Enter the financial information for the current fiscal year into the form.
 
-> All fields must be valid before proceeding to other steps and some fields are automatically calculated from other fields:
-> - **Current FY Approved Funding** must be entered by the user and be a number.
-> - **Current FY Actuals** is a precalculated number that is the sum of *Sitting in Ministry* and *JV'd to OCIO*.
-> - **Sitting in Ministry** must be entered by the user and be a number.
-> - **JV'd to OCIO** must be entered by the user and be a number.
-> - **Current FY Full Year Forecasted Spend** must be entered by the user and be a number. This field appears in both *Current Fiscal Year* and *Overall Project Information* sections but has one value; updating one field will update the other.
-> - **Variance to Budget** is a precalculated number that is the difference between *Current FY Approved Funding* and *Current FY Full Year Forecasted Spend*.
+All fields must be valid before proceeding to other steps and some fields are automatically calculated from other fields:
+- **Current FY Approved Funding** must be entered by the user and be a number.
+- **Current FY Actuals** is a precalculated number that is the sum of *Sitting in Ministry* and *JV'd to OCIO*.
+- **Sitting in Ministry** must be entered by the user and be a number.
+- **JV'd to OCIO** must be entered by the user and be a number.
+- **Current FY Full Year Forecasted Spend** must be entered by the user and be a number. This field appears in both *Current Fiscal Year* and *Overall Project Information* sections but has one value; updating one field will update the other.
+- **Variance to Budget** is a precalculated number that is the difference between *Current FY Approved Funding* and *Current FY Full Year Forecasted Spend*.
 
 Enter the financial information for the overall project into the form.
 
-> All fields must be valid before proceeding to other steps and some fields are automatically calculated from other fields:
-> - **Total Project Budget** must be entered by the user and be a number.
-> - **Project Spend to End of Previous FY** must be entered by the user and be a number.
-> - **Current FY Full Year Forecasted Spend** must be entered by the user and be a number. This field appears in both *Current Fiscal Year* and *Overall Project Information* sections but has one value; updating one field will update the other.
-> - **Project Funding for Remaining FYs** must be entered by the user and be a number.
-> - **Estimated Total Cost** must be entered by the user and be a number.
-> - **Variance to Budget** is a precalculated number that is the difference between *Total Project Budget* and *Estimated Total Cost*.
+All fields must be valid before proceeding to other steps and some fields are automatically calculated from other fields:
+- **Total Project Budget** must be entered by the user and be a number.
+- **Project Spend to End of Previous FY** must be entered by the user and be a number.
+- **Current FY Full Year Forecasted Spend** must be entered by the user and be a number. This field appears in both *Current Fiscal Year* and *Overall Project Information* sections but has one value; updating one field will update the other.
+- **Project Funding for Remaining FYs** must be entered by the user and be a number.
+- **Estimated Total Cost** must be entered by the user and be a number.
+- **Variance to Budget** is a precalculated number that is the difference between *Total Project Budget* and *Estimated Total Cost*.
 
 Select the **Next** button once financial information is entered to proceed to the next step.
 
@@ -473,11 +475,11 @@ Enter any notes about the report in the **QR Notes** field.
 
 Select a section from the tabs to view and assess the report information for that section:
 
-> **Project Information** contains project progress information, project identification information, and contacts assigned to that project.
-> **Status Summary** contains cards for each project status reported. This is also where the state of the project's KPIs are displayed for a report.
-> **Financial Information** contains the financial information reported.
-> **Business Case Objectives** contains the state of the project's business case objectives for that report.
-> **Key Milestones** contains the state of the project's milestones for that report.
+**Project Information** contains project progress information, project identification information, and contacts assigned to that project.
+**Status Summary** contains cards for each project status reported. This is also where the state of the project's KPIs are displayed for a report.
+**Financial Information** contains the financial information reported.
+**Business Case Objectives** contains the state of the project's business case objectives for that report.
+**Key Milestones** contains the state of the project's milestones for that report.
 
 Once the review is complete, select either *Approved* or *Follow Up Required* from the **Set Status** dropdown.
 
