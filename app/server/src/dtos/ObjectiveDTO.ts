@@ -18,6 +18,11 @@ import { IsDate, IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator
 import { Objective, Status } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
+/**
+ * Validate a new objective object for {@link Report.objectives}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class ObjectiveDTO implements Objective {
   @IsOptional()
   @IsMongoId()

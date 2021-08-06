@@ -39,6 +39,10 @@ type Props = {
   objectives: Objective[];
 };
 
+/**
+ * Project objective step is the fourth step of project details.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectDetailsObjectiveStep = (props: Props) => {
   const { objectives, reportId } = props;
 

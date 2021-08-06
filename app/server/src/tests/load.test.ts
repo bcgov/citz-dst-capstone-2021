@@ -17,14 +17,20 @@
 import 'reflect-metadata';
 import { connect, disconnect } from 'mongoose';
 import faker from 'faker';
+import { plainToClass } from 'class-transformer';
 import ProjectService from '@services/projects.service';
 import UserService from '@services/users.service';
 import DBConfig from '@/databases';
-import { Role } from '@interfaces/roles.interface';
 import UserDTO from '@dtos/UserDTO';
-import { plainToClass } from 'class-transformer';
 import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
+import { Role } from '@interfaces/users.interface';
 import testData from './testData.json';
+
+/**
+ * Unit tests - loading sample data
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
 
 beforeAll(async () => {
   await connect(DBConfig.url, DBConfig.options);

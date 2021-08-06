@@ -17,10 +17,13 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
 
-import './App.css';
 import AppRouter from './AppRouter';
 import theme from './components/Theme';
 
+/**
+ * App - provider and router
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 function App() {
   return (
     <ThemeProvider theme={theme}>

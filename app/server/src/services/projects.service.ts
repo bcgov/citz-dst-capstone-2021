@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Data services for {@link Project}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import ProjectModel from '@models/ProjectModel';

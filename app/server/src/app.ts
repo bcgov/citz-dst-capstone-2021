@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
+/**
+ * Backend API Server
+ * - connect to database
+ * - init express server
+ * - init express middlewares
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import config from 'config';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';

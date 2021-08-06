@@ -46,6 +46,10 @@ interface NewKPIFormProps {
   kpi: Kpi | null;
 }
 
+/**
+ * New KPI form using Formik
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const NewKPIForm: React.FC<NewKPIFormProps> = props => {
   const { closeModal, kpi } = props;
   const classes = useStyles();

@@ -21,6 +21,11 @@ interface ICardItem extends PropsWithChildren<any> {
   label?: string;
   content?: string;
 }
+
+/**
+ * Card box with a label and content
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const Card: React.FC<ICardItem> = props => {
   const { label = '', content = '', children } = props;
 

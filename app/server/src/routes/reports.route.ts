@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Route} definitions for {@link Report}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
 import ReportController from '@controllers/reports.controller';

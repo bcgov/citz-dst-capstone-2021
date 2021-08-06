@@ -52,6 +52,12 @@ import ReportKpiStep from '../../components/reports/ReportKpiStep';
 import { getProjectProgress } from '../../utils/reportUtils';
 import { getFiscalYearString } from '../../utils/dateUtils';
 
+/**
+ * Submit / Edit report form page using Formik
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ * @remarks
+ *  - refactor step 0 to a component
+ */
 const EditReport: React.FC = () => {
   const history = useHistory();
   const api = useApi();

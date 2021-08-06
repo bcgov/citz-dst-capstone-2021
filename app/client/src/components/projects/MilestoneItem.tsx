@@ -36,6 +36,10 @@ interface MilestoneItemProps {
   milestone: Milestone;
 }
 
+/**
+ * Project milestone component
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const MilestoneItem: React.FC<MilestoneItemProps> = props => {
   const { milestone, deleteItem, editItem } = props;
   const { name, status, start, estimatedEnd, progress, comments } = milestone;

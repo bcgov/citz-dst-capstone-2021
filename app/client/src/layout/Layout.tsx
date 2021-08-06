@@ -38,6 +38,10 @@ const StyledMain = styled.main`
   }
 `;
 
+/**
+ * Layout with a header, footer, and main content
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const Layout: React.FC = props => {
   const { children } = props;
 

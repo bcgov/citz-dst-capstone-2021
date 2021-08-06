@@ -58,6 +58,11 @@ type Props = {
   onChange: (milestone: Milestone) => void;
   onValidation: (valid: boolean) => void;
 };
+
+/**
+ * Milestone item in the edit-report step 5
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportMilestoneItem = (props: Props) => {
   const { milestone, onChange, onValidation } = props;
   const { name, start, estimatedEnd } = milestone;

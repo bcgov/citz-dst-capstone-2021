@@ -25,6 +25,10 @@ type Props = {
   onValidation: (valid: boolean) => void;
 };
 
+/**
+ * Edit-report step 2 - Status
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportStatusStep = (props: Props) => {
   const { statuses, onChange, onValidation } = props;
 

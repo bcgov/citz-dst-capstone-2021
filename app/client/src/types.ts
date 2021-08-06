@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * Type definitions - mostly copied from the server project
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 export enum Role {
   Admin = 'Admin',
   Submitter = 'Submitter',

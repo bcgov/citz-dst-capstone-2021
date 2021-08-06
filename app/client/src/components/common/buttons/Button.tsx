@@ -35,6 +35,10 @@ export interface IButtonProps {
   onClick?: (e: any) => void;
 }
 
+/**
+ * Login Button on the header
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const Button: React.FC<IButtonProps> = props => {
   const { onClick, children } = props;
   return <StyledButton onClick={onClick}>{children}</StyledButton>;

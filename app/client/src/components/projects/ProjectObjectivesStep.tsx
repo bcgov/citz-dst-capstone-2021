@@ -35,6 +35,10 @@ interface ProjectObjectStepProps {
   data: Objective[];
 }
 
+/**
+ * New project step 4 - Objectives step
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectObjectivesStep: React.FC<ProjectObjectStepProps> = props => {
   const { onChange, data: existingObjectives } = props;
 

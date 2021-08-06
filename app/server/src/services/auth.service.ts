@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
+/**
+ * Data services for authentication
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import UserDTO from '@dtos/UserDTO';
-import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
-import { User } from '@interfaces/users.interface';
+import { DataStoredInToken, TokenData, User } from '@interfaces/users.interface';
 import UserModel from '@models/UserModel';
-import { checkIfEmpty } from '@utils/util';
+import { checkIfEmpty } from '@utils/index';
 import bcrypt from 'bcrypt';
 import LoginDTO from '@dtos/LoginDTO';
 

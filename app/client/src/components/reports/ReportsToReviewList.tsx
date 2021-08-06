@@ -41,6 +41,10 @@ const StyledTableHeadCell = styled(TableCell)`
   padding: 8px !important;
 `;
 
+/**
+ * Reports table in the {@link ReportsToReview} page
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReportsToReviewList: React.FC<ReportsToReviewListProps> = props => {
   const { reports } = props;
 

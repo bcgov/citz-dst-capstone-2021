@@ -47,6 +47,10 @@ interface OverallProjectFinanceTableProps {
   report: Report;
 }
 
+/**
+ * Overall financial information in the report details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const OverallProjectFinanceTable: React.FC<OverallProjectFinanceTableProps> = props => {
   const { report } = props;
 

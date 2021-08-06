@@ -47,6 +47,10 @@ interface CurrentFYFinanceTableProps {
   report: Report;
 }
 
+/**
+ * Current fiscal year financial information
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const CurrentFYFinanceTable: React.FC<CurrentFYFinanceTableProps> = props => {
   const { report } = props;
 

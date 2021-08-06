@@ -36,6 +36,10 @@ interface ObjectiveItemProps {
   objective: Objective;
 }
 
+/**
+ * Project objective component
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
   const { deleteItem, editItem, objective } = props;
   const { name, description, status, estimatedEnd, comments, phase, asset } = objective;

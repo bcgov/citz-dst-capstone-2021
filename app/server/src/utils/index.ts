@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
+/**
+ * Server-side utilities
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @package
+ */
+
 import _ from 'lodash';
-import { Project } from '@interfaces/project.interface';
+import { cleanEnv, port, str } from 'envalid';
+
+import { errorWithCode } from '@bcgov/common-nodejs-utils';
 import {
   Kpi,
   Quarter,
@@ -26,10 +34,48 @@ import {
   StatusType,
   Trend,
 } from '@interfaces/report.interface';
+import ReportDTO from '@dtos/ReportDTO';
+import { Project } from '@interfaces/project.interface';
 import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
-import { removeProperties } from '@utils/util';
-import ReportDTO from '@dtos/ReportDTO';
+
+export const checkIfEmpty = (value: string | number | object, name: string, code: number) => {
+  if (
+    value === null ||
+    value === 'undefined' ||
+    value === undefined ||
+    (typeof value !== 'number' && value === '') ||
+    (typeof value === 'object' && !Object.keys(value).length)
+  ) {
+    throw errorWithCode(`'${name} is not set`, code);
+  }
+};
+
+/**
+ * @param {Number} timeout in milliseconds
+ */
+export const sleep = (timeout: number): Promise<void> => {
+  return new Promise<void>(resolve => {
+    setTimeout(() => resolve(), timeout);
+  });
+};
+
+export const removeProperties = (obj: Record<string, any>, ...fields: any[]) => {
+  // eslint-disable-next-line no-param-reassign
+  fields.forEach(key => delete obj[key]);
+  Object.values(obj).forEach(value => {
+    if (typeof value === 'object') {
+      removeProperties(value, ...fields);
+    }
+  });
+};
+
+export const validateEnv = () => {
+  cleanEnv(process.env, {
+    NODE_ENV: str(),
+    PORT: port(),
+  });
+};
 
 export function getNextReport(report: Report): ReportDTO {
   // TODO: (Nick) exception when the project has been completed
@@ -100,4 +146,13 @@ export const getInitialReport = (
     kpis,
   };
   return report;
+};
+
+export default {
+  checkIfEmpty,
+  getInitialReport,
+  getNextReport,
+  removeProperties,
+  sleep,
+  validateEnv,
 };

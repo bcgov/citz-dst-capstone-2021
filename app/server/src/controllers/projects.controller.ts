@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
+/**
+ * Project controller
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Project } from '@interfaces/project.interface';
 import { NextFunction, Request, Response } from 'express';
 import ProjectService from '@services/projects.service';
 import ProjectDTO from '@dtos/ProjectDTO';
 import { Report } from '@interfaces/report.interface';
-import { getInitialReport } from '@utils/reportUtils';
+import { getInitialReport } from '@utils/index';
 import ReportModel from '@models/ReportModel';
 import ProjectCreateDTO from '@dtos/ProjectCreateDTO';
 

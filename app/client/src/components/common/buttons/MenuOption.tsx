@@ -54,6 +54,10 @@ const getIcon = (iconName: string) => {
   }
 };
 
+/**
+ * Header menu item
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const MenuOption: React.FC<MenuOptionProps> = props => {
   const { event, text, icon } = props;
 

@@ -34,6 +34,10 @@ interface ProjectKPIsStepProps {
   data: Kpi[];
 }
 
+/**
+ * New project step 5 - KPIs step
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectKPIsStep: React.FC<ProjectKPIsStepProps> = props => {
   const { onChange, data: existingKpis } = props;
 

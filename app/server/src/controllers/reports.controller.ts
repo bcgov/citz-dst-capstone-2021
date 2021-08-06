@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Report controller
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { NextFunction, Request, Response } from 'express';
 import ReportService from '@services/reports.service';
 import { Report } from '@interfaces/report.interface';
@@ -22,7 +28,7 @@ import MilestoneDTO from '@dtos/MilestoneDTO';
 import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import ReportStatusDTO from '@dtos/ReportStatusDTO';
 import KpiDTO from '@dtos/KpiDTO';
-import { getNextReport } from '@utils/reportUtils';
+import { getNextReport } from '@utils/index';
 import assert from 'assert';
 
 const ReportController = {

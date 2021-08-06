@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * {@link Date} utilities
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ * @module
+ */
+
 import { Quarter } from '../types';
 
 export const getFiscalYearString = (year: number, quarter: string) => {
@@ -55,5 +61,14 @@ export const getReportingPeriodEnd = (year: number, quarter: Quarter): Date => {
       return new Date(year, 11, 31);
     default:
       return new Date(year, 2, 31); // Q4
+  }
+};
+
+export const getISODateString = (input: Date | string): string => {
+  try {
+    const date = input instanceof Date ? input : new Date(input);
+    return date.toISOString().slice(0, 10);
+  } catch {
+    return '';
   }
 };

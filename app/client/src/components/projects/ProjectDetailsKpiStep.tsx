@@ -38,6 +38,11 @@ type Props = {
   reportId: string;
   kpis: Kpi[];
 };
+
+/**
+ * Project KPI step is the second step of project details.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectDetailsKpiStep = (props: Props) => {
   const { kpis, reportId } = props;
 

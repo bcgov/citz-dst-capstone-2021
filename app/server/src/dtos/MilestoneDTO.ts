@@ -27,6 +27,11 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+/**
+ * Validate a new milestone object for {@link Report.milestones}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class MilestoneDTO implements Milestone {
   @IsOptional()
   @IsMongoId()

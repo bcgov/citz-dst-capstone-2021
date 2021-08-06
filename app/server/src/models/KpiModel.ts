@@ -1,6 +1,12 @@
 import { Document, model, Schema } from 'mongoose';
 import { Kpi } from '@interfaces/report.interface';
 
+/**
+ * {@link KPI} Mongoose Schema
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 export const KpiSchema: Schema<Kpi> = new Schema(
   {
     name: {

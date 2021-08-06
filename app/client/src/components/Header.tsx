@@ -64,6 +64,10 @@ interface HeaderProps {
   logout: any;
 }
 
+/**
+ * Global Sticky Header
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const Header: React.FC<HeaderProps> = props => {
   const history = useHistory();
   const { email, firstName, lastName } = props.user;

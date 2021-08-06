@@ -14,6 +14,11 @@
 // limitations under the License.
 //
 
+/**
+ * Redux Actions
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
 import { Dispatch } from 'redux';
 
 import useApi from '../utils/api';

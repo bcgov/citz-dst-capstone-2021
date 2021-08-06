@@ -1,6 +1,11 @@
 import { FinancialStatus } from '@interfaces/report.interface';
 import { IsNumber } from 'class-validator';
 
+/**
+ * Validate the financial information for {@link Report.finance}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class FinancialStatusDTO implements FinancialStatus {
   @IsNumber()
   budget: number;

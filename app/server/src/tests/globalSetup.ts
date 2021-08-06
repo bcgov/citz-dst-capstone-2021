@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Unit tests - setup
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import dotenv from 'dotenv';
 import * as Console from 'console';
 

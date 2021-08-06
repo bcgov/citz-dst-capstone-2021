@@ -24,6 +24,10 @@ interface HomeProps {
   user: User;
 }
 
+/**
+ * Temporary landing page
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const Home: React.FC<HomeProps> = props => {
   const { user } = props;
   const history = useHistory();

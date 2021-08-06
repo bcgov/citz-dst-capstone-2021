@@ -47,6 +47,10 @@ interface NewObjectiveFormProps {
   objective: Objective | null;
 }
 
+/**
+ * New objective form using Formik
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const NewObjectiveForm: React.FC<NewObjectiveFormProps> = props => {
   const { closeModal, objective } = props;
   const classes = useStyles();

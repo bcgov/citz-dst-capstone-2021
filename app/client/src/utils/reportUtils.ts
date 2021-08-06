@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * Report related utilities
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Milestone } from '../types';
 
 export const getProjectProgress = (start: Date, end: Date, milestones: Milestone[]): number => {

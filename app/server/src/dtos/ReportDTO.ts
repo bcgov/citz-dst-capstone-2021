@@ -35,6 +35,11 @@ import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import KpiDTO from '@dtos/KpiDTO';
 import FinancialStatusDTO from '@dtos/FinancialStatusDTO';
 
+/**
+ * Validate a report object for {@link Report}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class ReportDTO implements Report {
   @IsOptional()
   @IsMongoId()

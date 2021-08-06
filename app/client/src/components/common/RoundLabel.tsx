@@ -32,6 +32,12 @@ interface RoundLabelProps {
   text: string;
 }
 
+/**
+ * Round bordered label
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ *
+ * @remarks This and {@link ./buttons/StatusButton} could be integrated
+ */
 const RoundLabel: React.FC<RoundLabelProps> = props => {
   const classes = useStyles();
   const { text } = props;

@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * Application entry point
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';

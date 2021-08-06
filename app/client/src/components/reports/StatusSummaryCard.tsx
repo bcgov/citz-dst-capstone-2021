@@ -25,6 +25,10 @@ interface StatusSummaryCardProps {
   status: ReportStatus;
 }
 
+/**
+ * Status item in the report details step 2
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const StatusSummaryCard: React.FC<StatusSummaryCardProps> = props => {
   const { status } = props;
   const statusTypeLabels = {

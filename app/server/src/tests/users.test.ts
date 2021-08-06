@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
+/**
+ * Unit tests - APIs for {@link User}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import request from 'supertest';
 
 import App from '@/app';
 import UsersRoute from '@routes/users.route';
-import { Role } from '@interfaces/roles.interface';
 import UserService from '@services/users.service';
 import AuthService from '@services/auth.service';
-
 import UserDTO from '@dtos/UserDTO';
+import { Role } from '@interfaces/users.interface';
 import testData from './testData.json';
 
 const { admin, testUser } = testData;
 
-const usersRoute = new UsersRoute();
-const app = new App([usersRoute]);
-const uri = `${app.api_root}/${usersRoute.resource}`;
+const route = new UsersRoute();
+const app = new App([route]);
+const uri = `${app.api_root}/${route.resource}`;
 
 let token = '';
 

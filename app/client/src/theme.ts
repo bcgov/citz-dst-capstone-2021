@@ -14,7 +14,12 @@
 // limitations under the License.
 //
 
-// TODO: (Nick) deprecated: migrate to material-ui theme instead.
+/**
+ * TODO: (Nick) migrate to material-ui theme.
+ * Theme
+ * @deprecated
+ * @author Jason C. Leach from [platform-service-registry](https://github.com/bcgov/platform-services-registry)
+ */
 
 const theme = {
   breakpoints: ['40em', '52em', '64em'],

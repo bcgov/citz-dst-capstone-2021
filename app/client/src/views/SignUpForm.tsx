@@ -34,6 +34,10 @@ import { Ministries } from '../constants';
 import useApi from '../utils/api';
 import { validateSignUp } from '../utils/validationSchema';
 
+/**
+ * Sign up form using Formik
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const SigUpForm: React.FC = () => {
   const history = useHistory();
   const api = useApi();
