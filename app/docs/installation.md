@@ -4,7 +4,7 @@
 
 This document explains how to run RDSI on your local environment.
 
-> We tested all commands in this page on Ubuntu 20.04.1 LTS
+> We tested all commands in this page on Ubuntu 20.04.1 LTS.
 
 ## Preparation
 
@@ -24,7 +24,7 @@ $ nvm install v12.22.4
 
 ### Git Client
 
-To install Git for your environment, refer to [Getting Started - Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+To install Git for your environment, refer to [Getting Started - Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ## Installation
 
@@ -93,7 +93,7 @@ There are many ways to set up your mongodb, but we recommend the following two o
 
 The simplest way to connect your application to the latest MongoDB is using [MongoDB Cloud](https://www.mongodb.com/cloud/atlas). 
 
-To create an account and database instance, refer to [Get Started with Atlas](https://docs.atlas.mongodb.com/getting-started/)
+To create an account and database instance, refer to [Get Started with Atlas](https://docs.atlas.mongodb.com/getting-started/).
 
 If you finished `Part 5` of the tutorial, you must have the connection string to your database.
 
@@ -124,7 +124,7 @@ The connection information to the local Docker container is already set in `app/
 
 #### Restore existing data
 
-If you have backup files, see [Restore data using mongorestore](./database.md#Restore-data-using-mongorestore)
+If you have backup files, see [Restore data using mongorestore](./database.md#Restore-data-using-mongorestore).
 
 ### Run Backend API server
 
@@ -171,7 +171,7 @@ export const API = {
 
 ### Access the application
 
-Go to [http://localhost:3000](http://localhost:3000)
+Go to [http://localhost:3000](http://localhost:3000).
 
 You may want to read [User Processes](./user-processes.md) to learn how to sign up, login, create a project, and submit a report.
 
