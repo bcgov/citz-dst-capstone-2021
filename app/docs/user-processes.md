@@ -36,6 +36,7 @@ This document describes the processes or use cases that users engage in when int
 > :warning: The login solution presented in this POC prototype is temporary and will be replaced with an existing authentication system such as KeyCloak.
 
 **Who:** All User Personas
+
 **When:** A registered user is not currently logged into the application.
 
 When a user first comes to the application they are presented with a landing page that describes the project goals, application roles, and a link to an about view describing the project further.
@@ -57,6 +58,7 @@ If a user successfully logs in, then they are redirected to their dashboard. Oth
 ## Register New User
 
 **Who:** Submitter, Finance Analyst, Data Analyst, & Executive
+
 **When:** A user is not registered in the system
 
 To register a new user with the application, first navigate to the login screen by selecting the **Login** button in the top right corner of the screen.
@@ -81,13 +83,13 @@ Once all fields are filled out and pass validation, select **Submit** to registe
 
 ## Create a New Project
 
-> **Who:** Submitter
->
-> **When:** An approved project is not registered in the system.
->
-> **Assumptions:**
-> - Submitter has required information available when filling out form.
-> - Milestones, business case objectives, and key performance indicators have been defined and approved in the project approval process.
+ **Who:** Submitter
+
+>**When:** An approved project is not registered in the system.
+
+**Assumptions:**
+- Submitter has required information available when filling out form.
+- Milestones, business case objectives, and key performance indicators have been defined and approved in the project approval process.
 
 When a project is approved for funding by the DIO it can then be entered into the application for quarterly status reporting. This helps reduce manual effort seen in the original reporting process by having the Submitter enter project information and contacts once instead of every report.
 
@@ -308,7 +310,9 @@ The KPI will then be deleted and no longer display in the view.
 ## Complete a Quarterly Report
 
 **Who:** Submitter
+
 **When:** A project exists and must be reported on for current quarter.
+
 **Assumptions:**
 - A project exists that the Submitter wishes to report on.
 
@@ -467,10 +471,12 @@ Select the **Submit** button once report information has been reviewed and verif
 
 ## Review a Quarterly Report
 
-> **Who:** Finance Analyst
-> **When:** A Submitter completes and submits a quarterly status report to the DIO.
-> **Assumptions:**
-> - Finance Analyst understands business rules and what to review a project for.
+**Who:** Finance Analyst
+
+**When:** A Submitter completes and submits a quarterly status report to the DIO.
+
+**Assumptions:**
+- Finance Analyst understands business rules and what to review a project for.
 
 Submitted quarterly reports must be reviewed by a Finance Analyst. Our application is designed to assist the Finance Analyst in this process by surfacing relevant information for quick access while allowing the Finance Analyst to drill down into the details.
 
@@ -504,11 +510,11 @@ Enter any notes about the report in the **QR Notes** field.
 
 Select a section from the tabs to view and assess the report information for that section:
 
-**Project Information** contains project progress information, project identification information, and contacts assigned to that project.
-**Status Summary** contains cards for each project status reported. This is also where the state of the project's KPIs are displayed for a report.
-**Financial Information** contains the financial information reported.
-**Business Case Objectives** contains the state of the project's business case objectives for that report.
-**Key Milestones** contains the state of the project's milestones for that report.
+- **Project Information** contains project progress information, project identification information, and contacts assigned to that project.
+- **Status Summary** contains cards for each project status reported. This is also where the state of the project's KPIs are displayed for a report.
+- **Financial Information** contains the financial information reported.
+- **Business Case Objectives** contains the state of the project's business case objectives for that report.
+- **Key Milestones** contains the state of the project's milestones for that report.
 
 Once the review is complete, select either *Approved* or *Follow Up Required* from the **Set Status** dropdown.
 
