@@ -1,6 +1,12 @@
 import { Document, model, Schema } from 'mongoose';
 import { Milestone, MilestoneStatus } from '@interfaces/report.interface';
 
+/**
+ * {@link Milestone} Mongoose Schema
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 export const MilestoneSchema: Schema<Milestone> = new Schema(
   {
     name: {

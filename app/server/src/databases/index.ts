@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Database connection config
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import config from 'config';
 import { DBConfig } from '@interfaces/db.interface';
 

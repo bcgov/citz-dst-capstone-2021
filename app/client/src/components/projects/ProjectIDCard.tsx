@@ -34,6 +34,10 @@ type Props = {
   editItem?: () => void;
 };
 
+/**
+ * Project general information card
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectIDCard: React.FC<Props> = props => {
   const { project, editItem } = props;
   const { name, description, ministry, program, cpsIdentifier, projectNumber } = project;

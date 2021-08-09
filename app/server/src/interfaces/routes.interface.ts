@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Type definitions for routes
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Router } from 'express';
 
 interface Route {

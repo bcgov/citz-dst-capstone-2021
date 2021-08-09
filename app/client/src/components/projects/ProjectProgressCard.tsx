@@ -35,6 +35,10 @@ type Props = {
   report?: Report;
 };
 
+/**
+ * Project progress in the general information step of project details and edit-project page
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectProgressCard: React.FC<Props> = props => {
   const {
     project: { phase, estimatedEnd },

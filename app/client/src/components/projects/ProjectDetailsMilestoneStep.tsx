@@ -40,6 +40,10 @@ type Props = {
   project: Project;
 };
 
+/**
+ * Project milestone step is the third step of project details.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectDetailsMilestoneStep = (props: Props) => {
   const { reportId, milestones, project } = props;
   const { start, estimatedEnd } = project;

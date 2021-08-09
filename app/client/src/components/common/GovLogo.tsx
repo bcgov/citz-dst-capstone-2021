@@ -14,21 +14,15 @@
 // limitations under the License.
 //
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
 import logo from '../../assets/images/bcid_h_rgb_rev.svg';
 import logoMobile from '../../assets/images/logo.svg';
 import theme from '../../theme';
-import Aux from '../../hoc/auxiliary';
-
-const noMargin = css`
-  margin-bottom: 0;
-`;
 
 const LargeLogo = styled.img`
-  ${noMargin}
+  margin-bottom: 0;
   width: 175px;
   @media (max-width: ${theme.breakpoints[0]}) {
     display: none;
@@ -36,18 +30,22 @@ const LargeLogo = styled.img`
 `;
 
 const SmallLogo = styled.img`
-  ${noMargin}
+  margin-bottom: 0;
   width: 50px;
   @media (min-width: ${theme.breakpoints[0]}) {
     display: none;
   }
 `;
 
+/**
+ * BC Gov Logo
+ * @author Jason C. Leach from [platform-service-registry](https://github.com/bcgov/platform-services-registry)
+ */
 const GovLogo = () => (
-  <Aux>
+  <div>
     <LargeLogo src={logo} alt="Government of British Columbia" />
     <SmallLogo src={logoMobile} alt="Government of British Columbia" />
-  </Aux>
+  </div>
 );
 
 export default GovLogo;

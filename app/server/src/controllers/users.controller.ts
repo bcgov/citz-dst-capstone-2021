@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * User controller
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { NextFunction, Request, Response } from 'express';
 import UserDTO from '@dtos/UserDTO';
 import { User } from '@interfaces/users.interface';

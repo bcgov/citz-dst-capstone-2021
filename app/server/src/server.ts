@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Backend server entry point
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 // for class-transformer Type method
 import 'reflect-metadata';
 import 'dotenv/config';
@@ -22,7 +28,7 @@ import AuthRoute from '@routes/auth.route';
 import UsersRoute from '@routes/users.route';
 import ProjectsRoute from '@routes/projects.route';
 import ReportsRoute from '@routes/reports.route';
-import validateEnv from '@utils/validateEnv';
+import { validateEnv } from '@utils/index';
 
 validateEnv();
 

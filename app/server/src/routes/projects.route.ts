@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Route} definitions for {@link Project}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Router } from 'express';
-import passport from 'passport';
 import Route from '@interfaces/routes.interface';
 import ProjectsController from '@controllers/projects.controller';
 import validationMiddleware from '@middlewares/validation.middleware';

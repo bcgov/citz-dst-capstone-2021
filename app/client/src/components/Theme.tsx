@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * Overriding Material-UI default theme
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({

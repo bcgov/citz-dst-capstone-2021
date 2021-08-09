@@ -30,6 +30,10 @@ interface LoginProps {
   logout: any;
 }
 
+/**
+ * Login form using Formik
+ * @author [Skylar Kramer](jeremy.s.kramer@gmail.com )
+ */
 const LoginForm: React.FC<LoginProps> = props => {
   const history = useHistory();
   const api = useApi();

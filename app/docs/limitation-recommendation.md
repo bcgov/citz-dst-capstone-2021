@@ -164,7 +164,13 @@ If it is enabled, it causes the following error on the client-side.
 
 ### Improve new project form
 
-[#258](https://app.zenhub.com/workspaces/citz-dst-capstone-608b2c3c77b4250014847944/issues/bcgov/citz-dst-capstone-2021/258)
+- AS-IS
+  - One component handles multiple forms and steps
+
+- TO-BE
+  - Convert each step to a separate component
+  - Allow navigating steps by stepper icons
+  - Use the event emitter instead of passing handlers as props
 
 ### Component granularity
 
@@ -191,6 +197,14 @@ If it is enabled, it causes the following error on the client-side.
   - Replace [theme](../client/src/theme.ts) with [RDSI Theme](../client/src/components/Theme.tsx).
   - Move the style of styled components to the theme if it is reusable.
   - Use [ThemeProvider](https://material-ui.com/customization/theming/)
+
+### Use Context API
+
+- AS-IS
+  - connect a store state `user` to several components
+
+- TO-BE
+  - Use context API to pass `user` to child components
 
 ### Form presentation
 

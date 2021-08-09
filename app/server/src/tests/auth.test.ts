@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Unit tests - authentication
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import request from 'supertest';
 import _ from 'lodash';
 

@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Express middleware to handle errors
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { logger } from '@bcgov/common-nodejs-utils';
 import { NextFunction, Request, Response } from 'express';
 

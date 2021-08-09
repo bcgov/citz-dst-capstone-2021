@@ -26,6 +26,11 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+/**
+ * Validate a new KPI object for {@link Report.kpis}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class KpiDTO implements Kpi {
   @IsOptional()
   @IsMongoId()

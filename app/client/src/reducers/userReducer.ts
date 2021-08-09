@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * User reducer
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { User, ActionTypes, LoginAction } from '../types';
 
 const userReducer = (user = {} as User, action: LoginAction): User => {

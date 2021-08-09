@@ -34,6 +34,10 @@ interface QuarterlyReportListRowProps {
   report: Report;
 }
 
+/**
+ * A quarterly report row represents a report in the project details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = props => {
   const { report: row } = props;
   const submitter = row.submitter as User | undefined;

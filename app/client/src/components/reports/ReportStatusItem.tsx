@@ -72,6 +72,10 @@ const trendIcons = [
   { icon: <ArrowDownwardIcon />, value: Trend.Down },
 ];
 
+/**
+ * Report status in the edit-report step 2
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportStatusItem = (props: Props) => {
   const { status, onChange, onValidation } = props;
 

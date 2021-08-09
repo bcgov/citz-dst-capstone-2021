@@ -55,6 +55,10 @@ interface ProjectListProps {
   user: User;
 }
 
+/**
+ * Projects table - Submitters landing page
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectList: React.FC<ProjectListProps> = () => {
   const [projects, setProjects] = useState([] as Project[]);
 

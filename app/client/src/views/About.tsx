@@ -178,6 +178,10 @@ const content = {
   },
 };
 
+/**
+ * RDSI capstone team page
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const About: React.FC = () => {
   const bioComponent = (bio: BioObject) => {
     return (

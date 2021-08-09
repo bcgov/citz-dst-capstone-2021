@@ -30,6 +30,10 @@ interface ReportsToReviewListRowProps {
   report: Report;
 }
 
+/**
+ * A ReportsToReviewListRow represents a report in the {@link ReportsToReviewList} page
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReportsToReviewListRow: React.FC<ReportsToReviewListRowProps> = props => {
   const { report: row } = props;
   const submitter = row.submitter as User | undefined;

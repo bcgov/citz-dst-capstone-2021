@@ -1,5 +1,10 @@
 import { IsEmail, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
+/**
+ * Validate a login information
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class LoginDTO {
   @IsEmail()
   public email: string;

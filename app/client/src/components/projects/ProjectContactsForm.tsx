@@ -36,6 +36,12 @@ type Props = {
   project: Project;
 };
 
+/**
+ * Project contact form uses Formik
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ *
+ * @remark The number of contacts could change
+ */
 const ProjectContactsForm: React.FC<Props> = props => {
   const { project } = props;
   const classes = useStyles();

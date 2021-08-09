@@ -34,6 +34,12 @@ type Props = {
   editItem?: () => void;
 };
 
+/**
+ * Project contact card
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ *
+ * @remark project contacts need to move an associative table between users and projects
+ */
 const ProjectContactCard: React.FC<Props> = props => {
   const { project, editItem } = props;
   const { sponsor, manager, financialContact } = project;

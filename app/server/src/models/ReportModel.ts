@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Report} Mongoose Schema
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Document, model, Schema } from 'mongoose';
 import { Quarter, Report, ReportState } from '@interfaces/report.interface';
 import { KpiSchema } from '@models/KpiModel';
 import { MilestoneSchema } from '@models/MilestoneModel';
 import { ObjectiveSchema } from '@models/ObjectiveModel';
 import { ReportStatusSchema } from '@models/ReportStatusModel';
-import ProjectModel from '@models/ProjectModel';
 import { Project } from '@interfaces/project.interface';
 
 const Finance = {

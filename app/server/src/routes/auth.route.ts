@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Route} definitions for authentication
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Router } from 'express';
 
 import AuthController from '@controllers/auth.controller';

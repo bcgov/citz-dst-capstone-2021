@@ -21,7 +21,9 @@ import { ReportState } from '../../types';
 import useApi from '../../utils/api';
 
 /**
- * Basic view to function as a dashboard to allow finance analyst to navigate application views
+ * Finance analyst's landing page
+ * - Basic view to function as a dashboard to allow finance analyst to navigate application views
+ * @author [Samara Flueck](samflueck95@gmail.com)
  */
 const DashboardFinanceAnalyst: React.FC = () => {
   const history = useHistory();

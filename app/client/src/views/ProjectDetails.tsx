@@ -65,6 +65,10 @@ const a11yProps = (index: any) => {
   };
 };
 
+/**
+ * Project details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectDetails: React.FC = () => {
   const api = useApi();
   const history = useHistory();

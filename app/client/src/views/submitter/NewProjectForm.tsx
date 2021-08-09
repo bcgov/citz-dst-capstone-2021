@@ -62,6 +62,12 @@ const useStyles = makeStyles({
   },
 });
 
+/**
+ * New project form using Formik
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ * @remarks
+ *  - refactor each rendering stage to a component
+ */
 const NewProjectForm: React.FC = () => {
   // Form functionality with formik & api
   const history = useHistory();

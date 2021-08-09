@@ -31,6 +31,10 @@ interface ConfirmDialogProps extends DialogProps {
   onClose: (answer: boolean) => void;
 }
 
+/**
+ * Modal dialog to ask user's confirmation
+ * @author      [SungHwan Park](shwpark612@gmail.com)
+ */
 const ConfirmDialog: React.FC<ConfirmDialogProps> = props => {
   const { title, message, onClose, open, children, ...other } = props;
 

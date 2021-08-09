@@ -24,6 +24,11 @@ interface QuarterlyReportListRowDetailProps {
   submitter: User | undefined;
 }
 
+/**
+ * QuarterlyReportListRowDetail reveals
+ *  when a QuarterlyReportListRow in 'Quarterly Status Reports' step of project details expands
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const QuarterlyReportListRowDetail: React.FC<QuarterlyReportListRowDetailProps> = props => {
   const { report, submitter } = props;
 

@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * API Hooks - create axios instance and define requests to APIs
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import assert from 'assert';

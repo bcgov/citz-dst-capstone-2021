@@ -52,6 +52,10 @@ type Props = {
   user: User;
 };
 
+/**
+ * Financial analyst's review panel for a report
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReviewerPanel: React.FC<Props> = props => {
   const { report, user } = props;
   const { state: preState, financialNotes: preNotes } = report;

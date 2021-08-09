@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Unit tests - APIs for {@link Project}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import 'reflect-metadata';
 import UserService from '@services/users.service';
 import UserDTO from '@dtos/UserDTO';
@@ -26,9 +32,9 @@ import ProjectService from '../services/projects.service';
 
 const { admin } = testData;
 
-const projectsRoute = new ProjectsRoute();
-const app = new App([projectsRoute]);
-const uri = `${app.api_root}/${projectsRoute.resource}`;
+const routes = new ProjectsRoute();
+const app = new App([routes]);
+const uri = `${app.api_root}/${routes.resource}`;
 
 let token = '';
 

@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
+/**
+ * Data services for {@link User}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import bcrypt from 'bcrypt';
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 
 import UserDTO from '@dtos/UserDTO';
 import { User } from '@interfaces/users.interface';
 import UserModel from '@models/UserModel';
-import { checkIfEmpty } from '@utils/util';
+import { checkIfEmpty } from '@utils/index';
 
 export default {
   async findAllUsers(): Promise<User[]> {

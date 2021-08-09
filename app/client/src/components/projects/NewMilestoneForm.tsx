@@ -52,6 +52,10 @@ interface NewMilestoneFormProps {
   end: Date | null;
 }
 
+/**
+ * New milestone form using Formik
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const NewMilestoneForm: React.FC<NewMilestoneFormProps> = props => {
   const { closeModal, milestone, start, end } = props;
 

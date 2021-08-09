@@ -47,6 +47,10 @@ type Props = {
   project: Project;
 };
 
+/**
+ * New project step 1 - general information input form
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectIDForm: React.FC<Props> = props => {
   const { project } = props;
   const classes = useStyles();

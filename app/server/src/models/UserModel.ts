@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
+/**
+ * {@link User} Mongoose Schema
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { model, Schema, Document } from 'mongoose';
 
-import { User } from '@interfaces/users.interface';
-import { Role } from '@interfaces/roles.interface';
+import { Role, User } from '@interfaces/users.interface';
 import bcrypt from 'bcrypt';
 
 const userSchema: Schema<User> = new Schema(

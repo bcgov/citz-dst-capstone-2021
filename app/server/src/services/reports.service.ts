@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Data services for {@link Report}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { errorWithCode } from '@bcgov/common-nodejs-utils';
 import { Milestone, Report } from '@interfaces/report.interface';
 import ReportModel from '@models/ReportModel';

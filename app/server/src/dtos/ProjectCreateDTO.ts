@@ -6,6 +6,11 @@ import ObjectiveDTO from '@dtos/ObjectiveDTO';
 import KpiDTO from '@dtos/KpiDTO';
 import { Kpi } from '@interfaces/report.interface';
 
+/**
+ * Validate a new project object for {@link Project}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class ProjectCreateDTO extends ProjectDTO {
   @IsOptional()
   @ValidateNested({ each: true })

@@ -30,6 +30,10 @@ interface ProjectListRowProps {
   project: Project;
 }
 
+/**
+ * ProjectListRow represents a project in the project list table.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectListRow: React.FC<ProjectListRowProps> = props => {
   const { project: row } = props;
 

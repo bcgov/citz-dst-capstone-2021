@@ -34,6 +34,11 @@ type Props = {
   onChange: (data: FinancialStatus) => void;
   onValidation: (valid: boolean) => void;
 };
+
+/**
+ * Edit-report step 3 - financial information
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportFinancialStep = (props: Props) => {
   const { finance, onChange, onValidation } = props;
   const classes = useStyles();

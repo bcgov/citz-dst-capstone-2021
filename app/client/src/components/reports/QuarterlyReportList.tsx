@@ -41,6 +41,10 @@ const StyledTableHeadCell = styled(TableCell)`
   padding: 8px !important;
 `;
 
+/**
+ * Quarterly reports table in the project details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const QuarterlyReportList: React.FC<QuarterlyReportListProps> = props => {
   const { reports } = props;
 

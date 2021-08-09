@@ -29,6 +29,12 @@ type Props = {
   hidePercent?: boolean;
 };
 
+/**
+ * Material-UI Progress Bar
+ * @author      [SungHwan Park](shwpark612@gmail.com)
+ *
+ * @remarks Fix error, `validateDOMNesting(...): <p> cannot appear as a descendant of <p>.`
+ */
 const ProgressBar: React.FC<Props> = props => {
   const { value, hidePercent } = props;
   return (

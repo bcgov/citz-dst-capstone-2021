@@ -82,6 +82,10 @@ const a11yProps = (index: any) => {
   };
 };
 
+/**
+ * Report details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const { user } = props;
   const [tabValue, setTabValue] = React.useState(0);

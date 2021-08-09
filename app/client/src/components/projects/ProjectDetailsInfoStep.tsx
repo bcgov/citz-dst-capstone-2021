@@ -41,6 +41,10 @@ type Props = {
   report?: Report;
 };
 
+/**
+ * Project info step is the first step of project details.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectDetailsInfoStep: React.FC<Props> = props => {
   const { project, report } = props;
 

@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Project} Mongoose Schema
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Document, model, Schema } from 'mongoose';
 import { Project } from '@interfaces/project.interface';
 

@@ -7,5 +7,5 @@
   },
   "apiUrl": "*",
   "secretKey": "secretKey",
-  "auth_timeout": 600
+  "auth_timeout": 36000
 }

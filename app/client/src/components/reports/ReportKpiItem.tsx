@@ -30,6 +30,10 @@ type Props = {
   onValidation: (valid: boolean) => void;
 };
 
+/**
+ * KPI value set form in the edit-report step 6 - using Formik
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportKpiItem = (props: Props) => {
   const { kpi, onChange, onValidation } = props;
   const { name, description, target, unit, baseline, end } = kpi;
