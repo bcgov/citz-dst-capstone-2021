@@ -40,11 +40,47 @@ Objectives include:
 
 ## Project Status
 
-Currently in development
+Currently Documenting Application
 
 ## Development
 
 Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
+
+## Documentation
+
+- [ ] Introduction
+    - [X] [Business Problem](./app/docs/business-problem.md)
+- [ ] People
+	- **Project Sponsor:** BC Government OCIO - Digital Investment Office
+	- **Roles:**
+        + **Product Owner:** Shashank Shekhar
+        + **Project Stakeholders:** Ministry Submitters, Finance Analysts, Executives/Decision Makers
+        ![Organization Chart](./app/docs/diagrams/organization-chart.jpg)
+- [ ] Requirements
+	- [ ] Functional Requirements
+    - [ ] Non-functional Requirements
+    - [ ] Constraints
+- [ ] Design & Architecture
+	- [ ] Interviews
+    - [ ] Personas
+    - [ ] Journeys
+    - [ ] Wireframes
+    - [ ] Security
+    - [X] [Data Model](https://dbdiagram.io/d/60d132d20c1ff875fcd5d83b)
+    - [ ] Architecture Model
+    - [X] [Architectural Decision Log](./app/docs/architectural-decision-log.md)
+- [X] [User Processes](./app/docs/user-processes.md)
+- [ ] Solution Architecture
+	- [ ] Diagram
+    - [ ] Manifest of MERN Stack
+    - [ ] High Level APIs
+    - [X] [Installation](./app/docs/installation.md)
+    - [X] [Deployment](./app/docs/deployment.md)
+    - [X] [MongoDB Backup and Restore](./app/docs/database.md)
+    - [X] [Style Guides](./app/docs/style-guides.md)
+- [X] [Project Portfolio](https://github.com/bcgov/citz-dst-capstone-2021/tree/docs/project-portfolio/app/docs/projectPortfolio)
+- [X] [Recommendations/Lessons Learned](./app/docs/limitation-recommendation.md)
+
 
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/citz-dst-capstone-2021)
 
