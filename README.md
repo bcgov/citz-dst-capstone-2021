@@ -50,11 +50,12 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
 
 - [ ] Introduction
     - [ ] [Business Problem](./app/docs/business-problem.md)
-- [ ] People (Org chart and structure)
+- [ ] People
 	- **Project Sponsor:** BC Government OCIO - Digital Investment Office
 	- **Roles:**
         + **Product Owner:** Shashank Shekhar
         + **Project Stakeholders:** Ministry Submitters, Finance Analysts, Executives/Decision Makers
+        ![Organization Chart](./app/docs/diagrams/organization-chart.jpg)
 - [ ] Requirements
 	- [ ] Functional
     - [ ] Non-functional
@@ -68,7 +69,7 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
     - [ ] [data model](https://dbdiagram.io/d/60d132d20c1ff875fcd5d83b)
     - [ ] architecure model
     - [ ] [architectural decision log](./app/docs/architectural-decision-log.md)
-- [ ] User processes
+- [ ] [User Processes](./app/docs/user-processes.md)
 - [ ] Solution Architecture
 	- [ ] Diagram
     - [ ] manifest of MERN stack
