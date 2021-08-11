@@ -17,7 +17,7 @@
 - AS-IS
   - Ministry list is a hard-coded list of strings in the source code
 
-- TO-BO
+- TO-BEg
   - Add the ministries table or
   - Use [BC Data Catalogue API](https://catalogue.data.gov.bc.ca/he/dataset/bc-data-catalogue-api)
 
