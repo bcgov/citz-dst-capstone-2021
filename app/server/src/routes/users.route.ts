@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Route} definitions for {@link User}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Router } from 'express';
 import UsersController from '@controllers/users.controller';
 import UserDTO from '@dtos/UserDTO';

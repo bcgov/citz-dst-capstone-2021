@@ -14,15 +14,21 @@
 // limitations under the License.
 //
 
+/**
+ * Utilities
+ * - {@link dateUtils}
+ * - {@link reportUtils}
+ * - etc
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @package
+ */
+
+import * as dateUtils from './dateUtils';
+import reportUtils from './reportUtils';
+
 export default {
-  getISODateString(input: Date | string): string {
-    try {
-      const date = input instanceof Date ? input : new Date(input);
-      return date.toISOString().slice(0, 10);
-    } catch {
-      return '';
-    }
-  },
+  ...dateUtils,
+  ...reportUtils,
 
   isValidFormInput(
     values: Record<string, any>,

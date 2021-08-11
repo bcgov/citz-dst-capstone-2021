@@ -14,10 +14,23 @@
  * limitations under the License.
  */
 
-import { IsBoolean, IsEnum, IsMongoId, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { Role } from '@interfaces/roles.interface';
+import {
+  IsBoolean,
+  IsEnum,
+  IsMongoId,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import LoginDTO from '@dtos/LoginDTO';
+import { Role } from '@interfaces/users.interface';
 
+/**
+ * Validate a user object for {@link User}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class UserDTO extends LoginDTO {
   @IsOptional()
   @IsMongoId()

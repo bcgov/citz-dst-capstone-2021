@@ -16,37 +16,19 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { Box, GridList, GridListTile, IconButton, Paper, Typography } from '@material-ui/core';
+import { Box, GridList, GridListTile, IconButton, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { makeStyles } from '@material-ui/core/styles';
 import { Objective } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
-// TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
   justify-content: space-between;
   display: flex;
   padding: 8px;
   border-radius: 4px 4px 0 0;
 `;
-
-const useStyles = makeStyles({
-  header: {
-    border: 1,
-    borderStyle: 'solid',
-    backgroundColor: 'lightgrey',
-    height: 36,
-    padding: '8px',
-  },
-  body: {
-    border: 1,
-    borderTop: 0,
-    borderStyle: 'solid',
-    padding: '8px',
-  },
-});
 
 interface ObjectiveItemProps {
   deleteItem?: () => void;
@@ -54,9 +36,12 @@ interface ObjectiveItemProps {
   objective: Objective;
 }
 
+/**
+ * Project objective component
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ObjectiveItem: React.FC<ObjectiveItemProps> = props => {
   const { deleteItem, editItem, objective } = props;
-  const classes = useStyles();
   const { name, description, status, estimatedEnd, comments, phase, asset } = objective;
 
   const formattedEstimatedEnd = new Date(estimatedEnd).toLocaleDateString('en-CA');

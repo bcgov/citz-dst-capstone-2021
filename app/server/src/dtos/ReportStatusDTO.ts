@@ -18,6 +18,11 @@ import { IsEnum, IsMongoId, IsOptional, IsString } from 'class-validator';
 import { ReportStatus, StatusType, Status, Trend } from '@interfaces/report.interface';
 import { Type } from 'class-transformer';
 
+/**
+ * Validate a report status object for {@link Report.statuses}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class ReportStatusDTO implements ReportStatus {
   @IsOptional()
   @IsMongoId()

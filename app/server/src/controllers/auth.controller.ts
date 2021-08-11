@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
+/**
+ * Authentication controller
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { NextFunction, Request, Response } from 'express';
 import UserDTO from '@dtos/UserDTO';
-import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
+import { RequestWithUser } from '@interfaces/users.interface';
 
 export default {
   async signUp(req: Request, res: Response, next: NextFunction) {
@@ -40,7 +46,7 @@ export default {
   },
 
   async logout(req: RequestWithUser, res: Response, next: NextFunction) {
-    const { user } = req;
+    const user = req.body;
     return AuthService.logout(user)
       .then(() => {
         res.cookie('token', '');

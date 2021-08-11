@@ -27,6 +27,10 @@ const useStyles = makeStyles({
   },
 });
 
+/**
+ * Button changes its color according to a report or milestone status
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const StatusButton: React.FC<StatusButtonProps> = props => {
   const { status } = props;
   const classes = useStyles();

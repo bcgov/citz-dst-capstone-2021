@@ -36,6 +36,12 @@ type Props = {
   project: Project;
 };
 
+/**
+ * Project contact form uses Formik
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ *
+ * @remark The number of contacts could change
+ */
 const ProjectContactsForm: React.FC<Props> = props => {
   const { project } = props;
   const classes = useStyles();
@@ -66,7 +72,7 @@ const ProjectContactsForm: React.FC<Props> = props => {
     },
   });
 
-  const { errors, touched, isValid, values, handleSubmit, handleChange, handleBlur } = formik;
+  const { errors, touched, isValid, handleSubmit, handleBlur } = formik;
 
   const cancel = () => {
     emitter.emit(EventType.Project.UpdateContact, null);

@@ -14,6 +14,11 @@
 // limitations under the License.
 //
 
+/**
+ * Typography
+ * @author Jason C. Leach from [platform-service-registry](https://github.com/bcgov/platform-services-registry)
+ */
+
 import '@bcgov/bc-sans/css/BCSans.css';
 import Typography from 'typography';
 

@@ -13,6 +13,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * yup validation schemas
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import * as yup from 'yup';
 import { parse, isDate } from 'date-fns';
 import { Status, Trend } from '../types';
@@ -167,7 +173,7 @@ export const validateReportStatus = yup.object({
 });
 
 export const validateFinance = yup.object({
-  // TODO: (nick) Which restrictions can we apply?
+  // TODO: (Nick) Which restrictions can we apply?
   budget: yup.number().min(1).required(),
   estimatedTotalCost: yup.number().min(1),
 });

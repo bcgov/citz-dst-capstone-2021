@@ -14,12 +14,10 @@
 // limitations under the License.
 //
 
-import React, { useEffect, useState } from 'react';
-import { Box, Collapse, IconButton, TableCell, TableRow } from "@material-ui/core";
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Box, Collapse, IconButton, TableCell, TableRow } from '@material-ui/core';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import styled from 'styled-components';
-import useApi from '../../utils/api';
 import {
   getFiscalYearString,
   getReportingPeriodStart,
@@ -36,7 +34,11 @@ interface QuarterlyReportListRowProps {
   report: Report;
 }
 
-const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = (props) => {
+/**
+ * A quarterly report row represents a report in the project details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
+const QuarterlyReportListRow: React.FC<QuarterlyReportListRowProps> = props => {
   const { report: row } = props;
   const submitter = row.submitter as User | undefined;
   const [collapse, setCollapse] = useState(true);

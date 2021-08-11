@@ -50,6 +50,11 @@ type Props = {
   onChange: (objective: Objective) => void;
   onValidation: (valid: boolean) => void;
 };
+
+/**
+ * Objective item in the edit-report step 4
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportObjectiveItem = (props: Props) => {
   const { objective, onChange, onValidation } = props;
   const { name, description, estimatedEnd } = objective;

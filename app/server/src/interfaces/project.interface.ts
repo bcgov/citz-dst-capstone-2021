@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Type definitions for project
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 export interface Project {
   id?: string;
   _schema?: number;

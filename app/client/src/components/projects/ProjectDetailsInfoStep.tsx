@@ -15,10 +15,10 @@
 //
 
 import * as React from 'react';
-import {Box, CircularProgress, Modal} from '@material-ui/core';
+import { Box, CircularProgress, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import {NewProject, Project, Report} from '../../types';
+import { NewProject, Project, Report } from '../../types';
 import ProjectProgressCard from './ProjectProgressCard';
 import ProjectIDCard from './ProjectIDCard';
 import ProjectContactCard from './ProjectContactCard';
@@ -41,6 +41,10 @@ type Props = {
   report?: Report;
 };
 
+/**
+ * Project info step is the first step of project details.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectDetailsInfoStep: React.FC<Props> = props => {
   const { project, report } = props;
 
@@ -86,7 +90,7 @@ const ProjectDetailsInfoStep: React.FC<Props> = props => {
   const renderContent = () => (
     <Box m={4}>
       <Box mb={4}>
-        <ProjectProgressCard project={project} report={report}/>
+        <ProjectProgressCard project={project} report={report} />
       </Box>
       <Box mb={4}>
         <ProjectIDCard project={project} editItem={editProjectIdentity} />

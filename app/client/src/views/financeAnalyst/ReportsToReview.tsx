@@ -20,6 +20,10 @@ import useApi from '../../utils/api';
 import { ReportState, Report } from '../../types';
 import ReportsToReviewList from '../../components/reports/ReportsToReviewList';
 
+/**
+ * Financial analyst's ReportsToReview page
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReportsToReview: React.FC = () => {
   const api = useApi();
   const queryOptions = { state: ReportState.Submitted };

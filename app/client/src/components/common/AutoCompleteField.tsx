@@ -23,6 +23,10 @@ interface AutoCompleteFieldProps<T> extends AutocompleteProps<any, any, any, any
   options: T[];
 }
 
+/**
+ * Auto-complete input field
+ * @author      [SungHwan Park](shwpark612@gmail.com)
+ */
 // eslint-disable-next-line @typescript-eslint/ban-types
 const AutoCompleteField = <T extends {}>({
   getLabel,

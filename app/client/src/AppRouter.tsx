@@ -29,6 +29,10 @@ import ReportsToReview from './views/financeAnalyst/ReportsToReview';
 import About from './views/About';
 import Home from './components/Home';
 
+/**
+ * Router
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const AppRouter: React.FC = () => {
   return (
     <HashRouter>

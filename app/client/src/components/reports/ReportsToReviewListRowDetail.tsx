@@ -25,6 +25,10 @@ interface ReportsToReviewListRowProps {
   submitter: User | undefined;
 }
 
+/**
+ * It shows the financial information when {@link ReportsToReviewListRow} expands
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReportsToReviewListRowDetail: React.FC<ReportsToReviewListRowProps> = props => {
   const { report, submitter } = props;
 

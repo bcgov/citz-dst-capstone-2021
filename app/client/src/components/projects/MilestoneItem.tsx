@@ -22,9 +22,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { Milestone } from '../../types';
 import StatusButton from '../common/buttons/StatusButton';
 
-// TODO: replace with material ui styles
 const StyledHeader = styled(Box)`
-  background-color: #D5D5D5;
+  background-color: #d5d5d5;
   justify-content: space-between;
   display: flex;
   padding: 8px;
@@ -37,6 +36,10 @@ interface MilestoneItemProps {
   milestone: Milestone;
 }
 
+/**
+ * Project milestone component
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const MilestoneItem: React.FC<MilestoneItemProps> = props => {
   const { milestone, deleteItem, editItem } = props;
   const { name, status, start, estimatedEnd, progress, comments } = milestone;

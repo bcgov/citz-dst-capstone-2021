@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
+/**
+ * Backend API Server
+ * - connect to database
+ * - init express server
+ * - init express middlewares
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import config from 'config';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -87,13 +96,13 @@ class App {
 
   private initializeMiddlewares(routes: Route[]) {
     this.app.use(morgan(this.env === 'production' ? 'combined' : 'dev'));
-    // TODO: (shp) origin should be set during deployment?
+    // TODO: (Nick) set API URL to config/production.json
     this.app.use(cors({ origin: config.get('apiUrl'), credentials: true }));
 
     this.app.use(hpp());
     this.app.use(
       helmet({
-        // TODO: (shp) to be fixed. if csp is enabled, it causes the following error in the browser.
+        // TODO: (Nick) to be fixed. if csp is enabled, it causes the following error in the browser.
         // 'Refused to execute inline script because it violates the following Content Security Policy directive'
         contentSecurityPolicy: false,
       }),

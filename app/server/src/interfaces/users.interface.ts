@@ -14,7 +14,21 @@
  * limitations under the License.
  */
 
-import { Role } from '@interfaces/roles.interface';
+/**
+ * User and authentication related type definitions
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
+import { Request } from 'express';
+
+export enum Role {
+  Admin = 'Admin',
+  Submitter = 'Submitter',
+  FA = 'FA', // financial analyst
+  Executive = 'Executive',
+  User = 'User',
+}
 
 export interface User {
   id: string;
@@ -28,4 +42,17 @@ export interface User {
   ministry: string;
 
   verifyPassword: Function;
+}
+
+export interface DataStoredInToken {
+  id: string;
+}
+
+export interface TokenData {
+  token: string;
+  expiresIn: number;
+}
+
+export interface RequestWithUser extends Request {
+  user: User;
 }

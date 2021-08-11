@@ -36,6 +36,10 @@ interface KPIItemProps {
   useGrid?: boolean;
 }
 
+/**
+ * Project KPI component
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const KPIItem: React.FC<KPIItemProps> = props => {
   const { deleteItem, editItem, kpi, useGrid } = props;
   const classes = useStyles();

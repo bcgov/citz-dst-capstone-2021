@@ -57,6 +57,10 @@ const StyledLink = styled.a`
   color: #fff;
 `;
 
+/**
+ * Global Sticky Footer
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const Footer = () => (
   <StyledFooter>
     <StyledUl>

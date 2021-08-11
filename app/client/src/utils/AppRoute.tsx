@@ -28,6 +28,10 @@ interface IAppRouteProps extends RouteProps {
   user?: User;
 }
 
+/**
+ * Route wrapping the target component with {@link Layout}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const AppRoute: React.FC<IAppRouteProps> = props => {
   const { requireAuth, component: Component, user, ...rest } = props;
 

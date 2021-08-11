@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-import {User} from "@interfaces/users.interface";
+/**
+ * Report related type definitions
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
+import { User } from '@interfaces/users.interface';
 
 export enum Quarter {
   Q1 = 'Q1',

@@ -29,6 +29,11 @@ import {
 import { Type } from 'class-transformer';
 import { Project } from '@interfaces/project.interface';
 
+/**
+ * Validate a project update object for {@link Project}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @class
+ */
 class ProjectDTO implements Project {
   @IsString()
   @MinLength(8)

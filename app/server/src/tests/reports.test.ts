@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Unit tests - APIs for {@link Report}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 // for class-transformer Type method
 import 'reflect-metadata';
 
@@ -44,7 +50,7 @@ afterAll(async () => {
   await app.stop();
 });
 
-// TODO: (nick) Reports test cases
+// TODO: (Nick) Reports test cases
 describe.skip('Testing reports', () => {
   describe('Testing report general info', () => {
     it('[GET] /reports', () => {});
@@ -69,5 +75,11 @@ describe.skip('Testing reports', () => {
     it('[POST] /reports/{id}/statuses', () => {});
     it('[PATCH] /reports/{id}/statuses/{oid}', () => {});
     it('[DELETE] /reports/{id}/statuses/{oid}', () => {});
+  });
+  describe('Testing report kpis', () => {
+    it('[GET] /reports/{id}/kpis', () => {});
+    it('[POST] /reports/{id}/kpis', () => {});
+    it('[PATCH] /reports/{id}/kpis/{kid}', () => {});
+    it('[DELETE] /reports/{id}/kpis/{kid}', () => {});
   });
 });

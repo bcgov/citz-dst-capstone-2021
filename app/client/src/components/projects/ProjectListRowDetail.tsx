@@ -25,6 +25,10 @@ interface ProjectListRowDetailProps {
   project: Project;
 }
 
+/**
+ * ProjectListRowDetail expands ProjectListRow to reveal more details.
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ProjectListRowDetail: React.FC<ProjectListRowDetailProps & TransitionProps> = props => {
   const { project } = props;
 

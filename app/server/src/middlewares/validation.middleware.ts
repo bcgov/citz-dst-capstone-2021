@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Express middleware to validate requests
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { plainToClass } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';

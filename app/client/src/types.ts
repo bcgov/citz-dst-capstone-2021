@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * Type definitions - mostly copied from the server project
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 export enum Role {
   Admin = 'Admin',
   Submitter = 'Submitter',
@@ -70,13 +76,6 @@ export interface ProjectAction {
 export interface StoreState {
   user: User;
 }
-
-// TODO: (nick) users should be mapped to the exact User type
-// export interface SimpleContact {
-//   firstName: string;
-//   lastName: string;
-//   id: string;
-// }
 
 export enum Status {
   Green,

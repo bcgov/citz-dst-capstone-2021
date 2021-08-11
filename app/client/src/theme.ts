@@ -14,7 +14,12 @@
 // limitations under the License.
 //
 
-// TODO: (nick) to be migrated to material-ui theme.
+/**
+ * TODO: (Nick) migrate to material-ui theme.
+ * Theme
+ * @deprecated
+ * @author Jason C. Leach from [platform-service-registry](https://github.com/bcgov/platform-services-registry)
+ */
 
 const theme = {
   breakpoints: ['40em', '52em', '64em'],
@@ -104,8 +109,8 @@ const theme = {
     },
   },
   reviewerPanel: {
-    width: '300px'
-  }
+    width: '300px',
+  },
 };
 
 export default theme;

@@ -47,6 +47,10 @@ type Props = {
   project: Project;
 };
 
+/**
+ * New project step 1 - general information input form
+ * @author      [Samara Flueck](samflueck95@gmail.com)
+ */
 const ProjectIDForm: React.FC<Props> = props => {
   const { project } = props;
   const classes = useStyles();
@@ -112,7 +116,7 @@ const ProjectIDForm: React.FC<Props> = props => {
             error={touched.description && Boolean(errors.description)}
             helperText={touched.description && errors.description}
           />
-          {/* TODO: (nick) resolve 'Warning: findDOMNode is deprecated in StrictMode'
+          {/* TODO: (Nick) resolve 'Warning: findDOMNode is deprecated in StrictMode'
         https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode */}
           <FormControl margin="normal" fullWidth>
             <InputLabel>Ministry</InputLabel>

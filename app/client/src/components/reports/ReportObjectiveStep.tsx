@@ -24,6 +24,11 @@ type Props = {
   onChange: (status: Objective, index: number) => void;
   onValidation: (valid: boolean) => void;
 };
+
+/**
+ * Edit-report step 4 - Objectives
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportObjectiveStep = (props: Props) => {
   const { objectives, onChange, onValidation } = props;
 

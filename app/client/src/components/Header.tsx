@@ -64,17 +64,41 @@ interface HeaderProps {
   logout: any;
 }
 
+/**
+ * Global Sticky Header
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const Header: React.FC<HeaderProps> = props => {
   const history = useHistory();
   const { email, firstName, lastName } = props.user;
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const headerMenuOptions = [
-    { label: 'Notifications', icon: 'NotificationsIcon', action: ()=> alert('TODO: Implement Notifications'), key: 0 },
-    { label: 'Account', icon: 'AccountCircleIcon', action: ()=> alert('TODO: Implement Account Options'), key: 1 },
-    { label: 'Settings', icon: 'SettingsIcon', action: ()=> alert('TODO: Implement Settings'), key: 2 },
-    { label: 'Notice Board', icon: 'EventNoteIcon', action: ()=> alert('TODO: Implement DIO Noticeboard'), key: 3 },
-    { label: 'About', icon: 'InfoIcon', action: ()=> history.push('/about'), key: 4 },
+    {
+      label: 'Notifications',
+      icon: 'NotificationsIcon',
+      action: () => alert('TODO: Implement Notifications'),
+      key: 0,
+    },
+    {
+      label: 'Account',
+      icon: 'AccountCircleIcon',
+      action: () => alert('TODO: Implement Account Options'),
+      key: 1,
+    },
+    {
+      label: 'Settings',
+      icon: 'SettingsIcon',
+      action: () => alert('TODO: Implement Settings'),
+      key: 2,
+    },
+    {
+      label: 'Notice Board',
+      icon: 'EventNoteIcon',
+      action: () => alert('TODO: Implement DIO Noticeboard'),
+      key: 3,
+    },
+    { label: 'About', icon: 'InfoIcon', action: () => history.push('/about'), key: 4 },
   ];
 
   const redirectLogin = () => {
@@ -127,14 +151,19 @@ const Header: React.FC<HeaderProps> = props => {
         <Box>
           <Drawer variant="persistent" anchor="left" open={menuOpen}>
             <Box height={theme.navBar.desktopFixedHeight} />
-            <Box p={2} style={{backgroundColor: "#D5D5D5", textAlign: 'center'}}>
+            <Box p={2} style={{ backgroundColor: '#D5D5D5', textAlign: 'center' }}>
               <Typography variant="subtitle1">
                 Welcome, {firstName} {lastName}
               </Typography>
             </Box>
             <Divider />
             {headerMenuOptions.map(option => (
-              <MenuOption key={option.key} event={option.action} text={option.label} icon={option.icon} />
+              <MenuOption
+                key={option.key}
+                event={option.action}
+                text={option.label}
+                icon={option.icon}
+              />
             ))}
           </Drawer>
         </Box>

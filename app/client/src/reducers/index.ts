@@ -14,6 +14,12 @@
 // limitations under the License.
 //
 
+/**
+ * Redux reducers
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @package
+ */
+
 import { combineReducers } from 'redux';
 import { StoreState } from '../types';
 import userReducer from './userReducer';

@@ -22,7 +22,7 @@ import { useFormik } from 'formik';
 import { useEffect } from 'react';
 import { Kpi } from '../../types';
 import utils from '../../utils';
-import { validateKPI, validateReportStatus } from '../../utils/validationSchema';
+import { validateKPI } from '../../utils/validationSchema';
 
 type Props = {
   kpi: Kpi;
@@ -30,6 +30,10 @@ type Props = {
   onValidation: (valid: boolean) => void;
 };
 
+/**
+ * KPI value set form in the edit-report step 6 - using Formik
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportKpiItem = (props: Props) => {
   const { kpi, onChange, onValidation } = props;
   const { name, description, target, unit, baseline, end } = kpi;
@@ -44,8 +48,7 @@ const ReportKpiItem = (props: Props) => {
     },
   });
 
-  const { errors, touched, values, isValid, handleChange, handleBlur, setTouched, validateForm } =
-    formik;
+  const { errors, touched, values, isValid, handleChange, handleBlur, setTouched } = formik;
 
   useEffect(() => {
     onValidation(isValid);
@@ -91,7 +94,7 @@ const ReportKpiItem = (props: Props) => {
             </Typography>
             <Typography variant="subtitle1">
               <strong>Target - </strong>
-              {/* {TODO: (nick) how to decide unit is prepending or appending */}
+              {/* {TODO: (Nick) how to decide unit is prepending or appending */}
               {unit === '$' ? unit + target : target + unit}
             </Typography>
           </Box>

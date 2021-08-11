@@ -19,7 +19,7 @@ import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { useFormik } from 'formik';
 import _ from 'lodash';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { validateFinance } from '../../utils/validationSchema';
 import { FinancialStatus } from '../../types';
 
@@ -34,6 +34,11 @@ type Props = {
   onChange: (data: FinancialStatus) => void;
   onValidation: (valid: boolean) => void;
 };
+
+/**
+ * Edit-report step 3 - financial information
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportFinancialStep = (props: Props) => {
   const { finance, onChange, onValidation } = props;
   const classes = useStyles();

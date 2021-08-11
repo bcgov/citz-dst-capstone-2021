@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * {@link Route} definitions for {@link Report}
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 import { Router } from 'express';
 import Route from '@interfaces/routes.interface';
 import ReportController from '@controllers/reports.controller';
@@ -99,7 +105,7 @@ class ReportsRoute implements Route {
       .delete(ReportController.deleteKpi)
       .patch(validationMiddleware(KpiDTO, 'body', true), ReportController.updateKpi);
 
-    // TODO: (nick) API: do we need APIs for the financial data of a report?
+    // TODO: (Nick) API: do we need APIs for the financial data of a report?
   }
 }
 

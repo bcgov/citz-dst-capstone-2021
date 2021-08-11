@@ -86,10 +86,10 @@ const content = {
       ` as well as everyone else at the Government of British Columbia who supported us in this exciting project. We would also like to thank Camosun faculty for their ongoing support and guidance in our endeavors.`,
     ],
     sponsors: [
-      {name: 'Shashank Shekhar', email: 'Shashank.Shekhar@gov.bc.ca'},
-      {name: 'Poornima Sivanand', email: 'Poornima.Sivanand@gov.bc.ca'},
-      {name: 'Robert Kobenter', email: 'Robert.W.Kobenter@gov.bc.ca'},
-    ]
+      { name: 'Shashank Shekhar', email: 'Shashank.Shekhar@gov.bc.ca' },
+      { name: 'Poornima Sivanand', email: 'Poornima.Sivanand@gov.bc.ca' },
+      { name: 'Robert Kobenter', email: 'Robert.W.Kobenter@gov.bc.ca' },
+    ],
   },
 
   problemSection: {
@@ -178,6 +178,10 @@ const content = {
   },
 };
 
+/**
+ * RDSI capstone team page
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const About: React.FC = () => {
   const bioComponent = (bio: BioObject) => {
     return (
@@ -191,9 +195,9 @@ const About: React.FC = () => {
           </Grid>
           <Grid item sm={12} md={8}>
             <Typography variant="body1">{bio.content}</Typography>
-              <Link href={`mailto: ${bio.email}`} variant="body2">
-                {bio.email}
-              </Link>
+            <Link href={`mailto: ${bio.email}`} variant="body2">
+              {bio.email}
+            </Link>
           </Grid>
         </Grid>
       </Grid>
@@ -323,11 +327,13 @@ const About: React.FC = () => {
             {sectionHeading(content.conclusionSection.heading)}
             <Box m={4}>
               <Typography variant="body1">
-                {content.conclusionSection.paragraphs[0]} {content.conclusionSection.sponsors.map((sponsor) =>(
+                {content.conclusionSection.paragraphs[0]}{' '}
+                {content.conclusionSection.sponsors.map(sponsor => (
                   <>
                     <Link href={`mailto: ${sponsor.email}`} variant="body1">
                       {sponsor.name}
-                    </Link>{sponsor.name === "Poornima Sivanand" ? ', and ' : ', '}
+                    </Link>
+                    {sponsor.name === 'Poornima Sivanand' ? ', and ' : ', '}
                   </>
                 ))}
                 {content.conclusionSection.paragraphs[1]}

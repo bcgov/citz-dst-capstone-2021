@@ -82,6 +82,10 @@ const a11yProps = (index: any) => {
   };
 };
 
+/**
+ * Report details
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const { user } = props;
   const [tabValue, setTabValue] = React.useState(0);
@@ -135,7 +139,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
         </Box>
         <Grid container spacing={2}>
           {report.kpis.map(kpi => {
-            return <KPIItem kpi={kpi} useGrid key={kpi.id}/>;
+            return <KPIItem kpi={kpi} useGrid key={kpi.id} />;
           })}
         </Grid>
       </>
@@ -145,7 +149,11 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   const renderTabs = () => {
     return (
       <>
-        {user.role === Role.FA && report.state >= ReportState.Submitted ? <ReviewerPanel report={report} /> : <></>}
+        {user.role === Role.FA && report.state >= ReportState.Submitted ? (
+          <ReviewerPanel report={report} />
+        ) : (
+          <></>
+        )}
         {/* <ReviewerPanel report={report} /> */}
         <Paper>
           <Tabs
@@ -155,7 +163,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
             indicatorColor="primary"
           >
             {reportDetailTabs.map((tab, index) => (
-              <Tab label={tab} {...a11yProps(index)} key={tab}/>
+              <Tab label={tab} {...a11yProps(index)} key={tab} />
             ))}
           </Tabs>
         </Paper>
@@ -196,7 +204,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
   };
 
   const submit = () => {
-    // TODO: Limit the period of time that a user can submit?
+    // TODO: (Nick) restrict submission period
     if (user) {
       const update = {
         id: report.id,
@@ -268,12 +276,13 @@ const ReportDetails: React.FC<ReportDetailsProps> = props => {
           <Box display="flex" justifyContent="end">
             <Box mr={2}>
               <Button variant="outlined" color="primary" onClick={handleEdit}>
-                <EditOutlinedIcon fontSize="small" style={{marginRight: "8px"}}/>Edit
+                <EditOutlinedIcon fontSize="small" style={{ marginRight: '8px' }} />
+                Edit
               </Button>
             </Box>
             {report.state === ReportState.ReadyToSubmit ? (
               <Button variant="contained" color="primary" onClick={submit}>
-                <PublishIcon fontSize="small" style={{marginRight: "8px"}}/> Submit
+                <PublishIcon fontSize="small" style={{ marginRight: '8px' }} /> Submit
               </Button>
             ) : (
               ''

@@ -26,9 +26,15 @@ const BorderLinearProgress = withStyles({
 
 type Props = {
   value: number;
-  hidePercent?: boolean
-}
+  hidePercent?: boolean;
+};
 
+/**
+ * Material-UI Progress Bar
+ * @author      [SungHwan Park](shwpark612@gmail.com)
+ *
+ * @remarks Fix error, `validateDOMNesting(...): <p> cannot appear as a descendant of <p>.`
+ */
 const ProgressBar: React.FC<Props> = props => {
   const { value, hidePercent } = props;
   return (
@@ -36,7 +42,7 @@ const ProgressBar: React.FC<Props> = props => {
       <Box width="100%" mr={1}>
         <BorderLinearProgress variant="determinate" {...props} />
       </Box>
-      <Box minWidth={30} display={hidePercent ? "none" : ''} textAlign="right">
+      <Box minWidth={30} display={hidePercent ? 'none' : ''} textAlign="right">
         <Typography variant="body2" color="textSecondary">
           {`${Math.round(value)}%`}
         </Typography>

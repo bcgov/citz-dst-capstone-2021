@@ -30,8 +30,8 @@ import {
 } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import {connect} from 'react-redux';
-import {Report, ReportState, StoreState, User} from '../../types';
+import { connect } from 'react-redux';
+import { Report, ReportState, StoreState, User } from '../../types';
 import theme from '../../theme';
 import useApi from '../../utils/api';
 import emitter from '../../events/Emitter';
@@ -52,6 +52,10 @@ type Props = {
   user: User;
 };
 
+/**
+ * Financial analyst's review panel for a report
+ * @author [Samara Flueck](samflueck95@gmail.com)
+ */
 const ReviewerPanel: React.FC<Props> = props => {
   const { report, user } = props;
   const { state: preState, financialNotes: preNotes } = report;
@@ -148,7 +152,7 @@ const ReviewerPanel: React.FC<Props> = props => {
             />
           </Box>
         </FormControl>
-        {/* TODO: Display issues below QR notes if implementing issue tracking system for reviewer */}
+        {/* TODO: (Samara) Display issues below QR notes if implementing issue tracking system for reviewer */}
       </Drawer>
     </>
   );

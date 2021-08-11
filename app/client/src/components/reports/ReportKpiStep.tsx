@@ -25,6 +25,10 @@ type Props = {
   onValidation: (valid: boolean) => void;
 };
 
+/**
+ * Edit-report step 6 - KPIs
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ */
 const ReportKpiStep = (props: Props) => {
   const { kpis, onChange, onValidation } = props;
 

@@ -3,10 +3,10 @@ info:
   title: RDSI API
   description: RDSI API
   version: 1.0.0
-  # TODO: (nick) need to update descriptions and summaries
+  # TODO: (Nick) need to update descriptions and summaries
 
 servers:
-  - url: https://rdsi-client.adccd1-prod.apps.silver.devops.gov.bc.ca/api/v1
+  - url: https://rdsi-server.adccd1-prod.apps.silver.devops.gov.bc.ca/api/v1
     description: RDSI API Production
   - url: http://localhost:8080/api/v1
     description: RDSI API Test
@@ -191,7 +191,7 @@ paths:
         500:
           description: "Server Error"
 
-  # [GET] projects # TODO: (nick) Add query params
+  # [GET] projects # TODO: (Nick) Add query params
   /api/v1/projects:
     get:
       tags:
@@ -237,6 +237,10 @@ paths:
       summary: Find all projects
       security:
         - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
       responses:
         200:
           description: OK
@@ -723,7 +727,7 @@ paths:
     get:
       tags:
         - Reports
-        - ReportStatus
+        - Report Status
       summary: Find all objectives of a report
       security:
         - bearerAuth: []
@@ -785,7 +789,7 @@ paths:
       tags:
         - Reports
         - ReportStatus
-      summary: Update an report status
+      summary: Update a report status
       security:
         - bearerAuth: []
       parameters:
@@ -914,7 +918,7 @@ paths:
       tags:
         - Reports
         - KPI
-      summary: Update an KPI
+      summary: Update a KPI
       security:
         - bearerAuth: []
       parameters:

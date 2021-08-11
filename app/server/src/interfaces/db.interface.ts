@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * Type definitions for database
+ * @author [SungHwan Park](shwpark612@gmail.com)
+ * @module
+ */
+
 export interface DBConfig {
   host: string;
   port: number;
