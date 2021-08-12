@@ -78,7 +78,7 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
     - [X] [Deployment](./app/docs/deployment.md)
     - [X] [MongoDB Backup and Restore](./app/docs/database.md)
     - [X] [Style Guides](./app/docs/style-guides.md)
-- [X] [Project Portfolio](https://github.com/bcgov/citz-dst-capstone-2021/tree/docs/project-portfolio/app/docs/projectPortfolio)
+- [X] [Project Portfolio](https://github.com/bcgov/citz-dst-capstone-2021/tree/main/app/docs/projectPortfolio)
 - [X] [Recommendations/Lessons Learned](./app/docs/limitation-recommendation.md)
 
 
