@@ -66,15 +66,16 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
 - [ ] Design & Architecture
 	- [X] [Interviews](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#interview-notes)
     - [X] [Personas](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#personas)
-    - [ ] Journeys
+    - [x] [Journeys](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Journeys#finance-analyst-reviews-single-report)
     - [X] [Wireframes](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Wireframes)
     - [X] [Security](https://github.com/bcgov/citz-dst-capstone-2021/blob/main/app/docs/diagrams/actions-vs-roles-diagram.jpg?raw=true)
     - [X] [Data Model](https://dbdiagram.io/d/60d132d20c1ff875fcd5d83b)
     - [X] [Architectural Decision Log](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Architectural-Decision-Log)
 - [X] [User Processes](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Processes)
-- [ ] Solution Architecture
+- [X] Solution Architecture
 	- [X] [Diagram](https://github.com/bcgov/citz-dst-capstone-2021/blob/main/app/docs/diagrams/solution-architecture.jpg?raw=true)
-    - [ ] Manifest of MERN Stack
+    - [X] [Front-end Dependencies](./app/client/package-lock.json)
+    - [X] [API Server Dependencies](./app/server/package-lock.json)
     - [X] [APIs](https://rdsi-server.adccd1-prod.apps.silver.devops.gov.bc.ca/api-docs/)
     - [X] [Installation](https://github.com/bcgov/citz-dst-capstone-2021/wiki/How-to-install-RDSI)
     - [X] [Deployment](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Deployment-Process)
