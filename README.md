@@ -54,17 +54,20 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
 	- **Project Sponsor:** BC Government OCIO - Digital Investment Office
 	- **Roles:**
         + **Product Owner:** Shashank Shekhar
-        + **Project Stakeholders:** Ministry Submitters, Finance Analysts, Executives/Decision Makers
+        + **Project Stakeholders:** Ministry Submitters, Finance Analysts, Executives/Decision Makers, Site Admin/Tool Admin
+        + **Front Dev Team:** Samara Flueck & Sunghwan Park
+        + **Back Dev Team:** Sunghwan Park
+        + **Dev Ops:** Poornima Sivanand & Sunghwan Park
         ![Organization Chart](./app/docs/diagrams/organization-chart.jpg)
 - [ ] Requirements
 	- [ ] Functional Requirements
     - [ ] Non-functional Requirements
     - [ ] Constraints
 - [ ] Design & Architecture
-	- [ ] Interviews
-    - [ ] Personas
+	- [X] [Interviews](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#interview-notes)
+    - [X] [Personas](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#personas)
     - [ ] Journeys
-    - [ ] Wireframes
+    - [X] [Wireframes](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Wireframes)
     - [ ] Security
     - [X] [Data Model](https://dbdiagram.io/d/60d132d20c1ff875fcd5d83b)
     - [ ] Architecture Model
