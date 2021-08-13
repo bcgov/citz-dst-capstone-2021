@@ -48,9 +48,9 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
 
 ## Documentation
 
-- [ ] Introduction
-    - [X] [Business Problem](./app/docs/business-problem.md)
-- [ ] People
+- [X] Introduction
+    - [X] [Business Problem](https://github.com/bcgov/citz-dst-capstone-2021/wiki)
+- [X] People
 	- **Project Sponsor:** BC Government OCIO - Digital Investment Office
 	- **Roles:**
         + **Product Owner:** Shashank Shekhar
@@ -71,18 +71,18 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
     - [ ] Security
     - [X] [Data Model](https://dbdiagram.io/d/60d132d20c1ff875fcd5d83b)
     - [ ] Architecture Model
-    - [X] [Architectural Decision Log](./app/docs/architectural-decision-log.md)
-- [X] [User Processes](./app/docs/user-processes.md)
+    - [X] [Architectural Decision Log](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Architectural-Decision-Log)
+- [X] [User Processes](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Processes)
 - [ ] Solution Architecture
 	- [ ] Diagram
     - [ ] Manifest of MERN Stack
     - [ ] High Level APIs
-    - [X] [Installation](./app/docs/installation.md)
-    - [X] [Deployment](./app/docs/deployment.md)
-    - [X] [MongoDB Backup and Restore](./app/docs/database.md)
+    - [X] [Installation](https://github.com/bcgov/citz-dst-capstone-2021/wiki/How-to-install-RDSI)
+    - [X] [Deployment](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Deployment-Process)
+    - [X] [MongoDB Backup and Restore](https://github.com/bcgov/citz-dst-capstone-2021/wiki/RDSI-Database-on-MongoDB)
     - [X] [Style Guides](./app/docs/style-guides.md)
 - [X] [Project Portfolio](https://github.com/bcgov/citz-dst-capstone-2021/tree/main/app/docs/projectPortfolio)
-- [X] [Recommendations/Lessons Learned](./app/docs/limitation-recommendation.md)
+- [X] [Recommendations/Lessons Learned](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Limitations-and-Recommendations)
 
 
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/citz-dst-capstone-2021)
