@@ -68,15 +68,14 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
     - [X] [Personas](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#personas)
     - [ ] Journeys
     - [X] [Wireframes](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Wireframes)
-    - [ ] Security
+    - [X] [Security](https://github.com/bcgov/citz-dst-capstone-2021/blob/main/app/docs/diagrams/actions-vs-roles-diagram.jpg?raw=true)
     - [X] [Data Model](https://dbdiagram.io/d/60d132d20c1ff875fcd5d83b)
-    - [ ] Architecture Model
     - [X] [Architectural Decision Log](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Architectural-Decision-Log)
 - [X] [User Processes](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Processes)
 - [ ] Solution Architecture
-	- [ ] Diagram
+	- [X] [Diagram](https://github.com/bcgov/citz-dst-capstone-2021/blob/main/app/docs/diagrams/solution-architecture.jpg?raw=true)
     - [ ] Manifest of MERN Stack
-    - [ ] High Level APIs
+    - [X] [APIs](https://rdsi-server.adccd1-prod.apps.silver.devops.gov.bc.ca/api-docs/)
     - [X] [Installation](https://github.com/bcgov/citz-dst-capstone-2021/wiki/How-to-install-RDSI)
     - [X] [Deployment](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Deployment-Process)
     - [X] [MongoDB Backup and Restore](https://github.com/bcgov/citz-dst-capstone-2021/wiki/RDSI-Database-on-MongoDB)
