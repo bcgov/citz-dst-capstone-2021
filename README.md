@@ -40,7 +40,7 @@ Objectives include:
 
 ## Project Status
 
-Currently Documenting Application
+2021 Camosun Capstone Project Complete
 
 ## Development
 
@@ -59,11 +59,8 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
         + **Back Dev Team:** Sunghwan Park
         + **Dev Ops:** Poornima Sivanand & Sunghwan Park
         ![Organization Chart](./app/docs/diagrams/organization-chart.jpg)
-- [ ] Requirements
-	- [ ] Functional Requirements
-    - [ ] Non-functional Requirements
-    - [ ] Constraints
-- [ ] Design & Architecture
+- [X] [Requirements](https://github.com/bcgov/citz-dst-capstone-2021/blob/main/app/docs/projectPortfolio/reportsSubmitted/Team%20RDSI%20-%20Products%20Requirement%20Document.pdf)
+- [X] Design & Architecture
 	- [X] [Interviews](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#interview-notes)
     - [X] [Personas](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Research#personas)
     - [x] [Journeys](https://github.com/bcgov/citz-dst-capstone-2021/wiki/User-Journeys#finance-analyst-reviews-single-report)
@@ -84,6 +81,23 @@ Node.js | React.js | OpenShift 4 | Jenkins | MongoDB | GitHub
 - [X] [Project Portfolio](https://github.com/bcgov/citz-dst-capstone-2021/tree/main/app/docs/projectPortfolio)
 - [X] [Recommendations/Lessons Learned](https://github.com/bcgov/citz-dst-capstone-2021/wiki/Limitations-and-Recommendations)
 
+## License
+
+Copyright 2020 Province of British Columbia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+## Lifecycle
 
 [![Lifecycle:Experimental](https://img.shields.io/badge/Lifecycle-Experimental-339999)](https://github.com/bcgov/citz-dst-capstone-2021)
 
