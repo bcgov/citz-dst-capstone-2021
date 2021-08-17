@@ -36,7 +36,7 @@ import { Project } from '@interfaces/project.interface';
  */
 class ProjectDTO implements Project {
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(50)
   name: string;
 

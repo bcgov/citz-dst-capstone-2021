@@ -755,7 +755,7 @@ paths:
     post:
       tags:
         - Reports
-        - ReportStatus
+        - Report Status
       summary: Post a new report status
       security:
         - bearerAuth: []
@@ -788,7 +788,7 @@ paths:
     patch:
       tags:
         - Reports
-        - ReportStatus
+        - Report Status
       summary: Update a report status
       security:
         - bearerAuth: []
@@ -824,7 +824,7 @@ paths:
     delete:
       tags:
         - Reports
-        - ReportStatus
+        - Report Status
       summary: Delete a report status
       security:
         - bearerAuth: []
