@@ -40,7 +40,7 @@ Objectives include:
 
 ## Project Status
 
-2021 Camosun Capstone Project Complete
+> Released as ALPHA August 13, 2021
 
 ## Development
 
