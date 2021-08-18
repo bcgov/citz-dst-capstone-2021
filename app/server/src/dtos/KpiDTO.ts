@@ -37,7 +37,7 @@ class KpiDTO implements Kpi {
   id: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(50)
   name: string;
 
