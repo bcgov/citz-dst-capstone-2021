@@ -70,5 +70,5 @@ limitations under the License.
 
 ## Lifecycle
 
-[Lifecycle:Retired](https://img.shields.io/badge/Lifecycle-Retired-d45500)
+[![Lifecycle:Retired](https://img.shields.io/badge/Lifecycle-Retired-d45500)](<Redirect-URL>)
 
